@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Our software engineering team is creating an application for a local sports center. This application allows the owner and instructors to manage amd organize the schedule of different types of fitness classes. The created classes can be then be modified and cancelled accordignly. Customers are able to consult, signup and cancel their registration for classes. 
+Our software engineering team is creating an application for a local sports center. This application allows the owner and instructors to manage and organize the schedule of different types of fitness classes. The created classes can then be modified and cancelled accordingly. Customers are able to consult, signup and cancel their registration for classes. 
 Customers can also access a view of their completed classes as well as their upcoming classes. Furthermore, an email scheduling system is put in place to confirm class reservations. The development of this project takes place over 4 sprints using Agile methodology. 
 
 ## Meet the Team! 👋
