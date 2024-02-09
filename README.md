@@ -27,7 +27,7 @@ Customers can also access a view of their completed classes as well as their upc
 
 ## Sprint 1: Project Report
 [Sprint 1 Project Report](../../wiki/Project-Report-Deliverable-1)
-*****PROJECT REPORT TOBE LINKED ONCE ITS MADE****
+
 
 ## Sprint 1: Effort Table
 | Name | Tasks | Effort in hours |
