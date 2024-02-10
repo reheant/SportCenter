@@ -16,21 +16,21 @@ Customers can also access a view of their completed classes as well as their upc
 | Tiffany Miller | [tiffanymillerr](https://github.com/tiffanymillerr) | Software Engineering | U2 |
 
 ## Overview Table
-| Name | Role | Sprint 1 Efforts | Sprint 2 Efforts | Sprint 3 Efforts | Sprint 4 Efforts | Total Effort |
-| --- | --- | --- | --- | --- | --- | --- |
-| Anastasiia Nemyrovska | Software Engineer | - | - | - | - | - | - | - |
-| Julien Audet | Software Engineer | - | - | - | - | - | - | - |
-|  Tim Pham | Software Engineer | - | - | - | - | - | - | - |
-|  Rehean Thillainathalingam | Software Engineer | - | - | - | - | - | - | - |
-|  Marc-Antoine Nadeau | Software Engineer | - | - | - | - | - | - | - |
-| Tiffany Miller | Software Engineer | - | - | - | - | - | - | - |
+| Name | Sprint 1 Efforts | Sprint 2 Efforts | Sprint 3 Efforts | Sprint 4 Efforts | Total Effort |
+| --- | --- | --- | --- | --- | --- |
+| Anastasiia Nemyrovska | - | - | - | - | - | - | - |
+| Julien Audet | - | - | - | - | - | - | - |
+|  Tim Pham | - | - | - | - | - | - | - |
+|  Rehean Thillainathalingam | - | - | - | - | - | - | - |
+|  Marc-Antoine Nadeau | - | - | - | - | - | - | - |
+| Tiffany Miller | - | - | - | - | - | - | - |
 
 ## Sprint 1: Project Report
 [Sprint 1 Project Report](../../wiki/Project-Report-Deliverable-1)
 
 
 ## Sprint 1: Effort Table
-| Name | Tasks | Effort in hours |
+| Name | Role | Effort in hours |
 | --- | --- | --- |
 | Anastasiia Nemyrovska | Domain model, Requirements, ... | - |
 | Julien Audet | Domain model, Requirements, ... | - |
