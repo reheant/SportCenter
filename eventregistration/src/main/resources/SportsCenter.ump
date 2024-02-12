@@ -1,0 +1,141 @@
+namespace ca.mcgill.ecse321.sportscenter.model;
+
+class AccountRole
+{
+  abstract;
+  Integer id;
+}
+
+class Account
+{
+  Integer id;
+  firstName;
+  lastName;
+  email;
+  password;
+}
+
+class Owner
+{
+  isA AccountRole;
+}
+
+class Instructor
+{
+  isA AccountRole;
+}
+
+class Customer
+{
+  isA AccountRole;
+  Boolean wantsEmailConfirmation;
+}
+
+association
+{
+  0..1 Owner owner -> 1 Account account;
+}
+
+association
+{
+  0..1 Instructor instructor -> 1 Account account;
+}
+
+association
+{
+  1 Customer customer -> 1 Account account;
+}
+
+class PaymentMethod
+{
+  abstract;
+  Integer id;
+  name;
+}
+
+class Card
+{
+  isA PaymentMethod;
+  enum PaymentCardType{CreditCard, DebitCard};
+  PaymentCardType paymentCardType;
+  Integer number;
+  Integer expirationDate;
+  Integer ccv;
+}
+
+class PayPall
+{
+  isA PaymentMethod;
+  email;
+  password;
+}
+
+association
+{
+  * PaymentMethod paymentMethods -> 1 Customer customer;
+}
+
+class Registration
+{
+  Integer id;
+}
+
+class InstructorAssignment
+{
+  Integer id;
+}
+
+class Session
+{
+  Integer id;
+  Time startTime;
+  Time endTime;
+}
+
+class Class
+{
+  Integer id;
+  name;
+  description;
+  Boolean isApproved;
+  Boolean requiresInstructor;
+  float defaultDuration;
+  float cost;
+}
+
+association
+{
+  * Registration registrations -> 1 Customer customer;
+}
+
+association
+{
+  * InstructorAssignment instructorAssignments -> 1 Instructor instructor;
+}
+
+association
+{
+  * Registration registrations -> 1 Session session;
+}
+
+association
+{
+  * InstructorAssignment instructorAssignments -> 1 Session session;
+}
+
+association
+{
+  * Session sessions -> 1 Class class;
+}
+
+class Location
+{
+  Integer id;
+  name;
+  Integer capacity;
+}
+
+association
+{
+  * Session sessions -> 1 Location location;
+}
