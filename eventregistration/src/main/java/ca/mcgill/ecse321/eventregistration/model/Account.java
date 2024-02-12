@@ -1,24 +1,13 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-// line 10 "../../../../../../model.ump"
-// line 152 "../../../../../../model.ump"
+
 public class Account
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Account Attributes
   private int id;
   private String firstName;
   private String lastName;
   private String email;
   private String password;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Account(int aId, String aFirstName, String aLastName, String aEmail, String aPassword)
   {
@@ -28,10 +17,6 @@ public class Account
     email = aEmail;
     password = aPassword;
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setId(int aId)
   {
@@ -100,15 +85,4 @@ public class Account
 
   public void delete()
   {}
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "id" + ":" + getId()+ "," +
-            "firstName" + ":" + getFirstName()+ "," +
-            "lastName" + ":" + getLastName()+ "," +
-            "email" + ":" + getEmail()+ "," +
-            "password" + ":" + getPassword()+ "]";
-  }
 }

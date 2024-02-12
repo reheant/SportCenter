@@ -1,33 +1,23 @@
 package ca.mcgill.ecse321.sportscenter.model;
+import java.sql.Time;
 
-// line 132 "../../../../../../model.ump"
-// line 207 "../../../../../../model.ump"
+
 public class Location
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Location Attributes
   private int id;
   private String name;
   private int capacity;
+  private Time openingTime;
+  private Time closingTime;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
-
-  public Location(int aId, String aName, int aCapacity)
+  public Location(int aId, String aName, int aCapacity, Time aOpeningTime, Time aClosingTime)
   {
     id = aId;
     name = aName;
     capacity = aCapacity;
+    openingTime = aOpeningTime;
+    closingTime = aClosingTime;
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setId(int aId)
   {
@@ -53,6 +43,22 @@ public class Location
     return wasSet;
   }
 
+  public boolean setOpeningTime(Time aOpeningTime)
+  {
+    boolean wasSet = false;
+    openingTime = aOpeningTime;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setClosingTime(Time aClosingTime)
+  {
+    boolean wasSet = false;
+    closingTime = aClosingTime;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getId()
   {
     return id;
@@ -68,15 +74,16 @@ public class Location
     return capacity;
   }
 
+  public Time getOpeningTime()
+  {
+    return openingTime;
+  }
+
+  public Time getClosingTime()
+  {
+    return closingTime;
+  }
+
   public void delete()
   {}
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "id" + ":" + getId()+ "," +
-            "name" + ":" + getName()+ "," +
-            "capacity" + ":" + getCapacity()+ "]";
-  }
 }

@@ -1,20 +1,9 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-// line 19 "../../../../../../model.ump"
-// line 157 "../../../../../../model.ump"
+
 public class Owner extends AccountRole
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Owner Associations
   private Account account;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Owner(int aId, Account aAccount)
   {
@@ -25,15 +14,11 @@ public class Owner extends AccountRole
     }
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-  /* Code from template association_GetOne */
   public Account getAccount()
   {
     return account;
   }
-  /* Code from template association_SetUnidirectionalOne */
+
   public boolean setAccount(Account aNewAccount)
   {
     boolean wasSet = false;

@@ -63,7 +63,7 @@ class Card
   Integer ccv;
 }
 
-class PayPall
+class PayPal
 {
   isA PaymentMethod;
   email;
@@ -133,6 +133,8 @@ class Location
   Integer id;
   name;
   Integer capacity;
+  Time openingTime;
+  Time closingTime;
 }
 
 association

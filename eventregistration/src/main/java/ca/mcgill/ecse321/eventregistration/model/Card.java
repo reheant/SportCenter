@@ -1,29 +1,14 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-// line 57 "../../../../../../model.ump"
-// line 177 "../../../../../../model.ump"
+
 public class Card extends PaymentMethod
 {
-
-  //------------------------
-  // ENUMERATIONS
-  //------------------------
-
   public enum PaymentCardType { CreditCard, DebitCard }
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Card Attributes
   private PaymentCardType paymentCardType;
   private int number;
   private int expirationDate;
   private int ccv;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Card(int aId, String aName, Customer aCustomer, PaymentCardType aPaymentCardType, int aNumber, int aExpirationDate, int aCcv)
   {
@@ -33,10 +18,6 @@ public class Card extends PaymentMethod
     expirationDate = aExpirationDate;
     ccv = aCcv;
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setPaymentCardType(PaymentCardType aPaymentCardType)
   {
@@ -93,15 +74,5 @@ public class Card extends PaymentMethod
   public void delete()
   {
     super.delete();
-  }
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "number" + ":" + getNumber()+ "," +
-            "expirationDate" + ":" + getExpirationDate()+ "," +
-            "ccv" + ":" + getCcv()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "paymentCardType" + "=" + (getPaymentCardType() != null ? !getPaymentCardType().equals(this)  ? getPaymentCardType().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }

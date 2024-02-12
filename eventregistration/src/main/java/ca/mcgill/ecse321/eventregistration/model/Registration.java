@@ -1,24 +1,11 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-// line 79 "../../../../../../model.ump"
-// line 187 "../../../../../../model.ump"
+
 public class Registration
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Registration Attributes
   private int id;
-
-  //Registration Associations
   private Customer customer;
   private Session session;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Registration(int aId, Customer aCustomer, Session aSession)
   {
@@ -33,10 +20,6 @@ public class Registration
     }
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-
   public boolean setId(int aId)
   {
     boolean wasSet = false;
@@ -49,17 +32,17 @@ public class Registration
   {
     return id;
   }
-  /* Code from template association_GetOne */
+
   public Customer getCustomer()
   {
     return customer;
   }
-  /* Code from template association_GetOne */
+
   public Session getSession()
   {
     return session;
   }
-  /* Code from template association_SetUnidirectionalOne */
+
   public boolean setCustomer(Customer aNewCustomer)
   {
     boolean wasSet = false;
@@ -70,7 +53,7 @@ public class Registration
     }
     return wasSet;
   }
-  /* Code from template association_SetUnidirectionalOne */
+
   public boolean setSession(Session aNewSession)
   {
     boolean wasSet = false;
@@ -86,14 +69,5 @@ public class Registration
   {
     customer = null;
     session = null;
-  }
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "session = "+(getSession()!=null?Integer.toHexString(System.identityHashCode(getSession())):"null");
   }
 }

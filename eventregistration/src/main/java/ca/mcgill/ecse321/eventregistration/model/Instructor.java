@@ -1,20 +1,9 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-// line 24 "../../../../../../model.ump"
-// line 162 "../../../../../../model.ump"
+
 public class Instructor extends AccountRole
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Instructor Associations
   private Account account;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Instructor(int aId, Account aAccount)
   {
@@ -25,15 +14,11 @@ public class Instructor extends AccountRole
     }
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-  /* Code from template association_GetOne */
   public Account getAccount()
   {
     return account;
   }
-  /* Code from template association_SetUnidirectionalOne */
+
   public boolean setAccount(Account aNewAccount)
   {
     boolean wasSet = false;

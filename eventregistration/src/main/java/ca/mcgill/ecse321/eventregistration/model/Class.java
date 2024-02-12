@@ -1,15 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-// line 96 "../../../../../../model.ump"
-// line 202 "../../../../../../model.ump"
+
 public class Class
 {
-
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //Class Attributes
   private int id;
   private String name;
   private String description;
@@ -17,10 +10,6 @@ public class Class
   private boolean requiresInstructor;
   private float defaultDuration;
   private float cost;
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public Class(int aId, String aName, String aDescription, boolean aIsApproved, boolean aRequiresInstructor, float aDefaultDuration, float aCost)
   {
@@ -32,10 +21,6 @@ public class Class
     defaultDuration = aDefaultDuration;
     cost = aCost;
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setId(int aId)
   {
@@ -127,12 +112,12 @@ public class Class
   {
     return cost;
   }
-  /* Code from template attribute_IsBoolean */
+
   public boolean isIsApproved()
   {
     return isApproved;
   }
-  /* Code from template attribute_IsBoolean */
+
   public boolean isRequiresInstructor()
   {
     return requiresInstructor;
@@ -140,17 +125,4 @@ public class Class
 
   public void delete()
   {}
-
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "id" + ":" + getId()+ "," +
-            "name" + ":" + getName()+ "," +
-            "description" + ":" + getDescription()+ "," +
-            "isApproved" + ":" + getIsApproved()+ "," +
-            "requiresInstructor" + ":" + getRequiresInstructor()+ "," +
-            "defaultDuration" + ":" + getDefaultDuration()+ "," +
-            "cost" + ":" + getCost()+ "]";
-  }
 }
