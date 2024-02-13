@@ -15,26 +15,16 @@ Customers can also access a view of their completed classes as well as their upc
 |  Marc-Antoine Nadeau | [ma-nadeau](https://github.com/ma-nadeau) | Software Engineering | U2 |
 | Tiffany Miller | [tiffanymillerr](https://github.com/tiffanymillerr) | Software Engineering | U2 |
 
-## Overview Table
-| Name | Sprint 1 Efforts | Sprint 2 Efforts | Sprint 3 Efforts | Sprint 4 Efforts | Total Effort |
-| --- | --- | --- | --- | --- | --- |
-| Anastasiia Nemyrovska | - | - | - | - | - | - | - |
-| Julien Audet | - | - | - | - | - | - | - |
-|  Tim Pham | - | - | - | - | - | - | - |
-|  Rehean Thillainathalingam | - | - | - | - | - | - | - |
-|  Marc-Antoine Nadeau | - | - | - | - | - | - | - |
-| Tiffany Miller | - | - | - | - | - | - | - |
-
-## Sprint 1: Project Report
+## Sprint 1: Project Report 📝 
 [Sprint 1 Project Report](../../wiki/Project-Report-Deliverable-1)
 
 
-## Sprint 1: Effort Table
+## Sprint 1: Effort Table 💪
 | Name | Role | Effort in hours |
 | --- | --- | --- |
-| Anastasiia Nemyrovska | Domain model, Requirements, ... | - |
-| Julien Audet | Domain model, Requirements, ... | - |
-|  Tim Pham | Domain model, Requirements, ... | - | 
-|  Rehean Thillainathalingam | Domain model, Requirements, ... | - |
-|  Marc-Antoine Nadeau | Domain model, Requirements, ... | - |
-| Tiffany Miller | Domain model, Requirements, ... | - | 
+| Anastasiia Nemyrovska | Domain model, Requirements, Umple code generation, use case specification and documentation  | - |
+| Julien Audet | Domain model, Requirements, use case specification and documentation | - |
+|  Tim Pham | Domain model, Requirements, implement and test persistance layer and use case specification | - | 
+|  Rehean Thillainathalingam | Domain model, Requirements, use case diagrams, use case specification and documentation | - |
+|  Marc-Antoine Nadeau | Domain model, Requirements, documentation, implement and test persistance layer and use case specification| - |
+| Tiffany Miller | Domain model, Requirements, use case diagrams, use case specification and documentation | - | 
