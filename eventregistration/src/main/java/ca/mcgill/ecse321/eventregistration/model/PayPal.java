@@ -1,46 +1,40 @@
-package ca.mcgill.ecse321.sportscenter.model;
+package ca.mcgill.ecse321.eventregistration.model;
 
-public class PayPal extends PaymentMethod
-{
+public class PayPal extends PaymentMethod {
+
   private String email;
   private String password;
 
-
-  public PayPal(int aId, String aName, Customer aCustomer, String aEmail, String aPassword)
-  {
+  public PayPal(int aId, String aName, Customer aCustomer, String aEmail, String aPassword) {
     super(aId, aName, aCustomer);
     email = aEmail;
     password = aPassword;
   }
 
-  public boolean setEmail(String aEmail)
-  {
+  public boolean setEmail(String aEmail) {
     boolean wasSet = false;
     email = aEmail;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setPassword(String aPassword)
-  {
+  public boolean setPassword(String aPassword) {
     boolean wasSet = false;
     password = aPassword;
     wasSet = true;
     return wasSet;
   }
 
-  public String getEmail()
-  {
+  public String getEmail() {
     return email;
   }
 
-  public String getPassword()
-  {
+  public String getPassword() {
     return password;
   }
 
-  public void delete()
-  {
+  public void delete() {
     super.delete();
   }
+
 }

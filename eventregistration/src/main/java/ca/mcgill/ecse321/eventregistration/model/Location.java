@@ -1,17 +1,16 @@
-package ca.mcgill.ecse321.sportscenter.model;
+package ca.mcgill.ecse321.eventregistration.model;
+
 import java.sql.Time;
 
+public class Location {
 
-public class Location
-{
   private int id;
   private String name;
   private int capacity;
   private Time openingTime;
   private Time closingTime;
 
-  public Location(int aId, String aName, int aCapacity, Time aOpeningTime, Time aClosingTime)
-  {
+  public Location(int aId, String aName, int aCapacity, Time aOpeningTime, Time aClosingTime) {
     id = aId;
     name = aName;
     capacity = aCapacity;
@@ -19,71 +18,61 @@ public class Location
     closingTime = aClosingTime;
   }
 
-  public boolean setId(int aId)
-  {
+  public boolean setId(int aId) {
     boolean wasSet = false;
     id = aId;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setName(String aName)
-  {
+  public boolean setName(String aName) {
     boolean wasSet = false;
     name = aName;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setCapacity(int aCapacity)
-  {
+  public boolean setCapacity(int aCapacity) {
     boolean wasSet = false;
     capacity = aCapacity;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setOpeningTime(Time aOpeningTime)
-  {
+  public boolean setOpeningTime(Time aOpeningTime) {
     boolean wasSet = false;
     openingTime = aOpeningTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setClosingTime(Time aClosingTime)
-  {
+  public boolean setClosingTime(Time aClosingTime) {
     boolean wasSet = false;
     closingTime = aClosingTime;
     wasSet = true;
     return wasSet;
   }
 
-  public int getId()
-  {
+  public int getId() {
     return id;
   }
 
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
-  public int getCapacity()
-  {
+  public int getCapacity() {
     return capacity;
   }
 
-  public Time getOpeningTime()
-  {
+  public Time getOpeningTime() {
     return openingTime;
   }
 
-  public Time getClosingTime()
-  {
+  public Time getClosingTime() {
     return closingTime;
   }
 
-  public void delete()
-  {}
+  public void delete() {}
+
 }

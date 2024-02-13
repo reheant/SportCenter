@@ -1,104 +1,92 @@
-package ca.mcgill.ecse321.sportscenter.model;
+package ca.mcgill.ecse321.eventregistration.model;
+
 import java.sql.Time;
 
+public class Session {
 
-public class Session
-{
   private int id;
   private Time startTime;
   private Time endTime;
-  private Class class;
+
+  private Course course;
   private Location location;
 
-  public Session(int aId, Time aStartTime, Time aEndTime, Class aClass, Location aLocation)
-  {
+  public Session(int aId, Time aStartTime, Time aEndTime, Course aCourse, Location aLocation) {
     id = aId;
     startTime = aStartTime;
     endTime = aEndTime;
-    if (!setClass(aClass))
-    {
-      throw new RuntimeException("Unable to create Session due to aClass. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!setCourse(aCourse)) {
+      throw new RuntimeException(
+          "Unable to create Session due to aCourse. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (!setLocation(aLocation))
-    {
-      throw new RuntimeException("Unable to create Session due to aLocation. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!setLocation(aLocation)) {
+      throw new RuntimeException(
+          "Unable to create Session due to aLocation. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
-  public boolean setId(int aId)
-  {
+  public boolean setId(int aId) {
     boolean wasSet = false;
     id = aId;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setStartTime(Time aStartTime)
-  {
+  public boolean setStartTime(Time aStartTime) {
     boolean wasSet = false;
     startTime = aStartTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEndTime(Time aEndTime)
-  {
+  public boolean setEndTime(Time aEndTime) {
     boolean wasSet = false;
     endTime = aEndTime;
     wasSet = true;
     return wasSet;
   }
 
-  public int getId()
-  {
+  public int getId() {
     return id;
   }
 
-  public Time getStartTime()
-  {
+  public Time getStartTime() {
     return startTime;
   }
 
-  public Time getEndTime()
-  {
+  public Time getEndTime() {
     return endTime;
   }
 
-  public Class getClass()
-  {
-    return class;
+  public Course getCourse() {
+    return course;
   }
 
-  public Location getLocation()
-  {
+  public Location getLocation() {
     return location;
   }
 
-  public boolean setClass(Class aNewClass)
-  {
+  public boolean setCourse(Course aNewCourse) {
     boolean wasSet = false;
-    if (aNewClass != null)
-    {
-      class = aNewClass;
+    if (aNewCourse != null) {
+      course = aNewCourse;
       wasSet = true;
     }
     return wasSet;
   }
 
-  public boolean setLocation(Location aNewLocation)
-  {
+  public boolean setLocation(Location aNewLocation) {
     boolean wasSet = false;
-    if (aNewLocation != null)
-    {
+    if (aNewLocation != null) {
       location = aNewLocation;
       wasSet = true;
     }
     return wasSet;
   }
 
-  public void delete()
-  {
-    class = null;
+  public void delete() {
+    course = null;
     location = null;
   }
+
 }
