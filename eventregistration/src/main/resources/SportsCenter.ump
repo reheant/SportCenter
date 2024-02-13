@@ -99,8 +99,8 @@ class Course
   description;
   Boolean isApproved;
   Boolean requiresInstructor;
-  float defaultDuration;
-  float cost;
+  Float defaultDuration;
+  Float cost;
 }
 
 association
