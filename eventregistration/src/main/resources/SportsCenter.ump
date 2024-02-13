@@ -92,7 +92,7 @@ class Session
   Time endTime;
 }
 
-class Class
+class Course
 {
   Integer id;
   name;
@@ -125,7 +125,7 @@ association
 
 association
 {
-  * Session sessions -> 1 Class class;
+  * Session sessions -> 1 Course course;
 }
 
 class Location
