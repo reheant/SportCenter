@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.eventregistration.model;
+package ca.mcgill.ecse321.sportscenter.model;
 
 public class Registration {
 

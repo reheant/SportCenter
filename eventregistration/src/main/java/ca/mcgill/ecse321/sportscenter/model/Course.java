@@ -1,10 +1,7 @@
-package ca.mcgill.ecse321.eventregistration.model;
+package ca.mcgill.ecse321.sportscenter.model;
 
-// line 96 "../../../../../../model.ump"
-// line 210 "../../../../../../model.ump"
 public class Course {
 
-  // Course Attributes
   private int id;
   private String name;
   private String description;
@@ -101,12 +98,10 @@ public class Course {
     return cost;
   }
 
-  /* Code from template attribute_IsBoolean */
   public boolean isIsApproved() {
     return isApproved;
   }
 
-  /* Code from template attribute_IsBoolean */
   public boolean isRequiresInstructor() {
     return requiresInstructor;
   }
