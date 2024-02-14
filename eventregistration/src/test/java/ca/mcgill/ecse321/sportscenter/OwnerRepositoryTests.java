@@ -43,12 +43,13 @@ public class OwnerRepositoryTests {
 		accountRepository.save(account);
 
         //Create Owner
-
         int ownerID = 3; 
         Owner owner = new Owner(ownerID, account);
+        // Save owner
+        ownerRepository.save(owner);
 
 		// Read account from database.
-		owner = ownerRepository.findById(id).orElse(null);;
+		owner = ownerRepository.findById(id).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(account);

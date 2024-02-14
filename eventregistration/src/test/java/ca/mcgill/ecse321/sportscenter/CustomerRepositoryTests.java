@@ -9,17 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
+import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
+import ca.mcgill.ecse321.sportscenter.model.Customer;
 
 @SpringBootTest
-public class AccountRepositoryTests {
+public class CustomerRepositoryTests {
     
 	@Autowired
 	private AccountRepository accountRepository;
 
+    @Autowired
+	private CustomerRepository customerRepository;
+
 	@AfterEach
 	public void clearDatabase() {
 		accountRepository.deleteAll();
+        customerRepository.deleteAll();
 	}
 
 	@Test
@@ -36,8 +42,15 @@ public class AccountRepositoryTests {
 		// Save account
 		accountRepository.save(account);
 
+        //Create Owner
+        int customerID = 3; 
+        boolean wantsEmailConfirmation = false;
+        Customer customer = new Customer(customerID,wantsEmailConfirmation, account);
+        // Save customer
+        customerRepository.save(customer);
+
 		// Read account from database.
-		account = accountRepository.findById(id).orElse(null);
+		customer = customerRepository.findById(id).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(account);
@@ -48,3 +61,4 @@ public class AccountRepositoryTests {
 		assertEquals(id, account.getId());
 	}
 }
+

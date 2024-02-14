@@ -62,7 +62,7 @@ public class PaymentMethodRepositoryTest {
 		String name = "Rehean";
 
         
-        PaymentMethod paymentMethod = new PaymentMethod(paymentMethodId, name , customer);
+        PaymentMethod paymentMethod = new PaymentMethod(paymentMethodId,name,customer);
         paymentMethodRepository.save(paymentMethod);
         
     
