@@ -29,7 +29,7 @@ public class CustomerRepositoryTests {
 	}
 
 	@Test
-	public void testPersistAndLoadCustomer() {
+	public void testPersistAndLoadAccount() {
 		// Create account.
 		int id = 1;
 		String firstName = "Muffin";

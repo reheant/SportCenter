@@ -68,7 +68,7 @@ public class CardRepositoryTests {
         Card card = new Card(card_id, name, customer, payment, number, expirationDate, ccv);
         cardRepository.save(card);
         
-        
+        //TODO - Implement this in persitence
         card = cardRepository.findById(card_id).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
