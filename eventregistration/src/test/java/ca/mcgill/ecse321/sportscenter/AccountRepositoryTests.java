@@ -1,5 +1,4 @@
-
-package ca.mcgill.ecse321.sportscenter.dao;
+package ca.mcgill.ecse321.sportscenter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -10,27 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
-import ca.mcgill.ecse321.sportscenter.model.Instructor;
 
 @SpringBootTest
-public class InstructorRepositoryTests {
+public class AccountRepositoryTests {
     
 	@Autowired
 	private AccountRepository accountRepository;
 
-    @Autowired
-	private InstructorRepository instructorRepository;
-
 	@AfterEach
 	public void clearDatabase() {
 		accountRepository.deleteAll();
-        instructorRepository.deleteAll();
 	}
 
 	@Test
-	public void testPersistAndLoadInstructor() {
+	public void testPersistAndLoadAccount() {
 		// Create account.
 		int id = 1;
 		String firstName = "Muffin";
@@ -43,14 +36,8 @@ public class InstructorRepositoryTests {
 		// Save account
 		accountRepository.save(account);
 
-        //Create Instructor
-        int instructorID = 3; 
-        Instructor instructor = new Instructor(instructorID, account);
-        // Save instructor
-        instructorRepository.save(instructor);
-
 		// Read account from database.
-		instructor = instructorRepository.findById(id).orElse(null);
+		account = accountRepository.findById(id).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(account);

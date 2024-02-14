@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.sportscenter.dao;
+package ca.mcgill.ecse321.sportscenter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,39 +12,30 @@ import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 
 @SpringBootTest
-public class AccountRepositoryTests {
+public class AccountRoleRepositoryTests {
     
 	@Autowired
-	private AccountRepository accountRepository;
+	private AccountRepository accountRoleRepository;
 
 	@AfterEach
 	public void clearDatabase() {
-		accountRepository.deleteAll();
+		accountRoleRepository.deleteAll();
 	}
 
 	@Test
 	public void testPersistAndLoadAccount() {
 		// Create account.
 		int id = 1;
-		String firstName = "Muffin";
-		String lastName = "Man";
-		String email = "Man@gmail.com";
-		String password = "123456";
-		Account account = new Account(id, firstName, lastName, email, password);
-		
+		AccountRole accountRole = new AccountRole(id); 
 
 		// Save account
-		accountRepository.save(account);
+		accountRoleRepository.save(accountRole);
 
 		// Read account from database.
-		account = accountRepository.findById(id).orElse(null);
+		accountRole = accountRoleRepository.findById(id).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
-		assertNotNull(account);
-		assertEquals(firstName, account.getFirstName());
-		assertEquals(lastName, account.getLastName());
-		assertEquals(email, account.getEmail());
-		assertEquals(password, account.getPassword());
-		assertEquals(id, account.getId());
+		assertNotNull(accountRole);
+		assertEquals(id, accountRole.getId());
 	}
 }

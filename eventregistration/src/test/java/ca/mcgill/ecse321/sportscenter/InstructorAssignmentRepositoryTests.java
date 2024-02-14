@@ -1,5 +1,5 @@
 
-package ca.mcgill.ecse321.sportscenter.dao;
+package ca.mcgill.ecse321.sportscenter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
