@@ -49,7 +49,7 @@ public class LocationRepositoryTests {
 
 
 
-        location = locationRepository.findById(id).orElse(null);
+        location = locationRepository.findById(id).orElse(null);;
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(location);

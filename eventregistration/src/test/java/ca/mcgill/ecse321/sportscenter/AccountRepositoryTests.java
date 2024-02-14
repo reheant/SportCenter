@@ -37,7 +37,7 @@ public class AccountRepositoryTests {
 		accountRepository.save(account);
 
 		// Read account from database.
-		account = accountRepository.findById(id).orElse(null);
+		account = accountRepository.findAccountById(id);
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(account);
