@@ -1,7 +1,15 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Owner extends AccountRole {
 
+  @OneToOne()
+  @JoinColumn(name = "account_id")
   private Account account;
 
   public Owner(int aId, Account aAccount) {

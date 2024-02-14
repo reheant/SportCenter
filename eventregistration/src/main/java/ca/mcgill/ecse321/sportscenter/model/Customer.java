@@ -1,10 +1,18 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Customer extends AccountRole {
 
   private boolean wantsEmailConfirmation;
 
-  private Account account;
+  @OneToMany(mappedBy = "customer")
+  private List<Registration> registrations;
 
   public Customer(int aId, boolean aWantsEmailConfirmation, Account aAccount) {
     super(aId);
@@ -13,6 +21,18 @@ public class Customer extends AccountRole {
       throw new RuntimeException(
           "Unable to create Customer due to aAccount. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  public void addRegistration(Registration r) {
+    registrations.add(r);
+  }
+
+  public boolean removeRegistiation(Registration r) {
+    return registrations.remove(r);
+  }
+
+  public List<?> getRegistrations() {
+    return registrations;
   }
 
   public boolean setWantsEmailConfirmation(boolean aWantsEmailConfirmation) {
@@ -30,21 +50,7 @@ public class Customer extends AccountRole {
     return wantsEmailConfirmation;
   }
 
-  public Account getAccount() {
-    return account;
-  }
-
-  public boolean setAccount(Account aNewAccount) {
-    boolean wasSet = false;
-    if (aNewAccount != null) {
-      account = aNewAccount;
-      wasSet = true;
-    }
-    return wasSet;
-  }
-
   public void delete() {
-    account = null;
     super.delete();
   }
 

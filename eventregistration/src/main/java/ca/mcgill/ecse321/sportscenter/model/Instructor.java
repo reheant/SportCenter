@@ -1,8 +1,19 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import java.util.List;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Instructor extends AccountRole {
 
-  private Account account;
+
+  @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  private List<InstructorAssignment> assignments;
 
   public Instructor(int aId, Account aAccount) {
     super(aId);
@@ -12,21 +23,20 @@ public class Instructor extends AccountRole {
     }
   }
 
-  public Account getAccount() {
-    return account;
+  public void addAssignment(InstructorAssignment i) {
+    assignments.add(i);
   }
 
-  public boolean setAccount(Account aNewAccount) {
-    boolean wasSet = false;
-    if (aNewAccount != null) {
-      account = aNewAccount;
-      wasSet = true;
-    }
-    return wasSet;
+  public boolean removeAssignment(InstructorAssignment i) {
+    return assignments.add(i);
   }
+
+  public List<?> getAssignments() {
+    return assignments;
+  }
+
 
   public void delete() {
-    account = null;
     super.delete();
   }
 

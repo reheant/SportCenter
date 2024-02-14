@@ -1,7 +1,19 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import java.util.List;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class Course {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String name;
   private String description;
@@ -9,6 +21,9 @@ public class Course {
   private boolean requiresInstructor;
   private float defaultDuration;
   private float cost;
+
+  @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+  private List<Session> sessions;
 
   public Course(int aId, String aName, String aDescription, boolean aIsApproved,
       boolean aRequiresInstructor, float aDefaultDuration, float aCost) {
@@ -19,6 +34,18 @@ public class Course {
     requiresInstructor = aRequiresInstructor;
     defaultDuration = aDefaultDuration;
     cost = aCost;
+  }
+
+  public void addSession(Session s) {
+    sessions.add(s);
+  }
+
+  public boolean removeSession(Session s) {
+    return sessions.remove(s);
+  }
+
+  public List<Session> getSessions() {
+    return sessions;
   }
 
   public boolean setId(int aId) {
