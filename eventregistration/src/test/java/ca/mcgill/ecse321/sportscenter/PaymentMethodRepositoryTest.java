@@ -1,30 +1,29 @@
 package ca.mcgill.ecse321.sportscenter;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.PayPalRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
 import ca.mcgill.ecse321.sportscenter.dao.PaymentMethodRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
-import ca.mcgill.ecse321.sportscenter.model.Card;
-import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
-import ca.mcgill.ecse321.sportscenter.model.PayPal;
-import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
+
 
 
 @SpringBootTest
-public class PaypalRepositoryTest {
+public class PaymentMethodRepositoryTest {
+    
 
     @Autowired
-	private PayPalRepository paypalRepository;
+	private PaymentMethodRepository paymentMethodRepository;
     @Autowired
 	private AccountRepository accountRepository;
     @Autowired
@@ -32,13 +31,13 @@ public class PaypalRepositoryTest {
 
     @AfterEach
 	public void clearDatabase() {
-		paypalRepository.deleteAll();
-        accountRepository.deleteAll();
+		paymentMethodRepository.deleteAll();
         customerRepository.deleteAll();
+        accountRepository.deleteAll();
 	}
 
     @Test
-	public void testPersistAndLoadPayPal() {
+	public void testPersistAndLoadPaymentMethod() {
 
     
 		// Create account.
@@ -57,31 +56,23 @@ public class PaypalRepositoryTest {
         customerRepository.save(customer);
 
         
-        PaymentCardType payment = PaymentCardType.CreditCard;
-        
 
-        // Creates Card
-        int paypal_id = 1;
+        // Creates Payment Method
+        int paymentMethodId = 6;
 		String name = "Rehean";
-        String paypalEmail = "test@mail.com";
-        String paypalPassword = "12345";
 
+        
+        PaymentMethod paymentMethod = new PaymentMethod(paymentMethodId, name , customer);
+        paymentMethodRepository.save(paymentMethod);
+        
     
-        
-        PayPal paypalAccount = new PayPal(paypal_id, name, customer, paypalEmail, paypalPassword);
-
-        paypalRepository.save(paypalAccount);
-        
-
-        paypalAccount = paypalRepository.findById(paypal_id).orElse(null);
+        paymentMethod = paymentMethodRepository.findById(paymentMethodId).orElse(null);;
 
 		// Assert that account is not null and has correct attributes.
-		assertNotNull(paypalAccount);
-		assertEquals(paypal_id, paypalAccount.getId());
-		assertEquals(name, paypalAccount.getName());
-		assertEquals(customer, paypalAccount.getCustomer());
-		assertEquals(paypalEmail, paypalAccount.getEmail());
-		assertEquals(paypalPassword, paypalAccount.getPassword());
+		assertNotNull(paymentMethod);
+		assertEquals(paymentMethod, paymentMethod.getId());
+		assertEquals(name, paymentMethod.getName());
+        assertEquals(customer, paymentMethod.getCustomer());
     }
 }
    
