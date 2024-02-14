@@ -1,5 +1,4 @@
-
-package ca.mcgill.ecse321.sportscenter;
+package ca.mcgill.ecse321.sportscenter.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -10,27 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
+import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
-import ca.mcgill.ecse321.sportscenter.model.Instructor;
+import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @SpringBootTest
-public class InstructorRepositoryTests {
+public class OwnerRepositoryTests {
     
 	@Autowired
 	private AccountRepository accountRepository;
 
     @Autowired
-	private InstructorRepository instructorRepository;
+	private OwnerRepository ownerRepository;
 
 	@AfterEach
 	public void clearDatabase() {
 		accountRepository.deleteAll();
-        instructorRepository.deleteAll();
+        ownerRepository.deleteAll();
 	}
 
 	@Test
-	public void testPersistAndLoadInstructor() {
+	public void testPersistAndLoadOwner() {
 		// Create account.
 		int id = 1;
 		String firstName = "Muffin";
@@ -43,14 +42,14 @@ public class InstructorRepositoryTests {
 		// Save account
 		accountRepository.save(account);
 
-        //Create Instructor
-        int instructorID = 3; 
-        Instructor instructor = new Instructor(instructorID, account);
-        // Save instructor
-        instructorRepository.save(instructor);
+        //Create Owner
+        int ownerID = 3; 
+        Owner owner = new Owner(ownerID, account);
+        // Save owner
+        ownerRepository.save(owner);
 
 		// Read account from database.
-		instructor = instructorRepository.findById(id).orElse(null);
+		owner = ownerRepository.findById(id).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(account);
@@ -61,3 +60,4 @@ public class InstructorRepositoryTests {
 		assertEquals(id, account.getId());
 	}
 }
+

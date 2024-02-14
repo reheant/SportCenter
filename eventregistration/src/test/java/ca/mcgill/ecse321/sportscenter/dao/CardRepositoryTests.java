@@ -1,29 +1,29 @@
-package ca.mcgill.ecse321.sportscenter;
-
+package ca.mcgill.ecse321.sportscenter.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
+import ca.mcgill.ecse321.sportscenter.dao.CardRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
 import ca.mcgill.ecse321.sportscenter.dao.PaymentMethodRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
+import ca.mcgill.ecse321.sportscenter.model.Card;
+import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
-
+import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
 
 
 @SpringBootTest
-public class PaymentMethodRepositoryTest {
-    
+public class CardRepositoryTests {
 
     @Autowired
-	private PaymentMethodRepository paymentMethodRepository;
+	private CardRepository cardRepository;
     @Autowired
 	private AccountRepository accountRepository;
     @Autowired
@@ -31,13 +31,13 @@ public class PaymentMethodRepositoryTest {
 
     @AfterEach
 	public void clearDatabase() {
-		paymentMethodRepository.deleteAll();
-        customerRepository.deleteAll();
+		cardRepository.deleteAll();
         accountRepository.deleteAll();
+        customerRepository.deleteAll();
 	}
 
     @Test
-	public void testPersistAndLoadPaymentMethod() {
+	public void testPersistAndLoadCard() {
 
     
 		// Create account.
@@ -56,23 +56,31 @@ public class PaymentMethodRepositoryTest {
         customerRepository.save(customer);
 
         
+        PaymentCardType payment = PaymentCardType.CreditCard;
+        
 
-        // Creates Payment Method
-        int paymentMethodId = 6;
+        // Creates Card
+        int card_id = 1;
 		String name = "Rehean";
-
+        int number = 4324;
+        int expirationDate = 2026;
+        int ccv = 333;
+        Card card = new Card(card_id, name, customer, payment, number, expirationDate, ccv);
+        cardRepository.save(card);
         
-        PaymentMethod paymentMethod = new PaymentMethod(paymentMethodId,name,customer);
-        paymentMethodRepository.save(paymentMethod);
         
-    
-        paymentMethod = paymentMethodRepository.findById(paymentMethodId).orElse(null);;
+        card = cardRepository.findById(card_id).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
-		assertNotNull(paymentMethod);
-		assertEquals(paymentMethod, paymentMethod.getId());
-		assertEquals(name, paymentMethod.getName());
-        assertEquals(customer, paymentMethod.getCustomer());
+		assertNotNull(card);
+		assertEquals(card_id, card.getId());
+		assertEquals(name, card.getName());
+		assertEquals(number, card.getNumber());
+        assertEquals(customer, card.getCustomer());
+		assertEquals(expirationDate, card.getExpirationDate());
+		assertEquals(ccv, card.getCcv());
+        assertEquals(payment, card.getPaymentCardType());
+    
     }
 }
    
