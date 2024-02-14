@@ -1,26 +1,14 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-import java.util.List;
 import java.sql.Time;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
-@Entity
 public class Location {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String name;
   private int capacity;
   private Time openingTime;
   private Time closingTime;
-
-  @OneToMany(mappedBy = "location")
-  private List<Session> sessions;
 
   public Location(int aId, String aName, int aCapacity, Time aOpeningTime, Time aClosingTime) {
     id = aId;
@@ -28,18 +16,6 @@ public class Location {
     capacity = aCapacity;
     openingTime = aOpeningTime;
     closingTime = aClosingTime;
-  }
-
-  public void addSession(Session s) {
-    sessions.add(s);
-  }
-
-  public boolean removeSession(Session s) {
-    return sessions.remove(s);
-  }
-
-  public List<Session> getSessions() {
-    return sessions;
   }
 
   public boolean setId(int aId) {
