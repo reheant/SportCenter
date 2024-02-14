@@ -30,7 +30,7 @@ public class InstructorRepositoryTests {
 	}
 
 	@Test
-	public void testPersistAndLoadAccount() {
+	public void testPersistAndLoadInstructor() {
 		// Create account.
 		int id = 1;
 		String firstName = "Muffin";
@@ -43,10 +43,10 @@ public class InstructorRepositoryTests {
 		// Save account
 		accountRepository.save(account);
 
-        //Create Owner
+        //Create Instructor
         int instructorID = 3; 
         Instructor instructor = new Instructor(instructorID, account);
-        // Save customer
+        // Save instructor
         instructorRepository.save(instructor);
 
 		// Read account from database.

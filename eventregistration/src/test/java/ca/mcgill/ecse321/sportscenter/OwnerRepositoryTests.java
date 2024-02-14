@@ -29,7 +29,7 @@ public class OwnerRepositoryTests {
 	}
 
 	@Test
-	public void testPersistAndLoadAccount() {
+	public void testPersistAndLoadOwner() {
 		// Create account.
 		int id = 1;
 		String firstName = "Muffin";
