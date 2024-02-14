@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.sportscenter;
+package ca.mcgill.ecse321.sportscenter.dao;
 
 import java.sql.Time;
 import ca.mcgill.ecse321.sportscenter.model.Course;
