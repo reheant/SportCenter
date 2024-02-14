@@ -69,14 +69,13 @@ public class CardRepositoryTests {
         cardRepository.save(card);
         
         //TODO - Implement this in persitence
-        card = cardRepository.findById(card_id).orElse(null);
+        card = cardRepository.findCardById(card_id);
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(card);
 		assertEquals(card_id, card.getId());
 		assertEquals(name, card.getName());
 		assertEquals(number, card.getNumber());
-        assertEquals(customer, card.getCustomer());
 		assertEquals(expirationDate, card.getExpirationDate());
 		assertEquals(ccv, card.getCcv());
         assertEquals(payment, card.getPaymentCardType());

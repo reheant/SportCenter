@@ -38,7 +38,7 @@ public class PaypalRepositoryTest {
 	}
 
     @Test
-	public void testPersistAndLoadPayPal() {
+	public void testPersistAndLoadCard() {
 
     
 		// Create account.
@@ -72,8 +72,8 @@ public class PaypalRepositoryTest {
 
         paypalRepository.save(paypalAccount);
         
-
-        paypalAccount = paypalRepository.findById(paypal_id).orElse(null);
+        //TODO - Implement this in persitence
+        paypalAccount = PayPalRepository.findPayPalById(paypal_id);
 
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(paypalAccount);
