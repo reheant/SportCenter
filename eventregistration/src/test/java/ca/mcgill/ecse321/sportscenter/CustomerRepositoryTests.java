@@ -42,7 +42,7 @@ public class CustomerRepositoryTests {
 		// Save account
 		accountRepository.save(account);
 
-        //Create Owner
+        //Create customer
         int customerID = 3; 
         boolean wantsEmailConfirmation = false;
         Customer customer = new Customer(customerID,wantsEmailConfirmation, account);
