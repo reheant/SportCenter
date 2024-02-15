@@ -14,8 +14,9 @@ public class Customer extends AccountRole {
   @OneToMany(mappedBy = "customer")
   private List<Registration> registrations;
 
-  public Customer(int aId, boolean aWantsEmailConfirmation, Account aAccount) {
-    super(aId);
+  public Customer() {}
+
+  public Customer(boolean aWantsEmailConfirmation, Account aAccount) {
     wantsEmailConfirmation = aWantsEmailConfirmation;
     if (!setAccount(aAccount)) {
       throw new RuntimeException(

@@ -16,48 +16,42 @@ import ca.mcgill.ecse321.sportscenter.model.Instructor;
 
 @SpringBootTest
 public class InstructorRepositoryTests {
-    
+
 	@Autowired
 	private AccountRepository accountRepository;
 
-    @Autowired
+	@Autowired
 	private InstructorRepository instructorRepository;
 
 	@AfterEach
 	public void clearDatabase() {
 		accountRepository.deleteAll();
-        instructorRepository.deleteAll();
+		instructorRepository.deleteAll();
 	}
 
 	@Test
 	public void testPersistAndLoadInstructor() {
 		// Create account.
-		int id = 1;
 		String firstName = "Muffin";
 		String lastName = "Man";
 		String email = "Man@gmail.com";
 		String password = "123456";
-		Account account = new Account(id, firstName, lastName, email, password);
-		
+		Account account = new Account(firstName, lastName, email, password);
+
 
 		// Save account
 		accountRepository.save(account);
 
-        //Create Instructor
-        int instructorID = 3; 
-        Instructor instructor = new Instructor(instructorID, account);
-        // Save instructor
-        instructorRepository.save(instructor);
+		// Create Instructor
+		Instructor instructor = new Instructor(account);
+		// Save instructor
+		instructorRepository.save(instructor);
 
 		// Read account from database.
-		instructor = instructorRepository.findById(id).orElse(null);
+		Instructor dbInstructor = instructorRepository.findById(instructor.getId()).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
-		assertNotNull(account);
-		assertEquals(firstName, account.getFirstName());
-		assertEquals(lastName, account.getLastName());
-		assertEquals(email, account.getEmail());
-		assertEquals(password, account.getPassword());
-		assertEquals(id, account.getId());
+		assertNotNull(dbInstructor);
+		assertEquals(dbInstructor.getAccount().getId(), account.getId());
 	}
 }

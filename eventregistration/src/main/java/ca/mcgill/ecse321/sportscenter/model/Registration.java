@@ -22,8 +22,9 @@ public class Registration {
   @JoinColumn(name = "session_id")
   private Session session;
 
-  public Registration(int aId, Customer aCustomer, Session aSession) {
-    id = aId;
+  public Registration() {}
+
+  public Registration(Customer aCustomer, Session aSession) {
     if (!setCustomer(aCustomer)) {
       throw new RuntimeException(
           "Unable to create Registration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");

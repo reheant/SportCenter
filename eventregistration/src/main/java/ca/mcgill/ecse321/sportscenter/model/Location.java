@@ -22,8 +22,9 @@ public class Location {
   @OneToMany(mappedBy = "location")
   private List<Session> sessions;
 
-  public Location(int aId, String aName, int aCapacity, Time aOpeningTime, Time aClosingTime) {
-    id = aId;
+  public Location() {};
+
+  public Location(String aName, int aCapacity, Time aOpeningTime, Time aClosingTime) {
     name = aName;
     capacity = aCapacity;
     openingTime = aOpeningTime;

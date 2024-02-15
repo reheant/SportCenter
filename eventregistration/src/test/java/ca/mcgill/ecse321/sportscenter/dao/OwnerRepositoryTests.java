@@ -15,49 +15,43 @@ import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @SpringBootTest
 public class OwnerRepositoryTests {
-    
+
 	@Autowired
 	private AccountRepository accountRepository;
 
-    @Autowired
+	@Autowired
 	private OwnerRepository ownerRepository;
 
 	@AfterEach
 	public void clearDatabase() {
+
+		ownerRepository.deleteAll();
 		accountRepository.deleteAll();
-        ownerRepository.deleteAll();
 	}
 
 	@Test
 	public void testPersistAndLoadOwner() {
 		// Create account.
-		int id = 1;
 		String firstName = "Muffin";
 		String lastName = "Man";
 		String email = "Man@gmail.com";
 		String password = "123456";
-		Account account = new Account(id, firstName, lastName, email, password);
-		
+		Account account = new Account(firstName, lastName, email, password);
 
 		// Save account
 		accountRepository.save(account);
 
-        //Create Owner
-        int ownerID = 3; 
-        Owner owner = new Owner(ownerID, account);
-        // Save owner
-        ownerRepository.save(owner);
+		// Create Owner
+		Owner owner = new Owner(account);
+		// Save owner
+		ownerRepository.save(owner);
 
 		// Read account from database.
-		owner = ownerRepository.findById(id).orElse(null);
+		Owner dbOwner = ownerRepository.findById(owner.getId()).orElse(null);
 
 		// Assert that account is not null and has correct attributes.
-		assertNotNull(account);
-		assertEquals(firstName, account.getFirstName());
-		assertEquals(lastName, account.getLastName());
-		assertEquals(email, account.getEmail());
-		assertEquals(password, account.getPassword());
-		assertEquals(id, account.getId());
+		assertNotNull(dbOwner);
+		assertEquals(account.getId(), dbOwner.getAccount().getId());
 	}
 }
 

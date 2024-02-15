@@ -8,8 +8,10 @@ public class PayPal extends PaymentMethod {
   private String email;
   private String password;
 
-  public PayPal(int aId, String aName, Customer aCustomer, String aEmail, String aPassword) {
-    super(aId, aName, aCustomer);
+  public PayPal() {}
+
+  public PayPal(String aName, Customer aCustomer, String aEmail, String aPassword) {
+    super(aName, aCustomer);
     email = aEmail;
     password = aPassword;
   }

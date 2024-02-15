@@ -22,8 +22,9 @@ public class InstructorAssignment {
   @JoinColumn(name = "session_id")
   private Session session;
 
-  public InstructorAssignment(int aId, Instructor aInstructor, Session aSession) {
-    id = aId;
+  public InstructorAssignment() {}
+
+  public InstructorAssignment(Instructor aInstructor, Session aSession) {
     if (!setInstructor(aInstructor)) {
       throw new RuntimeException(
           "Unable to create InstructorAssignment due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");

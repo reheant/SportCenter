@@ -25,9 +25,10 @@ public class Course {
   @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<Session> sessions;
 
-  public Course(int aId, String aName, String aDescription, boolean aIsApproved,
-      boolean aRequiresInstructor, float aDefaultDuration, float aCost) {
-    id = aId;
+  public Course() {};
+
+  public Course(String aName, String aDescription, boolean aIsApproved, boolean aRequiresInstructor,
+      float aDefaultDuration, float aCost) {
     name = aName;
     description = aDescription;
     isApproved = aIsApproved;

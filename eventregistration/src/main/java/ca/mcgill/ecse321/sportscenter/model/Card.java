@@ -17,9 +17,11 @@ public class Card extends PaymentMethod {
   private int expirationDate;
   private int ccv;
 
-  public Card(int aId, String aName, Customer aCustomer, PaymentCardType aPaymentCardType,
-      int aNumber, int aExpirationDate, int aCcv) {
-    super(aId, aName, aCustomer);
+  public Card() {}
+
+  public Card(String aName, Customer aCustomer, PaymentCardType aPaymentCardType, int aNumber,
+      int aExpirationDate, int aCcv) {
+    super(aName, aCustomer);
     paymentCardType = aPaymentCardType;
     number = aNumber;
     expirationDate = aExpirationDate;

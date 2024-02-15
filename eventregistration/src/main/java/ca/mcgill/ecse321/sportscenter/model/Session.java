@@ -35,6 +35,21 @@ public class Session {
   @JoinColumn(name = "location_id")
   private Location location;
 
+  public Session() {}
+
+  public Session(Time aStartTime, Time aEndTime, Course aCourse, Location aLocation) {
+    startTime = aStartTime;
+    endTime = aEndTime;
+    if (!setCourse(aCourse)) {
+      throw new RuntimeException(
+          "Unable to create Session due to aCourse. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    if (!setLocation(aLocation)) {
+      throw new RuntimeException(
+          "Unable to create Session due to aLocation. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+  }
+
   public void addRegistration(Registration r) {
     registrations.add(r);
   }
@@ -59,19 +74,6 @@ public class Session {
     return instructorAssignments;
   }
 
-  public Session(int aId, Time aStartTime, Time aEndTime, Course aCourse, Location aLocation) {
-    id = aId;
-    startTime = aStartTime;
-    endTime = aEndTime;
-    if (!setCourse(aCourse)) {
-      throw new RuntimeException(
-          "Unable to create Session due to aCourse. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    if (!setLocation(aLocation)) {
-      throw new RuntimeException(
-          "Unable to create Session due to aLocation. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-  }
 
   public boolean setId(int aId) {
     boolean wasSet = false;

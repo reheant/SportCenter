@@ -24,8 +24,11 @@ public abstract class AccountRole {
   @JoinColumn(name = "account_id", referencedColumnName = "id")
   private Account account;
 
+  public AccountRole() {}
+
   public AccountRole(int aId) {
     id = aId;
+
   }
 
   public boolean setId(int aId) {

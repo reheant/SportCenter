@@ -23,64 +23,57 @@ import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
 public class CardRepositoryTests {
 
     @Autowired
-	private CardRepository cardRepository;
+    private CardRepository cardRepository;
     @Autowired
-	private AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Autowired
-	private CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @AfterEach
-	public void clearDatabase() {
-		cardRepository.deleteAll();
+    public void clearDatabase() {
+        cardRepository.deleteAll();
         accountRepository.deleteAll();
         customerRepository.deleteAll();
-	}
+    }
 
     @Test
-	public void testPersistAndLoadCard() {
+    public void testPersistAndLoadCard() {
 
-    
-		// Create account.
-		int id = 1;
-		String firstName = "Muffin";
-		String lastName = "Man";
-		String email = "Man@gmail.com";
-		String password = "123456";
-        Account person = new Account(id, firstName, lastName, email, password);
+
+        // Create account.
+        String firstName = "Muffin";
+        String lastName = "Man";
+        String email = "Man@gmail.com";
+        String password = "123456";
+        Account person = new Account(firstName, lastName, email, password);
         accountRepository.save(person);
 
         // Create Customer
-        int customerId = 4;
-        boolean wantsEmailConfirmation = false; 
-        Customer customer = new Customer(customerId, wantsEmailConfirmation, person);
+        boolean wantsEmailConfirmation = false;
+        Customer customer = new Customer(wantsEmailConfirmation, person);
         customerRepository.save(customer);
 
-        
         PaymentCardType payment = PaymentCardType.CreditCard;
-        
 
         // Creates Card
-        int card_id = 1;
-		String name = "Rehean";
+        String name = "Rehean";
         int number = 4324;
         int expirationDate = 2026;
         int ccv = 333;
-        Card card = new Card(card_id, name, customer, payment, number, expirationDate, ccv);
+        Card card = new Card(name, customer, payment, number, expirationDate, ccv);
         cardRepository.save(card);
-        
-        
-        card = cardRepository.findById(card_id).orElse(null);
 
-		// Assert that account is not null and has correct attributes.
-		assertNotNull(card);
-		assertEquals(card_id, card.getId());
-		assertEquals(name, card.getName());
-		assertEquals(number, card.getNumber());
-        assertEquals(customer, card.getCustomer());
-		assertEquals(expirationDate, card.getExpirationDate());
-		assertEquals(ccv, card.getCcv());
+        card = cardRepository.findById(card.getId()).orElse(null);
+
+        // Assert that account is not null and has correct attributes.
+        assertNotNull(card);
+        assertEquals(name, card.getName());
+        assertEquals(number, card.getNumber());
+        assertEquals(customer.getId(), card.getCustomer().getId());
+        assertEquals(expirationDate, card.getExpirationDate());
+        assertEquals(ccv, card.getCcv());
         assertEquals(payment, card.getPaymentCardType());
-    
+
     }
 }
-   
+

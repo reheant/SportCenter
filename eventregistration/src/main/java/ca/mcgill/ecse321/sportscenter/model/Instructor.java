@@ -15,8 +15,9 @@ public class Instructor extends AccountRole {
   @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<InstructorAssignment> assignments;
 
-  public Instructor(int aId, Account aAccount) {
-    super(aId);
+  public Instructor() {}
+
+  public Instructor(Account aAccount) {
     if (!setAccount(aAccount)) {
       throw new RuntimeException(
           "Unable to create Instructor due to aAccount. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");

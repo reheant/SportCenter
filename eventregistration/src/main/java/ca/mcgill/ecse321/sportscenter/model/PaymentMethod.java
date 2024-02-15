@@ -22,8 +22,9 @@ public abstract class PaymentMethod {
   @JoinColumn(name = "customer_id")
   private Customer customer;
 
-  public PaymentMethod(int aId, String aName, Customer aCustomer) {
-    id = aId;
+  public PaymentMethod() {};
+
+  public PaymentMethod(String aName, Customer aCustomer) {
     name = aName;
     if (!setCustomer(aCustomer)) {
       throw new RuntimeException(

@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -7,7 +8,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -21,11 +21,12 @@ public class Account {
   private String email;
   private String password;
 
-  @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
   private List<AccountRole> roles;
 
-  public Account(int aId, String aFirstName, String aLastName, String aEmail, String aPassword) {
-    id = aId;
+  public Account() {}
+
+  public Account(String aFirstName, String aLastName, String aEmail, String aPassword) {
     firstName = aFirstName;
     lastName = aLastName;
     email = aEmail;
