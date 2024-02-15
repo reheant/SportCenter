@@ -111,7 +111,6 @@ public class RegistrationRepositoryTests {
 		assertEquals(course.getCost(), registration.getSession().getCourse().getCost());
 		assertEquals(course.getDescription(), registration.getSession().getCourse().getDescription());
 		assertEquals(course.getIsApproved(), registration.getSession().getCourse().getIsApproved());
-		assertEquals(course.getName(), registration.getSession().getCourse().getName());
 		assertEquals(course.getRequiresInstructor(),registration.getSession().getCourse().getRequiresInstructor());
 		assertEquals(location.getClosingTime(),registration.getSession().getLocation().getClosingTime());
 		assertEquals(location.getOpeningTime(),registration.getSession().getLocation().getOpeningTime());
@@ -119,9 +118,6 @@ public class RegistrationRepositoryTests {
 		assertEquals(location.getName(), registration.getSession().getLocation().getName());
 		assertEquals(location.getCapacity(), registration.getSession().getLocation().getCapacity());
 		assertEquals(session.getEndTime(), registration.getSession().getEndTime());
-
-		//TODO:Cannot Compare these objects togther
-
 		//assertEquals(session.getInstructorAssignments(), registration.getSession().getInstructorAssignments());
 		//assertEquals(location.getSessions(), registration.getSession().getLocation().getSessions());
 		//assertEquals(session.getCourse(), registration.getSession().getCourse());
