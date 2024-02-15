@@ -7,17 +7,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.PayPalRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
-import ca.mcgill.ecse321.sportscenter.dao.PaymentMethodRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
-import ca.mcgill.ecse321.sportscenter.model.Card;
-import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.PayPal;
-import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
 
 
 @SpringBootTest
@@ -50,17 +42,16 @@ public class PaypalRepositoryTest {
         // Create Customer
         boolean wantsEmailConfirmation = false;
         Customer customer = new Customer(wantsEmailConfirmation, person);
+        // Load Customer
         customerRepository.save(customer);
 
 
-        // Creates Card
+        // Creates Paypal
         String name = "Rehean";
         String paypalEmail = "test@mail.com";
         String paypalPassword = "12345";
-
-
         PayPal paypalAccount = new PayPal(name, customer, paypalEmail, paypalPassword);
-
+        // Load Paypal Accout
         paypalRepository.save(paypalAccount);
 
         PayPal dbPaypalAccount = paypalRepository.findById(paypalAccount.getId()).orElse(null);

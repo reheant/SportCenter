@@ -7,16 +7,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CardRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
-import ca.mcgill.ecse321.sportscenter.dao.PaymentMethodRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Card;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
-import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
+
 
 
 @SpringBootTest
@@ -46,11 +41,13 @@ public class CardRepositoryTests {
         String email = "Man@gmail.com";
         String password = "123456";
         Account person = new Account(firstName, lastName, email, password);
+        // Load Account
         accountRepository.save(person);
 
         // Create Customer
         boolean wantsEmailConfirmation = false;
         Customer customer = new Customer(wantsEmailConfirmation, person);
+        // Load Customer
         customerRepository.save(customer);
 
         PaymentCardType payment = PaymentCardType.CreditCard;
@@ -61,6 +58,7 @@ public class CardRepositoryTests {
         int expirationDate = 2026;
         int ccv = 333;
         Card card = new Card(name, customer, payment, number, expirationDate, ccv);
+        // Load Card
         cardRepository.save(card);
 
         card = cardRepository.findById(card.getId()).orElse(null);

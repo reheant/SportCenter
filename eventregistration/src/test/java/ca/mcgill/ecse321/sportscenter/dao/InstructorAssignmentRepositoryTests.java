@@ -9,21 +9,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorAssignmentRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
-import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
-import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
-
-import java.sql.Date;
 import java.sql.Time;
 
 @SpringBootTest
@@ -55,24 +46,21 @@ public class InstructorAssignmentRepositoryTests {
     @Test
     public void testPersistAndLoadInstructor() {
         // Create account.
-        int id = 1;
         String firstName = "Muffin";
         String lastName = "Man";
         String email = "Man@gmail.com";
         String password = "123456";
         Account account = new Account(firstName, lastName, email, password);
 
-
-        // Save account
+        // Load account
         accountRepository.save(account);
 
         // Create instructor
         Instructor instructor = new Instructor(account);
-        // Save customer
+        // Load customer
         instructorRepository.save(instructor);
 
         // create a course
-
         String courseName = "boring class";
         String description = "this class is boring";
         boolean isApproved = true;
@@ -80,42 +68,38 @@ public class InstructorAssignmentRepositoryTests {
         float duration = 60;
         float cost = 23;
 
-        Course course =
-                new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
+        Course course = new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
+        // Load Course
         courseRepository.save(course);
 
-        // create a location
+        // Create a location
         String name = "Ana";
         int capacity = 44;
-
         Time openingTime = Time.valueOf("08:00:00");
         Time closingTime = Time.valueOf("12:00:00");
-
         Location location = new Location(name, capacity, openingTime, closingTime);
+        // Load Location
         locationRepository.save(location);
 
         // create a session
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("12:00:00");
-
         Session session = new Session(startTime, endTime, course, location);
         // load session
         sessionRepository.save(session);
 
         // create instructorAssignment
         InstructorAssignment instructorAssignment = new InstructorAssignment(instructor, session);
+        // Load instructorAssingment
         instructorAssignmentRepository.save(instructorAssignment);
 
 
         // Read account from database.
-        InstructorAssignment dBinstructorAssignment =
-                instructorAssignmentRepository.findById(instructorAssignment.getId()).orElse(null);
+        InstructorAssignment dBinstructorAssignment = instructorAssignmentRepository.findById(instructorAssignment.getId()).orElse(null);
         // Assert that account is not null and has correct attributes.
         assertNotNull(dBinstructorAssignment);
         assertEquals(dBinstructorAssignment.getId(), instructorAssignment.getId());
-        assertEquals(dBinstructorAssignment.getInstructor().getId(),
-                instructorAssignment.getInstructor().getId());
-        assertEquals(dBinstructorAssignment.getSession().getId(),
-                instructorAssignment.getSession().getId());
+        assertEquals(dBinstructorAssignment.getInstructor().getId(), instructorAssignment.getInstructor().getId());
+        assertEquals(dBinstructorAssignment.getSession().getId(), instructorAssignment.getSession().getId());
     }
 }

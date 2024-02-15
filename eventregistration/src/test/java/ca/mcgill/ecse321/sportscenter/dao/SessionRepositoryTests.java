@@ -36,7 +36,7 @@ public class SessionRepositoryTests {
     @Test
     public void testPersistAndLoadSession() {
         // create a location
-        int locationID = 4;
+
         String name = "Ana";
         int capacity = 44;
 
@@ -47,7 +47,6 @@ public class SessionRepositoryTests {
         locationRepository.save(location);
 
         // create a course
-        int courseID = 23;
         String courseName = "boring class";
         String description = "this class is boring";
         boolean isApproved = true;
@@ -60,7 +59,7 @@ public class SessionRepositoryTests {
         courseRepository.save(course);
 
         // create a session
-        int sessionID = 3;
+
         Time startTime = Time.valueOf("08:00:00");
         Time endTime = Time.valueOf("12:00:00");
 
@@ -68,37 +67,27 @@ public class SessionRepositoryTests {
         // load session
         sessionRepository.save(session);
 
-        session = sessionRepository.findById(sessionID).orElse(null);
+        session = sessionRepository.findById(session.getId()).orElse(null);
+
         assertNotNull(session);
         assertEquals(startTime, session.getStartTime());
         assertEquals(endTime, session.getEndTime());
         assertEquals(course.getId(), session.getCourse().getId());
         assertEquals(location.getId(), session.getLocation().getId());
-        // assertNotNull(session.getId());
-        // assertEquals(startTime, session.getStartTime());
-        // assertEquals(endTime, session.getEndTime());
-        // assertEquals(course, session.getCourse());
-        // assertEquals(location, session.getLocation());
-        // assertEquals(location.getCapacity(), session.getLocation().getCapacity());
-        // assertEquals(location.getClosingTime(), session.getLocation().getClosingTime());
-        // assertEquals(location.getOpeningTime(), session.getLocation().getOpeningTime());
+        assertNotNull(session.getId());
+        assertEquals(location.getCapacity(), session.getLocation().getCapacity());
+        assertEquals(location.getClosingTime(), session.getLocation().getClosingTime());
+        assertEquals(location.getOpeningTime(), session.getLocation().getOpeningTime());
+        assertEquals(location.getName(), session.getLocation().getName());
+        assertEquals(course.getName(), session.getCourse().getName());
+        assertEquals(course.getCost(), session.getCourse().getCost());
+        assertEquals(course.getDescription(), session.getCourse().getDescription());
+        assertEquals(course.getIsApproved(), session.getCourse().getIsApproved());
+        assertEquals(course.getRequiresInstructor(), session.getCourse().getRequiresInstructor());
+        //assertEquals(course, session.getCourse());
+        //assertEquals(location, session.getLocation());
+        //assertEquals(location.getSessions(), session.getLocation().getSessions());
         // assertEquals(location.getSessions(), session);
-        // assertEquals(location.getId(), session.getLocation().getId());
-        // assertEquals(location.getName(), session.getLocation().getName());
-        // assertEquals(course.getName(), session.getCourse().getName());
-        // assertEquals(course.getCost(), session.getCourse().getCost());
-        // assertEquals(course.getId(), session.getCourse().getId());
-        // assertEquals(course.getDescription(), session.getCourse().getDescription());
-        // assertEquals(course.getIsApproved(), session.getCourse().getIsApproved());
-        // assertEquals(course.getName(), session.getCourse().getName());
-        // assertEquals(course.getRequiresInstructor(),
-        // session.getCourse().getRequiresInstructor());
-        // assertEquals(location.getClosingTime(), session.getLocation().getClosingTime());
-        // assertEquals(location.getOpeningTime(), session.getLocation().getOpeningTime());
-        // assertEquals(location.getSessions(), session.getLocation().getSessions());
-        // assertEquals(location.getId(), session.getLocation().getId());
-        // assertEquals(location.getName(), session.getLocation().getName());
-        // assertEquals(location.getCapacity(), session.getLocation().getCapacity());
     }
 
 }

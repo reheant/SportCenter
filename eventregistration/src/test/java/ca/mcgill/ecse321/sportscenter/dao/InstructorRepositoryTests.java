@@ -8,9 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 
@@ -39,12 +36,12 @@ public class InstructorRepositoryTests {
 		Account account = new Account(firstName, lastName, email, password);
 
 
-		// Save account
+		// Load account
 		accountRepository.save(account);
 
 		// Create Instructor
 		Instructor instructor = new Instructor(account);
-		// Save instructor
+		// Load instructor
 		instructorRepository.save(instructor);
 
 		// Read account from database.

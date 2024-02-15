@@ -7,9 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Owner;
 
@@ -38,12 +35,12 @@ public class OwnerRepositoryTests {
 		String password = "123456";
 		Account account = new Account(firstName, lastName, email, password);
 
-		// Save account
+		// Load account
 		accountRepository.save(account);
 
 		// Create Owner
 		Owner owner = new Owner(account);
-		// Save owner
+		// Load owner
 		ownerRepository.save(owner);
 
 		// Read account from database.

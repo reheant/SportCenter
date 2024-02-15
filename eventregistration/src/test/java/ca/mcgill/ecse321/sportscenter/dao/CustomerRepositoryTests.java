@@ -7,9 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 
@@ -37,14 +34,13 @@ public class CustomerRepositoryTests {
 		String password = "123456";
 		Account account = new Account(firstName, lastName, email, password);
 
-
-		// Save account
+		// Load account
 		accountRepository.save(account);
 
 		// Create customer
 		boolean wantsEmailConfirmation = false;
 		Customer customer = new Customer(wantsEmailConfirmation, account);
-		// Save customer
+		// Load customer
 		customerRepository.save(customer);
 
 		// Read account from database.
@@ -55,7 +51,6 @@ public class CustomerRepositoryTests {
 		assertNotNull(dbCustomer);
 		assertEquals(customer.getId(), dbCustomer.getId());
 		assertEquals(customer.getWantsEmailConfirmation(), dbCustomer.getWantsEmailConfirmation());
-
 		assertNotNull(dbAccount);
 		assertEquals(account.getId(), dbAccount.getId());
 	}
