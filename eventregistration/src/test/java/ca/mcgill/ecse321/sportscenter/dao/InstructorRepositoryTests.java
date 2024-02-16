@@ -50,5 +50,7 @@ public class InstructorRepositoryTests {
 		// Assert that account is not null and has correct attributes.
 		assertNotNull(dbInstructor);
 		assertEquals(dbInstructor.getAccount().getId(), account.getId());
+
+		
 	}
 }

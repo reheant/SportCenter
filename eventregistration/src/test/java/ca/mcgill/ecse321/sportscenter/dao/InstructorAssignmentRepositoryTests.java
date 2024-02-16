@@ -96,10 +96,26 @@ public class InstructorAssignmentRepositoryTests {
 
         // Read account from database.
         InstructorAssignment dBinstructorAssignment = instructorAssignmentRepository.findById(instructorAssignment.getId()).orElse(null);
-        // Assert that account is not null and has correct attributes.
+        // Assert that Instructor Assignmnent is not null and has correct attributes.
         assertNotNull(dBinstructorAssignment);
         assertEquals(dBinstructorAssignment.getId(), instructorAssignment.getId());
         assertEquals(dBinstructorAssignment.getInstructor().getId(), instructorAssignment.getInstructor().getId());
         assertEquals(dBinstructorAssignment.getSession().getId(), instructorAssignment.getSession().getId());
+        assertEquals(course.getName(), dBinstructorAssignment.getSession().getCourse().getName());
+        assertEquals(course.getCost(), dBinstructorAssignment.getSession().getCourse().getCost());
+        assertEquals(course.getDescription(), dBinstructorAssignment.getSession().getCourse().getDescription());
+        assertEquals(course.getIsApproved(), dBinstructorAssignment.getSession().getCourse().getIsApproved());
+        assertEquals(course.getRequiresInstructor(), dBinstructorAssignment.getSession().getCourse().getRequiresInstructor());
+        assertEquals(location.getClosingTime(),dBinstructorAssignment.getSession().getLocation().getClosingTime());
+		assertEquals(location.getOpeningTime(),dBinstructorAssignment.getSession().getLocation().getOpeningTime());
+		assertEquals(location.getId(), dBinstructorAssignment.getSession().getLocation().getId());
+		assertEquals(location.getName(), dBinstructorAssignment.getSession().getLocation().getName());
+		assertEquals(location.getCapacity(), dBinstructorAssignment.getSession().getLocation().getCapacity());
+        assertEquals(session.getEndTime(), dBinstructorAssignment.getSession().getEndTime());
+        assertEquals(session.getStartTime(), dBinstructorAssignment.getSession().getStartTime());
+        assertEquals(instructorAssignment.getInstructor().getAccount().getEmail(), dBinstructorAssignment.getInstructor().getAccount().getEmail());
+        assertEquals(instructorAssignment.getInstructor().getAccount().getFirstName(), dBinstructorAssignment.getInstructor().getAccount().getFirstName());
+        assertEquals(instructorAssignment.getInstructor().getAccount().getLastName(), dBinstructorAssignment.getInstructor().getAccount().getLastName());
+        assertEquals(instructorAssignment.getInstructor().getAccount().getPassword(), dBinstructorAssignment.getInstructor().getAccount().getPassword());
     }
 }

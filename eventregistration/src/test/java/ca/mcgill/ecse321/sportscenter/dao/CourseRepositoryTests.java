@@ -19,7 +19,6 @@ public class CourseRepositoryTests {
 	@AfterEach
 	public void clearDatabase() {
 		courseRepository.deleteAll();
-
 		locationRepository.deleteAll();
 	}
 
@@ -38,7 +37,7 @@ public class CourseRepositoryTests {
 		courseRepository.save(course);
 
 		course = courseRepository.findById(course.getId()).orElse(null);
-	
+		// Assert that course is not null and has correct attributes.
 		assertEquals(courseName, course.getName());
 		assertEquals(cost, course.getCost());
 		assertEquals(description, course.getDescription());

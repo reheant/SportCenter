@@ -98,7 +98,7 @@ public class RegistrationRepositoryTests {
 
 		// Read registration from database.
 		registration = registrationRepository.findById(registration.getId()).orElse(null);
-
+		 // Assert that registration is not null and has correct attributes.
 		assertNotNull(registration);
 		assertEquals(session.getId(), registration.getSession().getId());
 		assertEquals(customer.getId(), registration.getCustomer().getId());

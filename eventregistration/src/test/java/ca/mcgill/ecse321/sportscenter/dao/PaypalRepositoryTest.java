@@ -56,11 +56,22 @@ public class PaypalRepositoryTest {
 
         PayPal dbPaypalAccount = paypalRepository.findById(paypalAccount.getId()).orElse(null);
 
-        // Assert that account is not null and has correct attributes.
+        // Assert that paypal is not null and has correct attributes.
         assertNotNull(paypalAccount);
         assertEquals(name, dbPaypalAccount.getName());
         assertEquals(customer.getId(), dbPaypalAccount.getCustomer().getId());
         assertEquals(paypalEmail, dbPaypalAccount.getEmail());
         assertEquals(paypalPassword, dbPaypalAccount.getPassword());
+        assertEquals(person.getId(),dbPaypalAccount.getCustomer().getAccount().getId());
+		assertEquals(person.getEmail(), dbPaypalAccount.getCustomer().getAccount().getEmail());
+		assertEquals(person.getFirstName(), dbPaypalAccount.getCustomer().getAccount().getFirstName());
+		assertEquals(person.getLastName(), dbPaypalAccount.getCustomer().getAccount().getLastName());
+		assertEquals(person.getPassword(), dbPaypalAccount.getCustomer().getAccount().getPassword());
+        assertEquals(customer.getAccount().getId(), dbPaypalAccount.getCustomer().getAccount().getId());
+		assertEquals(customer.getAccount().getEmail(), dbPaypalAccount.getCustomer().getAccount().getEmail());
+		assertEquals(customer.getAccount().getFirstName(), dbPaypalAccount.getCustomer().getAccount().getFirstName());
+		assertEquals(customer.getAccount().getLastName(), dbPaypalAccount.getCustomer().getAccount().getLastName());
+		assertEquals(customer.getAccount().getPassword(), dbPaypalAccount.getCustomer().getAccount().getPassword());
+
     }
 }

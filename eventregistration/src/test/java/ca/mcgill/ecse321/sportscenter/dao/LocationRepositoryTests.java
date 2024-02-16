@@ -37,7 +37,7 @@ public class LocationRepositoryTests {
 
         Location dbLocation = locationRepository.findById(location.getId()).orElse(null);
 
-        // Assert that account is not null and has correct attributes.
+        // Assert that location is not null and has correct attributes.
         assertNotNull(dbLocation);
         assertEquals(name, dbLocation.getName());
         assertEquals(capacity, dbLocation.getCapacity());

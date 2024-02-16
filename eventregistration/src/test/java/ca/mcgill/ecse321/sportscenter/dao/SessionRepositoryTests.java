@@ -66,7 +66,8 @@ public class SessionRepositoryTests {
         sessionRepository.save(session);
 
         session = sessionRepository.findById(session.getId()).orElse(null);
-
+        
+        // Assert that session is not null and has correct attributes.
         assertNotNull(session);
         assertEquals(startTime, session.getStartTime());
         assertEquals(endTime, session.getEndTime());

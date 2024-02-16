@@ -53,6 +53,11 @@ public class CustomerRepositoryTests {
 		assertEquals(customer.getWantsEmailConfirmation(), dbCustomer.getWantsEmailConfirmation());
 		assertNotNull(dbAccount);
 		assertEquals(account.getId(), dbAccount.getId());
+		assertEquals(account.getEmail(), dbCustomer.getAccount().getEmail());
+		assertEquals(account.getFirstName(), dbCustomer.getAccount().getFirstName());
+		assertEquals(account.getLastName(), dbCustomer.getAccount().getLastName());
+		assertEquals(account.getPassword(), dbCustomer.getAccount().getPassword());
+
 	}
 }
 

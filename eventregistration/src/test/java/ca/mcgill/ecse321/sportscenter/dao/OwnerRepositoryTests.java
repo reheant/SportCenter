@@ -46,9 +46,15 @@ public class OwnerRepositoryTests {
 		// Read account from database.
 		Owner dbOwner = ownerRepository.findById(owner.getId()).orElse(null);
 
-		// Assert that account is not null and has correct attributes.
+		// Assert that Owner is not null and has correct attributes.
 		assertNotNull(dbOwner);
 		assertEquals(account.getId(), dbOwner.getAccount().getId());
+		assertEquals(account.getId(), dbOwner.getId());
+		assertEquals(account.getEmail(), dbOwner.getAccount().getEmail());
+		assertEquals(account.getFirstName(), dbOwner.getAccount().getFirstName());
+		assertEquals(account.getLastName(), dbOwner.getAccount().getLastName());
+		assertEquals(account.getPassword(), dbOwner.getAccount().getPassword());
+
 	}
 }
 
