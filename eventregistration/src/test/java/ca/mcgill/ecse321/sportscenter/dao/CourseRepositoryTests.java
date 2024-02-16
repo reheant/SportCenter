@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.sportscenter.dao;
 
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class CourseRepositoryTests {
 
 		course = courseRepository.findById(course.getId()).orElse(null);
 		// Assert that course is not null and has correct attributes.
+		assertNotNull(course);
 		assertEquals(courseName, course.getName());
 		assertEquals(cost, course.getCost());
 		assertEquals(description, course.getDescription());

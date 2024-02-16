@@ -47,10 +47,16 @@ public class InstructorRepositoryTests {
 		// Read account from database.
 		Instructor dbInstructor = instructorRepository.findById(instructor.getId()).orElse(null);
 
-		// Assert that account is not null and has correct attributes.
+		// Assert that Instructor is not null and has correct attributes.
 		assertNotNull(dbInstructor);
 		assertEquals(dbInstructor.getAccount().getId(), account.getId());
+		assertEquals(account.getId(), dbInstructor.getAccount().getId());
+		assertEquals(account.getId(), dbInstructor.getId());
+		assertEquals(account.getEmail(), dbInstructor.getAccount().getEmail());
+		assertEquals(account.getFirstName(), dbInstructor.getAccount().getFirstName());
+		assertEquals(account.getLastName(), dbInstructor.getAccount().getLastName());
+		assertEquals(account.getPassword(), dbInstructor.getAccount().getPassword());
 
-		
+
 	}
 }
