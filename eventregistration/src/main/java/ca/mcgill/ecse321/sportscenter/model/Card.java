@@ -1,8 +1,7 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+
 
 @Entity
 public class Card extends PaymentMethod {

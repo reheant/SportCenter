@@ -14,9 +14,7 @@ public class CourseRepositoryTests {
 
 	@Autowired
 	private CourseRepository courseRepository;
-	@Autowired
-	private LocationRepository locationRepository;
-
+	
 	@AfterEach
 	public void clearDatabase() {
 		courseRepository.deleteAll();
