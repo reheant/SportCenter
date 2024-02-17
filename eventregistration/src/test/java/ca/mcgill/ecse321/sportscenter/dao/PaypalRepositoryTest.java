@@ -7,17 +7,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.PayPalRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
-import ca.mcgill.ecse321.sportscenter.dao.PaymentMethodRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
-import ca.mcgill.ecse321.sportscenter.model.Card;
-import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.PayPal;
-import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
 
 
 @SpringBootTest
@@ -50,26 +42,36 @@ public class PaypalRepositoryTest {
         // Create Customer
         boolean wantsEmailConfirmation = false;
         Customer customer = new Customer(wantsEmailConfirmation, person);
+        // Load Customer
         customerRepository.save(customer);
 
 
-        // Creates Card
+        // Creates Paypal
         String name = "Rehean";
         String paypalEmail = "test@mail.com";
         String paypalPassword = "12345";
-
-
         PayPal paypalAccount = new PayPal(name, customer, paypalEmail, paypalPassword);
-
+        // Load Paypal Accout
         paypalRepository.save(paypalAccount);
 
         PayPal dbPaypalAccount = paypalRepository.findById(paypalAccount.getId()).orElse(null);
 
-        // Assert that account is not null and has correct attributes.
+        // Assert that paypal is not null and has correct attributes.
         assertNotNull(paypalAccount);
         assertEquals(name, dbPaypalAccount.getName());
         assertEquals(customer.getId(), dbPaypalAccount.getCustomer().getId());
         assertEquals(paypalEmail, dbPaypalAccount.getEmail());
         assertEquals(paypalPassword, dbPaypalAccount.getPassword());
+        assertEquals(person.getId(),dbPaypalAccount.getCustomer().getAccount().getId());
+		assertEquals(person.getEmail(), dbPaypalAccount.getCustomer().getAccount().getEmail());
+		assertEquals(person.getFirstName(), dbPaypalAccount.getCustomer().getAccount().getFirstName());
+		assertEquals(person.getLastName(), dbPaypalAccount.getCustomer().getAccount().getLastName());
+		assertEquals(person.getPassword(), dbPaypalAccount.getCustomer().getAccount().getPassword());
+        assertEquals(customer.getAccount().getId(), dbPaypalAccount.getCustomer().getAccount().getId());
+		assertEquals(customer.getAccount().getEmail(), dbPaypalAccount.getCustomer().getAccount().getEmail());
+		assertEquals(customer.getAccount().getFirstName(), dbPaypalAccount.getCustomer().getAccount().getFirstName());
+		assertEquals(customer.getAccount().getLastName(), dbPaypalAccount.getCustomer().getAccount().getLastName());
+		assertEquals(customer.getAccount().getPassword(), dbPaypalAccount.getCustomer().getAccount().getPassword());
+
     }
 }

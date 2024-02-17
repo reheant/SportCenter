@@ -9,21 +9,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorAssignmentRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
-import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
-import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
-
-import java.sql.Date;
 import java.sql.Time;
 
 @SpringBootTest
@@ -55,7 +46,6 @@ public class InstructorAssignmentRepositoryTests {
         @Test
         public void testPersistAndLoadInstructor() {
                 // Create account.
-                int id = 1;
                 String firstName = "Muffin";
                 String lastName = "Man";
                 String email = "Man@gmail.com";

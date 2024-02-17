@@ -8,9 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 
@@ -39,19 +36,27 @@ public class InstructorRepositoryTests {
 		Account account = new Account(firstName, lastName, email, password);
 
 
-		// Save account
+		// Load account
 		accountRepository.save(account);
 
 		// Create Instructor
 		Instructor instructor = new Instructor(account);
-		// Save instructor
+		// Load instructor
 		instructorRepository.save(instructor);
 
 		// Read account from database.
 		Instructor dbInstructor = instructorRepository.findById(instructor.getId()).orElse(null);
 
-		// Assert that account is not null and has correct attributes.
+		// Assert that Instructor is not null and has correct attributes.
 		assertNotNull(dbInstructor);
 		assertEquals(dbInstructor.getAccount().getId(), account.getId());
+		assertEquals(account.getId(), dbInstructor.getAccount().getId());
+		assertEquals(account.getId(), dbInstructor.getId());
+		assertEquals(account.getEmail(), dbInstructor.getAccount().getEmail());
+		assertEquals(account.getFirstName(), dbInstructor.getAccount().getFirstName());
+		assertEquals(account.getLastName(), dbInstructor.getAccount().getLastName());
+		assertEquals(account.getPassword(), dbInstructor.getAccount().getPassword());
+
+
 	}
 }

@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.sportscenter.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.sql.Date;
 import java.sql.Time;
 
 import org.junit.jupiter.api.AfterEach;
@@ -17,12 +16,6 @@ import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
-import ca.mcgill.ecse321.sportscenter.dao.RegistrationRepository;
-import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
-import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
 
 
 @SpringBootTest
@@ -59,14 +52,14 @@ public class RegistrationRepositoryTests {
 		String email = "Man@gmail.com";
 		String password = "123456";
 		Account account = new Account(firstName, lastName, email, password);
-		// Save account
+		// Load account
 		accountRepository.save(account);
 
 
 		// Create customer
 		boolean wantsEmailConfirmation = false;
 		Customer customer = new Customer(wantsEmailConfirmation, account);
-		// Save customer
+		// Load customer
 		customerRepository.save(customer);
 
 
@@ -76,6 +69,7 @@ public class RegistrationRepositoryTests {
 		Time openingTime = Time.valueOf("08:00:00");
 		Time closingTime = Time.valueOf("12:00:00");
 		Location location = new Location(name, capacity, openingTime, closingTime);
+		// Load location
 		locationRepository.save(location);
 
 		// create a course
@@ -86,19 +80,15 @@ public class RegistrationRepositoryTests {
 		float duration = 60;
 		float cost = 23;
 		// load course
-		Course course =
-				new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
+		Course course = new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
 		courseRepository.save(course);
 
 		// create a session
 		Time startTime = Time.valueOf("08:00:00");
 		Time endTime = Time.valueOf("12:00:00");
 		Session session = new Session(startTime, endTime, course, location);
-
 		// load session
 		sessionRepository.save(session);
-
-
 
 		// Create registration.
 		Registration registration = new Registration(customer, session);
@@ -108,45 +98,29 @@ public class RegistrationRepositoryTests {
 
 		// Read registration from database.
 		registration = registrationRepository.findById(registration.getId()).orElse(null);
-
+		 // Assert that registration is not null and has correct attributes.
 		assertNotNull(registration);
 		assertEquals(session.getId(), registration.getSession().getId());
 		assertEquals(customer.getId(), registration.getCustomer().getId());
-		// assertEquals(customer.getAccount().getFirstName(),
-		// registration.getCustomer().getAccount().getFirstName());
-		// assertEquals(customer.getAccount().getLastName(),
-		// registration.getCustomer().getAccount().getLastName());
-		// assertEquals(customer.getAccount().getEmail(),
-		// registration.getCustomer().getAccount().getEmail());
-		// assertEquals(customer.getAccount().getId(),
-		// registration.getCustomer().getAccount().getId());
-		// assertEquals(customer.getAccount().getPassword(),
-		// registration.getCustomer().getAccount().getPassword());
-		// assertEquals(customer.getAccount().getRoles(),
-		// registration.getCustomer().getAccount().getRoles());
-		// assertEquals(course.getName(), registration.getSession().getCourse().getName());
-		// assertEquals(course.getCost(), registration.getSession().getCourse().getCost());
-		// assertEquals(course.getDescription(),
-		// registration.getSession().getCourse().getDescription());
-		// assertEquals(course.getIsApproved(),
-		// registration.getSession().getCourse().getIsApproved());
-		// assertEquals(course.getName(), registration.getSession().getCourse().getName());
-		// assertEquals(course.getRequiresInstructor(),
-		// registration.getSession().getCourse().getRequiresInstructor());
-		// assertEquals(location.getClosingTime(),
-		// registration.getSession().getLocation().getClosingTime());
-		// assertEquals(location.getOpeningTime(),
-		// registration.getSession().getLocation().getOpeningTime());
-		// assertEquals(location.getSessions(),
-		// registration.getSession().getLocation().getSessions());
-		// assertEquals(location.getId(), registration.getSession().getLocation().getId());
-		// assertEquals(location.getName(), registration.getSession().getLocation().getName());
-		// assertEquals(location.getCapacity(),
-		// registration.getSession().getLocation().getCapacity());
-		// assertEquals(session.getCourse(), registration.getSession().getCourse());
-		// assertEquals(session.getCourse(), registration.getSession().getCourse());
-		// assertEquals(session.getEndTime(), registration.getSession().getEndTime());
-		// assertEquals(session.getInstructorAssignments(),
-		// registration.getSession().getInstructorAssignments());
+		assertEquals(customer.getAccount().getFirstName(), registration.getCustomer().getAccount().getFirstName());
+		assertEquals(customer.getAccount().getLastName(), registration.getCustomer().getAccount().getLastName());
+		assertEquals(customer.getAccount().getEmail(), registration.getCustomer().getAccount().getEmail());
+		assertEquals(customer.getAccount().getId(),registration.getCustomer().getAccount().getId());
+		assertEquals(customer.getAccount().getPassword(), registration.getCustomer().getAccount().getPassword());
+		assertEquals(course.getName(), registration.getSession().getCourse().getName());
+		assertEquals(course.getCost(), registration.getSession().getCourse().getCost());
+		assertEquals(course.getDescription(), registration.getSession().getCourse().getDescription());
+		assertEquals(course.getIsApproved(), registration.getSession().getCourse().getIsApproved());
+		assertEquals(course.getRequiresInstructor(),registration.getSession().getCourse().getRequiresInstructor());
+		assertEquals(location.getClosingTime(),registration.getSession().getLocation().getClosingTime());
+		assertEquals(location.getOpeningTime(),registration.getSession().getLocation().getOpeningTime());
+		assertEquals(location.getId(), registration.getSession().getLocation().getId());
+		assertEquals(location.getName(), registration.getSession().getLocation().getName());
+		assertEquals(location.getCapacity(), registration.getSession().getLocation().getCapacity());
+		assertEquals(session.getEndTime(), registration.getSession().getEndTime());
+		//assertEquals(session.getInstructorAssignments(), registration.getSession().getInstructorAssignments());
+		//assertEquals(location.getSessions(), registration.getSession().getLocation().getSessions());
+		//assertEquals(session.getCourse(), registration.getSession().getCourse());
+	
 	}
 }
