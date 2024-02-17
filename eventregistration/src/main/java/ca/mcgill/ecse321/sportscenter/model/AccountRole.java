@@ -12,17 +12,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public abstract class AccountRole {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
 
-  @ManyToOne
-  @JoinColumn(name = "account_id", referencedColumnName = "id")
-  private Account account;
+
 
   public AccountRole() {}
 
@@ -38,18 +35,7 @@ public abstract class AccountRole {
     return wasSet;
   }
 
-  public Account getAccount() {
-    return account;
-  }
 
-  public boolean setAccount(Account aNewAccount) {
-    boolean wasSet = false;
-    if (aNewAccount != null) {
-      account = aNewAccount;
-      wasSet = true;
-    }
-    return wasSet;
-  }
 
   public int getId() {
     return id;

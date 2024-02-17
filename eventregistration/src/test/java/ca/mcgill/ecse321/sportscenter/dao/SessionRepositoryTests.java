@@ -28,9 +28,9 @@ public class SessionRepositoryTests {
 
     @AfterEach
     public void clearDatabase() {
-        courseRepository.deleteAll();
         sessionRepository.deleteAll();
         locationRepository.deleteAll();
+        courseRepository.deleteAll();
     }
 
     @Test

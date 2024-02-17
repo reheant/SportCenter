@@ -32,8 +32,8 @@ public class CardRepositoryTests {
     @AfterEach
     public void clearDatabase() {
         cardRepository.deleteAll();
-        accountRepository.deleteAll();
         customerRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
     @Test

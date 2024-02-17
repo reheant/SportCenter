@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.sportscenter.model;
 import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -11,8 +12,9 @@ public class Customer extends AccountRole {
 
   private boolean wantsEmailConfirmation;
 
-  @OneToMany(mappedBy = "customer")
-  private List<Registration> registrations;
+  @OneToOne
+  @JoinColumn(name = "account_id", referencedColumnName = "id")
+  private Account account;
 
   public Customer() {}
 
@@ -24,16 +26,17 @@ public class Customer extends AccountRole {
     }
   }
 
-  public void addRegistration(Registration r) {
-    registrations.add(r);
+  public Account getAccount() {
+    return account;
   }
 
-  public boolean removeRegistiation(Registration r) {
-    return registrations.remove(r);
-  }
-
-  public List<?> getRegistrations() {
-    return registrations;
+  public boolean setAccount(Account aNewAccount) {
+    boolean wasSet = false;
+    if (aNewAccount != null) {
+      account = aNewAccount;
+      wasSet = true;
+    }
+    return wasSet;
   }
 
   public boolean setWantsEmailConfirmation(boolean aWantsEmailConfirmation) {

@@ -50,25 +50,4 @@ public class AccountRepositoryTests {
 		assertEquals(email, account.getEmail());
 		assertEquals(password, account.getPassword());
 	}
-
-	public void relation() {
-		// Create account.
-		int id = 1;
-		String firstName = "Muffin";
-		String lastName = "Man";
-		String email = "Man@gmail.com";
-		String password = "123456";
-
-		Account account = new Account(firstName, lastName, email, password);
-		accountRepository.save(account);
-
-		// customerRepository.save(new Customer(0, false, account));
-		// Save account
-
-		// Read account from database.
-		account = accountRepository.findById(account.getId()).orElse(null);
-
-		// Assert that account is not null and has correct attributes.
-		assertFalse(((Customer) account.getRoles().get(0)).getWantsEmailConfirmation());
-	}
 }

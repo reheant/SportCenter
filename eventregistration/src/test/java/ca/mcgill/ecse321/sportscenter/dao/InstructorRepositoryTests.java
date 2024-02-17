@@ -25,8 +25,8 @@ public class InstructorRepositoryTests {
 
 	@AfterEach
 	public void clearDatabase() {
-		accountRepository.deleteAll();
 		instructorRepository.deleteAll();
+		accountRepository.deleteAll();
 	}
 
 	@Test

@@ -19,9 +19,6 @@ public class Location {
   private Time openingTime;
   private Time closingTime;
 
-  @OneToMany(mappedBy = "location")
-  private List<Session> sessions;
-
   public Location() {};
 
   public Location(String aName, int aCapacity, Time aOpeningTime, Time aClosingTime) {
@@ -29,18 +26,6 @@ public class Location {
     capacity = aCapacity;
     openingTime = aOpeningTime;
     closingTime = aClosingTime;
-  }
-
-  public void addSession(Session s) {
-    sessions.add(s);
-  }
-
-  public boolean removeSession(Session s) {
-    return sessions.remove(s);
-  }
-
-  public List<Session> getSessions() {
-    return sessions;
   }
 
   public boolean setId(int aId) {

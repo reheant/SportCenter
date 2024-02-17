@@ -33,8 +33,8 @@ public class PaypalRepositoryTest {
     @AfterEach
     public void clearDatabase() {
         paypalRepository.deleteAll();
-        accountRepository.deleteAll();
         customerRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
     @Test

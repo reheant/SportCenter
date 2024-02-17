@@ -11,9 +11,9 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Instructor extends AccountRole {
 
-
-  @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-  private List<InstructorAssignment> assignments;
+  @OneToOne
+  @JoinColumn(name = "account_id", referencedColumnName = "id")
+  private Account account;
 
   public Instructor() {}
 
@@ -24,18 +24,18 @@ public class Instructor extends AccountRole {
     }
   }
 
-  public void addAssignment(InstructorAssignment i) {
-    assignments.add(i);
+  public Account getAccount() {
+    return account;
   }
 
-  public boolean removeAssignment(InstructorAssignment i) {
-    return assignments.add(i);
+  public boolean setAccount(Account aNewAccount) {
+    boolean wasSet = false;
+    if (aNewAccount != null) {
+      account = aNewAccount;
+      wasSet = true;
+    }
+    return wasSet;
   }
-
-  public List<?> getAssignments() {
-    return assignments;
-  }
-
 
   public void delete() {
     super.delete();

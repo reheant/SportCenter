@@ -43,11 +43,11 @@ public class RegistrationRepositoryTests {
 	@AfterEach
 	public void clearDatabase() {
 		registrationRepository.deleteAll();
-		courseRepository.deleteAll();
-		customerRepository.deleteAll();
-		accountRepository.deleteAll();
 		sessionRepository.deleteAll();
 		locationRepository.deleteAll();
+		customerRepository.deleteAll();
+		accountRepository.deleteAll();
+		courseRepository.deleteAll();
 	}
 
 	@Test

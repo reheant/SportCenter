@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Account {
@@ -21,9 +22,6 @@ public class Account {
   private String email;
   private String password;
 
-  @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-  private List<AccountRole> roles;
-
   public Account() {}
 
   public Account(String aFirstName, String aLastName, String aEmail, String aPassword) {
@@ -31,18 +29,6 @@ public class Account {
     lastName = aLastName;
     email = aEmail;
     password = aPassword;
-  }
-
-  public List<AccountRole> getRoles() {
-    return roles;
-  }
-
-  public void addRole(AccountRole r) {
-    roles.add(r);
-  }
-
-  public boolean removeRole(AccountRole r) {
-    return roles.remove(r);
   }
 
   public boolean setId(int aId) {

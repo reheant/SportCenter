@@ -22,9 +22,6 @@ public class Course {
   private float defaultDuration;
   private float cost;
 
-  @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-  private List<Session> sessions;
-
   public Course() {};
 
   public Course(String aName, String aDescription, boolean aIsApproved, boolean aRequiresInstructor,
@@ -35,18 +32,6 @@ public class Course {
     requiresInstructor = aRequiresInstructor;
     defaultDuration = aDefaultDuration;
     cost = aCost;
-  }
-
-  public void addSession(Session s) {
-    sessions.add(s);
-  }
-
-  public boolean removeSession(Session s) {
-    return sessions.remove(s);
-  }
-
-  public List<Session> getSessions() {
-    return sessions;
   }
 
   public boolean setId(int aId) {

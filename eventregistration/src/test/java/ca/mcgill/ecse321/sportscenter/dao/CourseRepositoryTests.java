@@ -26,8 +26,6 @@ public class CourseRepositoryTests {
 	@AfterEach
 	public void clearDatabase() {
 		courseRepository.deleteAll();
-
-		locationRepository.deleteAll();
 	}
 
 	@Test
