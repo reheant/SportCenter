@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 
 
 @Entity
+
 public class Card extends PaymentMethod {
 
   public enum PaymentCardType {

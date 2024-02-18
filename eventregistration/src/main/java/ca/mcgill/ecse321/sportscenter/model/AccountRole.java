@@ -11,8 +11,6 @@ import jakarta.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class AccountRole {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
 
 
@@ -30,6 +28,7 @@ public abstract class AccountRole {
     wasSet = true;
     return wasSet;
   }
+
 
 
 

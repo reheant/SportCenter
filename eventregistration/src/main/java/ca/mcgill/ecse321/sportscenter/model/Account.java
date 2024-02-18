@@ -8,10 +8,9 @@ import jakarta.persistence.Id;
 
 
 @Entity
+
 public class Account {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String firstName;
   private String lastName;
@@ -21,6 +20,7 @@ public class Account {
   public Account() {}
 
   public Account(String aFirstName, String aLastName, String aEmail, String aPassword) {
+
     firstName = aFirstName;
     lastName = aLastName;
     email = aEmail;

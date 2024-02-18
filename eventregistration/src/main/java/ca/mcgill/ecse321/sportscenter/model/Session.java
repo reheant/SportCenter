@@ -13,16 +13,13 @@ import jakarta.persistence.ManyToOne;
 
 
 @Entity
+
 public class Session {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private Time startTime;
   private Time endTime;
 
-  @ManyToOne()
-  @JoinColumn(name = "course_id")
   private Course course;
 
   @ManyToOne
@@ -32,6 +29,7 @@ public class Session {
   public Session() {}
 
   public Session(Time aStartTime, Time aEndTime, Course aCourse, Location aLocation) {
+
     startTime = aStartTime;
     endTime = aEndTime;
     if (!setCourse(aCourse)) {
