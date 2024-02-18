@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.sportscenter.model.Account;
 
-
 @SpringBootTest
 public class AccountRepositoryTests {
 

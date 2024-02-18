@@ -17,7 +17,6 @@ import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 
-
 @SpringBootTest
 public class RegistrationRepositoryTests {
 	@Autowired
@@ -55,13 +54,11 @@ public class RegistrationRepositoryTests {
 		// Load account
 		accountRepository.save(account);
 
-
 		// Create customer
 		boolean wantsEmailConfirmation = false;
 		Customer customer = new Customer(wantsEmailConfirmation, account);
 		// Load customer
 		customerRepository.save(customer);
-
 
 		// create a location
 		String name = "Ana";
@@ -95,32 +92,27 @@ public class RegistrationRepositoryTests {
 		// Save registration.
 		registrationRepository.save(registration);
 
-
 		// Read registration from database.
 		registration = registrationRepository.findById(registration.getId()).orElse(null);
-		 // Assert that registration is not null and has correct attributes.
+		// Assert that registration is not null and has correct attributes.
 		assertNotNull(registration);
 		assertEquals(session.getId(), registration.getSession().getId());
 		assertEquals(customer.getId(), registration.getCustomer().getId());
 		assertEquals(customer.getAccount().getFirstName(), registration.getCustomer().getAccount().getFirstName());
 		assertEquals(customer.getAccount().getLastName(), registration.getCustomer().getAccount().getLastName());
 		assertEquals(customer.getAccount().getEmail(), registration.getCustomer().getAccount().getEmail());
-		assertEquals(customer.getAccount().getId(),registration.getCustomer().getAccount().getId());
+		assertEquals(customer.getAccount().getId(), registration.getCustomer().getAccount().getId());
 		assertEquals(customer.getAccount().getPassword(), registration.getCustomer().getAccount().getPassword());
 		assertEquals(course.getName(), registration.getSession().getCourse().getName());
 		assertEquals(course.getCost(), registration.getSession().getCourse().getCost());
 		assertEquals(course.getDescription(), registration.getSession().getCourse().getDescription());
 		assertEquals(course.getIsApproved(), registration.getSession().getCourse().getIsApproved());
-		assertEquals(course.getRequiresInstructor(),registration.getSession().getCourse().getRequiresInstructor());
-		assertEquals(location.getClosingTime(),registration.getSession().getLocation().getClosingTime());
-		assertEquals(location.getOpeningTime(),registration.getSession().getLocation().getOpeningTime());
+		assertEquals(course.getRequiresInstructor(), registration.getSession().getCourse().getRequiresInstructor());
+		assertEquals(location.getClosingTime(), registration.getSession().getLocation().getClosingTime());
+		assertEquals(location.getOpeningTime(), registration.getSession().getLocation().getOpeningTime());
 		assertEquals(location.getId(), registration.getSession().getLocation().getId());
 		assertEquals(location.getName(), registration.getSession().getLocation().getName());
 		assertEquals(location.getCapacity(), registration.getSession().getLocation().getCapacity());
 		assertEquals(session.getEndTime(), registration.getSession().getEndTime());
-		//assertEquals(session.getInstructorAssignments(), registration.getSession().getInstructorAssignments());
-		//assertEquals(location.getSessions(), registration.getSession().getLocation().getSessions());
-		//assertEquals(session.getCourse(), registration.getSession().getCourse());
-	
 	}
 }

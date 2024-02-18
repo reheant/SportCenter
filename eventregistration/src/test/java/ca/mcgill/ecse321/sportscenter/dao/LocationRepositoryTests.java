@@ -9,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 
-
-
 @SpringBootTest
 public class LocationRepositoryTests {
 
     @Autowired
     private LocationRepository locationRepository;
-
 
     @AfterEach
     public void clearDatabase() {
@@ -43,6 +40,5 @@ public class LocationRepositoryTests {
         assertEquals(capacity, dbLocation.getCapacity());
         assertEquals(openingTime, dbLocation.getOpeningTime());
         assertEquals(closingTime, dbLocation.getClosingTime());
-
     }
 }

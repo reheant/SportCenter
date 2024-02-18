@@ -53,7 +53,5 @@ public class OwnerRepositoryTests {
 		assertEquals(account.getFirstName(), dbOwner.getAccount().getFirstName());
 		assertEquals(account.getLastName(), dbOwner.getAccount().getLastName());
 		assertEquals(account.getPassword(), dbOwner.getAccount().getPassword());
-
 	}
 }
-

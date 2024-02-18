@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.sportscenter.dao;
 
-
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,7 +13,7 @@ public class CourseRepositoryTests {
 
 	@Autowired
 	private CourseRepository courseRepository;
-	
+
 	@AfterEach
 	public void clearDatabase() {
 		courseRepository.deleteAll();
@@ -30,8 +29,7 @@ public class CourseRepositoryTests {
 		boolean requiresInstructor = true;
 		float duration = 60;
 		float cost = 23;
-		Course course =
-				new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
+		Course course = new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
 		// load course
 		courseRepository.save(course);
 
@@ -44,6 +42,5 @@ public class CourseRepositoryTests {
 		assertEquals(isApproved, course.getIsApproved());
 		assertEquals(requiresInstructor, course.getRequiresInstructor());
 		assertEquals(duration, course.getDefaultDuration());
-
 	}
 }

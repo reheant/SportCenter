@@ -12,8 +12,6 @@ import ca.mcgill.ecse321.sportscenter.model.Card;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 
-
-
 @SpringBootTest
 public class CardRepositoryTests {
 
@@ -33,7 +31,6 @@ public class CardRepositoryTests {
 
     @Test
     public void testPersistAndLoadCard() {
-
 
         // Create account.
         String firstName = "Muffin";
@@ -71,16 +68,18 @@ public class CardRepositoryTests {
         assertEquals(expirationDate, card.getExpirationDate());
         assertEquals(ccv, card.getCcv());
         assertEquals(payment, card.getPaymentCardType());
-        assertEquals(person.getId(),card.getCustomer().getAccount().getId());
-		assertEquals(person.getEmail(), card.getCustomer().getAccount().getEmail());
-		assertEquals(person.getFirstName(), card.getCustomer().getAccount().getFirstName());
-		assertEquals(person.getLastName(), card.getCustomer().getAccount().getLastName());
-		assertEquals(person.getPassword(), card.getCustomer().getAccount().getPassword());
-        assertEquals(customer.getAccount().getId(),card.getCustomer().getAccount().getId());
-		assertEquals(customer.getAccount().getEmail(), card.getCustomer().getAccount().getEmail());
-		assertEquals(customer.getAccount().getFirstName(), card.getCustomer().getAccount().getFirstName());
-		assertEquals(customer.getAccount().getLastName(), card.getCustomer().getAccount().getLastName());
-		assertEquals(customer.getAccount().getPassword(), card.getCustomer().getAccount().getPassword());
+        assertEquals(person.getId(), card.getCustomer().getAccount().getId());
+        assertEquals(person.getEmail(), card.getCustomer().getAccount().getEmail());
+        assertEquals(person.getFirstName(), card.getCustomer().getAccount().getFirstName());
+        assertEquals(person.getLastName(), card.getCustomer().getAccount().getLastName());
+        assertEquals(person.getPassword(), card.getCustomer().getAccount().getPassword());
+        assertEquals(customer.getAccount().getId(), card.getCustomer().getAccount().getId());
+        assertEquals(customer.getAccount().getEmail(), card.getCustomer().getAccount().getEmail());
+        assertEquals(customer.getAccount().getFirstName(),
+                card.getCustomer().getAccount().getFirstName());
+        assertEquals(customer.getAccount().getLastName(),
+                card.getCustomer().getAccount().getLastName());
+        assertEquals(customer.getAccount().getPassword(),
+                card.getCustomer().getAccount().getPassword());
     }
 }
-

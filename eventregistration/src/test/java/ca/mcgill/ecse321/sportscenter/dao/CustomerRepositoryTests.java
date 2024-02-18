@@ -57,7 +57,5 @@ public class CustomerRepositoryTests {
 		assertEquals(account.getFirstName(), dbCustomer.getAccount().getFirstName());
 		assertEquals(account.getLastName(), dbCustomer.getAccount().getLastName());
 		assertEquals(account.getPassword(), dbCustomer.getAccount().getPassword());
-
 	}
 }
-

@@ -35,7 +35,6 @@ public class InstructorRepositoryTests {
 		String password = "123456";
 		Account account = new Account(firstName, lastName, email, password);
 
-
 		// Load account
 		accountRepository.save(account);
 
@@ -55,7 +54,5 @@ public class InstructorRepositoryTests {
 		assertEquals(account.getFirstName(), dbInstructor.getAccount().getFirstName());
 		assertEquals(account.getLastName(), dbInstructor.getAccount().getLastName());
 		assertEquals(account.getPassword(), dbInstructor.getAccount().getPassword());
-
-
 	}
 }
