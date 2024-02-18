@@ -1,14 +1,30 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Registration {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
 
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
   private Customer customer;
+
+  @ManyToOne
+  @JoinColumn(name = "session_id")
   private Session session;
 
-  public Registration(int aId, Customer aCustomer, Session aSession) {
-    id = aId;
+  public Registration() {}
+
+  public Registration(Customer aCustomer, Session aSession) {
     if (!setCustomer(aCustomer)) {
       throw new RuntimeException(
           "Unable to create Registration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");

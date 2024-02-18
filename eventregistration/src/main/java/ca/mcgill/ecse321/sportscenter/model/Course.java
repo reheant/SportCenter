@@ -1,7 +1,18 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+
+import jakarta.persistence.Entity;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+
+@Entity
 public class Course {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String name;
   private String description;
@@ -10,9 +21,10 @@ public class Course {
   private float defaultDuration;
   private float cost;
 
-  public Course(int aId, String aName, String aDescription, boolean aIsApproved,
-      boolean aRequiresInstructor, float aDefaultDuration, float aCost) {
-    id = aId;
+  public Course() {};
+
+  public Course(String aName, String aDescription, boolean aIsApproved, boolean aRequiresInstructor,
+      float aDefaultDuration, float aCost) {
     name = aName;
     description = aDescription;
     isApproved = aIsApproved;

@@ -1,18 +1,37 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+
 import java.sql.Time;
 
+import jakarta.persistence.Entity;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+
+@Entity
 public class Session {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private Time startTime;
   private Time endTime;
 
+  @ManyToOne()
+  @JoinColumn(name = "course_id")
   private Course course;
+
+  @ManyToOne
+  @JoinColumn(name = "location_id")
   private Location location;
 
-  public Session(int aId, Time aStartTime, Time aEndTime, Course aCourse, Location aLocation) {
-    id = aId;
+  public Session() {}
+
+  public Session(Time aStartTime, Time aEndTime, Course aCourse, Location aLocation) {
     startTime = aStartTime;
     endTime = aEndTime;
     if (!setCourse(aCourse)) {
@@ -24,6 +43,7 @@ public class Session {
           "Unable to create Session due to aLocation. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
+
 
   public boolean setId(int aId) {
     boolean wasSet = false;
