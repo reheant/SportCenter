@@ -51,7 +51,6 @@ public class InstructorRepositoryTests {
 		assertNotNull(dbInstructor);
 		assertEquals(dbInstructor.getAccount().getId(), account.getId());
 		assertEquals(account.getId(), dbInstructor.getAccount().getId());
-		assertEquals(account.getId(), dbInstructor.getId());
 		assertEquals(account.getEmail(), dbInstructor.getAccount().getEmail());
 		assertEquals(account.getFirstName(), dbInstructor.getAccount().getFirstName());
 		assertEquals(account.getLastName(), dbInstructor.getAccount().getLastName());
