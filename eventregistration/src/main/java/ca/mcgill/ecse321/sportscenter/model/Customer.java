@@ -7,14 +7,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-
 public class Customer extends AccountRole {
 
   private boolean wantsEmailConfirmation;
 
   @OneToOne
   @JoinColumn(name = "account_id", referencedColumnName = "id")
-
   private Account account;
 
   public Customer() {}
@@ -55,21 +53,7 @@ public class Customer extends AccountRole {
     return wantsEmailConfirmation;
   }
 
-  public Account getAccount() {
-    return account;
-  }
-
-  public boolean setAccount(Account aNewAccount) {
-    boolean wasSet = false;
-    if (aNewAccount != null) {
-      account = aNewAccount;
-      wasSet = true;
-    }
-    return wasSet;
-  }
-
   public void delete() {
-    account = null;
     super.delete();
   }
 

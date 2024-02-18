@@ -8,8 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 
+@Entity
 public class Location {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String name;
   private int capacity;
@@ -19,7 +22,6 @@ public class Location {
   public Location() {};
 
   public Location(String aName, int aCapacity, Time aOpeningTime, Time aClosingTime) {
-
     name = aName;
     capacity = aCapacity;
     openingTime = aOpeningTime;

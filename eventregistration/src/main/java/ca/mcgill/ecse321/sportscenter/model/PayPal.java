@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class PayPal extends PaymentMethod {
 
   private String email;

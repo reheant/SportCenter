@@ -22,9 +22,9 @@ Customers can also access a view of their completed classes as well as their upc
 ## Sprint 1: Effort Table 💪
 | Name | Role | Effort in hours |
 | --- | --- | --- |
-| Anastasiia Nemyrovska | Domain model, Requirements, Umple code generation, use case specification and documentation  | 22 |
-| Julien Audet | Domain model, Requirements, use case specification and documentation | 28 |
-|  Tim Pham | Domain model, Requirements, implement and test persistance layer and use case specification | 23 | 
-|  Rehean Thillainathalingam | Domain model, Requirements, use case diagrams, use case specification and documentation | 22 |
-|  Marc-Antoine Nadeau | Domain model, Requirements, documentation, implement and test persistance layer and use case specification| 22 |
-| Tiffany Miller | Domain model, Requirements, use case diagrams, use case specification and documentation | 20 | 
+| Anastasiia Nemyrovska | Domain model, Requirements, Umple code generation, use case specification and documentation  | - |
+| Julien Audet | Domain model, Requirements, use case specification and documentation | - |
+|  Tim Pham | Domain model, Requirements, implement and test persistance layer and use case specification | - | 
+|  Rehean Thillainathalingam | Domain model, Requirements, use case diagrams, use case specification and documentation | - |
+|  Marc-Antoine Nadeau | Domain model, Requirements, documentation, implement and test persistance layer and use case specification| - |
+| Tiffany Miller | Domain model, Requirements, use case diagrams, use case specification and documentation | - | 

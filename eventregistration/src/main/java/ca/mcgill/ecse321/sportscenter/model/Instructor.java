@@ -16,7 +16,6 @@ public class Instructor extends AccountRole {
 
   public Instructor() {}
 
-
   public Instructor(Account aAccount) {
     if (!setAccount(aAccount)) {
       throw new RuntimeException(
@@ -38,7 +37,6 @@ public class Instructor extends AccountRole {
   }
 
   public void delete() {
-    account = null;
     super.delete();
   }
 

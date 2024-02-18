@@ -9,9 +9,10 @@ import jakarta.persistence.Id;
 
 
 @Entity
-
 public class Course {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String name;
   private String description;
@@ -24,7 +25,6 @@ public class Course {
 
   public Course(String aName, String aDescription, boolean aIsApproved, boolean aRequiresInstructor,
       float aDefaultDuration, float aCost) {
-
     name = aName;
     description = aDescription;
     isApproved = aIsApproved;

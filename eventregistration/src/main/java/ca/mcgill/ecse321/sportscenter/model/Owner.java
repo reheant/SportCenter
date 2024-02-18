@@ -10,7 +10,6 @@ public class Owner extends AccountRole {
 
   @OneToOne
   @JoinColumn(name = "account_id", referencedColumnName = "id")
-
   private Account account;
 
   public Owner() {}
