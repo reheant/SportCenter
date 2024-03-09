@@ -8,12 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
+import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
-import ca.mcgill.ecse321.sportscenter.model.PayPal;
-import ca.mcgill.ecse321.sportscenter.model.Card;
-import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
-import jakarta.el.ELException;
+import ca.mcgill.ecse321.sportscenter.model.Instructor;
+
 
 @Service
 public class CustomerService {
@@ -22,10 +21,12 @@ public class CustomerService {
     CustomerRepository customerRepository;
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    InstructorRepository instructorRepository;
 
     @Transactional
     public Customer createCustomer(String firstName, String lastName, String email, String password,
-            Boolean wantsEmailConfirmation, PaymentMethod paymentMethod) throws Exception {
+            Boolean wantsEmailConfirmation) throws Exception {
 
         if (!isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid email format");
@@ -44,9 +45,9 @@ public class CustomerService {
                     "Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 charcters minimum");
         }
 
-        if (!isValidPaymentInfo(paymentMethod)){
-            throw new IllegalArgumentException("Invalid payment information");
-        }
+        // if (!isValidPaymentInfo(paymentMethod)){
+        //     throw new IllegalArgumentException("Invalid payment information");
+        // }
 
         if (accountRepository.findAccountByEmail(email) != null) {
             throw new Exception("Email is already in use");
@@ -56,7 +57,7 @@ public class CustomerService {
         accountRepository.save(customerAccount);
         Customer customer = new Customer();
         customer.setAccount(customerAccount);
-        paymentMethod.setCustomer(customer);
+        //paymentMethod.setCustomer(customer);
         customerAccount.setEmail(email);
         customerAccount.setFirstName(firstName);
         customerAccount.setLastName(lastName);
@@ -64,6 +65,32 @@ public class CustomerService {
         customer.setWantsEmailConfirmation(wantsEmailConfirmation);
         customerRepository.save(customer);
         return customer;
+    }
+
+    @Transactional
+    public Instructor promoteCustomerByEmail(String email) throws Exception{
+        Account customerAccount = new Account();
+        customerAccount = accountRepository.findAccountByEmail(email);
+        List<Instructor> existingInstructors = instructorRepository.findAll();
+        if (accountRepository.findAccountByEmail(email) == null) {
+            throw new Exception("Email is not accociated to an account");
+        }
+
+        for (Instructor instructor : existingInstructors) {
+            if (instructor.getAccount() == customerAccount){
+                throw new Exception("Person is already an Instructor");
+            }
+        }
+
+        Instructor instructor = new Instructor();
+        instructor.setAccount(customerAccount);
+        try {
+            instructorRepository.save(instructor);
+        } catch (Exception e) {
+            throw new Exception ("account is already an instructor");
+        }
+        
+        return instructor;   
     }
 
     @Transactional
@@ -98,13 +125,13 @@ public class CustomerService {
         return matcher.matches();
     }
 
-    private boolean isValidPaymentInfo(PaymentMethod paymentMethod){
-        if (paymentMethod instanceof PayPal) {
-            return(((PayPal)paymentMethod).getEmail() != null && ((PayPal)paymentMethod).getPassword() != null );
-        } else {
-            return(String.valueOf(((Card)paymentMethod).getCcv()).length() != 0  && String.valueOf(((Card)paymentMethod).getNumber()).length() != 0 );
-        }
+    // private boolean isValidPaymentInfo(PaymentMethod paymentMethod){
+    //     if (paymentMethod instanceof PayPal) {
+    //         return(((PayPal)paymentMethod).getEmail() != null && ((PayPal)paymentMethod).getPassword() != null );
+    //     } else {
+    //         return(String.valueOf(((Card)paymentMethod).getCcv()).length() != 0  && String.valueOf(((Card)paymentMethod).getNumber()).length() != 0 );
+    //     }
 
-    }
+    // }
 
 }

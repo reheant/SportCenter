@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
+import ca.mcgill.ecse321.sportscenter.dto.InstructorDto;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
+import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
 import ca.mcgill.ecse321.sportscenter.service.CustomerService;
 
@@ -27,10 +29,10 @@ public class CustomerController {
 	public CustomerDto createCustomer(@PathVariable("firstName") String firstName, @RequestParam(name = "lastName") String lastName,
 			@RequestParam(name = "email") String email, 
 			@RequestParam(name = "password") String password,
-			@RequestParam(name = "wantsEmailConfirmation") Boolean wantsEmailConfirmation, @RequestParam(name = "paymentMethod") PaymentMethod paymentMethod)
+			@RequestParam(name = "wantsEmailConfirmation") Boolean wantsEmailConfirmation)
 			throws Exception {
 		Customer customer = customerService.createCustomer(firstName, lastName, email, password,
-				wantsEmailConfirmation, paymentMethod);
+				wantsEmailConfirmation);
 		return convertToDto(customer);
 
 	}
@@ -43,7 +45,25 @@ public class CustomerController {
 		}
 		return customerDtoList;
 	}
+
+	@PostMapping(value = { "/promote/{email}", "/promote/{email}/" })
+	public InstructorDto promoteCustomerByEmail(@PathVariable("email") String email)
+			throws Exception {
+		Instructor instructor = customerService.promoteCustomerByEmail(email);
+		return convertToInstructorDto(instructor);
+
+	}
 	
+
+	private InstructorDto convertToInstructorDto(Instructor instructor) {
+		if (instructor == null) {
+			throw new IllegalArgumentException("There is no such instructor");
+		}
+		Account customerAccount = instructor.getAccount();
+		InstructorDto instructorDto = new InstructorDto(customerAccount.getFirstName());
+
+		return instructorDto;
+	}
 
 	private CustomerDto convertToDto(Customer c) {
 		if (c == null) {
