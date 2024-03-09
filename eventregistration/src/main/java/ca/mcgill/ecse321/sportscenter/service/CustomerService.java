@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
+import ca.mcgill.ecse321.sportscenter.dao.CardRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
 import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
+import ca.mcgill.ecse321.sportscenter.dao.PayPalRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
+import ca.mcgill.ecse321.sportscenter.model.Card;
+import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
-
+import ca.mcgill.ecse321.sportscenter.model.PayPal;
 
 @Service
 public class CustomerService {
@@ -23,6 +27,10 @@ public class CustomerService {
     AccountRepository accountRepository;
     @Autowired
     InstructorRepository instructorRepository;
+    @Autowired
+    PayPalRepository payPalRepository;
+    @Autowired
+    CardRepository cardRepository;
 
     @Transactional
     public Customer createCustomer(String firstName, String lastName, String email, String password,
@@ -46,7 +54,7 @@ public class CustomerService {
         }
 
         // if (!isValidPaymentInfo(paymentMethod)){
-        //     throw new IllegalArgumentException("Invalid payment information");
+        // throw new IllegalArgumentException("Invalid payment information");
         // }
 
         if (accountRepository.findAccountByEmail(email) != null) {
@@ -57,7 +65,7 @@ public class CustomerService {
         accountRepository.save(customerAccount);
         Customer customer = new Customer();
         customer.setAccount(customerAccount);
-        //paymentMethod.setCustomer(customer);
+        // paymentMethod.setCustomer(customer);
         customerAccount.setEmail(email);
         customerAccount.setFirstName(firstName);
         customerAccount.setLastName(lastName);
@@ -68,7 +76,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public Instructor promoteCustomerByEmail(String email) throws Exception{
+    public Instructor promoteCustomerByEmail(String email) throws Exception {
         Account customerAccount = new Account();
         customerAccount = accountRepository.findAccountByEmail(email);
         List<Instructor> existingInstructors = instructorRepository.findAll();
@@ -77,7 +85,7 @@ public class CustomerService {
         }
 
         for (Instructor instructor : existingInstructors) {
-            if (instructor.getAccount() == customerAccount){
+            if (instructor.getAccount() == customerAccount) {
                 throw new Exception("Person is already an Instructor");
             }
         }
@@ -87,14 +95,50 @@ public class CustomerService {
         try {
             instructorRepository.save(instructor);
         } catch (Exception e) {
-            throw new Exception ("account is already an instructor");
+            throw new Exception("account is already an instructor");
         }
-        
-        return instructor;   
+
+        return instructor;
     }
 
     @Transactional
-    public List<Customer> getAllCustomers() {
+    public PayPal setPaypalInformation(String accountName, String customerEmail, String paypalEmail,
+            String paypalPassword) throws Exception {
+        if (accountRepository.findAccountByEmail(customerEmail) == null) {
+            throw new Exception("Email is not accociated to an account");
+        }
+        Account customerAccount = new Account();
+        customerAccount = accountRepository.findAccountByEmail(customerEmail);
+        List<Customer> customerList = customerRepository.findAll();
+        Customer customer = null;
+        for (Customer c : customerList) {
+            if (c.getAccount().equals(customerAccount)) {
+                customer = c;
+            }
+        }
+        PayPal payPal = new PayPal(accountName, customer, paypalEmail, paypalPassword);
+        payPalRepository.save(payPal);
+        return payPal;
+    }
+
+    @Transactional
+    public Card setCardInformation(String accountName, String customerEmail, PaymentCardType paymentCardType, int cardNumber,
+      int expirationDate, int ccv){
+        Account customerAccount = new Account();
+        customerAccount = accountRepository.findAccountByEmail(customerEmail);
+        List<Customer> customerList = customerRepository.findAll();
+        Customer customer = null;
+        for (Customer c : customerList) {
+            if (c.getAccount().equals(customerAccount)) {
+                customer = c;
+            }
+        }
+        Card card = new Card(accountName, customer, paymentCardType, cardNumber, expirationDate, ccv);
+        cardRepository.save(card);
+        return card;
+      }
+
+    @Transactional public List<Customer> getAllCustomers() {
         return (List<Customer>) (customerRepository.findAll());
     }
 
@@ -126,11 +170,13 @@ public class CustomerService {
     }
 
     // private boolean isValidPaymentInfo(PaymentMethod paymentMethod){
-    //     if (paymentMethod instanceof PayPal) {
-    //         return(((PayPal)paymentMethod).getEmail() != null && ((PayPal)paymentMethod).getPassword() != null );
-    //     } else {
-    //         return(String.valueOf(((Card)paymentMethod).getCcv()).length() != 0  && String.valueOf(((Card)paymentMethod).getNumber()).length() != 0 );
-    //     }
+    // if (paymentMethod instanceof PayPal) {
+    // return(((PayPal)paymentMethod).getEmail() != null &&
+    // ((PayPal)paymentMethod).getPassword() != null );
+    // } else {
+    // return(String.valueOf(((Card)paymentMethod).getCcv()).length() != 0 &&
+    // String.valueOf(((Card)paymentMethod).getNumber()).length() != 0 );
+    // }
 
     // }
 

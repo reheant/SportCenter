@@ -6,16 +6,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.sportscenter.dto.CardDto;
 import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
 import ca.mcgill.ecse321.sportscenter.dto.InstructorDto;
+import ca.mcgill.ecse321.sportscenter.dto.PaypallDto;
 import ca.mcgill.ecse321.sportscenter.model.Account;
+import ca.mcgill.ecse321.sportscenter.model.Card;
+import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
-import ca.mcgill.ecse321.sportscenter.model.PaymentMethod;
+import ca.mcgill.ecse321.sportscenter.model.PayPal;
 import ca.mcgill.ecse321.sportscenter.service.CustomerService;
 
 @CrossOrigin(origins = "*")
@@ -53,8 +56,37 @@ public class CustomerController {
 		return convertToInstructorDto(instructor);
 
 	}
-	
 
+	@PostMapping(value = { "/paypal/add", "/paypal/add/" })
+	public PaypallDto setPaypalInformation(@RequestParam(name = "accountName") String accountName,@RequestParam(name = "customerEmail") String customerEmail,@RequestParam(name = "paypalEmail") String paypalEmail,
+	@RequestParam(name = "paypalPassword") String paypalPassword) throws Exception {
+		PayPal payPal = customerService.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
+		return convertToPaypalDto(payPal);
+	}
+
+	@PostMapping(value = { "/card/add", "/card/add/" })
+	public CardDto setCardInformation(@RequestParam(name = "accountName") String accountName, @RequestParam(name = "customerEmail") String customerEmail, @RequestParam(name = "paymentCardType") PaymentCardType paymentCardType, @RequestParam(name = "cardNumber") int cardNumber,
+	@RequestParam(name = "expirationDate") int expirationDate, @RequestParam(name = "ccv") int ccv){
+		Card card = customerService.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate, ccv);
+		return convertToCardDto(card);
+	}
+
+	private CardDto convertToCardDto(Card card){
+		if (card == null) {
+			throw new IllegalArgumentException("There is no such card");
+		}
+		CardDto cardDto = new CardDto(card.getName(), card.getCustomer().getAccount().getEmail(), card.getPaymentCardType(), card.getNumber(), card.getExpirationDate(), card.getCcv());
+		return cardDto;
+	}
+	
+	private PaypallDto convertToPaypalDto(PayPal paypal){
+		if (paypal == null) {
+			throw new IllegalArgumentException("There is no such paypal");
+		}
+		PaypallDto paypallDto = new PaypallDto(paypal.getName(), paypal.getCustomer().getAccount().getEmail(), paypal.getEmail(), paypal.getPassword());
+
+		return paypallDto;
+	}
 	private InstructorDto convertToInstructorDto(Instructor instructor) {
 		if (instructor == null) {
 			throw new IllegalArgumentException("There is no such instructor");
