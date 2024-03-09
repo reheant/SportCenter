@@ -5,5 +5,5 @@ import ca.mcgill.ecse321.sportscenter.model.Customer;
 
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
-    Customer findCustomerByEmail(String email);
+    //Customer findCustomerByEmail(String email);
 }
