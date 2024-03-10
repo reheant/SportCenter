@@ -78,6 +78,7 @@ public class TestCourseService {
                 return null;
             }
         });
+
         lenient().when(ownerRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             ownerAccount.setEmail(email);
             ownerAccount.setFirstName(firstName);
@@ -89,8 +90,6 @@ public class TestCourseService {
             return ownerList;
 
         });
-
-
         lenient().when(courseRepository.findCourseByName(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(name)) {
                 Course course = new Course();
@@ -105,14 +104,14 @@ public class TestCourseService {
                 return null;
             }
         });
+
         // Whenever anything is saved, just return the parameter object
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
         lenient().when(courseRepository.save(any(Course.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(ownerRepository.save(any(Owner.class))).thenAnswer(returnParameterAsAnswer);
-
-
+        lenient().when(accountRepository.save(any(Account.class))).thenAnswer(returnParameterAsAnswer);
     }
 
     @Test 
@@ -136,9 +135,8 @@ public class TestCourseService {
         assertEquals(requiresInstructor, course.getRequiresInstructor());
         assertEquals(duration, course.getDefaultDuration());
         assertEquals(cost, course.getCost());
+    }
 
-
-    }   
     @Test 
     public void testCreateCourseNegativeDuration(){
         String name = "Yoga Class";
@@ -155,6 +153,7 @@ public class TestCourseService {
         }
         assertNull(course);
     }
+
     @Test 
     public void testCreateCourseZeroDuration(){
         String name = "Yoga Class";
@@ -169,10 +168,8 @@ public class TestCourseService {
         } catch (Exception error) {
             assertEquals("The duration cannot be zero or negative",error.getMessage());
         }
-        
         assertNull(course);
     }   
-
 
     @Test 
     public void testCreateCourseZeroCost(){
@@ -209,11 +206,11 @@ public class TestCourseService {
         }
         
         assertNull(course);
-
     }
 
     @Test
     public void testCreateCourseWithDuplicateName() {
+        
         String name = "Yoga";
         String description = "This is a Yoga. Can't wait to see you there!";
         boolean requiresInstructor = false;
@@ -245,8 +242,8 @@ public class TestCourseService {
         }
         
         assertNull(course);
-
     }
+
     @Test 
     public void testCreateCourseEmptyName(){
         String name = "";
@@ -263,7 +260,6 @@ public class TestCourseService {
         }
         
         assertNull(course);
-
     }
 
     @Test 
@@ -282,8 +278,8 @@ public class TestCourseService {
         }
         
         assertNull(course);
-
     }
+
     @Test 
     public void testCreateCourseNullDescription(){
         String name = "Yoga Class";
@@ -300,27 +296,27 @@ public class TestCourseService {
         }
         
         assertNull(course);
-
     }
 
 
     @Test 
     public void testApproveCourse(){
         
-        Course output = null;
-        
+        Course outputCourse = null;
+        Course course = new Course();
+        lenient().when(courseRepository.findCourseByName(anyString())).thenReturn(course);
         try {
-            //courseService.createOwner(ownerFirstName, ownerLastName, ownerEmail, ownerPassword);
-
-            output = courseService.approveCourse(name, email);
+            outputCourse = courseService.approveCourse(name, email);
 
         } catch (Exception error){
             fail(error.getMessage());
         }
 
-        assertTrue(output.getIsApproved());
+        assertTrue(outputCourse.getIsApproved());
+        assertEquals(outputCourse, courseRepository.findCourseByName(name));
+        assertTrue(courseRepository.findCourseByName(name).getIsApproved()); 
         
-        //TODO: assertTrue(course.getIsApproved());
+        
     }
 
     @Test 
@@ -394,19 +390,19 @@ public class TestCourseService {
 
     @Test 
     public void testDisapproveCourse(){
-        Course output = null;
-        
+        Course outputCourse = null;
+        Course course = new Course();
+        lenient().when(courseRepository.findCourseByName(anyString())).thenReturn(course);
         try {
-            //courseService.createOwner(ownerFirstName, ownerLastName, ownerEmail, ownerPassword);
-
-            output = courseService.disapproveCourse(name, email);
+            outputCourse = courseService.disapproveCourse(name, email);
+            
         } catch (Exception error){
             fail(error.getMessage());
         }
 
-        assertFalse(output.getIsApproved());
-        
-        assertFalse(course.getIsApproved());
+        assertFalse(outputCourse.getIsApproved());
+        assertEquals(outputCourse, courseRepository.findCourseByName(name));
+        assertFalse(courseRepository.findCourseByName(name).getIsApproved()); 
 
     }
 
@@ -440,8 +436,6 @@ public class TestCourseService {
         assertFalse(course.getIsApproved());
     }
 
-    
-
     @Test 
     public void testDisapproveCourseCourseNull(){
 
@@ -465,6 +459,7 @@ public class TestCourseService {
 
             assertEquals("A Course with name " + courseName + " does not exists", error.getMessage());
         }
+
         assertFalse(course.getIsApproved());
     }
 
