@@ -16,6 +16,7 @@ import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 @SpringBootTest
 public class RegistrationRepositoryTests {
@@ -72,7 +73,7 @@ public class RegistrationRepositoryTests {
 		// create a course
 		String courseName = "boring class";
 		String description = "this class is boring";
-		boolean isApproved = true;
+		CourseStatus isApproved = CourseStatus.Approved;
 		boolean requiresInstructor = true;
 		float duration = 60;
 		float cost = 23;

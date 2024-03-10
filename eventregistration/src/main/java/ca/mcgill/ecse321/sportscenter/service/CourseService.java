@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Owner;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 @Service
 public class CourseService {
@@ -113,6 +114,7 @@ public class CourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
+        course.setIsApproved(CourseStatus.Pending);
         courseRepository.save(course);
 
         return course;
@@ -157,7 +159,7 @@ public class CourseService {
         }
         
         // Setting Course 
-        course.setIsApproved(true);
+        course.setIsApproved(CourseStatus.Approved);
         return courseRepository.save(course);
     }  
 
@@ -204,7 +206,7 @@ public class CourseService {
         }
         
         // Setting Course 
-        course.setIsApproved(false);
+        course.setIsApproved(CourseStatus.Refused);
         return courseRepository.save(course);
     }  
 }

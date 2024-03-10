@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.sportscenter.dao;
 
 import java.sql.Time;
 import ca.mcgill.ecse321.sportscenter.model.Course;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,7 +45,7 @@ public class SessionRepositoryTests {
         // create a course
         String courseName = "boring class";
         String description = "this class is boring";
-        boolean isApproved = true;
+        CourseStatus isApproved = CourseStatus.Approved;
         boolean requiresInstructor = true;
         float duration = 60;
         float cost = 23;

@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.dao;
 
 import ca.mcgill.ecse321.sportscenter.model.Course;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.AfterEach;
@@ -25,7 +27,7 @@ public class CourseRepositoryTests {
 		// create a course
 		String courseName = "boring class";
 		String description = "this class is boring";
-		boolean isApproved = true;
+		CourseStatus isApproved = CourseStatus.Approved;
 		boolean requiresInstructor = true;
 		float duration = 60;
 		float cost = 23;

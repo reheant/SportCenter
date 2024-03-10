@@ -28,6 +28,7 @@ import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Owner;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 @ExtendWith(MockitoExtension.class)
 public class TestCourseService {
@@ -51,6 +52,7 @@ public class TestCourseService {
     private static final boolean requiresInstructor = false;
     private static final float duration = (float) 102.41;
     private static final float cost = (float) 12.52;
+    private static final CourseStatus courseStatus = CourseStatus.Pending;
 
     // For Owner
     private static final String firstName = "Rehean";
@@ -98,6 +100,7 @@ public class TestCourseService {
                 course.setRequiresInstructor(requiresInstructor);
                 course.setDefaultDuration(duration);
                 course.setCost(cost);
+                course.setIsApproved(courseStatus);
 
                 return course;
             } else {
@@ -312,9 +315,10 @@ public class TestCourseService {
             fail(error.getMessage());
         }
 
-        assertTrue(outputCourse.getIsApproved());
+        assertTrue(outputCourse.getIsApproved().equals(CourseStatus.Approved));
         assertEquals(outputCourse, courseRepository.findCourseByName(name));
-        assertTrue(courseRepository.findCourseByName(name).getIsApproved()); 
+        assertEquals(CourseStatus.Approved,courseRepository.findCourseByName(name).getIsApproved()); 
+ 
         
         
     }
@@ -329,6 +333,7 @@ public class TestCourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
+        course.setIsApproved(courseStatus);
         
 
         try {
@@ -337,7 +342,7 @@ public class TestCourseService {
             assertEquals("email is null", error.getMessage());
 
         }
-        assertFalse(course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getIsApproved());
     }
 
     @Test 
@@ -350,6 +355,7 @@ public class TestCourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
+        course.setIsApproved(courseStatus);
 
         String notFoundOwner = "marc@mail.com";
 
@@ -359,18 +365,18 @@ public class TestCourseService {
             assertEquals("Email is not accociated to an account", error.getMessage());
 
         }
-        assertFalse(course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getIsApproved());
     }
 
     @Test 
     public void testApproveCourseCourseNull(){
-
+        course.setIsApproved(courseStatus);
         try {
             courseService.approveCourse(null, email);
         } catch (Exception error ){
             assertEquals("Requires a name", error.getMessage());
         }
-        assertFalse(course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getIsApproved());
     }
 
     @Test 
@@ -378,6 +384,7 @@ public class TestCourseService {
 
         
         String courseName = "unfound";
+        lenient().when(courseRepository.findCourseByName(anyString())).thenReturn(null);
 
         try {
             courseService.approveCourse(courseName, email);
@@ -385,7 +392,7 @@ public class TestCourseService {
 
             assertEquals("A Course with name " + courseName + " does not exists", error.getMessage());
         }
-        assertFalse(course.getIsApproved());
+        assertNull(courseRepository.findCourseByName("unfound"));
     }
 
     @Test 
@@ -400,9 +407,9 @@ public class TestCourseService {
             fail(error.getMessage());
         }
 
-        assertFalse(outputCourse.getIsApproved());
+        assertTrue(outputCourse.getIsApproved().equals(CourseStatus.Refused));
         assertEquals(outputCourse, courseRepository.findCourseByName(name));
-        assertFalse(courseRepository.findCourseByName(name).getIsApproved()); 
+        assertEquals(CourseStatus.Refused,courseRepository.findCourseByName(name).getIsApproved()); 
 
     }
 
@@ -416,6 +423,7 @@ public class TestCourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
+        course.setIsApproved(courseStatus);
 
         try {
             courseService.disapproveCourse(name, null);
@@ -427,30 +435,31 @@ public class TestCourseService {
 
     @Test 
     public void testDisapproveCourseOwnerNotFound(){
-        
+        course.setIsApproved(courseStatus);
         try {
             courseService.disapproveCourse(null, email);
         } catch (Exception error ){
             assertEquals("Requires a name", error.getMessage());
         }
-        assertFalse(course.getIsApproved());
+        assertEquals(CourseStatus.Pending, course.getIsApproved());
     }
 
     @Test 
     public void testDisapproveCourseCourseNull(){
-
+        course.setIsApproved(courseStatus);
         try {
             courseService.disapproveCourse(null, email);
         } catch (Exception error ){
             assertEquals("Requires a name", error.getMessage());
         }
-        assertFalse(course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getIsApproved());
 
     }
 
     @Test 
     public void testDisapproveCourseCourseNotFound(){
 
+        course.setIsApproved(courseStatus);
         String courseName = "unfound";
 
         try {
@@ -460,7 +469,7 @@ public class TestCourseService {
             assertEquals("A Course with name " + courseName + " does not exists", error.getMessage());
         }
 
-        assertFalse(course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getIsApproved());
     }
 
 }

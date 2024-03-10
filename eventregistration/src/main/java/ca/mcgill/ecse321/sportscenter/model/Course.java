@@ -11,23 +11,27 @@ import jakarta.persistence.Id;
 @Entity
 public class Course {
 
+  public enum CourseStatus {
+    Refused, Approved, Pending
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String name;
   private String description;
-  private boolean isApproved;
+  private CourseStatus courseStatus;
   private boolean requiresInstructor;
   private float defaultDuration;
   private float cost;
 
   public Course() {};
 
-  public Course(String aName, String aDescription, boolean aIsApproved, boolean aRequiresInstructor,
+  public Course(String aName, String aDescription, CourseStatus aCourseStatus, boolean aRequiresInstructor,
       float aDefaultDuration, float aCost) {
     name = aName;
     description = aDescription;
-    isApproved = aIsApproved;
+    courseStatus = aCourseStatus;
     requiresInstructor = aRequiresInstructor;
     defaultDuration = aDefaultDuration;
     cost = aCost;
@@ -54,9 +58,9 @@ public class Course {
     return wasSet;
   }
 
-  public boolean setIsApproved(boolean aIsApproved) {
+  public boolean setIsApproved(CourseStatus aCourseStatus) {
     boolean wasSet = false;
-    isApproved = aIsApproved;
+    courseStatus = aCourseStatus;
     wasSet = true;
     return wasSet;
   }
@@ -94,8 +98,8 @@ public class Course {
     return description;
   }
 
-  public boolean getIsApproved() {
-    return isApproved;
+  public CourseStatus getIsApproved() {
+    return courseStatus;
   }
 
   public boolean getRequiresInstructor() {
@@ -111,7 +115,7 @@ public class Course {
   }
 
   public boolean isIsApproved() {
-    return isApproved;
+    return this.getIsApproved().equals(CourseStatus.Approved);
   }
 
   public boolean isRequiresInstructor() {

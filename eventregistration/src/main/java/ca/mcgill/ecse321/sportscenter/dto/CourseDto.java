@@ -1,14 +1,17 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
+
 public class CourseDto {
   private String name;
   private String description;
-  private boolean isApproved;
+  private CourseStatus isApproved;
   private boolean requiresInstructor;
   private float defaultDuration;
   private float cost;
     
-    public CourseDto(String name, String description, boolean isApproved, boolean requiresInstructor, float defaultDuration, float cost) {
+  
+    public CourseDto(String name, String description, CourseStatus isApproved, boolean requiresInstructor, float defaultDuration, float cost) {
         this.name = name;
         this.description = description;
         this.isApproved = isApproved;
@@ -25,7 +28,7 @@ public class CourseDto {
         this.description = description;
     }
 
-    public void setIsApproved(boolean isApproved){
+    public void setIsApproved(CourseStatus isApproved){
         this.isApproved = isApproved;
     }
 
@@ -49,7 +52,7 @@ public class CourseDto {
         return description;
     }
 
-    public boolean getIsApproved(){
+    public CourseStatus getIsApproved(){
         return isApproved;
     }
 
