@@ -66,7 +66,7 @@ public class CustomerController {
 
 	@PostMapping(value = { "/card/add", "/card/add/" })
 	public CardDto setCardInformation(@RequestParam(name = "accountName") String accountName, @RequestParam(name = "customerEmail") String customerEmail, @RequestParam(name = "paymentCardType") PaymentCardType paymentCardType, @RequestParam(name = "cardNumber") int cardNumber,
-	@RequestParam(name = "expirationDate") int expirationDate, @RequestParam(name = "ccv") int ccv){
+	@RequestParam(name = "expirationDate") int expirationDate, @RequestParam(name = "ccv") int ccv) throws Exception{
 		Card card = customerService.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate, ccv);
 		return convertToCardDto(card);
 	}

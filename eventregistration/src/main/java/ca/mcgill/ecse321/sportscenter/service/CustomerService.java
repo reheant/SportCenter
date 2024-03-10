@@ -35,7 +35,10 @@ public class CustomerService {
     @Transactional
     public Customer createCustomer(String firstName, String lastName, String email, String password,
             Boolean wantsEmailConfirmation) throws Exception {
-
+        
+        if (firstName == null|| lastName==null || email==null || password==null||wantsEmailConfirmation == null){
+            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+        }
         if (!isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid email format");
         }
@@ -53,10 +56,6 @@ public class CustomerService {
                     "Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 charcters minimum");
         }
 
-        // if (!isValidPaymentInfo(paymentMethod)){
-        // throw new IllegalArgumentException("Invalid payment information");
-        // }
-
         if (accountRepository.findAccountByEmail(email) != null) {
             throw new Exception("Email is already in use");
         }
@@ -65,7 +64,6 @@ public class CustomerService {
         accountRepository.save(customerAccount);
         Customer customer = new Customer();
         customer.setAccount(customerAccount);
-        // paymentMethod.setCustomer(customer);
         customerAccount.setEmail(email);
         customerAccount.setFirstName(firstName);
         customerAccount.setLastName(lastName);
@@ -77,36 +75,36 @@ public class CustomerService {
 
     @Transactional
     public Instructor promoteCustomerByEmail(String email) throws Exception {
+        if (email == null){
+            throw new IllegalArgumentException("email is null");
+        }
         Account customerAccount = new Account();
         customerAccount = accountRepository.findAccountByEmail(email);
         List<Instructor> existingInstructors = instructorRepository.findAll();
         if (accountRepository.findAccountByEmail(email) == null) {
             throw new Exception("Email is not accociated to an account");
         }
-
         for (Instructor instructor : existingInstructors) {
-            if (instructor.getAccount() == customerAccount) {
+            if (instructor.getAccount().equals(customerAccount)) {
                 throw new Exception("Person is already an Instructor");
             }
         }
-
         Instructor instructor = new Instructor();
         instructor.setAccount(customerAccount);
-        try {
-            instructorRepository.save(instructor);
-        } catch (Exception e) {
-            throw new Exception("account is already an instructor");
-        }
-
+        instructorRepository.save(instructor);
         return instructor;
     }
 
     @Transactional
     public PayPal setPaypalInformation(String accountName, String customerEmail, String paypalEmail,
             String paypalPassword) throws Exception {
+        if (accountName == null|| customerEmail==null || paypalEmail==null || paypalPassword==null){
+            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+        }
         if (accountRepository.findAccountByEmail(customerEmail) == null) {
             throw new Exception("Email is not accociated to an account");
         }
+        
         Account customerAccount = new Account();
         customerAccount = accountRepository.findAccountByEmail(customerEmail);
         List<Customer> customerList = customerRepository.findAll();
@@ -123,7 +121,13 @@ public class CustomerService {
 
     @Transactional
     public Card setCardInformation(String accountName, String customerEmail, PaymentCardType paymentCardType, int cardNumber,
-      int expirationDate, int ccv){
+      int expirationDate, int ccv) throws Exception{
+        if (accountName == null|| customerEmail==null || paymentCardType==null || cardNumber==0 || expirationDate==0 || ccv==0){ //int's are 0 if not initiliazed so we wont accept that case
+            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+        }
+        if (accountRepository.findAccountByEmail(customerEmail) == null) {
+            throw new Exception("Email is not accociated to an account");
+        }
         Account customerAccount = new Account();
         customerAccount = accountRepository.findAccountByEmail(customerEmail);
         List<Customer> customerList = customerRepository.findAll();
@@ -168,16 +172,5 @@ public class CustomerService {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-
-    // private boolean isValidPaymentInfo(PaymentMethod paymentMethod){
-    // if (paymentMethod instanceof PayPal) {
-    // return(((PayPal)paymentMethod).getEmail() != null &&
-    // ((PayPal)paymentMethod).getPassword() != null );
-    // } else {
-    // return(String.valueOf(((Card)paymentMethod).getCcv()).length() != 0 &&
-    // String.valueOf(((Card)paymentMethod).getNumber()).length() != 0 );
-    // }
-
-    // }
 
 }
