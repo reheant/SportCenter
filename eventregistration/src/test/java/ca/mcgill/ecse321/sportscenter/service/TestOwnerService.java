@@ -1,14 +1,15 @@
 package ca.mcgill.ecse321.sportscenter.service;
  
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,14 +20,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
-import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
 import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
-
 import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 
@@ -107,6 +103,7 @@ public class TestOwnerService {
 
         assertNotNull(ownerAccount);
         assertNotNull(owner);
+        assertNotNull(accountRepository.findAccountByEmail(email));
         assertEquals(ownerFirstName, ownerAccount.getFirstName());
         assertEquals(ownerLastName, ownerAccount.getLastName());
         assertEquals(ownerEmail, ownerAccount.getEmail());

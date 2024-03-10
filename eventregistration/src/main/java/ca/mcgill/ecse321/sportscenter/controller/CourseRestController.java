@@ -1,5 +1,5 @@
 package ca.mcgill.ecse321.sportscenter.controller;
-/* 
+ 
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,4 +52,3 @@ public class CourseRestController {
         return courseDto;
     }    
 }
-*/
