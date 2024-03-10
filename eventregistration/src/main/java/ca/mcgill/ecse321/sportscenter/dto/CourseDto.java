@@ -60,7 +60,7 @@ public class CourseDto {
     public float getDefaultDuration(){
         return defaultDuration;
     }
-    
+
     public float getCost(){
         return cost;
     }
