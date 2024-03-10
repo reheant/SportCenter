@@ -212,8 +212,6 @@ public class TestCourseService {
 
     }
 
-
-     
     @Test
     public void testCreateCourseWithDuplicateName() {
         String name = "Yoga";

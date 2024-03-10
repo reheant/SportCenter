@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.sportscenter.service;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,14 @@ public class OwnerService {
     @Autowired 
     OwnerRepository ownerRepository;
     
-    
+
+    /**
+     * 
+     * @return List of all owners.
+     */
+    @Transactional public List<Owner> getAllOwners() {
+        return (List<Owner>) (ownerRepository.findAll());
+    }
     /**
     * Creates a new owner with the provided details.
     *
