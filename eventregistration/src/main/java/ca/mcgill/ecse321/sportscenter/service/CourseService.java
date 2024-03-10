@@ -18,7 +18,7 @@ import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @Service
-public class CourseSportsCenterService {
+public class CourseService {
 
     @Autowired 
     CourseRepository courseRepository;
