@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
-import java.util.regex.*;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
