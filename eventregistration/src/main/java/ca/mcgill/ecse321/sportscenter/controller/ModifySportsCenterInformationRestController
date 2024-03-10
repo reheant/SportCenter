@@ -1,0 +1,66 @@
+package ca.mcgill.ecse321.sportscenter.controller;
+
+import ca.mcgill.ecse321.sportscenter.dto.*;
+import ca.mcgill.ecse321.sportscenter.service.ModifySportsCenterInformationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/sportscenter/modify")
+public class ModifySportsCenterInformationRestController {
+    @Autowired
+    private ModifySportsCenterInformationService modifySportsCenterInformationService;
+
+    // update a course
+    @PutMapping("/courses/{courseId}")
+    public CourseDto updateCourse(@PathVariable Integer courseId, @RequestBody CourseDto courseDto) {
+        Course course = modifySportsCenterInformationService.updateCourse(courseId, courseDto);
+        return convertToDto(course);
+    }
+
+    // update a location
+    @PutMapping("/locations/{locationId}")
+    public LocationDto updateLocation(@PathVariable Integer locationId, @RequestBody LocationDto locationDto) {
+        Location location = modifySportsCenterInformationService.updateLocation(locationId, locationDto);
+        return convertToDto(location);
+    }
+
+    // update an instructor's details
+    @PutMapping("/instructors/{instructorId}")
+    public InstructorDto updateInstructor(@PathVariable Integer instructorId, @RequestBody InstructorDto instructorDto) {
+        Instructor instructor = modifySportsCenterInformationService.updateInstructor(instructorId, instructorDto);
+        return convertToDto(instructor);
+    }
+
+    private LocationDto convertToDto(Location location) {
+        if (location == null) {
+            throw new IllegalArgumentException("There is no such Location!");
+        }
+        
+        LocationDto dto = new LocationDto(location.getId(), location.getName(), location.getCapacity(), 
+        location.openingTime(), location.closingTime());
+        return dto;
+    }
+
+    private InstructorDto convertToDto(Instructor in) {
+        if (in == null) {
+            throw new IllegalArgumentException("There is no such Instructor!");
+        }
+        
+        InstructorDto dto = new InstructorDto(in.getId(), in.getFirstName(), in.getLastName(), 
+        in.getEmail());
+        return dto;
+    }
+
+    private CourseDto convertToDto(Course c) {
+        if (c == null) {
+            throw new IllegalArgumentException("There is no such Course!");
+        }
+        
+        CourseDto dto = new CourseDto(c.getId(), c.getName(), c.getDescription(), c.isApproved(), 
+        c.requiresInstructor(), c.getDefaultDuration(), c.getCost());
+        return dto;
+    }
+    
+}

@@ -1,0 +1,84 @@
+package ca.mcgill.ecse321.sportscenter.model;
+
+import java.sql.Time;
+
+public class SessionDto {
+
+    private Integer id;
+    private Integer courseId;
+    private Time startTime;
+    private Time endTime;
+    private Integer locationId;
+
+public SessionDto(){}
+
+public SessionDto(Integer id, Time startTime, Time endTime, Integer courseId, Integer locationId) {
+    this.id = id;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.courseId = courseId;
+    this.locationId = locationId;
+}
+
+
+public Integer getId() {
+    return id;
+}
+
+public void setId(Integer id) {
+    this.id = id;
+}
+
+public Time getStartTime() {
+    return startTime;
+}
+
+public void setStartTime(Time startTime) {
+    this.startTime = startTime;
+}
+
+public Time getEndTime() {
+    return endTime;
+}
+
+public void setEndTime(Time endTime) {
+    this.endTime = endTime;
+}
+
+public Integer getCourseId() {
+    return courseId;
+}
+
+public void setCourseId(Integer courseId) {
+    this.courseId = courseId;
+}
+
+public Integer getLocationId() {
+    return locationId;
+}
+
+public void setLocationId(Integer locationId) {
+    this.locationId = locationId;
+}
+
+  public Course getCourse() {
+    return course;
+  }
+
+  public Location getLocation() {
+    return location;
+  }
+
+  // toString method for debugging reasons
+  @Override
+  public String toString() {
+      return "SessionDto{" +
+              "id=" + id +
+              ", startTime=" + startTime +
+              ", endTime=" + endTime +
+              ", courseId=" + courseId +
+              ", locationId=" + locationId +
+              '}';
+  }
+
+}

@@ -1,0 +1,51 @@
+package ca.mcgill.ecse321.sportscenter.dto;
+
+public class InstructorAssignmentDto {
+
+    private Integer id;
+    private Integer instructorId;
+    private Integer sessionId;
+
+    public InstructorAssignmentDto() {
+    }
+
+    public InstructorAssignmentDto(Integer id, Integer instructorId, Integer sessionId) {
+        this.id = id;
+        this.instructorId = instructorId;
+        this.sessionId = sessionId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(Integer instructorId) {
+        this.instructorId = instructorId;
+    }
+
+    public Integer getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(Integer sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    // toString method for debugging 
+    @Override
+    public String toString() {
+        return "InstructorAssignmentDto{" +
+                "id=" + id +
+                ", instructorId=" + instructorId +
+                ", sessionId=" + sessionId +
+                '}';
+    }
+}
