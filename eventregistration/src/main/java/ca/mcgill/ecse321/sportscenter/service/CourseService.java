@@ -131,7 +131,7 @@ public class CourseService {
     * @throws Exception if there is an error while approving the course
     */
     @Transactional
-    public boolean approveCourse(String name, String email) throws Exception {
+    public Course approveCourse(String name, String email) throws Exception {
         if (email == null){
             throw new IllegalArgumentException("email is null");
         }
@@ -163,8 +163,7 @@ public class CourseService {
         
         // Setting Course 
         course.setIsApproved(true);
-        courseRepository.save(course);
-        return true;
+        return courseRepository.save(course);
     }  
 
     /**
@@ -176,11 +175,15 @@ public class CourseService {
     * @throws Exception if there is an error while disapproving the course
     */
     @Transactional
-    public boolean disapproveCourse(String name, String email) throws Exception {
+    public Course disapproveCourse(String name, String email) throws Exception {
 
         if (email == null){
             throw new IllegalArgumentException("email is null");
         }
+        if (name == null) {
+            throw new IllegalArgumentException("Requires a name");
+        }
+
 
         Account ownerAccount = new Account();
         ownerAccount = accountRepository.findAccountByEmail(email);
@@ -200,10 +203,6 @@ public class CourseService {
             throw new IllegalArgumentException("Owner with email " + email + " was not found.");
         }
 
-        if (name == null) {
-            throw new IllegalArgumentException("Requires a name");
-        }
-
         Course course = courseRepository.findCourseByName(name); 
         if (course == null){
             throw new Exception("A Course with name " + name + " does not exists");
@@ -211,7 +210,7 @@ public class CourseService {
         
         // Setting Course 
         course.setIsApproved(false);
-        return true;
+        return courseRepository.save(course);
     }  
 
 

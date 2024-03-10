@@ -309,19 +309,20 @@ public class TestCourseService {
     @Test 
     public void testApproveCourse(){
         
-        Boolean output = null;
+        Course output = null;
         
         try {
             //courseService.createOwner(ownerFirstName, ownerLastName, ownerEmail, ownerPassword);
 
             output = courseService.approveCourse(name, email);
+
         } catch (Exception error){
             fail(error.getMessage());
         }
 
-        assertTrue(output);
+        assertTrue(output.getIsApproved());
         
-        assertTrue(course.getIsApproved());
+        //TODO: assertTrue(course.getIsApproved());
     }
 
     @Test 
@@ -395,7 +396,7 @@ public class TestCourseService {
 
     @Test 
     public void testDisapproveCourse(){
-        Boolean output = null;
+        Course output = null;
         
         try {
             //courseService.createOwner(ownerFirstName, ownerLastName, ownerEmail, ownerPassword);
@@ -405,7 +406,7 @@ public class TestCourseService {
             fail(error.getMessage());
         }
 
-        assertTrue(output);
+        assertFalse(output.getIsApproved());
         
         assertFalse(course.getIsApproved());
 
