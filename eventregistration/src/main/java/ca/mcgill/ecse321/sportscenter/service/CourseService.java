@@ -89,14 +89,22 @@ public class CourseService {
     */
     @Transactional
     public Course createCourse(String name, String description, boolean requiresInstructor, float duration, float cost) throws Exception {
-
+        
         if (name == null || name.equals("")) {
             throw new Exception("The course requires a name");
         } else if ( courseRepository.findCourseByName(name) != null) {
             throw new Exception("A Course with name " + name + " already exists"); 
-        } if (duration <= 0) {
+        } 
+        
+        if (description == null || description.equals("")){
+            throw new Exception("The course requires a description");
+        } 
+
+        if (duration <= 0) {
             throw new Exception("The duration cannot be zero or negative");
-        } if (cost <= 0) {
+        } 
+        
+        if (cost <= 0) {
             throw new Exception("The price cannot be zero or negative");
         } 
 
@@ -171,6 +179,10 @@ public class CourseService {
     */
     @Transactional
     public boolean approveCourse(String name, Owner owner) throws Exception {
+        if (name == null) {
+            throw new IllegalArgumentException("Requires a name");
+        }
+        
         Course course = courseRepository.findCourseByName(name); 
         if (course == null){
             throw new Exception("A Course with name " + name + " does not exists");
@@ -193,6 +205,11 @@ public class CourseService {
     */
     @Transactional
     public boolean disapproveCourse(String name, Owner owner) throws Exception {
+
+        if (name == null) {
+            throw new IllegalArgumentException("Requires a name");
+        }
+        
         Course course = courseRepository.findCourseByName(name); 
         if (course == null){
             throw new Exception("A Course with name " + name + " does not exists");
