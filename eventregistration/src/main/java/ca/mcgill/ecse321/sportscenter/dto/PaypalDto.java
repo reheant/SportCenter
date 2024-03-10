@@ -1,13 +1,13 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
-public class PaypallDto {
+public class PaypalDto {
 
     private String accountName;
     private String customerEmail;
     private String paypalEmail;
     private String paypalPassword;
 
-    public PaypallDto(String accountName, String customerEmail, String paypalEmail, String paypalPassword){
+    public PaypalDto(String accountName, String customerEmail, String paypalEmail, String paypalPassword){
         this.accountName = accountName;
         this.customerEmail = customerEmail;
         this.paypalEmail = paypalEmail;

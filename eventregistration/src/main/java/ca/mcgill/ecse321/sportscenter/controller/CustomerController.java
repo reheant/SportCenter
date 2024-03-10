@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.sportscenter.dto.CardDto;
 import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
 import ca.mcgill.ecse321.sportscenter.dto.InstructorDto;
-import ca.mcgill.ecse321.sportscenter.dto.PaypallDto;
+import ca.mcgill.ecse321.sportscenter.dto.PaypalDto;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Card;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
@@ -58,7 +58,7 @@ public class CustomerController {
 	}
 
 	@PostMapping(value = { "/paypal/add", "/paypal/add/" })
-	public PaypallDto setPaypalInformation(@RequestParam(name = "accountName") String accountName,@RequestParam(name = "customerEmail") String customerEmail,@RequestParam(name = "paypalEmail") String paypalEmail,
+	public PaypalDto setPaypalInformation(@RequestParam(name = "accountName") String accountName,@RequestParam(name = "customerEmail") String customerEmail,@RequestParam(name = "paypalEmail") String paypalEmail,
 	@RequestParam(name = "paypalPassword") String paypalPassword) throws Exception {
 		PayPal payPal = customerService.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
 		return convertToPaypalDto(payPal);
@@ -79,11 +79,11 @@ public class CustomerController {
 		return cardDto;
 	}
 	
-	private PaypallDto convertToPaypalDto(PayPal paypal){
+	private PaypalDto convertToPaypalDto(PayPal paypal){
 		if (paypal == null) {
 			throw new IllegalArgumentException("There is no such paypal");
 		}
-		PaypallDto paypallDto = new PaypallDto(paypal.getName(), paypal.getCustomer().getAccount().getEmail(), paypal.getEmail(), paypal.getPassword());
+		PaypalDto paypallDto = new PaypalDto(paypal.getName(), paypal.getCustomer().getAccount().getEmail(), paypal.getEmail(), paypal.getPassword());
 
 		return paypallDto;
 	}
