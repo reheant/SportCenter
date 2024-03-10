@@ -88,8 +88,7 @@ public class CourseService {
     * @throws Exception If the name is invalid or already taken.
     */
     @Transactional
-    public Course createCourse(String name, String description, boolean requiresInstructor,
-      float duration, float cost) throws Exception {
+    public Course createCourse(String name, String description, boolean requiresInstructor, float duration, float cost) throws Exception {
 
         if (name == null || name.equals("")) {
             throw new Exception("The course requires a name");
