@@ -38,11 +38,18 @@ public class CourseRestController {
                 courseDtoList.add(convertToDto(c));
             }
         } catch (Exception e) {
-            //TODO: 
             e.printStackTrace();
         }
         return courseDtoList;
     }
+
+    @GetMapping(value = {"/approve/{name}", "approve/{name}/" })
+    public CourseDto approveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
+        Course course = courseService.approveCourse(name, email);
+        return convertToDto(course);
+    }
+
+    
 
     private CourseDto convertToDto(Course c){
         if (c == null){
