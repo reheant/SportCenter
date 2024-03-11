@@ -20,7 +20,7 @@ public class CourseViewController {
         return courseViewService.viewAllCourses().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
-    @GetMapping(value = { "/courses/{name}", "/courses/{name}/" })
+    @GetMapping(value = { "/courses/{id}", "/courses/{id}/" })
     public List<CourseDto> viewFilteredCourses(
             @PathVariable("id") Integer id,
             @RequestParam("name") String name,
