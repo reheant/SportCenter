@@ -51,7 +51,7 @@ public class CourseRestController {
 
     @PostMapping(value = {"/disapprove/{name}", "/disapprove/{name}/" })
     public CourseDto disapproveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
-        Course course = courseService.approveCourse(name, email);
+        Course course = courseService.disapproveCourse(name, email);
         return convertToDto(course);
     }
 
