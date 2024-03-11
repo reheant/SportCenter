@@ -26,6 +26,8 @@ public class OwnerRestController {
 
 	}
 
+	
+
     private OwnerDto convertOwnerToDto(Owner o) {
 		if (o == null) {
 			throw new IllegalArgumentException("There is no such owner");
