@@ -27,11 +27,11 @@ public class CourseRepositoryTests {
 		// create a course
 		String courseName = "boring class";
 		String description = "this class is boring";
-		CourseStatus isApproved = CourseStatus.Approved;
+		CourseStatus courseStatus = CourseStatus.Approved;
 		boolean requiresInstructor = true;
 		float duration = 60;
 		float cost = 23;
-		Course course = new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
+		Course course = new Course(courseName, description, courseStatus, requiresInstructor, duration, cost);
 		// load course
 		courseRepository.save(course);
 
@@ -41,7 +41,7 @@ public class CourseRepositoryTests {
 		assertEquals(courseName, course.getName());
 		assertEquals(cost, course.getCost());
 		assertEquals(description, course.getDescription());
-		assertEquals(isApproved, course.getIsApproved());
+		assertEquals(courseStatus, course.getCourseStatus());
 		assertEquals(requiresInstructor, course.getRequiresInstructor());
 		assertEquals(duration, course.getDefaultDuration());
 	}

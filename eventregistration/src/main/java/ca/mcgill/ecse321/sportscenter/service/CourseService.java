@@ -53,11 +53,13 @@ public class CourseService {
     */
     @Transactional
     public Course getCourseByName(String name) throws Exception {
-       Course course = courseRepository.findCourseByName(name);
+        if (name == null){
+            throw new Exception("Could not find Course with null name " + name);
+        }
+        Course course = courseRepository.findCourseByName(name);
 
-       if (course != null) return course;
-       else throw new Exception("Could not find Couse with name " + name);
-        
+        if (course != null) return course;
+        else throw new Exception("Could not find Course with name " + name);   
     }
 
     /**
@@ -79,7 +81,7 @@ public class CourseService {
     *
     * @param name The name of the course (String).
     * @param description The description of the course (String).
-    * @param isApproved Whether the course is approved (boolean).
+    * @param courseStatus Current Status of the course.
     * @param requiresInstructor Whether the course requires an Instructor (boolean).
     * @param duration The duration of the course (float).
     * @param cost The cost of the course (float).
@@ -114,7 +116,7 @@ public class CourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
-        course.setIsApproved(CourseStatus.Pending);
+        course.setCourseStatus(CourseStatus.Pending);
         courseRepository.save(course);
 
         return course;
@@ -159,7 +161,7 @@ public class CourseService {
         }
         
         // Setting Course 
-        course.setIsApproved(CourseStatus.Approved);
+        course.setCourseStatus(CourseStatus.Approved);
         return courseRepository.save(course);
     }  
 
@@ -206,7 +208,7 @@ public class CourseService {
         }
         
         // Setting Course 
-        course.setIsApproved(CourseStatus.Refused);
+        course.setCourseStatus(CourseStatus.Refused);
         return courseRepository.save(course);
     }  
 }

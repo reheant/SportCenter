@@ -58,7 +58,7 @@ public class Course {
     return wasSet;
   }
 
-  public boolean setIsApproved(CourseStatus aCourseStatus) {
+  public boolean setCourseStatus(CourseStatus aCourseStatus) {
     boolean wasSet = false;
     courseStatus = aCourseStatus;
     wasSet = true;
@@ -98,7 +98,7 @@ public class Course {
     return description;
   }
 
-  public CourseStatus getIsApproved() {
+  public CourseStatus getCourseStatus() {
     return courseStatus;
   }
 
@@ -114,8 +114,8 @@ public class Course {
     return cost;
   }
 
-  public boolean isIsApproved() {
-    return this.getIsApproved().equals(CourseStatus.Approved);
+  public boolean isCourseStatusApproved() {
+    return this.getCourseStatus().equals(CourseStatus.Approved);
   }
 
   public boolean isRequiresInstructor() {

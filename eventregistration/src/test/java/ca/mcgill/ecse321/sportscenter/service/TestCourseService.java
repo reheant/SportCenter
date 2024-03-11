@@ -99,7 +99,7 @@ public class TestCourseService {
                 course.setRequiresInstructor(requiresInstructor);
                 course.setDefaultDuration(duration);
                 course.setCost(cost);
-                course.setIsApproved(courseStatus);
+                course.setCourseStatus(courseStatus);
 
                 return course;
             } else {
@@ -314,9 +314,9 @@ public class TestCourseService {
             fail(error.getMessage());
         }
 
-        assertTrue(outputCourse.getIsApproved().equals(CourseStatus.Approved));
+        assertTrue(outputCourse.getCourseStatus().equals(CourseStatus.Approved));
         assertEquals(outputCourse, courseRepository.findCourseByName(name));
-        assertEquals(CourseStatus.Approved,courseRepository.findCourseByName(name).getIsApproved()); 
+        assertEquals(CourseStatus.Approved,courseRepository.findCourseByName(name).getCourseStatus()); 
  
         
         
@@ -332,7 +332,7 @@ public class TestCourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
-        course.setIsApproved(courseStatus);
+        course.setCourseStatus(courseStatus);
         
 
         try {
@@ -341,7 +341,7 @@ public class TestCourseService {
             assertEquals("email is null", error.getMessage());
 
         }
-        assertEquals(CourseStatus.Pending,course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getCourseStatus());
     }
 
     @Test 
@@ -354,7 +354,7 @@ public class TestCourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
-        course.setIsApproved(courseStatus);
+        course.setCourseStatus(courseStatus);
 
         String notFoundOwner = "marc@mail.com";
 
@@ -364,18 +364,18 @@ public class TestCourseService {
             assertEquals("Email is not accociated to an account", error.getMessage());
 
         }
-        assertEquals(CourseStatus.Pending,course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getCourseStatus());
     }
 
     @Test 
     public void testApproveCourseCourseNull(){
-        course.setIsApproved(courseStatus);
+        course.setCourseStatus(courseStatus);
         try {
             courseService.approveCourse(null, email);
         } catch (Exception error ){
             assertEquals("Requires a name", error.getMessage());
         }
-        assertEquals(CourseStatus.Pending,course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getCourseStatus());
     }
 
     @Test 
@@ -406,9 +406,9 @@ public class TestCourseService {
             fail(error.getMessage());
         }
 
-        assertTrue(outputCourse.getIsApproved().equals(CourseStatus.Refused));
+        assertTrue(outputCourse.getCourseStatus().equals(CourseStatus.Refused));
         assertEquals(outputCourse, courseRepository.findCourseByName(name));
-        assertEquals(CourseStatus.Refused,courseRepository.findCourseByName(name).getIsApproved()); 
+        assertEquals(CourseStatus.Refused,courseRepository.findCourseByName(name).getCourseStatus()); 
 
     }
 
@@ -422,7 +422,7 @@ public class TestCourseService {
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
         course.setCost(cost);
-        course.setIsApproved(courseStatus);
+        course.setCourseStatus(courseStatus);
 
         try {
             courseService.disapproveCourse(name, null);
@@ -434,31 +434,31 @@ public class TestCourseService {
 
     @Test 
     public void testDisapproveCourseOwnerNotFound(){
-        course.setIsApproved(courseStatus);
+        course.setCourseStatus(courseStatus);
         try {
             courseService.disapproveCourse(null, email);
         } catch (Exception error ){
             assertEquals("Requires a name", error.getMessage());
         }
-        assertEquals(CourseStatus.Pending, course.getIsApproved());
+        assertEquals(CourseStatus.Pending, course.getCourseStatus());
     }
 
     @Test 
     public void testDisapproveCourseCourseNull(){
-        course.setIsApproved(courseStatus);
+        course.setCourseStatus(courseStatus);
         try {
             courseService.disapproveCourse(null, email);
         } catch (Exception error ){
             assertEquals("Requires a name", error.getMessage());
         }
-        assertEquals(CourseStatus.Pending,course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getCourseStatus());
 
     }
 
     @Test 
     public void testDisapproveCourseCourseNotFound(){
 
-        course.setIsApproved(courseStatus);
+        course.setCourseStatus(courseStatus);
         String courseName = "unfound";
 
         try {
@@ -468,7 +468,7 @@ public class TestCourseService {
             assertEquals("A Course with name " + courseName + " does not exists", error.getMessage());
         }
 
-        assertEquals(CourseStatus.Pending,course.getIsApproved());
+        assertEquals(CourseStatus.Pending,course.getCourseStatus());
     }
 
 }

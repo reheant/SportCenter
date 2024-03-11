@@ -45,12 +45,12 @@ public class SessionRepositoryTests {
         // create a course
         String courseName = "boring class";
         String description = "this class is boring";
-        CourseStatus isApproved = CourseStatus.Approved;
+        CourseStatus courseStatus = CourseStatus.Approved;
         boolean requiresInstructor = true;
         float duration = 60;
         float cost = 23;
         // load course
-        Course course = new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
+        Course course = new Course(courseName, description, courseStatus, requiresInstructor, duration, cost);
         courseRepository.save(course);
 
         // create a session
@@ -78,7 +78,7 @@ public class SessionRepositoryTests {
         assertEquals(course.getName(), session.getCourse().getName());
         assertEquals(course.getCost(), session.getCourse().getCost());
         assertEquals(course.getDescription(), session.getCourse().getDescription());
-        assertEquals(course.getIsApproved(), session.getCourse().getIsApproved());
+        assertEquals(course.getCourseStatus(), session.getCourse().getCourseStatus());
         assertEquals(course.getRequiresInstructor(), session.getCourse().getRequiresInstructor());
     }
 }

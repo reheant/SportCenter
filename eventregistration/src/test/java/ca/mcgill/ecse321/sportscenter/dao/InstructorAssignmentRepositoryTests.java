@@ -64,12 +64,12 @@ public class InstructorAssignmentRepositoryTests {
 
         String courseName = "boring class";
         String description = "this class is boring";
-        CourseStatus isApproved = CourseStatus.Approved;
+        CourseStatus courseStatus = CourseStatus.Approved;
         boolean requiresInstructor = true;
         float duration = 60;
         float cost = 23;
 
-        Course course = new Course(courseName, description, isApproved, requiresInstructor,
+        Course course = new Course(courseName, description, courseStatus, requiresInstructor,
                 duration, cost);
         courseRepository.save(course);
 

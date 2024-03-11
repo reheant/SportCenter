@@ -5,16 +5,16 @@ import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 public class CourseDto {
   private String name;
   private String description;
-  private CourseStatus isApproved;
+  private CourseStatus courseStatus;
   private boolean requiresInstructor;
   private float defaultDuration;
   private float cost;
     
   
-    public CourseDto(String name, String description, CourseStatus isApproved, boolean requiresInstructor, float defaultDuration, float cost) {
+    public CourseDto(String name, String description, CourseStatus courseStatus, boolean requiresInstructor, float defaultDuration, float cost) {
         this.name = name;
         this.description = description;
-        this.isApproved = isApproved;
+        this.courseStatus = courseStatus;
         this.requiresInstructor = requiresInstructor;
         this.defaultDuration = defaultDuration;
         this.cost = cost;
@@ -28,8 +28,8 @@ public class CourseDto {
         this.description = description;
     }
 
-    public void setIsApproved(CourseStatus isApproved){
-        this.isApproved = isApproved;
+    public void setCourseStatus(CourseStatus courseStatus){
+        this.courseStatus = courseStatus;
     }
 
     public void setRequiresInstructor(boolean requiresInstructor){
@@ -52,8 +52,8 @@ public class CourseDto {
         return description;
     }
 
-    public CourseStatus getIsApproved(){
-        return isApproved;
+    public CourseStatus getCourseStatus(){
+        return courseStatus;
     }
 
     public boolean getRequiresInstructor(){

@@ -59,7 +59,7 @@ public class CourseRestController {
         if (c == null){
             throw new IllegalArgumentException("There is no such customer");
         }
-        CourseDto courseDto = new CourseDto(c.getName(), c.getDescription(), c.getIsApproved(),c.getRequiresInstructor(),c.getDefaultDuration(), c.getCost());
+        CourseDto courseDto = new CourseDto(c.getName(), c.getDescription(), c.getCourseStatus(),c.getRequiresInstructor(),c.getDefaultDuration(), c.getCost());
         return courseDto;
     }    
 }
