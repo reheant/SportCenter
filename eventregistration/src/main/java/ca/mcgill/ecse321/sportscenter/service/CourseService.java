@@ -2,7 +2,9 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,8 @@ import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
 import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
-import ca.mcgill.ecse321.sportscenter.model.Owner;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
+import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @Service
 public class CourseService {
@@ -41,7 +43,6 @@ public class CourseService {
 
        if (course != null) return course;
        else throw new Exception("Could not find Couse with name " + id);
-        
     }
 
     /**
@@ -76,6 +77,45 @@ public class CourseService {
         return courses;
     }
 
+    @Transactional
+    public List<Course> viewFilteredCourses(
+            Collection<Integer> ids, String keyword, CourseStatus status, Boolean requiresInstructor,
+            Float defaultDuration, Float cost) throws Exception {
+        List<Course> filteredCourses = new ArrayList<>();
+        if (ids != null) {
+            List<Course> byId = courseRepository.findCoursesByIdIn(ids);
+            filteredCourses.addAll(byId);
+            if (filteredCourses == null) {
+                throw new Exception("No matches found.");
+            }
+            return filteredCourses;
+        }
+        if (keyword != null) {
+            List<Course> byNameAndDescription = courseRepository.findByKeywordInNameOrDescription(keyword);
+            filteredCourses.addAll(byNameAndDescription);
+        }
+        if (status != null) {
+            List<Course> byStatus = courseRepository.findCoursesByCourseStatus(status);
+            filteredCourses.addAll(byStatus);
+        }
+        if (requiresInstructor != null) {
+            List<Course> byInstructor = courseRepository.findCoursesByRequiresInstructor(requiresInstructor);
+            filteredCourses.addAll(byInstructor);
+        }
+        if (defaultDuration != null) {
+            List<Course> byDuration = courseRepository.findCoursesByDefaultDuration(defaultDuration);
+            filteredCourses.addAll(byDuration);
+        }
+        if (cost != null) {
+            List<Course> byCost = courseRepository.findCoursesByCost(cost);
+            filteredCourses.addAll(byCost);
+        }
+        if (filteredCourses == null) {
+            throw new Exception("No matches found.");
+        }
+        return filteredCourses.stream().distinct().collect(Collectors.toList());
+    }
+
     /**
     * Creates a new course with the specified details.
     *
@@ -89,7 +129,7 @@ public class CourseService {
     * @throws Exception If the name is invalid or already taken.
     */
     @Transactional
-    public Course createCourse(String name, String description, boolean requiresInstructor, float duration, float cost) throws Exception {
+    public Course createCourse(String name, String description, CourseStatus courseStatus, boolean requiresInstructor, float duration, float cost) throws Exception {
         
         if (name == null || name.equals("")) {
             throw new Exception("The course requires a name");
@@ -210,5 +250,5 @@ public class CourseService {
         // Setting Course 
         course.setCourseStatus(CourseStatus.Refused);
         return courseRepository.save(course);
-    }  
+    }
 }
