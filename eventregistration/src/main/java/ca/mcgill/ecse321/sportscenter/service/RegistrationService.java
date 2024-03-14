@@ -43,13 +43,19 @@ public class RegistrationService {
     public Registration register(String email, Integer session_id) throws Exception {
         if (email == null){
             throw new NullPointerException("The customer email cannot be null.");
+        } else if (email.isEmpty()){
+          throw new IllegalArgumentException("The customer email cannot be empty.");  
+        } else if (session_id == null) {
+            throw new NullPointerException("The session id cannot be null.");
         }
-        
-
 
         Registration registration = new Registration();
 
         Account customerAccount = accountRepository.findAccountByEmail(email);
+        if (customerAccount == null){
+            throw new IllegalArgumentException("Email is not associated to an account.");
+        }
+
         List<Customer> existingCustomers = customerRepository.findAll();
 
         for (Customer customer: existingCustomers) {
@@ -67,9 +73,6 @@ public class RegistrationService {
     }
 
     // all failing scenarios
-        // email null
-        // email empty
-        // no account with email
         // no customer found
         // id null
         // no session found

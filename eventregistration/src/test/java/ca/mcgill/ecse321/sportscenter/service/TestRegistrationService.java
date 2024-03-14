@@ -131,4 +131,58 @@ public class TestRegistrationService {
         assertNull(registration);        
     }
 
+    @Test
+    public void testCreateRegistrationEmptyEmail() {
+        String empty_email = "";
+        Session session = new Session();
+        Registration registration = null;
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+
+        try {
+            registration = registrationService.register(empty_email, session.getId());
+        } catch (Exception error) {
+            assertEquals("The customer email cannot be empty.", error.getMessage());
+            assertEquals(IllegalArgumentException.class, error.getClass());
+        }
+        assertNull(registration);        
+    }
+
+    @Test
+    public void testCreateRegistrationAccountNotFound() {
+        String wrong_email = "totallyNotJimBob@gmail.com";
+        Session session = new Session();
+        Registration registration = null;
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+
+        try {
+            registration = registrationService.register(wrong_email, session.getId());
+        } catch (Exception error) {
+            assertEquals("Email is not associated to an account.", error.getMessage());
+            assertEquals(IllegalArgumentException.class, error.getClass());
+        }
+        assertNull(registration);    
+    }
+
+    @Test
+    public void testCreateRegistrationNullSessionId() {
+        Integer null_session_id = null;
+        Session session = new Session();
+        Registration registration = null;
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+
+        try {
+            registration = registrationService.register(email, null_session_id);
+        } catch (Exception error) {
+            assertEquals("The session id cannot be null.", error.getMessage());
+            assertEquals(NullPointerException.class, error.getClass());
+        }
+        assertNull(registration);        
+    }
+
+
+
+
 }
