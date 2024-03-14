@@ -31,10 +31,22 @@ public class RegistrationService {
     @Autowired
     RegistrationRepository registrationRepository;
 
-    // register a customer
-
+    /**
+     * Registers a customer for a session
+     * 
+     * @param email the email of the customer to register
+     * @param session_id the id of the session for which they want to register
+     * @return registration: the resulting registration object
+     * @throws Exception if there is an error while creating the registration
+     */
     @Transactional
     public Registration register(String email, Integer session_id) throws Exception {
+        if (email == null){
+            throw new NullPointerException("The customer email cannot be null.");
+        }
+        
+
+
         Registration registration = new Registration();
 
         Account customerAccount = accountRepository.findAccountByEmail(email);
@@ -51,16 +63,25 @@ public class RegistrationService {
 
         registration.setSession(session);
 
-        return registration;
+        return registrationRepository.save(registration);
     }
 
-        // all failing scenarios
+    // all failing scenarios
+        // email null
+        // email empty
+        // no account with email
+        // no customer found
+        // id null
+        // no session found
+        // customer already registered for session
+
+
+
     // unregister a customer
         // any way this fails?
+        // what if less than 24h? can they cancel then?
 
         
     // get all registrations by customer email
     // get all registrations for a session
-
-
 }

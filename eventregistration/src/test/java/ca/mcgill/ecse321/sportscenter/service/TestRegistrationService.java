@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -111,6 +112,23 @@ public class TestRegistrationService {
         assertNotNull(registration);
         assertEquals(email, registration.getCustomer().getAccount().getEmail());
         assertEquals(session.getId(), registration.getSession().getId());        
+    }
+
+    @Test
+    public void testCreateRegistrationNullEmail() {
+        String null_email = null;
+        Session session = new Session();
+        Registration registration = null;
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+
+        try {
+            registration = registrationService.register(null_email, session.getId());
+        } catch (Exception error) {
+            assertEquals("The customer email cannot be null.", error.getMessage());
+            assertEquals(NullPointerException.class, error.getClass());
+        }
+        assertNull(registration);        
     }
 
 }
