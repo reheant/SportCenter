@@ -6,12 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.sportscenter.dto.CourseDto;
 import ca.mcgill.ecse321.sportscenter.model.Course;
@@ -26,8 +21,8 @@ public class CourseRestController {
 
 
     @PostMapping(value = { "/course/{name}", "/course/{name}/" })
-    public CourseDto createCourse(@PathVariable("name") String name, @RequestParam(name = "description") String description, @RequestParam(name = "courseStatus") Course.CourseStatus courseStatus, @RequestParam(name = "requiresInstructor") Boolean requiresInstructor, @RequestParam(name = "defaultDuration") float defaultDuration, @RequestParam(name = "cost") float cost) throws Exception {
-        Course course = courseService.createCourse(name, description, courseStatus, requiresInstructor, defaultDuration,cost);
+    public CourseDto createCourse(@PathVariable("name") String name, @RequestParam(name = "description") String description, @RequestParam(name = "requiresInstructor") Boolean requiresInstructor, @RequestParam(name = "defaultDuration") float defaultDuration, @RequestParam(name = "cost") float cost) throws Exception {
+        Course course = courseService.createCourse(name, description, requiresInstructor, defaultDuration, cost);
         return convertToDto(course);
     }
 
@@ -69,6 +64,11 @@ public class CourseRestController {
     public CourseDto disapproveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
         Course course = courseService.disapproveCourse(name, email);
         return convertToDto(course);
+    }
+
+    @DeleteMapping(value = {"/courses/{id}", "/courses/{id}/"})
+    public void deleteCourse(@PathVariable Integer id) {
+        courseService.deleteCourse(id);
     }
 
     private CourseDto convertToDto(Course c){

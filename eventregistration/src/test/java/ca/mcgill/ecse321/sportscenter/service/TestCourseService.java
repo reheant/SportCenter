@@ -122,7 +122,7 @@ public class TestCourseService {
             }
             return courses;
         });
-        lenient().when(courseRepository.findByKeywordInNameOrDescription(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(courseRepository.findCoursesByKeywordInNameOrDescription(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             String keywordArg = invocation.getArgument(0);
             if ("SpecificName".equalsIgnoreCase(keywordArg) || "SpecificDescription".equalsIgnoreCase(keywordArg)) {
                 Course specificCourse = new Course();
@@ -178,14 +178,13 @@ public class TestCourseService {
     public void testCreateCourse(){
         String name = "Yoga Class";
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 102.41;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             fail(error.getMessage());
         }
@@ -202,14 +201,13 @@ public class TestCourseService {
     public void testCreateCourseNegativeDuration(){
         String name = "Yoga Class";
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) -102.41;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The duration cannot be zero or negative",error.getMessage());
         }
@@ -220,14 +218,13 @@ public class TestCourseService {
     public void testCreateCourseZeroDuration(){
         String name = "Yoga Class";
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 0;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The duration cannot be zero or negative",error.getMessage());
         }
@@ -238,14 +235,13 @@ public class TestCourseService {
     public void testCreateCourseZeroCost(){
         String name = "Yoga Class";
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 13.234;
         float cost = (float) 0;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The price cannot be zero or negative",error.getMessage());
         }
@@ -258,14 +254,13 @@ public class TestCourseService {
     public void testCreateCourseNegativeCost(){
         String name = "Yoga Class";
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 102.41;
         float cost = (float) -12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The price cannot be zero or negative",error.getMessage());
         }
@@ -278,14 +273,13 @@ public class TestCourseService {
         
         String name = "Yoga";
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 102.41;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("A Course with name " + name + " already exists", error.getMessage());
         }
@@ -296,14 +290,13 @@ public class TestCourseService {
     public void testCreateCourseNullName(){
         String name = null;
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 102.41;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The course requires a name", error.getMessage());
         }
@@ -315,14 +308,13 @@ public class TestCourseService {
     public void testCreateCourseEmptyName(){
         String name = "";
         String description = "This is a Yoga. Can't wait to see you there!";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 102.41;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The course requires a name",error.getMessage());
         }
@@ -334,14 +326,13 @@ public class TestCourseService {
     public void testCreateCourseEmptyDescription(){
         String name = "Yoga Class";
         String description = "";
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 102.41;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The course requires a description",error.getMessage());
         }
@@ -353,14 +344,13 @@ public class TestCourseService {
     public void testCreateCourseNullDescription(){
         String name = "Yoga Class";
         String description = null;
-        CourseStatus courseStatus = CourseStatus.Pending;
         boolean requiresInstructor = false;
         float duration = (float) 102.41;
         float cost = (float) 12.52;
         Course course = null;
         
         try {
-            course = courseService.createCourse(name, description, courseStatus, requiresInstructor, duration, cost);
+            course = courseService.createCourse(name, description, requiresInstructor, duration, cost);
         } catch (Exception error) {
             assertEquals("The course requires a description",error.getMessage());
         }
@@ -565,7 +555,7 @@ public class TestCourseService {
         List<Course> filteredCourses = courseService.viewFilteredCourses(null, "SpecificName", null, null, null, null);
         assertNotNull(filteredCourses);
         assertEquals(1, filteredCourses.size());
-        verify(courseRepository).findByKeywordInNameOrDescription("SpecificName");
+        verify(courseRepository).findCoursesByKeywordInNameOrDescription("SpecificName");
     }
 
     @Test
@@ -580,8 +570,8 @@ public class TestCourseService {
 
     @Test
     public void testViewFilteredCoursesByRequiresInstructor() throws Exception {
-        List<Course> filteredCourses = courseService.viewFilteredCourses(null, null, null, true, null, null);
-
+        List<Course> filteredCourses = courseService.viewFilteredCourses(null, null, null,
+                true, null, null);
         assertNotNull(filteredCourses);
         assertEquals(1, filteredCourses.size());
         verify(courseRepository).findCoursesByRequiresInstructor(true);
@@ -592,7 +582,6 @@ public class TestCourseService {
         float testDuration = 10.0f;
         List<Course> filteredCourses = courseService.viewFilteredCourses(null,
                 null, null, null, testDuration, null);
-
         assertNotNull(filteredCourses);
         assertEquals(1, filteredCourses.size());
         verify(courseRepository).findCoursesByDefaultDuration(testDuration);
@@ -603,10 +592,16 @@ public class TestCourseService {
         float testCost = 100.0f;
         List<Course> filteredCourses = courseService.viewFilteredCourses(null, null, null,
                 null, null, testCost);
-
         assertNotNull(filteredCourses);
         assertEquals(1, filteredCourses.size());
         verify(courseRepository).findCoursesByCost(testCost);
+    }
+
+    @Test
+    void testDeleteCourse() {
+        Integer courseId = 1;
+        courseService.deleteCourse(courseId);
+        verify(courseRepository, times(1)).deleteById(courseId);
     }
 
 }

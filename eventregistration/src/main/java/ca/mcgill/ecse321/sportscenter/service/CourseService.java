@@ -77,6 +77,22 @@ public class CourseService {
         return courses;
     }
 
+    /**
+     * Retrieves a list of Course objects that match the given filtering criteria.
+     * The method filters courses based on various attributes such as IDs, keyword,
+     * status, requirement for an instructor, default duration, and cost. Filters are applied
+     * in the order listed if their corresponding parameters are not null.
+     *
+     * @param ids A collection of course IDs. Only courses with IDs in this collection will be returned.
+     * @param keyword A string to be searched for within the course name or description.
+     * @param status The status of the courses to be returned (e.g., ACTIVE, INACTIVE).
+     * @param requiresInstructor A Boolean indicating whether to filter courses based on whether they require an instructor.
+     * @param defaultDuration A Float representing the default duration to filter courses by.
+     * @param cost A Float representing the cost to filter courses by.
+     * @return A list of filtered Course objects. Each course matches all provided non-null filters.
+     *         If no courses match the filters, an empty list is returned.
+     * @throws Exception if there is a problem processing the filters or if no courses match the given IDs.
+     */
     @Transactional
     public List<Course> viewFilteredCourses(
             Collection<Integer> ids, String keyword, CourseStatus status, Boolean requiresInstructor,
@@ -91,7 +107,7 @@ public class CourseService {
             return filteredCourses;
         }
         if (keyword != null) {
-            List<Course> byNameAndDescription = courseRepository.findByKeywordInNameOrDescription(keyword);
+            List<Course> byNameAndDescription = courseRepository.findCoursesByKeywordInNameOrDescription(keyword);
             filteredCourses.addAll(byNameAndDescription);
         }
         if (status != null) {
@@ -121,7 +137,6 @@ public class CourseService {
     *
     * @param name The name of the course (String).
     * @param description The description of the course (String).
-    * @param courseStatus Current Status of the course.
     * @param requiresInstructor Whether the course requires an Instructor (boolean).
     * @param duration The duration of the course (float).
     * @param cost The cost of the course (float).
@@ -129,7 +144,7 @@ public class CourseService {
     * @throws Exception If the name is invalid or already taken.
     */
     @Transactional
-    public Course createCourse(String name, String description, CourseStatus courseStatus, boolean requiresInstructor, float duration, float cost) throws Exception {
+    public Course createCourse(String name, String description, boolean requiresInstructor, float duration, float cost) throws Exception {
         
         if (name == null || name.equals("")) {
             throw new Exception("The course requires a name");
@@ -250,5 +265,15 @@ public class CourseService {
         // Setting Course 
         course.setCourseStatus(CourseStatus.Refused);
         return courseRepository.save(course);
+    }
+
+    /**
+     * Deletes a course from the repository based on the given course ID.
+     * If the course with the specified ID does not exist, this method performs no operation.
+     *
+     * @param courseId The ID of the course to be deleted.
+     */
+    public void deleteCourse(Integer courseId) {
+        courseRepository.deleteById(courseId);
     }
 }

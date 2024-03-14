@@ -12,7 +12,7 @@ public interface CourseRepository extends CrudRepository<Course, Integer> {
     List<Course> findCoursesByIdIn(Collection<Integer> ids);
     Course findCourseByName(String name);
     @Query("SELECT c FROM Course c WHERE lower(c.name) LIKE lower(concat('%', :keyword, '%')) OR lower(c.description) LIKE lower(concat('%', :keyword, '%'))")
-    List<Course> findByKeywordInNameOrDescription(@Param("keyword") String keyword);
+    List<Course> findCoursesByKeywordInNameOrDescription(@Param("keyword") String keyword);
     List<Course> findCoursesByCourseStatus(Course.CourseStatus status);
     List<Course> findCoursesByRequiresInstructor(Boolean requiresInstructor);
     List<Course> findCoursesByDefaultDuration(Float defaultDuration);
