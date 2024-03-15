@@ -59,6 +59,7 @@ public class TestRegistrationService {
     private final Customer customer = new Customer();
     private final Account customerAccount = new Account();
 
+    
 
     @BeforeEach
     public void setMockOutput() {
@@ -165,6 +166,26 @@ public class TestRegistrationService {
         assertNull(registration);    
     }
 
+
+    @Test
+    public void testCreateRegistrationCustomerNotFound() {
+        Session session = new Session();
+        Registration registration = null;
+        List<Customer> emptyList = new ArrayList<>();
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+        lenient().when(customerRepository.findAll()).thenReturn(emptyList); 
+
+        try {
+            registration = registrationService.register(email, session.getId());
+        } catch (Exception error) {
+            assertEquals("Account is not associated to a customer.", error.getMessage());
+            assertEquals(IllegalArgumentException.class, error.getClass());
+        }
+        assertNull(registration);    
+    }
+
+
     @Test
     public void testCreateRegistrationNullSessionId() {
         Integer null_session_id = null;
@@ -182,7 +203,46 @@ public class TestRegistrationService {
         assertNull(registration);        
     }
 
+    @Test
+    public void testCreateRegistrationSessionNotFound() {
+        Integer wrong_session_id = 257;
+        Registration registration = null;
 
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(null);
+
+        try {
+            registration = registrationService.register(email, wrong_session_id);
+        } catch (Exception error) {
+            assertEquals("Session id is not associated to a session.", error.getMessage());
+            assertEquals(IllegalArgumentException.class, error.getClass());
+        }
+        assertNull(registration);        
+    }
+
+    @Test
+    public void testCreateRegistrationCustomerAlreadyRegisteredForSession() {
+        Session session = new Session();
+        Registration registration = null;        
+
+        Registration preExistingRegistration = new Registration();  // register a first time
+        customerAccount.setEmail(email);
+        customer.setAccount(customerAccount);
+        preExistingRegistration.setCustomer(customer);
+        preExistingRegistration.setSession(session);
+        List<Registration> previousRegistrations = new ArrayList<>();
+        previousRegistrations.add(preExistingRegistration);
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+        lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
+
+        try {
+            registration = registrationService.register(email, session.getId());
+        } catch (Exception error) { // fails to register a second time
+            assertEquals("Email is already registered for session with that id.", error.getMessage());
+            assertEquals(IllegalArgumentException.class, error.getClass());           
+        }
+        assertNull(registration);
+    }
 
 
 }

@@ -49,6 +49,13 @@ public class RegistrationService {
             throw new NullPointerException("The session id cannot be null.");
         }
 
+        List<Registration> otherRegistrations = registrationRepository.findAll();
+        for (Registration otherRegistration: otherRegistrations) {
+            if (otherRegistration.getCustomer().getAccount().getEmail() == email && otherRegistration.getSession().getId() == session_id){
+                throw new IllegalArgumentException("Email is already registered for session with that id.");
+            }
+        }
+
         Registration registration = new Registration();
 
         Account customerAccount = accountRepository.findAccountByEmail(email);
@@ -58,27 +65,29 @@ public class RegistrationService {
 
         List<Customer> existingCustomers = customerRepository.findAll();
 
+        boolean customerFound = false;
         for (Customer customer: existingCustomers) {
             if(customer.getAccount().equals(customerAccount)) {
                 registration.setCustomer(customer);
+                customerFound = true;
                 break;
             }
         }
 
+        if (!customerFound){
+            throw new IllegalArgumentException("Account is not associated to a customer.");
+        }
+
         Session session = sessionRepository.findSessionById(session_id);
 
-        registration.setSession(session);
+        if (session == null){
+            throw new IllegalArgumentException("Session id is not associated to a session.");
+        } else {
+            registration.setSession(session);
+        }
 
         return registrationRepository.save(registration);
     }
-
-    // all failing scenarios
-        // no customer found
-        // id null
-        // no session found
-        // customer already registered for session
-
-
 
     // unregister a customer
         // any way this fails?
