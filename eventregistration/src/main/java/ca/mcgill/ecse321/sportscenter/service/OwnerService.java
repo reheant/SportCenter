@@ -124,9 +124,5 @@ public class OwnerService {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-    @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleAuthenticationException(AuthenticationException e) {
-        return e.getMessage();
-    }
+
 }
