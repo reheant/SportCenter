@@ -14,6 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*")
+@RestController
 public class SessionRestController {
     @Autowired
     private SessionService sessionService;
@@ -47,12 +49,11 @@ public class SessionRestController {
             @RequestParam(value="name", required=false) String name,
             @RequestParam(value="date", required=false) LocalDate date,
             @RequestParam(value="duration", required=false) Float duration,
-            @RequestParam(value="instructorFirstName", required=false) String instructorFirstName,
-            @RequestParam(value="instructorFirstName", required=false) String instructorLastName) throws Exception {
-        if (ids == null && name == null && date == null && duration == null && instructorFirstName == null && instructorLastName == null) {
+            @RequestParam(value="instructorName", required=false) String instructorName) throws Exception {
+        if (ids == null && name == null && date == null && duration == null && instructorName == null) {
             return getAllSessions();
         }
-        return sessionService.viewFilteredSessions(ids, name, date, duration, instructorFirstName, instructorLastName).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+        return sessionService.viewFilteredSessions(ids, name, date, duration, instructorName).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
     @DeleteMapping(value = {"/sessions/{id}", "/sessions/{id}/"})
@@ -61,7 +62,7 @@ public class SessionRestController {
     }
 
     private SessionDto convertToDto(Session s){
-        if (s == null){
+        if (s == null) {
             throw new IllegalArgumentException("There is no such session");
         }
         SessionDto sessionDto = new SessionDto(s.getStartTime(), s.getEndTime());
