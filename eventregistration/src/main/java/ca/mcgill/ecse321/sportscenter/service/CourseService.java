@@ -13,8 +13,8 @@ import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
 import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
-import ca.mcgill.ecse321.sportscenter.model.Owner;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
+import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @Service
 public class CourseService {
