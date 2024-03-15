@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.dao;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
+
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 import ca.mcgill.ecse321.sportscenter.model.Location;
@@ -54,9 +56,8 @@ public class SessionRepositoryTests {
         courseRepository.save(course);
 
         // create a session
-
-        Time startTime = Time.valueOf("08:00:00");
-        Time endTime = Time.valueOf("12:00:00");
+		LocalDateTime startTime = LocalDateTime.of(2024, 03, 14, 8, 0, 0);
+		LocalDateTime endTime = LocalDateTime.of(2024, 03, 14, 12, 0, 0);
 
         Session session = new Session(startTime, endTime, course, location);
         // load session

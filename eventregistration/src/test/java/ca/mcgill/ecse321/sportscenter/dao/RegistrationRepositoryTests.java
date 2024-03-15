@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -82,8 +83,8 @@ public class RegistrationRepositoryTests {
 		courseRepository.save(course);
 
 		// create a session
-		Time startTime = Time.valueOf("08:00:00");
-		Time endTime = Time.valueOf("12:00:00");
+		LocalDateTime startTime = LocalDateTime.of(2024, 03, 14, 8, 0, 0);
+		LocalDateTime endTime = LocalDateTime.of(2024, 03, 14, 12, 0, 0);
 		Session session = new Session(startTime, endTime, course, location);
 		// load session
 		sessionRepository.save(session);

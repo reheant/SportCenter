@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.sportscenter.model;
 
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 
@@ -18,8 +19,8 @@ public class Session {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
-  private Time startTime;
-  private Time endTime;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
 
   @ManyToOne()
   @JoinColumn(name = "course_id")
@@ -31,7 +32,7 @@ public class Session {
 
   public Session() {}
 
-  public Session(Time aStartTime, Time aEndTime, Course aCourse, Location aLocation) {
+  public Session(LocalDateTime aStartTime, LocalDateTime aEndTime, Course aCourse, Location aLocation) {
     startTime = aStartTime;
     endTime = aEndTime;
     if (!setCourse(aCourse)) {
@@ -52,14 +53,14 @@ public class Session {
     return wasSet;
   }
 
-  public boolean setStartTime(Time aStartTime) {
+  public boolean setStartTime(LocalDateTime aStartTime) {
     boolean wasSet = false;
     startTime = aStartTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEndTime(Time aEndTime) {
+  public boolean setEndTime(LocalDateTime aEndTime) {
     boolean wasSet = false;
     endTime = aEndTime;
     wasSet = true;
@@ -70,11 +71,11 @@ public class Session {
     return id;
   }
 
-  public Time getStartTime() {
+  public LocalDateTime getStartTime() {
     return startTime;
   }
 
-  public Time getEndTime() {
+  public LocalDateTime getEndTime() {
     return endTime;
   }
 
