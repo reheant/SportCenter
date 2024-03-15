@@ -24,7 +24,7 @@ import ca.mcgill.ecse321.sportscenter.service.CustomerService;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class CustomerController {
+public class CustomerRestController {
 
 	@Autowired
 	private CustomerService customerService;

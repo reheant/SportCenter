@@ -83,8 +83,8 @@ public class RegistrationRepositoryTests {
 		courseRepository.save(course);
 
 		// create a session
-		LocalDateTime startTime = LocalDateTime.of(2024, 03, 14, 8, 0, 0);
-		LocalDateTime endTime = LocalDateTime.of(2024, 03, 14, 12, 0, 0);
+		LocalDateTime startTime = LocalDateTime.parse("1970-01-01T08:00:00");
+		LocalDateTime endTime = LocalDateTime.parse("1970-01-01T12:00:00");
 		Session session = new Session(startTime, endTime, course, location);
 		// load session
 		sessionRepository.save(session);
