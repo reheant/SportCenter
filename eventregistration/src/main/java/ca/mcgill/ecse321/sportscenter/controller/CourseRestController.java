@@ -29,20 +29,6 @@ public class CourseRestController {
         return convertToDto(course);
     }
 
-    @GetMapping(value = { "/courses", "/courses/" })
-    public List<CourseDto> getAllCourses() {
-        List<CourseDto> courseDtoList = new ArrayList<>();
-
-        try {
-            for (Course c: courseService.getAllCourses()){
-                courseDtoList.add(convertToDto(c));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return courseDtoList;
-    }
-
     @PostMapping(value = {"/approve/{name}", "/approve/{name}/" })
     public CourseDto approveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
         Course course = courseService.approveCourse(name, email);
