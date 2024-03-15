@@ -205,8 +205,8 @@ public class CourseRestControllerIntegrationTest {
          String name = "Sport";
          String description = "This is a sport";
          Boolean requiresInstructor = true;
-         float defaultDuration = (float) 10.012;
-         float cost = (float) -293.203; 
+         float defaultDuration = (float) -10.012;
+         float cost = (float) 293.203; 
  
          requestBody.add("description", description);
          requestBody.add("requiresInstructor", requiresInstructor);
