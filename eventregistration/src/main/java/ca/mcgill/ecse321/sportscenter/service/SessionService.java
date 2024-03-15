@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,7 +98,7 @@ public class SessionService {
         return allSessions.stream()
                 .filter(session -> {
                     Duration sessionDuration = Duration.between(session.getStartTime(), session.getEndTime());
-                    return sessionDuration.toMinutes() == durationInMinutes; // Check for exact match
+                    return sessionDuration.toMinutes() == durationInMinutes;
                 })
                 .collect(Collectors.toList());
     }
