@@ -3,7 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +26,7 @@ import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.PayPal;
 import ca.mcgill.ecse321.sportscenter.service.CustomerService;
 
+
 @CrossOrigin(origins = "*")
 @RestController
 public class CustomerController {
@@ -30,14 +35,15 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@PostMapping(value = { "/customer/{firstName}", "/customer/{firstName}/" })
-	public CustomerDto createCustomer(@PathVariable("firstName") String firstName, @RequestParam(name = "lastName") String lastName,
+	public ResponseEntity<CustomerDto> createCustomer(@PathVariable("firstName") String firstName, @RequestParam(name = "lastName") String lastName,
 			@RequestParam(name = "email") String email, 
 			@RequestParam(name = "password") String password,
 			@RequestParam(name = "wantsEmailConfirmation") Boolean wantsEmailConfirmation)
 			throws Exception {
 		Customer customer = customerService.createCustomer(firstName, lastName, email, password,
 				wantsEmailConfirmation);
-		return convertToDto(customer);
+		CustomerDto customerDto = convertToDto(customer);
+    	return new ResponseEntity<>(customerDto, HttpStatus.CREATED);
 
 	}
 
@@ -48,6 +54,17 @@ public class CustomerController {
 			customerDtoList.add(convertToDto(c));
 		}
 		return customerDtoList;
+	}
+
+	@GetMapping(value = { "/customer/{email}", "/customer/{email}/" })
+	public CustomerDto getCustomer(@PathVariable(name = "email") String email){
+		CustomerDto customer = null;
+		for (Customer c : customerService.getAllCustomers()) {
+			if (c.getAccount().getEmail().equals(email)){
+				customer = convertToDto(c);
+			}
+		}
+		return customer;
 	}
 
 	@PostMapping(value = { "/promote/{email}", "/promote/{email}/" })
