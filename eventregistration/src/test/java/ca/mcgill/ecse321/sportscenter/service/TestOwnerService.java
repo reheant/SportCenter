@@ -283,7 +283,7 @@ public class TestOwnerService {
             owner = courseService.createOwner(ownerFirstName, ownerLastName, ownerEmail, ownerPassword);
             ownerAccount = owner.getAccount();
         } catch (Exception error) {
-            assertEquals( "Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 charcters minimum", error.getMessage());
+            assertEquals( "Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 characters minimum", error.getMessage());
         }
         assertNull(owner);
     }
