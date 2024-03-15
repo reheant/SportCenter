@@ -5,4 +5,5 @@ import ca.mcgill.ecse321.sportscenter.model.Course;
 
 public interface CourseRepository extends CrudRepository<Course, Integer> {
 
+    Course findCourseByName(String name);
 }
