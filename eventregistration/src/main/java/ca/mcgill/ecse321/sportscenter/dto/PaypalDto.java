@@ -1,50 +1,49 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
 public class PaypalDto {
+    private String name;
+    private String email;
+    private String password;
+    private CustomerDto customer;
 
-    private String accountName;
-    private String customerEmail;
-    private String paypalEmail;
-    private String paypalPassword;
-
-    public PaypalDto(String accountName, String customerEmail, String paypalEmail, String paypalPassword){
-        this.accountName = accountName;
-        this.customerEmail = customerEmail;
-        this.paypalEmail = paypalEmail;
-        this.paypalPassword = paypalPassword;
+    public PaypalDto(String name, String email, String password, CustomerDto customer){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.customer = customer;
     }
 
-    public void setAccountName(String accountName){
-        this.accountName = accountName;
+    public void setName(String name){
+        this.name = name;
     }
 
-    public String getAccountName(){
-        return accountName;
+    public String getName() {
+        return name;
     }
 
-
-    public void setCustomerEmail(String customerEmail){
-        this.customerEmail = customerEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public String getcustomerEmail(){
-        return customerEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setpaypalEmail(String paypalEmail){
-        this.paypalEmail = paypalEmail;
+    public String getPassword() {
+        return password;
     }
 
-    public String getpaypalEmail(){
-        return paypalEmail;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setpaypalPassword(String paypalPassword){
-        this.paypalPassword = paypalPassword;
+    public CustomerDto getCustomer() {
+        return customer;
     }
 
-    public String getpaypalPassword(){
-        return paypalPassword;
+    public void setCustomer(CustomerDto customer) {
+        this.customer = customer;
     }
+
 }
 
