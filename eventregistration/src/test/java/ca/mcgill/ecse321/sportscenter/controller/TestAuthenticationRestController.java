@@ -13,7 +13,8 @@ import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
 import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
 import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
-import ca.mcgill.ecse321.sportscenter.dto.LoginDto;
+import ca.mcgill.ecse321.sportscenter.dto.LoginRequestDto;
+import ca.mcgill.ecse321.sportscenter.dto.LoginResponseDto;
 import ca.mcgill.ecse321.sportscenter.dto.utilities.UserType;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
@@ -55,12 +56,12 @@ public class TestAuthenticationRestController {
         Account account = createDefaultPerson();
         customerRepo.save(new Customer(false, account));
 
-        ResponseEntity<Integer> res = client.postForEntity("/login",
-                new LoginDto(account.getEmail(), account.getPassword(), UserType.Customer),
-                Integer.class);
+        ResponseEntity<LoginResponseDto> res = client.postForEntity("/login",
+                new LoginRequestDto(account.getEmail(), account.getPassword(), UserType.Customer),
+                LoginResponseDto.class);
 
         assertEquals(HttpStatus.OK, res.getStatusCode());
-        assertEquals(account.getId(), res.getBody());
+        assertEquals(account.getId(), res.getBody().getId());
     }
 
     @Test
@@ -68,12 +69,12 @@ public class TestAuthenticationRestController {
         Account account = createDefaultPerson();
         instructorRepo.save(new Instructor(account));
 
-        ResponseEntity<Integer> res = client.postForEntity("/login",
-                new LoginDto(account.getEmail(), account.getPassword(), UserType.Instructor),
-                Integer.class);
+        ResponseEntity<LoginResponseDto> res = client.postForEntity("/login",
+                new LoginRequestDto(account.getEmail(), account.getPassword(), UserType.Instructor),
+                LoginResponseDto.class);
 
         assertEquals(HttpStatus.OK, res.getStatusCode());
-        assertEquals(account.getId(), res.getBody());
+        assertEquals(account.getId(), res.getBody().getId());
     }
 
     @Test
@@ -81,18 +82,18 @@ public class TestAuthenticationRestController {
         Account account = createDefaultPerson();
         ownerRepo.save(new Owner(account));
 
-        ResponseEntity<Integer> res = client.postForEntity("/login",
-                new LoginDto(account.getEmail(), account.getPassword(), UserType.Owner),
-                Integer.class);
+        ResponseEntity<LoginResponseDto> res = client.postForEntity("/login",
+                new LoginRequestDto(account.getEmail(), account.getPassword(), UserType.Owner),
+                LoginResponseDto.class);
 
         assertEquals(HttpStatus.OK, res.getStatusCode());
-        assertEquals(account.getId(), res.getBody());
+        assertEquals(account.getId(), res.getBody().getId());
     }
 
     @Test
     public void incorrectEmailAuth() {
         ResponseEntity<String> res = client.postForEntity("/login",
-                new LoginDto("foo@bar.com", "password", UserType.Owner), String.class);
+                new LoginRequestDto("foo@bar.com", "password", UserType.Owner), String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, res.getStatusCode());
     }
@@ -101,7 +102,7 @@ public class TestAuthenticationRestController {
     public void invalidRole() {
         Account account = createDefaultPerson();
         ResponseEntity<String> res = client.postForEntity("/login",
-                new LoginDto(account.getEmail(), account.getPassword(), UserType.Owner),
+                new LoginRequestDto(account.getEmail(), account.getPassword(), UserType.Owner),
                 String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, res.getStatusCode());
@@ -112,7 +113,7 @@ public class TestAuthenticationRestController {
         Account account = createDefaultPerson();
         customerRepo.save(new Customer(false, account));
         ResponseEntity<String> res = client.postForEntity("/login",
-                new LoginDto(account.getEmail(), "wrong password", UserType.Customer),
+                new LoginRequestDto(account.getEmail(), "wrong password", UserType.Customer),
                 String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, res.getStatusCode());

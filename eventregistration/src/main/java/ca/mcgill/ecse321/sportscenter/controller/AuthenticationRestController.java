@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.sportscenter.dto.ErrorDto;
-import ca.mcgill.ecse321.sportscenter.dto.LoginDto;
+import ca.mcgill.ecse321.sportscenter.dto.LoginRequestDto;
+import ca.mcgill.ecse321.sportscenter.dto.LoginResponseDto;
 import ca.mcgill.ecse321.sportscenter.service.AccountService;
 
 @CrossOrigin(origins = "*")
@@ -22,10 +23,10 @@ public class AuthenticationRestController {
     AccountService service;
 
     @PostMapping(value = { "/login" })
-    public int login(@RequestBody LoginDto form) throws AuthenticationException {
+    public LoginResponseDto login(@RequestBody LoginRequestDto form) throws AuthenticationException {
         int id;
         id = service.authenticate(form.email, form.password, form.userType);
-        return id;
+        return new LoginResponseDto(id);
     }
 
     @ExceptionHandler(AuthenticationException.class)
