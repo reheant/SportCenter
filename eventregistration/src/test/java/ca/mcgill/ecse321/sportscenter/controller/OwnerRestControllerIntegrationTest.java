@@ -71,4 +71,44 @@ public class OwnerRestControllerIntegrationTest {
         assertEquals(email, response.getBody().getEmail(), "Response has correct email");
         assertEquals(password, response.getBody().getPassword(), "Response has correct password");
     }
+
+
+    @Test
+    public void testCreateOwnerWrongPassword() {
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+
+        String firstName = "Obi-Wan";
+        String lastName = "Kenobi";
+        String email = "obi-wan@example.com";
+        String password = "test1234";
+
+        requestBody.add("lastName", lastName);
+        requestBody.add("email", email);
+        requestBody.add("password", password);
+
+        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+    
+    }
+    @Test
+    public void testCreateOwnerWrongEmail() {
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+
+        String firstName = "Obi-Wan";
+        String lastName = "Kenobi";
+        String email = "@example.com";
+        String password = "Test1234!";
+
+        requestBody.add("lastName", lastName);
+        requestBody.add("email", email);
+        requestBody.add("password", password);
+
+        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+    
+    }
 }
