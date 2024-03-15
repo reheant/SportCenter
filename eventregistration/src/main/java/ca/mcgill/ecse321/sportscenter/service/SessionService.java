@@ -53,7 +53,7 @@ public class SessionService {
      */
     @Transactional
     public List<Session> viewFilteredSessions(
-            Collection<Integer> ids, String name, LocalDate date, Float duration, String instructorName) throws Exception {
+            Collection<Integer> ids, String name, LocalDate date, Float duration) throws Exception {
         List<Session> filteredSessions = new ArrayList<>();
         if (ids != null) {
             List<Session> byId = sessionRepository.findSessionsByIdIn(ids);
@@ -76,10 +76,6 @@ public class SessionService {
         if (duration != null) {
             List<Session> byDuration = findSessionsByDuration(duration);
             filteredSessions.addAll(byDuration);
-        }
-        if (instructorName != null) {
-            List<Session> byInstructor = sessionRepository.findByInstructorFullNameContainingIgnoreCase(instructorName);
-            filteredSessions.addAll(byInstructor);
         }
         if (filteredSessions == null) {
             throw new Exception("No matches found.");

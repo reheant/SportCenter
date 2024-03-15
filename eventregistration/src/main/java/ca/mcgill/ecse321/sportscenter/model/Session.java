@@ -30,10 +30,6 @@ public class Session {
   @JoinColumn(name = "location_id")
   private Location location;
 
-  @ManyToOne
-  @JoinColumn(name = "instructor_assignment_id")
-  private InstructorAssignment instructorAssignment;
-
   public Session() {}
 
   public Session(LocalDateTime aStartTime, LocalDateTime aEndTime, Course aCourse, Location aLocation) {

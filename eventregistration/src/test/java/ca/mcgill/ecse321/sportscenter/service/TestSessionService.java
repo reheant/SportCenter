@@ -59,7 +59,7 @@ public class TestSessionService {
         LocalDateTime startOfDay = filterDate.atStartOfDay();
         LocalDateTime endOfDay = filterDate.atTime(LocalTime.MAX);
         when(sessionRepository.findSessionsByStartTimeBetween(startOfDay, endOfDay)).thenReturn(Collections.singletonList(session1));
-        List<Session> sessions = sessionService.viewFilteredSessions(null, null, filterDate, null, null);
+        List<Session> sessions = sessionService.viewFilteredSessions(null, null, filterDate, null);
         assertNotNull(sessions, "The returned session list should not be null.");
         assertEquals(1, sessions.size());
         assertEquals(session1, sessions.get(0));
