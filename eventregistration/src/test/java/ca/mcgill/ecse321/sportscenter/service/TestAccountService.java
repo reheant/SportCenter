@@ -55,7 +55,7 @@ public class TestAccountService {
         final Account testAccount = new Account("foo", "bar", email, password);
         testAccount.setId(id);
 
-        when(accountDao.findByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
+        when(accountDao.findAccountByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
         when(ownerDao.findByAccount(testAccount)).thenAnswer(InvocationOnMock -> new Owner());
 
         int testId = 0;
@@ -76,7 +76,7 @@ public class TestAccountService {
         final Account testAccount = new Account("foo", "bar", email, password);
         testAccount.setId(id);
 
-        when(accountDao.findByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
+        when(accountDao.findAccountByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
         when(customerDao.findByAccount(testAccount)).thenAnswer(InvocationOnMock -> new Customer());
 
         int testId = 0;
@@ -97,7 +97,7 @@ public class TestAccountService {
         final Account testAccount = new Account("foo", "bar", email, password);
         testAccount.setId(id);
 
-        when(accountDao.findByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
+        when(accountDao.findAccountByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
         when(instructorDao.findByAccount(testAccount))
                 .thenAnswer(InvocationOnMock -> new Instructor());
 
@@ -120,7 +120,7 @@ public class TestAccountService {
         final Account testAccount = new Account("foo", "bar", email, password);
         testAccount.setId(id);
 
-        when(accountDao.findByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
+        when(accountDao.findAccountByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
 
         assertThrows(AuthenticationException.class,
                 () -> service.authenticate(email, "wrong password", UserType.Instructor));
@@ -130,7 +130,7 @@ public class TestAccountService {
     public void testWrongEmail() {
         final String wrongEmail = "wrong@email.com";
 
-        when(accountDao.findByEmail(wrongEmail)).thenAnswer(InvocationOnMock -> null);
+        when(accountDao.findAccountByEmail(wrongEmail)).thenAnswer(InvocationOnMock -> null);
 
         assertThrows(AuthenticationException.class,
                 () -> service.authenticate(wrongEmail, "", UserType.Instructor));
@@ -144,7 +144,7 @@ public class TestAccountService {
         final Account testAccount = new Account("foo", "bar", email, password);
         testAccount.setId(id);
 
-        when(accountDao.findByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
+        when(accountDao.findAccountByEmail(email)).thenAnswer(InvocationOnMock -> testAccount);
         when(instructorDao.findByAccount(testAccount)).thenAnswer(InvocationOnMock -> null);
 
         assertThrows(AuthenticationException.class,

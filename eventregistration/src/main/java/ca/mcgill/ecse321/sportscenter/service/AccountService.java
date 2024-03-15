@@ -31,7 +31,7 @@ public class AccountService {
     @Transactional
     public int authenticate(String email, String password, UserType type)
             throws AuthenticationException {
-        Account a = accountRepo.findByEmail(email);
+        Account a = accountRepo.findAccountByEmail(email);
         if (a == null || !a.getPassword().equals(password)) {
             throw new AuthenticationException("Incorrect login information");
         }
