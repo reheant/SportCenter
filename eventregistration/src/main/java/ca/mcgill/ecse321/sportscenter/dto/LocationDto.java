@@ -4,7 +4,6 @@ import java.sql.Time;
 
 public class LocationDto {
 
-    private Integer id;
     private String name;
     private Integer capacity;
     private Time openingTime;
@@ -13,19 +12,11 @@ public class LocationDto {
     public LocationDto() {
     }
 
-    public LocationDto(Integer id, String name, Integer capacity, Time openingTime, Time closingTime) {
-        this.id = id;
+    public LocationDto(String name, Integer capacity, Time openingTime, Time closingTime) {
         this.name = name;
         this.capacity = capacity;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
-    }
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -60,16 +51,5 @@ public class LocationDto {
         this.closingTime = closingTime;
     }
 
-    // toString method for debugging purposes
-    @Override
-    public String toString() {
-        return "LocationDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", capacity=" + capacity +
-                ", openingTime=" + openingTime +
-                ", closingTime=" + closingTime +
-                '}';
-    }
 }
 

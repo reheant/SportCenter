@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
-//import java.util.Optional;
 
 @Service
 public class ModifyScheduleService {
@@ -30,11 +29,13 @@ public class ModifyScheduleService {
 
         session.setStartTime(newStartTime);
         session.setEndTime(newEndTime);
-        return sessionRepository.save(session);
+        sessionRepository.save(session);
+        return session;
     }
 
     @Transactional
     public Session modifySessionCourse(Integer sessionId, Integer courseId) {
+
         Session session = sessionRepository.findById(sessionId)
         .orElseThrow(() -> new IllegalArgumentException("No session found with id " + sessionId));
         
@@ -42,7 +43,8 @@ public class ModifyScheduleService {
         .orElseThrow(() -> new IllegalArgumentException("No course found with id " + courseId));
         
         session.setCourse(course);
-        return sessionRepository.save(session);
+        sessionRepository.save(session);
+        return session;
     }
 
     @Transactional
@@ -54,7 +56,8 @@ public class ModifyScheduleService {
         .orElseThrow(() -> new IllegalArgumentException("No location found with id " + locationId));
         
         session.setLocation(location);
-        return sessionRepository.save(session);
+        sessionRepository.save(session);
+        return session;
     }
 
     @Transactional
@@ -70,6 +73,7 @@ public class ModifyScheduleService {
         instructorAssignment.setSession(session);
 
         return instructorAssignmentRepository.save(instructorAssignment);
+        
     }
 
 }

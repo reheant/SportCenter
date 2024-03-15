@@ -11,23 +11,27 @@ import jakarta.persistence.Id;
 @Entity
 public class Course {
 
+  public enum CourseStatus {
+    Refused, Approved, Pending
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private int id;
   private String name;
   private String description;
-  private boolean isApproved;
+  private CourseStatus courseStatus;
   private boolean requiresInstructor;
   private float defaultDuration;
   private float cost;
 
   public Course() {};
 
-  public Course(String aName, String aDescription, boolean aIsApproved, boolean aRequiresInstructor,
+  public Course(String aName, String aDescription, CourseStatus aCourseStatus, boolean aRequiresInstructor,
       float aDefaultDuration, float aCost) {
     name = aName;
     description = aDescription;
-    isApproved = aIsApproved;
+    courseStatus = aCourseStatus;
     requiresInstructor = aRequiresInstructor;
     defaultDuration = aDefaultDuration;
     cost = aCost;
@@ -54,11 +58,8 @@ public class Course {
     return wasSet;
   }
 
-  public boolean setIsApproved(boolean aIsApproved) {
-    boolean wasSet = false;
-    isApproved = aIsApproved;
-    wasSet = true;
-    return wasSet;
+  public CourseStatus getCourseStatus() {
+    return courseStatus;
   }
 
   public boolean setRequiresInstructor(boolean aRequiresInstructor) {
@@ -82,6 +83,13 @@ public class Course {
     return wasSet;
   }
 
+  public boolean setCourseStatus(CourseStatus status){
+    boolean wasSet = false;
+    courseStatus = status;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getId() {
     return id;
   }
@@ -92,10 +100,6 @@ public class Course {
 
   public String getDescription() {
     return description;
-  }
-
-  public boolean getIsApproved() {
-    return isApproved;
   }
 
   public boolean getRequiresInstructor() {
@@ -110,8 +114,8 @@ public class Course {
     return cost;
   }
 
-  public boolean isIsApproved() {
-    return isApproved;
+  public boolean isCourseStatusApproved() {
+    return this.getCourseStatus().equals(CourseStatus.Approved);
   }
 
   public boolean isRequiresInstructor() {

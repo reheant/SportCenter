@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 import java.sql.Time;
 
 @SpringBootTest
@@ -63,12 +64,12 @@ public class InstructorAssignmentRepositoryTests {
 
         String courseName = "boring class";
         String description = "this class is boring";
-        boolean isApproved = true;
+        CourseStatus courseStatus = CourseStatus.Approved;
         boolean requiresInstructor = true;
         float duration = 60;
         float cost = 23;
 
-        Course course = new Course(courseName, description, isApproved, requiresInstructor,
+        Course course = new Course(courseName, description, courseStatus, requiresInstructor,
                 duration, cost);
         courseRepository.save(course);
 

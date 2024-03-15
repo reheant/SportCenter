@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.sportscenter.dto;
 
 public class InstructorDto {
 
-    private Integer id;
     private String firstName;
     private String lastName;
     private String email;
@@ -10,19 +9,10 @@ public class InstructorDto {
     public InstructorDto() {
     }
 
-    public InstructorDto(Integer id, String firstName, String lastName, String email) {
-        this.id = id;
+    public InstructorDto(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-    }
-    
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -49,14 +39,4 @@ public class InstructorDto {
         this.email = email;
     }
 
-    // toString method for debugging reasons
-    @Override
-    public String toString() {
-        return "InstructorDto{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }

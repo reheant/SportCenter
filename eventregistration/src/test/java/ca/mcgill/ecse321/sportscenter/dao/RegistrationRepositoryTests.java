@@ -16,6 +16,7 @@ import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 @SpringBootTest
 public class RegistrationRepositoryTests {
@@ -72,12 +73,12 @@ public class RegistrationRepositoryTests {
 		// create a course
 		String courseName = "boring class";
 		String description = "this class is boring";
-		boolean isApproved = true;
+		CourseStatus courseStatus = CourseStatus.Approved;
 		boolean requiresInstructor = true;
 		float duration = 60;
 		float cost = 23;
 		// load course
-		Course course = new Course(courseName, description, isApproved, requiresInstructor, duration, cost);
+		Course course = new Course(courseName, description, courseStatus, requiresInstructor, duration, cost);
 		courseRepository.save(course);
 
 		// create a session
@@ -106,7 +107,7 @@ public class RegistrationRepositoryTests {
 		assertEquals(course.getName(), registration.getSession().getCourse().getName());
 		assertEquals(course.getCost(), registration.getSession().getCourse().getCost());
 		assertEquals(course.getDescription(), registration.getSession().getCourse().getDescription());
-		assertEquals(course.getIsApproved(), registration.getSession().getCourse().getIsApproved());
+		assertEquals(course.getCourseStatus(), registration.getSession().getCourse().getCourseStatus());
 		assertEquals(course.getRequiresInstructor(), registration.getSession().getCourse().getRequiresInstructor());
 		assertEquals(location.getClosingTime(), registration.getSession().getLocation().getClosingTime());
 		assertEquals(location.getOpeningTime(), registration.getSession().getLocation().getOpeningTime());
