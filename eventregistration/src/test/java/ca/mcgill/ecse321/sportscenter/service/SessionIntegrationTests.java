@@ -67,6 +67,12 @@ public class SessionIntegrationTests {
     }
 
     @Test
+    public void testViewFilteredSessionsWithInvalidDate() {
+        ResponseEntity<String> response = client.getForEntity("/sessions/filter?date=invalid-date", String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
     public void testCreateSession() throws Exception {
         Course course = new Course();
         course.setName("Sample Course");
@@ -83,6 +89,17 @@ public class SessionIntegrationTests {
                 .toUriString();
         ResponseEntity<SessionDto> postResponse = client.postForEntity(urlTemplate, null, SessionDto.class);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
+    }
+
+    @Test
+    public void testCreateSessionWithInvalidData() {
+        String urlTemplate = UriComponentsBuilder.fromPath("/session")
+                .queryParam("courseName", "Sample Course")
+                .queryParam("locationName", "Sample Location")
+                .encode()
+                .toUriString();
+        ResponseEntity<String> postResponse = client.postForEntity(urlTemplate, null, String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
     }
 
     private Session createTestSession(String courseName, String locationName, LocalDateTime startTime, LocalDateTime endTime) {
@@ -102,5 +119,13 @@ public class SessionIntegrationTests {
         ResponseEntity<String> response = client.getForEntity("/sessions/filter/{ids}", String.class, testSession.getId());
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertFalse(sessionRepository.findById(testSession.getId()).isPresent());
+    }
+
+    @Test
+    public void testDeleteNonExistentSession() {
+        int nonExistentSessionId = 999999;
+        client.delete("/sessions/{id}", nonExistentSessionId);
+        ResponseEntity<String> response = client.getForEntity("/sessions/filter/{ids}", String.class, nonExistentSessionId);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

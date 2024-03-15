@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.sportscenter.dto.CourseDto;
@@ -21,7 +22,11 @@ public class CourseRestController {
 
 
     @PostMapping(value = { "/course/{name}", "/course/{name}/" })
-    public CourseDto createCourse(@PathVariable("name") String name, @RequestParam(name = "description") String description, @RequestParam(name = "requiresInstructor") Boolean requiresInstructor, @RequestParam(name = "defaultDuration") float defaultDuration, @RequestParam(name = "cost") float cost) throws Exception {
+    public CourseDto createCourse(@PathVariable("name") String name,
+                                  @RequestParam(name = "description") String description,
+                                  @RequestParam(name = "requiresInstructor") Boolean requiresInstructor,
+                                  @RequestParam(name = "defaultDuration") float defaultDuration,
+                                  @RequestParam(name = "cost") float cost) throws Exception {
         Course course = courseService.createCourse(name, description, requiresInstructor, defaultDuration, cost);
         return convertToDto(course);
     }
@@ -67,7 +72,7 @@ public class CourseRestController {
     }
 
     @DeleteMapping(value = {"/courses/{id}", "/courses/{id}/"})
-    public void deleteCourse(@PathVariable Integer id) {
+    public void deleteCourse(@PathVariable Integer id) throws Exception {
         courseService.deleteCourse(id);
     }
 
@@ -77,5 +82,11 @@ public class CourseRestController {
         }
         CourseDto courseDto = new CourseDto(c.getName(), c.getDescription(), c.getCourseStatus(), c.getRequiresInstructor(), c.getDefaultDuration(), c.getCost());
         return courseDto;
-    }    
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String authorized(Exception e) {
+        return e.getMessage();
+    }
 }

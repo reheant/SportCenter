@@ -13,8 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseIntegrationTests {
@@ -46,6 +45,14 @@ public class CourseIntegrationTests {
     }
 
     @Test
+    public void testViewFilteredCoursesWithInvalidKeyword() {
+        ResponseEntity<Course[]> response = client.getForEntity("/courses?keyword=UnlikelyKeyword123456", Course[].class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(0, response.getBody().length);
+    }
+
+    @Test
     public void testDeleteCourse() {
         Course course = new Course();
         course.setName("Course to Delete");
@@ -53,5 +60,13 @@ public class CourseIntegrationTests {
         client.delete("/courses/{id}", course.getId());
         Optional<Course> deletedCourse = courseRepository.findById(course.getId());
         assertTrue(((Optional<?>) deletedCourse).isEmpty());
+    }
+
+    @Test
+    public void testDeleteNonExistentCourse() {
+        int nonExistentCourseId = 999999;
+        client.delete("/courses/{id}", nonExistentCourseId);
+        ResponseEntity<String> response = client.getForEntity("/courses/filter/{ids}", String.class, nonExistentCourseId);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

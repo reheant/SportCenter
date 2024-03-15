@@ -1,10 +1,10 @@
 package ca.mcgill.ecse321.sportscenter.controller;
 
 import ca.mcgill.ecse321.sportscenter.dto.SessionDto;
-import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import ca.mcgill.ecse321.sportscenter.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -57,7 +57,7 @@ public class SessionRestController {
     }
 
     @DeleteMapping(value = {"/sessions/{id}", "/sessions/{id}/"})
-    public void deleteSession(@PathVariable Integer id) {
+    public void deleteSession(@PathVariable Integer id) throws Exception {
         sessionService.deleteSession(id);
     }
 
@@ -67,5 +67,11 @@ public class SessionRestController {
         }
         SessionDto sessionDto = new SessionDto(s.getStartTime(), s.getEndTime());
         return sessionDto;
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String authorized(Exception e) {
+        return e.getMessage();
     }
 }
