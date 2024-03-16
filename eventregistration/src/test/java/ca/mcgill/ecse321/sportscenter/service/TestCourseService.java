@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -358,6 +357,58 @@ public class TestCourseService {
         assertNull(course);
     }
 
+    @Test
+    public void testFindCourseByName(){
+        Course course = new Course();
+        course.setCost(cost);
+        course.setCourseStatus(courseStatus);
+        course.setDefaultDuration(duration);
+        course.setDescription(description);
+        course.setName(name);
+        courseRepository.save(course);
+        Course courseDB = null;
+
+        try {
+            courseDB = courseService.getCourseByName(name);
+        } catch (Exception error) {
+            fail(error.getMessage()); 
+        }
+        
+        assertNotNull(courseDB);
+        assertEquals(name, course.getName());
+        assertEquals(description, course.getDescription());
+        assertEquals(cost, course.getCost());
+        assertEquals(duration, course.getDefaultDuration());
+
+    }
+
+    @Test
+    public void testFindCourseByNullName(){
+        Course courseDB = null;
+        String name = null;
+        try {
+            courseDB = courseService.getCourseByName(name);
+        } catch (Exception error) {
+            assertEquals("Could not find Course with null name null", error.getMessage());
+        }
+        assertNull(courseDB);
+
+    }
+
+    @Test
+    public void testInexistantFindCourseByName(){
+        Course courseDB = null;
+        String name = "Muscualtion";
+        try {
+            courseDB = courseService.getCourseByName(name);
+        } catch (Exception error) {
+            assertEquals("Could not find Course with name " + name, error.getMessage());
+        }
+        assertNull(courseDB);
+
+    }
+
+    
 
     @Test 
     public void testApproveCourse(){
@@ -403,7 +454,7 @@ public class TestCourseService {
     }
 
     @Test 
-    public void testApproveCourseOwnerNotFound(){
+    public void testApproveCourseAccountNotFound(){
 
         Course course = new Course();
 
@@ -416,6 +467,7 @@ public class TestCourseService {
 
         String notFoundOwner = "marc@mail.com";
 
+
         try {
             courseService.approveCourse(name, notFoundOwner);
         } catch (Exception error) {
@@ -424,6 +476,8 @@ public class TestCourseService {
         }
         assertEquals(CourseStatus.Pending,course.getCourseStatus());
     }
+
+
 
     @Test 
     public void testApproveCourseCourseNull(){

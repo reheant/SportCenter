@@ -30,20 +30,6 @@ public class CourseService {
     @Autowired 
     OwnerRepository ownerRepository;
     
-    /**
-    * Retrieves a course by its ID.
-    *
-    * @param id The ID of the course to retrieve. (Integer)
-    * @return The course with the specified ID.
-    * @throws Exception If the course is not found.
-    */
-    @Transactional
-    public Course getCourseById(Integer id) throws Exception {
-       Course course = courseRepository.findById(id).orElse(null);
-
-       if (course != null) return course;
-       else throw new Exception("Could not find Couse with name " + id);
-    }
 
     /**
     * Retrieves a course by its name.
