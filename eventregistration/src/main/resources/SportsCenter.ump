@@ -88,8 +88,8 @@ class InstructorAssignment
 class Session
 {
   Integer id;
-  Time startTime;
-  Time endTime;
+  LocalDateTime startTime;
+  LocalDateTime endTime;
 }
 
 class Course
@@ -97,7 +97,7 @@ class Course
   Integer id;
   name;
   description;
-  Boolean isApproved;
+  enum courseStatus{Refused, Approved, Pending};
   Boolean requiresInstructor;
   Float defaultDuration;
   Float cost;
