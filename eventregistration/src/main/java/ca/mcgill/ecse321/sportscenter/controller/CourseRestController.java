@@ -97,7 +97,11 @@ public class CourseRestController {
 
     @DeleteMapping(value = {"/courses/{id}", "/courses/{id}/"})
     public void deleteCourse(@PathVariable Integer id) throws Exception {
-        courseService.deleteCourse(id);
+        try {
+            courseService.deleteCourse(id);
+        } catch (Exception	e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     private CourseDto convertToDto(Course c){
