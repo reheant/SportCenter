@@ -39,22 +39,22 @@ public class CustomerService {
             Boolean wantsEmailConfirmation) throws Exception {
         
         if (firstName == null|| lastName==null || email==null || password==null||wantsEmailConfirmation == null){
-            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+            throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid email format");
+            throw new Exception("Invalid email format");
         }
 
         if (!isValidName(firstName)) {
-            throw new IllegalArgumentException("Invalid first name format");
+            throw new Exception("Invalid first name format");
         }
 
         if (!isValidName(lastName)) {
-            throw new IllegalArgumentException("Invalid last name format");
+            throw new Exception("Invalid last name format");
         }
 
         if (!isValidPassword(password)) {
-            throw new IllegalArgumentException(
+            throw new Exception(
                     "Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 charcters minimum");
         }
 
@@ -78,7 +78,7 @@ public class CustomerService {
     @Transactional
     public Instructor promoteCustomerByEmail(String email) throws Exception {
         if (email == null){
-            throw new IllegalArgumentException("email is null");
+            throw new Exception("email is null");
         }
         Account customerAccount = new Account();
         customerAccount = accountRepository.findAccountByEmail(email);
@@ -101,7 +101,7 @@ public class CustomerService {
     public PayPal setPaypalInformation(String accountName, String customerEmail, String paypalEmail,
             String paypalPassword) throws Exception {
         if (accountName == null|| customerEmail==null || paypalEmail==null || paypalPassword==null){
-            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+            throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (accountRepository.findAccountByEmail(customerEmail) == null) {
             throw new Exception("Email is not accociated to an account");
@@ -125,7 +125,7 @@ public class CustomerService {
     public Card setCardInformation(String accountName, String customerEmail, PaymentCardType paymentCardType, int cardNumber,
       int expirationDate, int ccv) throws Exception{
         if (accountName == null|| customerEmail==null || paymentCardType==null || cardNumber==0 || expirationDate==0 || ccv==0){ //int's are 0 if not initiliazed so we wont accept that case
-            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+            throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (accountRepository.findAccountByEmail(customerEmail) == null) {
             throw new Exception("Email is not accociated to an account");
