@@ -15,8 +15,9 @@ import ca.mcgill.ecse321.sportscenter.model.Session;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -244,5 +245,85 @@ public class TestRegistrationService {
         assertNull(registration);
     }
 
+    @Test
+    public void testUnregisterSuccessful() {
+        Session session = new Session();      
 
+        Registration preExistingRegistration = new Registration();  // register
+        customerAccount.setEmail(email);
+        customer.setAccount(customerAccount);
+        preExistingRegistration.setCustomer(customer);
+        preExistingRegistration.setSession(session);
+        List<Registration> previousRegistrations = new ArrayList<>();
+        previousRegistrations.add(preExistingRegistration);
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+        lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
+
+        try {
+             Boolean result = registrationService.unregister(email, session.getId());
+             assertTrue(result);
+        } catch (Exception error) { 
+            fail(error.getMessage());
+        }        
+    }
+
+    @Test 
+    public void testUnregisterNullEmail() {
+        Session session = new Session();      
+
+        Registration preExistingRegistration = new Registration();  // register
+        customerAccount.setEmail(email);
+        customer.setAccount(customerAccount);
+        preExistingRegistration.setCustomer(customer);
+        preExistingRegistration.setSession(session);
+        List<Registration> previousRegistrations = new ArrayList<>();
+        previousRegistrations.add(preExistingRegistration);
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+        lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
+
+        assertThrows(NullPointerException.class, () -> {registrationService.unregister(null, session.getId());});      
+    }
+
+    @Test 
+    public void testUnregisterNullSessionId() {
+        Session session = new Session();      
+
+        Registration preExistingRegistration = new Registration();  // register
+        customerAccount.setEmail(email);
+        customer.setAccount(customerAccount);
+        preExistingRegistration.setCustomer(customer);
+        preExistingRegistration.setSession(session);
+        List<Registration> previousRegistrations = new ArrayList<>();
+        previousRegistrations.add(preExistingRegistration);
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+        lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
+
+        assertThrows(NullPointerException.class, () -> {registrationService.unregister(email, null);});      
+    }
+
+    @Test
+    public void testUnregisterRegistrationNotFound() {
+        Session session = new Session();      
+
+        Registration preExistingRegistration = new Registration();  // register
+        customerAccount.setEmail(email);
+        customer.setAccount(customerAccount);
+        preExistingRegistration.setCustomer(customer);
+        preExistingRegistration.setSession(session);
+        List<Registration> previousRegistrations = new ArrayList<>();
+        previousRegistrations.add(preExistingRegistration);
+
+        lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+        lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
+
+        try {
+            Boolean result = registrationService.unregister("youCantSeeMe@gmail.com", 9721);
+            assertFalse(result);
+        } catch (Exception error) { 
+            fail(error.getMessage());
+        }        
+    }
 }
