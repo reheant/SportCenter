@@ -174,10 +174,10 @@ public class CourseService {
     @Transactional
     public Course approveCourse(String name, String email) throws Exception {
         if (email == null){
-            throw new IllegalArgumentException("email is null");
+            throw new Exception("email is null");
         }
         if (name == null) {
-            throw new IllegalArgumentException("Requires a name");
+            throw new Exception("Requires a name");
         }
         
         Account ownerAccount = accountRepository.findAccountByEmail(email);
@@ -193,7 +193,7 @@ public class CourseService {
             }
         }
         if (!matchFound) {
-            throw new IllegalArgumentException("Owner with email " + email + " was not found.");
+            throw new Exception("Owner with email " + email + " was not found.");
         }
 
         Course course = courseRepository.findCourseByName(name); 
@@ -218,10 +218,10 @@ public class CourseService {
     public Course disapproveCourse(String name, String email) throws Exception {
 
         if (email == null){
-            throw new IllegalArgumentException("email is null");
+            throw new Exception("email is null");
         }
         if (name == null) {
-            throw new IllegalArgumentException("Requires a name");
+            throw new Exception("Requires a name");
         }
 
 
@@ -240,7 +240,7 @@ public class CourseService {
             }
         }
         if (!matchFound) {
-            throw new IllegalArgumentException("Owner with email " + email + " was not found.");
+            throw new Exception("Owner with email " + email + " was not found.");
         }
 
         Course course = courseRepository.findCourseByName(name); 

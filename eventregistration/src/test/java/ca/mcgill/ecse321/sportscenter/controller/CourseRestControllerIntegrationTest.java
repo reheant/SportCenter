@@ -104,12 +104,12 @@ public class CourseRestControllerIntegrationTest {
         requestBody.add("defaultDuration", defaultDuration);
         requestBody.add("cost", cost);
 
-        ResponseEntity<CourseDto> response = client.postForEntity("/course/{name}", requestBody, CourseDto.class, name);
+        ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
     }
-
+    @Test
     public void testCreateCourseInvalidName(){
  
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
@@ -125,14 +125,14 @@ public class CourseRestControllerIntegrationTest {
          requestBody.add("defaultDuration", defaultDuration);
          requestBody.add("cost", cost);
  
-         ResponseEntity<CourseDto> response = client.postForEntity("/course/{name}", requestBody, CourseDto.class, name);
+         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
  
          assertNotNull(response);
-         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
      }
 
 
-
+     @Test
      public void testCreateCourseNullName(){
  
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
@@ -148,12 +148,12 @@ public class CourseRestControllerIntegrationTest {
          requestBody.add("defaultDuration", defaultDuration);
          requestBody.add("cost", cost);
  
-         ResponseEntity<CourseDto> response = client.postForEntity("/course/{name}", requestBody, CourseDto.class, name);
+         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
  
          assertNotNull(response);
-         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
      }
-
+     @Test
      public void testCreateCourseNullDescription(){
  
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
@@ -169,14 +169,14 @@ public class CourseRestControllerIntegrationTest {
          requestBody.add("defaultDuration", defaultDuration);
          requestBody.add("cost", cost);
  
-         ResponseEntity<CourseDto> response = client.postForEntity("/course/{name}", requestBody, CourseDto.class, name);
+         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
  
          assertNotNull(response);
          assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
      }
 
 
-
+     @Test
      public void testCreateCourseInvalidDescription(){
  
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
@@ -192,12 +192,12 @@ public class CourseRestControllerIntegrationTest {
          requestBody.add("defaultDuration", defaultDuration);
          requestBody.add("cost", cost);
  
-         ResponseEntity<CourseDto> response = client.postForEntity("/course/{name}", requestBody, CourseDto.class, name);
+         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
  
          assertNotNull(response);
          assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
      }
-
+     @Test
      public void testCreateCourseInvalidDuration(){
  
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
@@ -213,11 +213,12 @@ public class CourseRestControllerIntegrationTest {
          requestBody.add("defaultDuration", defaultDuration);
          requestBody.add("cost", cost);
  
-         ResponseEntity<CourseDto> response = client.postForEntity("/course/{name}", requestBody, CourseDto.class, name);
+         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
  
          assertNotNull(response);
          assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
      }
+    @Test
      public void testCreateCourseInvalidCost(){
  
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
@@ -233,7 +234,7 @@ public class CourseRestControllerIntegrationTest {
          requestBody.add("defaultDuration", defaultDuration);
          requestBody.add("cost", cost);
  
-         ResponseEntity<CourseDto> response = client.postForEntity("/course/{name}", requestBody, CourseDto.class, name);
+         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
  
          assertNotNull(response);
          assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -279,7 +280,7 @@ public class CourseRestControllerIntegrationTest {
         requestBody.add("name", name);
         requestBody.add("email", email);
 
-        ResponseEntity<CourseDto> response = client.postForEntity("/approve/{name}",requestBody, CourseDto.class, name);
+        ResponseEntity<String> response = client.postForEntity("/approve/{name}",requestBody, String.class, name);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -298,7 +299,7 @@ public class CourseRestControllerIntegrationTest {
         requestBody.add("name", name);
         requestBody.add("email", email);
 
-        ResponseEntity<CourseDto> response = client.postForEntity("/approve/{name}",requestBody, CourseDto.class, name);
+        ResponseEntity<String> response = client.postForEntity("/approve/{name}",requestBody, String.class, name);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -343,7 +344,7 @@ public class CourseRestControllerIntegrationTest {
         requestBody.add("name", name);
         requestBody.add("email", email);
 
-        ResponseEntity<CourseDto> response = client.postForEntity("/disapprove/{name}",requestBody, CourseDto.class, name);
+        ResponseEntity<String> response = client.postForEntity("/disapprove/{name}",requestBody, String.class, name);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -362,7 +363,7 @@ public class CourseRestControllerIntegrationTest {
         requestBody.add("name", name);
         requestBody.add("email", email);
 
-        ResponseEntity<CourseDto> response = client.postForEntity("/disapprove/{name}",requestBody, CourseDto.class, name);
+        ResponseEntity<String> response = client.postForEntity("/disapprove/{name}",requestBody, String.class, name);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");

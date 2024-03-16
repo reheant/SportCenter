@@ -50,22 +50,22 @@ public class OwnerService {
     public Owner createOwner(String firstName, String lastName, String email, String password) throws Exception {        
     
         if (firstName == null|| lastName==null || email==null || password==null){
-            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+            throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid email format");
+            throw new Exception("Invalid email format");
         }
 
         if (!isValidName(firstName)) {
-            throw new IllegalArgumentException("Invalid first name format");
+            throw new Exception("Invalid first name format");
         }
 
         if (!isValidName(lastName)) {
-            throw new IllegalArgumentException("Invalid last name format");
+            throw new Exception("Invalid last name format");
         }
 
         if (!isValidPassword(password)) {
-            throw new IllegalArgumentException("Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 characters minimum");
+            throw new Exception("Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 characters minimum");
         }
 
         if (accountRepository.findAccountByEmail(email) != null) {

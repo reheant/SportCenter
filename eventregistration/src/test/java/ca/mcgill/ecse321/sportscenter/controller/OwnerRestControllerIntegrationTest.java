@@ -87,7 +87,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
@@ -107,7 +107,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
@@ -127,7 +127,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -147,7 +147,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -167,7 +167,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -187,7 +187,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -207,7 +207,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -226,7 +226,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -248,7 +248,7 @@ public class OwnerRestControllerIntegrationTest {
         requestBody.add("email", email);
         requestBody.add("password", password);
 
-        ResponseEntity<OwnerDto> response = client.postForEntity("/owner/{firstName}", requestBody, OwnerDto.class, firstName);
+        ResponseEntity<String> response = client.postForEntity("/owner/{firstName}", requestBody, String.class, firstName);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
