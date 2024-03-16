@@ -65,7 +65,7 @@ public class OwnerService {
         }
 
         if (!isValidPassword(password)) {
-            throw new IllegalArgumentException("Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 charcters minimum");
+            throw new IllegalArgumentException("Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 characters minimum");
         }
 
         if (accountRepository.findAccountByEmail(email) != null) {

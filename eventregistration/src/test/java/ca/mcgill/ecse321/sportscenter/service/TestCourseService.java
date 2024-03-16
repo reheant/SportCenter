@@ -1,15 +1,14 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -114,6 +113,65 @@ public class TestCourseService {
         lenient().when(courseRepository.save(any(Course.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(ownerRepository.save(any(Owner.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(accountRepository.save(any(Account.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(courseRepository.findCoursesByIdIn(any(Collection.class))).thenAnswer((InvocationOnMock invocation) -> {
+            Collection<Integer> ids = invocation.getArgument(0);
+            List<Course> courses = new ArrayList<>();
+            if(ids.contains(1)) {
+                Course course = new Course();
+                courses.add(course);
+            }
+            return courses;
+        });
+        lenient().when(courseRepository.findCoursesByKeywordInNameOrDescription(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            String keywordArg = invocation.getArgument(0);
+            if ("SpecificName".equalsIgnoreCase(keywordArg) || "SpecificDescription".equalsIgnoreCase(keywordArg)) {
+                Course specificCourse = new Course();
+                specificCourse.setName("SomeName");
+                specificCourse.setDescription("SomeDescription");
+                return Arrays.asList(specificCourse);
+            } else {
+                return new ArrayList<>();
+            }
+        });
+        lenient().when(courseRepository.findCoursesByCourseStatus(any(CourseStatus.class))).thenAnswer((InvocationOnMock invocation) -> {
+            CourseStatus statusArg = invocation.getArgument(0);
+            List<Course> courses = new ArrayList<>();
+            if (statusArg == CourseStatus.Approved) { // Adjust according to your CourseStatus enum or class
+                Course activeCourse = new Course();
+                activeCourse.setCourseStatus(CourseStatus.Approved);
+                courses.add(activeCourse);
+            }
+            return courses;
+        });
+        lenient().when(courseRepository.findCoursesByRequiresInstructor(any(Boolean.class))).thenAnswer((InvocationOnMock invocation) -> {
+            boolean requiresInstructor = invocation.getArgument(0);
+            List<Course> courses = new ArrayList<>();
+            if (requiresInstructor) {
+                Course course = new Course();
+                course.setName("Instructor Requiring Course");
+                course.setRequiresInstructor(true);
+                courses.add(course);
+            }
+            return courses;
+        });
+        lenient().when(courseRepository.findCoursesByDefaultDuration(any(Float.class))).thenAnswer((InvocationOnMock invocation) -> {
+            float defaultDuration = invocation.getArgument(0);
+            List<Course> courses = new ArrayList<>();
+            Course course = new Course();
+            course.setName("Duration Specific Course");
+            course.setDefaultDuration(defaultDuration);
+            courses.add(course);
+            return courses;
+        });
+        lenient().when(courseRepository.findCoursesByCost(any(Float.class))).thenAnswer((InvocationOnMock invocation) -> {
+            float cost = invocation.getArgument(0);
+            List<Course> courses = new ArrayList<>();
+            Course course = new Course();
+            course.setName("Cost Specific Course");
+            course.setCost(cost);
+            courses.add(course);
+            return courses;
+        });
     }
 
     @Test 
@@ -469,6 +527,81 @@ public class TestCourseService {
         }
 
         assertEquals(CourseStatus.Pending,course.getCourseStatus());
+    }
+
+    @Test
+    public void testViewAllCourses() throws Exception {
+        Course course = new Course();
+        when(courseRepository.findAll()).thenReturn(Arrays.asList(course));
+
+        List<Course> courses = courseService.getAllCourses();
+
+        assertNotNull(courses);
+        assertEquals(1, courses.size());
+        verify(courseRepository).findAll();
+    }
+
+    @Test
+    public void testViewFilteredCoursesByIds() throws Exception {
+        List<Integer> ids = Arrays.asList(1);
+        List<Course> filteredCourses = courseService.viewFilteredCourses(ids, null, null, null, null, null);
+        assertNotNull(filteredCourses);
+        assertEquals(1, filteredCourses.size());
+        verify(courseRepository).findCoursesByIdIn(ids);
+    }
+
+    @Test
+    public void testViewFilteredCoursesByKeyword() throws Exception {
+        List<Course> filteredCourses = courseService.viewFilteredCourses(null, "SpecificName", null, null, null, null);
+        assertNotNull(filteredCourses);
+        assertEquals(1, filteredCourses.size());
+        verify(courseRepository).findCoursesByKeywordInNameOrDescription("SpecificName");
+    }
+
+    @Test
+    public void testViewFilteredCoursesByStatus() throws Exception {
+        CourseStatus statusToFilter = CourseStatus.Approved;
+        List<Course> filteredCourses = courseService.viewFilteredCourses(null, null, statusToFilter, null, null, null);
+        assertNotNull(filteredCourses);
+        assertFalse(filteredCourses.isEmpty());
+        assertEquals(CourseStatus.Approved, filteredCourses.get(0).getCourseStatus());
+        verify(courseRepository).findCoursesByCourseStatus(statusToFilter);
+    }
+
+    @Test
+    public void testViewFilteredCoursesByRequiresInstructor() throws Exception {
+        List<Course> filteredCourses = courseService.viewFilteredCourses(null, null, null,
+                true, null, null);
+        assertNotNull(filteredCourses);
+        assertEquals(1, filteredCourses.size());
+        verify(courseRepository).findCoursesByRequiresInstructor(true);
+    }
+
+    @Test
+    public void testViewFilteredCoursesByDefaultDuration() throws Exception {
+        float testDuration = 10.0f;
+        List<Course> filteredCourses = courseService.viewFilteredCourses(null,
+                null, null, null, testDuration, null);
+        assertNotNull(filteredCourses);
+        assertEquals(1, filteredCourses.size());
+        verify(courseRepository).findCoursesByDefaultDuration(testDuration);
+    }
+
+    @Test
+    public void testViewFilteredCoursesByCost() throws Exception {
+        float testCost = 100.0f;
+        List<Course> filteredCourses = courseService.viewFilteredCourses(null, null, null,
+                null, null, testCost);
+        assertNotNull(filteredCourses);
+        assertEquals(1, filteredCourses.size());
+        verify(courseRepository).findCoursesByCost(testCost);
+    }
+
+    @Test
+    void testDeleteCourse() {
+        Integer courseId = 1;
+        courseService.deleteCourse(courseId);
+        verify(courseRepository, times(1)).deleteById(courseId);
     }
 
 }
