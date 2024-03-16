@@ -21,6 +21,6 @@ public class RegistrationRestController {
     @PostMapping(value = { "/registration/{email}", "registration/{email}/" })
     public RegistrationDto register(@PathVariable("email") String email, @RequestParam(name = "session_id") Integer session_id) throws Exception{
         Registration registration = registrationService.register(email, session_id);
-        return new RegistrationDto(registration);
+        return DtoConverter.convertToDto(registration);
     }
 }

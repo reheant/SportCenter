@@ -26,7 +26,7 @@ public class SessionRestController {
                                     @RequestParam(name = "courseName") String courseName,
                                     @RequestParam(name = "locationName") String locationName) throws Exception {
         Session session = sessionService.createSession(startTime, endtime, courseName, locationName);
-        return convertToDto(session);
+        return DtoConverter.convertToDto(session);
     }
 
     @GetMapping(value = { "/sessions", "/sessions/" })
@@ -35,7 +35,7 @@ public class SessionRestController {
 
         try {
             for (Session c: sessionService.getAllSessions()){
-                sessionDtoList.add(convertToDto(c));
+                sessionDtoList.add(DtoConverter.convertToDto(c));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,20 +52,12 @@ public class SessionRestController {
         if (ids == null && name == null && date == null && duration == null) {
             return getAllSessions();
         }
-        return sessionService.viewFilteredSessions(ids, name, date, duration).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+        return sessionService.viewFilteredSessions(ids, name, date, duration).stream().map(p -> DtoConverter.convertToDto(p)).collect(Collectors.toList());
     }
 
     @DeleteMapping(value = {"/sessions/{id}", "/sessions/{id}/"})
     public void deleteSession(@PathVariable Integer id) throws Exception {
         sessionService.deleteSession(id);
-    }
-
-    private SessionDto convertToDto(Session s){
-        if (s == null) {
-            throw new IllegalArgumentException("There is no such session");
-        }
-        SessionDto sessionDto = new SessionDto(s.getStartTime(), s.getEndTime());
-        return sessionDto;
     }
 
     @ExceptionHandler(Exception.class)

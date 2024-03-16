@@ -11,6 +11,9 @@ public class CardDto {
 
     private CustomerDto customer;
 
+    public CardDto() {
+    }
+
     public CardDto(String name, PaymentCardType paymentCardType, int number,
       int expirationDate, int ccv, CustomerDto customer){
         this.name = name;

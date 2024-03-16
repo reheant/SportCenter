@@ -6,6 +6,9 @@ public class AccountDto {
     private String lastName;
     private String password;
 
+    public AccountDto() {
+    }
+
     public AccountDto(String firstName, String lastName, String email, String password){
         this.email = email;
         this.firstName = firstName;
