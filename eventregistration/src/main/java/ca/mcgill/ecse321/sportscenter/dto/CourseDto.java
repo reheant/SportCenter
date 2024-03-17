@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
-import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 public class CourseDto {

@@ -4,13 +4,13 @@ public class PaypalDto {
     private String name;
     private String email;
     private String password;
-    private CustomerDto customer;
+    private String customerAccountEmail;
 
-    public PaypalDto(String name, String email, String password, CustomerDto customer){
+    public PaypalDto(String name, String email, String password, String customerAccountEmail){
         this.name = name;
         this.email = email;
         this.password = password;
-        this.customer = customer;
+        this.customerAccountEmail = customerAccountEmail;
     }
 
     public void setName(String name){
@@ -37,12 +37,12 @@ public class PaypalDto {
         this.password = password;
     }
 
-    public CustomerDto getCustomer() {
-        return customer;
+    public String getCustomerAccountEmail() {
+        return customerAccountEmail;
     }
 
-    public void setCustomer(CustomerDto customer) {
-        this.customer = customer;
+    public void setCustomerAccountEmail(String customerAccountEmail) {
+        this.customerAccountEmail = customerAccountEmail;
     }
 
 }

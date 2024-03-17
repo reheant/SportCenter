@@ -1,18 +1,18 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
 public class OwnerDto {
-    private AccountDto account;
+    private String accountEmail;
 
-    public OwnerDto(AccountDto account){
-        this.account = account;
+    public OwnerDto(String accountEmail){
+        this.accountEmail = accountEmail;
     }
 
-    public AccountDto getAccount() {
-        return account;
+    public String getAccountEmail() {
+        return accountEmail;
     }
 
-    public void setAccount(AccountDto account) {
-        this.account = account;
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
     }
 
 }

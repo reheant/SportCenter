@@ -1,20 +1,20 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
 public class CustomerDto {
-    private AccountDto account;
+    private String accountEmail;
     private Boolean wantsEmailConfirmation ;
 
-    public CustomerDto(AccountDto account, Boolean wantsEmailConfirmation){
-        this.account = account;
+    public CustomerDto(String accountEmail, Boolean wantsEmailConfirmation){
+        this.accountEmail = accountEmail;
         this.wantsEmailConfirmation = wantsEmailConfirmation;
     }
 
-    public AccountDto getAccount() {
-        return account;
+    public String getAccountEmail() {
+        return accountEmail;
     }
 
-    public void setAccount(AccountDto account) {
-        this.account = account;
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
     }
 
     public Boolean getWantsEmailConfirmation(){

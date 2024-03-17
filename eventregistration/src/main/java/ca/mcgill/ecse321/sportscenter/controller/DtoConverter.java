@@ -26,8 +26,7 @@ public class DtoConverter {
         if (owner == null){
             throw new NullPointerException("Owner cannot be null.");
         }
-        AccountDto accountDto = convertToDto(owner.getAccount());
-        OwnerDto ownerDto = new OwnerDto(accountDto);
+        OwnerDto ownerDto = new OwnerDto(owner.getAccount().getEmail());
         return ownerDto;
     }
 
@@ -35,8 +34,7 @@ public class DtoConverter {
         if (instructor == null){
             throw new NullPointerException("Instructor cannot be null.");
         }
-        AccountDto accountDto = convertToDto(instructor.getAccount());
-        InstructorDto instructorDto = new InstructorDto(accountDto);
+        InstructorDto instructorDto = new InstructorDto(instructor.getAccount().getEmail());
         return instructorDto;
     }
 
@@ -44,8 +42,7 @@ public class DtoConverter {
         if (customer == null){
             throw new NullPointerException("Customer cannot be null.");
         }
-        AccountDto accountDto = convertToDto(customer.getAccount());
-        CustomerDto customerDto = new CustomerDto(accountDto, customer.getWantsEmailConfirmation());
+        CustomerDto customerDto = new CustomerDto(customer.getAccount().getEmail(), customer.getWantsEmailConfirmation());
         return customerDto;
     }
 
@@ -53,8 +50,7 @@ public class DtoConverter {
         if (paypal == null){
             throw new NullPointerException("Paypal cannot be null.");
         }
-        CustomerDto customerDto = convertToDto(paypal.getCustomer());
-        PaypalDto paypalDto = new PaypalDto(paypal.getName(), paypal.getEmail(), paypal.getPassword(), customerDto);
+        PaypalDto paypalDto = new PaypalDto(paypal.getName(), paypal.getEmail(), paypal.getPassword(), paypal.getCustomer().getAccount().getEmail());
         return paypalDto;
     }
 
@@ -62,8 +58,7 @@ public class DtoConverter {
         if (card == null){
             throw new NullPointerException("Card cannot be null.");
         }
-        CustomerDto customerDto = convertToDto(card.getCustomer());
-        CardDto cardDto = new CardDto(card.getName(), card.getPaymentCardType(), card.getNumber(), card.getExpirationDate(), card.getCcv(), customerDto);
+        CardDto cardDto = new CardDto(card.getName(), card.getPaymentCardType(), card.getNumber(), card.getExpirationDate(), card.getCcv(), card.getCustomer().getAccount().getEmail());
         return cardDto;
     }
 
