@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -25,6 +27,7 @@ import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Location;
+import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -51,7 +54,15 @@ public class RegistrationIntegrationTests {
     @Autowired 
     private CustomerRepository customerRepository;
 
-    private String demoCustomerEmail = "jimbob@gmail.com";
+
+    private String email = "jimbob@gmail.com";
+
+    private Account account = new Account();
+    private Customer customer = new Customer();
+    private Location location = new Location();
+    private Course course = new Course();
+    private Session session = new Session();
+    private Registration registration = new Registration();
 
     @BeforeEach
     @AfterEach
@@ -66,36 +77,49 @@ public class RegistrationIntegrationTests {
 
     @Test
     public void testRegister() {
-        Integer sessionId = createAndSaveClassesForRegistration();
-        String urlTemplate = UriComponentsBuilder.fromPath("/registration/" + demoCustomerEmail)
-                .queryParam("sessionId", sessionId)
+        createAndSaveClassesForRegistration();
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/" + email)
+                .queryParam("sessionId", session.getId())
                 .encode()
                 .toUriString();
         ResponseEntity<RegistrationDto> postResponse = client.postForEntity(urlTemplate, null, RegistrationDto.class);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
     }
-    
 
-    private Integer createAndSaveClassesForRegistration() {
-        Course course = new Course();
+    @Test
+    public void testUnregister() {
+        createTestRegistration();
+        assertTrue(registrationRepository.findById(registration.getId()).isPresent());
+        String urlTemplate = UriComponentsBuilder.fromPath("/unregister/" + email)
+            .queryParam("sessionId", session.getId())
+            .encode()
+            .toUriString();
+        client.delete(urlTemplate);
+        registration = null;
+    }
+    
+    private void createTestRegistration() {
+        createAndSaveClassesForRegistration();
+        registration.setCustomer(customer);
+        registration.setSession(session);
+    }
+
+    private void createAndSaveClassesForRegistration() {
         course.setName("Sample-Course");
         courseRepository.save(course);
-        Location location = new Location();
+
         location.setName("Sample-Location");
         locationRepository.save(location);
-        Session session = new Session();
+
         session.setCourse(course);
         session.setLocation(location);
         sessionRepository.save(session);
 
-        Account account = new Account();
-        account.setEmail(demoCustomerEmail);
+        account.setEmail(email);
         accountRepository.save(account);
-        Customer customer = new Customer();
+
         customer.setAccount(account);
         customerRepository.save(customer);
-
-        return session.getId();
     }
 
 }

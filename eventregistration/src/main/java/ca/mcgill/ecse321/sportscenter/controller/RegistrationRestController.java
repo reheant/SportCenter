@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +20,13 @@ public class RegistrationRestController {
     private RegistrationService registrationService;
 
     @PostMapping(value = { "/registration/{email}", "registration/{email}/" })
-    public RegistrationDto register(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer session_id) throws Exception{
-        Registration registration = registrationService.register(email, session_id);
+    public RegistrationDto register(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws Exception{
+        Registration registration = registrationService.register(email, sessionId);
         return DtoConverter.convertToDto(registration);
+    }
+
+    @DeleteMapping(value = { "/unregister/{email}", "/unregister/{email}/" })
+    public void unregister(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws Exception{
+        registrationService.unregister(email, sessionId);
     }
 }
