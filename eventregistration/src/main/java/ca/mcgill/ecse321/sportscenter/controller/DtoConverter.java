@@ -90,9 +90,7 @@ public class DtoConverter {
         if (session == null) {
             throw new NullPointerException("Session cannot be null.");
         }
-        CourseDto courseDto = convertToDto(session.getCourse());
-        LocationDto locationDto = convertToDto(session.getLocation());
-        SessionDto sessionDto = new SessionDto(session.getStartTime(), session.getEndTime(), courseDto, locationDto);
+        SessionDto sessionDto = new SessionDto(session.getStartTime(), session.getEndTime(), session.getCourse().getName(), session.getLocation().getName());
         return sessionDto;
     }
 
@@ -100,9 +98,7 @@ public class DtoConverter {
         if (registration == null) {
             throw new NullPointerException("Registration cannot be null.");
         }
-        CustomerDto customerDto = convertToDto(registration.getCustomer());
-        SessionDto sessionDto = convertToDto(registration.getSession());
-        RegistrationDto registrationDto = new RegistrationDto(customerDto, sessionDto);
+        RegistrationDto registrationDto = new RegistrationDto(registration.getCustomer().getAccount().getEmail(), registration.getSession().getId());
         return registrationDto;
     }
 

@@ -13,7 +13,6 @@ public class CourseDto {
     public CourseDto() {
     }
 
-    @JsonCreator
     public CourseDto(String name, String description, CourseStatus courseStatus, Boolean requiresInstructor, Float defaultDuration, Float cost){
         this.name = name;
         this.description = description;

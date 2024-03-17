@@ -1,30 +1,30 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
 public class RegistrationDto {
-    private CustomerDto customer;
-    private SessionDto session;    
+    private String customerAccountEmail;
+    private Integer sessionId;    
 
     public RegistrationDto() {
     }
 
-    public RegistrationDto(CustomerDto customer, SessionDto session) {
-        this.customer = customer;
-        this.session = session;
+    public RegistrationDto(String customerAccountEmail, Integer sessionId) {
+        this.customerAccountEmail = customerAccountEmail;
+        this.sessionId = sessionId;
     }
 
-    public CustomerDto getCustomer() {
-        return customer;
+    public String getCustomerAccountEmail() {
+        return customerAccountEmail;
     }
 
-    public void setCustomer(CustomerDto customer) {
-        this.customer = customer;
+    public void setCustomer(String customerAccountEmail) {
+        this.customerAccountEmail = customerAccountEmail;
     }
 
-    public SessionDto getSession() {
-        return session;
+    public Integer getSessionId() {
+        return sessionId;
     }
 
-    public void setSession(SessionDto session) {
-        this.session = session;
+    public void setSession(Integer sessionId) {
+        this.sessionId = sessionId;
     }
 }

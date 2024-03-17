@@ -4,6 +4,9 @@ public class CustomerDto {
     private String accountEmail;
     private Boolean wantsEmailConfirmation ;
 
+    public CustomerDto() {
+    }
+
     public CustomerDto(String accountEmail, Boolean wantsEmailConfirmation){
         this.accountEmail = accountEmail;
         this.wantsEmailConfirmation = wantsEmailConfirmation;

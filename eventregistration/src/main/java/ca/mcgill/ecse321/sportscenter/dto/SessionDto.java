@@ -2,27 +2,23 @@ package ca.mcgill.ecse321.sportscenter.dto;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class SessionDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private CourseDto course;
-    private LocationDto location;
+    private String courseName;
+    private String locationName;
 
     public SessionDto() {
     }
 
-    @JsonCreator
-    public SessionDto(@JsonProperty("startTime") LocalDateTime startTime,
-                      @JsonProperty("endTime") LocalDateTime endTime,
-                      @JsonProperty("course") CourseDto course,
-                      @JsonProperty("location") LocationDto location) {
+    public SessionDto(LocalDateTime startTime,
+                      LocalDateTime endTime,
+                      String courseName,
+                      String locationName) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.course = course;
-        this.location = location;
+        this.courseName = courseName;
+        this.locationName = locationName;
     }
 
     public LocalDateTime getStartTime() { return startTime; }
@@ -37,19 +33,19 @@ public class SessionDto {
         this.endTime = endTime;
     }
 
-    public LocationDto getLocation() {
-        return location;
+    public String getLocationName() {
+        return locationName;
     }
 
-    public void setLocation(LocationDto location) {
-        this.location = location;
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
-    public CourseDto getCourse() {
-        return course;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCourse(CourseDto course) {
-        this.course = course;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

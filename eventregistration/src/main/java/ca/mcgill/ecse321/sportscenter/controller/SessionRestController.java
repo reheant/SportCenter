@@ -34,8 +34,8 @@ public class SessionRestController {
         List<SessionDto> sessionDtoList = new ArrayList<>();
 
         try {
-            for (Session c: sessionService.getAllSessions()){
-                sessionDtoList.add(DtoConverter.convertToDto(c));
+            for (Session s: sessionService.getAllSessions()){
+                sessionDtoList.add(DtoConverter.convertToDto(s));
             }
         } catch (Exception e) {
             e.printStackTrace();

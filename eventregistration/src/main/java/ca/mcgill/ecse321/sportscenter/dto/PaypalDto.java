@@ -6,6 +6,9 @@ public class PaypalDto {
     private String password;
     private String customerAccountEmail;
 
+    public PaypalDto() {
+    }
+
     public PaypalDto(String name, String email, String password, String customerAccountEmail){
         this.name = name;
         this.email = email;
