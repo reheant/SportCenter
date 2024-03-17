@@ -9,19 +9,19 @@ public class CardDto {
     private int expirationDate;
     private int ccv;
 
-    private CustomerDto customer;
+    private String customerAccountEmail;
 
     public CardDto() {
     }
 
     public CardDto(String name, PaymentCardType paymentCardType, int number,
-      int expirationDate, int ccv, CustomerDto customer){
+      int expirationDate, int ccv, String customerAccountEmail){
         this.name = name;
         this.paymentCardType = paymentCardType;
         this.number = number;
         this.expirationDate = expirationDate;
         this.ccv = ccv;
-        this.customer = customer;
+        this.customerAccountEmail = customerAccountEmail;
       }
     
 
@@ -65,12 +65,12 @@ public class CardDto {
         return ccv;
     }
 
-    public CustomerDto getcustomerEmail(){
-        return customer;
+    public String getCustomerAccountEmail(){
+        return customerAccountEmail;
     }
 
-    public void setCustomer(CustomerDto customer){
-        this.customer = customer;
+    public void setCustomerAccountEmail(String customerAccountEmail){
+        this.customerAccountEmail = customerAccountEmail;
     }
 
 }

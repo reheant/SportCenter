@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 public class CourseDto {
