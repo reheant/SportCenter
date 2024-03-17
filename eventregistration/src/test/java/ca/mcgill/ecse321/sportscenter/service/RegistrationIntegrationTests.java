@@ -57,6 +57,11 @@ public class RegistrationIntegrationTests {
     @AfterEach
     public void clearDatabase() {
         registrationRepository.deleteAll();
+        sessionRepository.deleteAll();
+        courseRepository.deleteAll();
+        locationRepository.deleteAll();
+        customerRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
     @Test

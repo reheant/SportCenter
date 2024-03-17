@@ -37,6 +37,8 @@ public class SessionIntegrationTests {
     @AfterEach
     public void clearDatabase() {
         sessionRepository.deleteAll();
+        courseRepository.deleteAll();
+        locationRepository.deleteAll();
     }
 
     @Test
