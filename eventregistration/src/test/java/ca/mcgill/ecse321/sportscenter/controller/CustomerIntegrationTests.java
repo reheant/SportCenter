@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.sportscenter.service;
+package ca.mcgill.ecse321.sportscenter.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
