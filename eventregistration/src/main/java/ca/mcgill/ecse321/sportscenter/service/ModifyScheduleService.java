@@ -23,9 +23,13 @@ public class ModifyScheduleService {
     private InstructorAssignmentRepository instructorAssignmentRepository;
 
     @Transactional
-    public Session modifySessionTime(Integer sessionId, Time newStartTime, Time newEndTime) {
+    public Session modifySessionTime(Integer sessionId, Time newStartTime, Time newEndTime) throws Exception {
+        if (sessionId == null || newStartTime == null || newEndTime == null){
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
         Session session = sessionRepository.findById(sessionId)
-        .orElseThrow(() -> new IllegalArgumentException("No session found with id " + sessionId));
+        .orElseThrow(() -> new Exception("No session found with id " + sessionId));
 
         session.setStartTime(newStartTime);
         session.setEndTime(newEndTime);
@@ -34,13 +38,16 @@ public class ModifyScheduleService {
     }
 
     @Transactional
-    public Session modifySessionCourse(Integer sessionId, Integer courseId) {
+    public Session modifySessionCourse(Integer sessionId, Integer courseId) throws Exception {
+        if (sessionId == null || courseId == null){
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
 
         Session session = sessionRepository.findById(sessionId)
-        .orElseThrow(() -> new IllegalArgumentException("No session found with id " + sessionId));
+        .orElseThrow(() -> new Exception("No session found with id " + sessionId));
         
         Course course = courseRepository.findById(courseId)
-        .orElseThrow(() -> new IllegalArgumentException("No course found with id " + courseId));
+        .orElseThrow(() -> new Exception("No course found with id " + courseId));
         
         session.setCourse(course);
         sessionRepository.save(session);
@@ -48,12 +55,15 @@ public class ModifyScheduleService {
     }
 
     @Transactional
-    public Session modifySessionLocation(Integer sessionId, Integer locationId) {
+    public Session modifySessionLocation(Integer sessionId, Integer locationId) throws Exception {
+        if (sessionId == null || locationId == null){
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
         Session session = sessionRepository.findById(sessionId)
-        .orElseThrow(() -> new IllegalArgumentException("No session found with id " + sessionId));
+        .orElseThrow(() -> new Exception("No session found with id " + sessionId));
         
         Location location = locationRepository.findById(locationId)
-        .orElseThrow(() -> new IllegalArgumentException("No location found with id " + locationId));
+        .orElseThrow(() -> new Exception("No location found with id " + locationId));
         
         session.setLocation(location);
         sessionRepository.save(session);
@@ -61,12 +71,15 @@ public class ModifyScheduleService {
     }
 
     @Transactional
-    public InstructorAssignment assignInstructorToSession(Integer sessionId, Integer instructorId) {
+    public InstructorAssignment assignInstructorToSession(Integer sessionId, Integer instructorId) throws Exception {
+        if (sessionId == null || instructorId == null){
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
         Session session = sessionRepository.findById(sessionId)
-        .orElseThrow(() -> new IllegalArgumentException("No session found with id " + sessionId));
+        .orElseThrow(() -> new Exception("No session found with id " + sessionId));
         
         Instructor instructor = instructorRepository.findById(instructorId)
-        .orElseThrow(() -> new IllegalArgumentException("No instructor found with id " + instructorId));
+        .orElseThrow(() -> new Exception("No instructor found with id " + instructorId));
 
         InstructorAssignment instructorAssignment = new InstructorAssignment();
         instructorAssignment.setInstructor(instructor);

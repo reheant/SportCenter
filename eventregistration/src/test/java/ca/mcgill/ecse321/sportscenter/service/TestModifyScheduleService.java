@@ -5,6 +5,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -77,42 +78,64 @@ public class TestModifyScheduleService {
     public void testModifySessionTiming() {
         Time newStartTime = Time.valueOf("10:00:00");
         Time newEndTime = Time.valueOf("12:00:00");
+        Session updatedSession = null;
+        try{
         when(session.getStartTime()).thenReturn(newStartTime);
         when(session.getEndTime()).thenReturn(newEndTime);
 
-        Session updatedSession = service.modifySessionTime(SESSION_ID, newStartTime, newEndTime);
+        updatedSession = service.modifySessionTime(SESSION_ID, newStartTime, newEndTime);
 
         verify(sessionRepository).save(any(Session.class));
+        } catch (Exception error) {
+            fail(error.getMessage());
+        }
+        assertNotNull(updatedSession);
         assertEquals(newStartTime, updatedSession.getStartTime());
         assertEquals(newEndTime, updatedSession.getEndTime());
     }
 
     @Test
     public void testModifySessionCourse() {
+        Session updatedSession = null;
+        try{
         when(session.getCourse()).thenReturn(course);
         when(course.getId()).thenReturn(COURSE_ID);
 
-        Session updatedSession = service.modifySessionCourse(SESSION_ID, COURSE_ID);
+        updatedSession = service.modifySessionCourse(SESSION_ID, COURSE_ID);
 
         verify(sessionRepository).save(any(Session.class));
+    } catch (Exception error) {
+        fail(error.getMessage());
+    }
+        assertNotNull(updatedSession);
         assertEquals(COURSE_ID, updatedSession.getCourse().getId());
     }
 
     @Test
     public void testModifySessionLocation() {
+        Session updatedSession = null;
+        try{
         when(session.getLocation()).thenReturn(location);
         when(location.getId()).thenReturn(LOCATION_ID);
 
-        Session updatedSession = service.modifySessionLocation(SESSION_ID, LOCATION_ID);
+        updatedSession = service.modifySessionLocation(SESSION_ID, LOCATION_ID);
 
         verify(sessionRepository).save(any(Session.class));
+        } catch (Exception error) {
+        fail(error.getMessage());
+        }
+        assertNotNull(updatedSession);
         assertEquals(LOCATION_ID, updatedSession.getLocation().getId());
     }
 
     @Test
     public void testAssignInstructorToSession() {
-        InstructorAssignment returnedAssignment = service.assignInstructorToSession(SESSION_ID, INSTRUCTOR_ID);
-
+        InstructorAssignment returnedAssignment = null;
+        try{
+        returnedAssignment = service.assignInstructorToSession(SESSION_ID, INSTRUCTOR_ID);
+        } catch (Exception error) {
+        fail(error.getMessage());
+        }
         assertNotNull(returnedAssignment);
         assertEquals(SESSION_ID, returnedAssignment.getSession().getId());
         assertEquals(INSTRUCTOR_ID, returnedAssignment.getInstructor().getId());

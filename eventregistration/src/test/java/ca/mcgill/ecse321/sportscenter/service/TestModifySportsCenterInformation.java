@@ -16,9 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.mcgill.ecse321.sportscenter.model.*;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
-import ca.mcgill.ecse321.sportscenter.service.ModifySportsCenterInformationService;
 import ca.mcgill.ecse321.sportscenter.dao.*;
-import ca.mcgill.ecse321.sportscenter.dto.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TestModifySportsCenterInformation {
@@ -79,11 +77,14 @@ public class TestModifySportsCenterInformation {
 
     @Test
     public void testUpdateCourse() {
-        //CourseDto courseDto = new CourseDto();
-       // courseDto.setName("Yoga");
-        Course updatedCourse = service.updateCenterCourse(COURSE_ID, "Yoga", 
+        Course updatedCourse = null;
+        try{
+        updatedCourse = service.updateCenterCourse(COURSE_ID, "Yoga", 
         "hot yoga", CourseStatus.Approved, 13.0f, 1.0f);
-
+        } catch (Exception error) {
+        fail(error.getMessage());
+        }
+        assertNotNull(updatedCourse);
         assertEquals("Yoga", updatedCourse.getName());
         assertEquals("hot yoga", updatedCourse.getDescription());
         assertEquals(CourseStatus.Approved, updatedCourse.getCourseStatus());
@@ -94,10 +95,14 @@ public class TestModifySportsCenterInformation {
 
     @Test
     public void testUpdateLocation() {
-        //LocationDto locationDto = new LocationDto();
-        Location updatedLocation = service.updateCenterLocation(LOCATION_ID, "Park", 
+        Location updatedLocation = null;
+        try{
+        updatedLocation = service.updateCenterLocation(LOCATION_ID, "Park", 
         100, Time.valueOf("09:00:00"), Time.valueOf("10:30:00"));
-
+        } catch (Exception error) {
+        fail(error.getMessage());
+        }
+        assertNotNull(updatedLocation);
         assertEquals("Park", updatedLocation.getName());
         assertEquals(100, updatedLocation.getCapacity());
         verify(locationRepository).save(any(Location.class));
@@ -105,11 +110,15 @@ public class TestModifySportsCenterInformation {
 
     @Test
     public void testUpdateInstructor() {
-        //InstructorDto instructorDto = new InstructorDto();
-        //instructorDto.setName("Julien Audet");
-        Instructor updatedInstructor = service.updateCenterInstructor(INSTRUCTOR_ID, 
+        Instructor updatedInstructor = null;
+        try{
+        updatedInstructor = service.updateCenterInstructor(INSTRUCTOR_ID, 
         "Julien", "Audet", "jaudet@gmail.com");
+        } catch (Exception error) {
+        fail(error.getMessage());
+        }
 
+        assertNotNull(updatedInstructor);
         assertEquals("Julien", updatedInstructor.getAccount().getFirstName());
         assertEquals("Audet", updatedInstructor.getAccount().getLastName());
         assertEquals("jaudet@gmail.com", updatedInstructor.getAccount().getEmail());

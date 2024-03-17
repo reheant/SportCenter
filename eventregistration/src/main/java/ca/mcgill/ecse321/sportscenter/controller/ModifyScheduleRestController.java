@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.sportscenter.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.sportscenter.dto.*;
@@ -11,50 +13,54 @@ import java.sql.Time;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/schedule/modify")
 public class ModifyScheduleRestController {
 
 	@Autowired
 	private ModifyScheduleService modifyScheduleService;
 
     // modify a session's start and end times
-    @PutMapping(value = { "/sessions/{sessionId}/time", "/sessions/{sessionId}/time/" })
-    public SessionDto modifySessionTime(@PathVariable("sessionId") Integer sessionId,
-                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time startTime,
-                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time endTime) {
-
-            return convertToDto(modifyScheduleService.modifySessionTime(sessionId, startTime, endTime));
+    @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/time", "/schedule/modify/sessions/{sessionId}/time/" })
+    public ResponseEntity<SessionDto> modifySessionTime(@PathVariable("sessionId") Integer sessionId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time startTime,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time endTime)
+            throws Exception {
+                SessionDto sessionDto = convertToDto(modifyScheduleService.modifySessionTime(sessionId, startTime, endTime));
+                return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);
     }
 
     // modify the course of a session
-    @PutMapping(value = { "/sessions/{sessionId}/course/{courseId}", "/sessions/{sessionId}/course/{courseId}/" })
-    public SessionDto modifySessionCourse(@PathVariable("sessionId") Integer sessionId,
-                                          @PathVariable("courseId") Integer courseId) {
-            Session s = modifyScheduleService.modifySessionCourse(sessionId, courseId);
-            return convertToDto(s);
+    @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/course/{courseId}", "/schedule/modify/sessions/{sessionId}/course/{courseId}/" })
+    public ResponseEntity<SessionDto> modifySessionCourse(@PathVariable("sessionId") Integer sessionId,
+                                          @PathVariable("courseId") Integer courseId)
+                                          throws Exception {
+            Session session = modifyScheduleService.modifySessionCourse(sessionId, courseId);
+            SessionDto sessionDto = convertToDto(session);
+            return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);
     }
 
      // modify the location of a session
-     @PutMapping(value = { "/sessions/{sessionId}/location/{locationId}", "/sessions/{sessionId}/location/{locationId}/" })
-     public SessionDto modifySessionLocation(@PathVariable("sessionId") Integer sessionId,
-                                             @PathVariable("locationId") Integer locationId) {
-     
-            return convertToDto(modifyScheduleService.modifySessionLocation(sessionId, locationId));
-
-     }
+     @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/location/{locationId}", "/schedule/modify/sessions/{sessionId}/location/{locationId}/" })
+     public ResponseEntity<SessionDto> modifySessionLocation(@PathVariable("sessionId") Integer sessionId,
+                                             @PathVariable("locationId") Integer locationId)
+                                             throws Exception {
+                SessionDto sessionDto = convertToDto(modifyScheduleService.modifySessionLocation(sessionId, locationId));
+                return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);     
+    }
  
      // assign an instructor to a session
-     @PutMapping(value = { "/sessions/{sessionId}/instructor/{instructorId}", "/sessions/{sessionId}/instructor/{instructorId}/" })
-     public InstructorAssignmentDto assignInstructorToSession(@PathVariable("sessionId") Integer sessionId,
-                                                 @PathVariable("instructorId") Integer instructorId) {
-            return convertToDto(modifyScheduleService.assignInstructorToSession(sessionId, instructorId));
-
+     @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/instructor/{instructorId}", "/schedule/modify/sessions/{sessionId}/instructor/{instructorId}/" })
+     public ResponseEntity<InstructorAssignmentDto> assignInstructorToSession(@PathVariable("sessionId") Integer sessionId,
+                                                 @PathVariable("instructorId") Integer instructorId)
+                                                 throws Exception {
+                InstructorAssignmentDto dto = convertToDto(modifyScheduleService.assignInstructorToSession(sessionId, instructorId));
+                return new ResponseEntity<>(dto, HttpStatus.CREATED);  
      }
 
-     private SessionDto convertToDto(Session session) {
+     private SessionDto convertToDto(Session session) throws Exception {
         if (session == null) {
-            throw new IllegalArgumentException("There is no such Session!");
+            throw new Exception("There is no such Session!");
         }
+ 
         Course c = session.getCourse();
         String courseName = c.getName();
         Location l = session.getLocation();
@@ -62,11 +68,12 @@ public class ModifyScheduleRestController {
 
         SessionDto dto = new SessionDto(session.getStartTime(), session.getEndTime(), courseName, locationName);
         return dto;
+ 
     }
 
-    private InstructorAssignmentDto convertToDto(InstructorAssignment assignment) {
+    private InstructorAssignmentDto convertToDto(InstructorAssignment assignment) throws Exception {
         if (assignment == null) {
-            throw new IllegalArgumentException("There is no such Instructor Assignment!");
+            throw new Exception("There is no such Instructor Assignment!");
         }
 
         Instructor i = assignment.getInstructor();
@@ -78,6 +85,12 @@ public class ModifyScheduleRestController {
         InstructorAssignmentDto dto = new InstructorAssignmentDto(instructorName,
         sessionId);
         return dto;
+
+    }
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String authorized(Exception e) {
+        return e.getMessage();
     }
  
 }
