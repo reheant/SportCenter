@@ -78,7 +78,7 @@ public class CustomerIntegrationTests {
         String email = testCreateCustomer();
         testGetCustomer(email);
     }
-
+    @Test
     private String testCreateCustomer() {
         String urlTemplate = UriComponentsBuilder.fromPath("/customer/{firstName}")
             .queryParam("lastName", "Thillai")
@@ -100,7 +100,7 @@ public class CustomerIntegrationTests {
         assertEquals(true, response.getBody().getWantsEmailConfirmation());
 		return response.getBody().getEmail();
 	}
-
+    @Test
     private void testGetCustomer(String email) {
 		ResponseEntity<CustomerDto> response = client.getForEntity("/customer/" + email, CustomerDto.class);
 
