@@ -89,9 +89,35 @@ public class RegistrationService {
         return registrationRepository.save(registration);
     }
 
+
+    @Transactional
+    public Boolean unregister(String email, Integer session_id) {
+        if (email == null) {
+            throw new NullPointerException("Email cannot be null.");
+        } else if (session_id == null) {
+            throw new NullPointerException("Session id cannot be null.");
+        }
+         for (Registration existing_registration: registrationRepository.findAll()) {
+            if (existing_registration.getCustomer().getAccount().getEmail() == email && existing_registration.getSession().getId() == session_id) {
+                try {
+                    existing_registration.delete();
+                    return true;
+                } catch (Exception error){
+                    return false;
+                }
+            }
+         }
+         return false;
+    }
+
     // unregister a customer
+        // email null
+        // session id null
+        // registration not found?
+    
         // any way this fails?
-        // what if less than 24h? can they cancel then?
+        // what if less than 24h? can they cancel then? yup
+        
 
         
     // get all registrations by customer email
