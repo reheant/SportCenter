@@ -19,7 +19,7 @@ public class ModifyScheduleRestController {
 	private ModifyScheduleService modifyScheduleService;
 
     // modify a session's start and end times
-    @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/time", "/schedule/modify/sessions/{sessionId}/time/" })
+    @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/time", "/schedule/modify/sessions/{sessionId}/time/" })
     public ResponseEntity<SessionDto> modifySessionTime(@PathVariable("sessionId") Integer sessionId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time startTime,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time endTime)
