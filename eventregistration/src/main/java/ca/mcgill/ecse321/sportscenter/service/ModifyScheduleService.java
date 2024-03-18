@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Time;
+import java.time.LocalDateTime;
 
 @Service
 public class ModifyScheduleService {
@@ -23,7 +23,7 @@ public class ModifyScheduleService {
     private InstructorAssignmentRepository instructorAssignmentRepository;
 
     @Transactional
-    public Session modifySessionTime(Integer sessionId, Time newStartTime, Time newEndTime) throws Exception {
+    public Session modifySessionTime(Integer sessionId, LocalDateTime newStartTime, LocalDateTime newEndTime) throws Exception {
         if (sessionId == null || newStartTime == null || newEndTime == null){
             throw new Exception("Please ensure all fields are complete and none are empty");
         }

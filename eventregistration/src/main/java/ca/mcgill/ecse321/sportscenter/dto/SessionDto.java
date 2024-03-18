@@ -1,53 +1,51 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
-import java.sql.Time;
+import java.time.LocalDateTime;
 
 public class SessionDto {
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private String courseName;
+    private String locationName;
 
-    private Time startTime;
-    private Time endTime;
-    private String course;
-    private String location;
-
-    public SessionDto(){}
-
-    public SessionDto(Time startTime, Time endTime, String course, String location) {
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.course = course;
-    this.location = location;
+    public SessionDto() {
     }
 
-    public Time getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Time startTime) {
+    public SessionDto(LocalDateTime startTime,
+                      LocalDateTime endTime,
+                      String courseName,
+                      String locationName) {
         this.startTime = startTime;
+        this.endTime = endTime;
+        this.courseName = courseName;
+        this.locationName = locationName;
     }
 
-    public Time getEndTime() {
+    public LocalDateTime getStartTime() { return startTime; }
+
+    public LocalDateTime getEndTime() {
         return endTime;
     }
-
-    public void setEndTime(Time endTime) {
+    public void setStartTime(LocalDateTime startTime){
+        this.startTime = startTime;
+    }
+    public void setEndTime(LocalDateTime endTime){
         this.endTime = endTime;
     }
 
-    public String getCourse() {
-        return this.course;
+    public String getLocationName() {
+        return locationName;
     }
 
-    public void setCourseId(String course) {
-        this.course = course;
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
-    public String getLocationId() {
-        return location;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setLocationId(String location) {
-        this.location = location;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
-
 }

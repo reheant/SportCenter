@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
+import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.Location;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
-import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 @SpringBootTest
 public class InstructorAssignmentRepositoryTests {
@@ -84,8 +85,8 @@ public class InstructorAssignmentRepositoryTests {
         locationRepository.save(location);
 
         // create a session
-        Time startTime = Time.valueOf("08:00:00");
-        Time endTime = Time.valueOf("12:00:00");
+        LocalDateTime startTime = LocalDateTime.parse("2023-03-11T08:00:00");
+        LocalDateTime endTime = LocalDateTime.parse("2023-03-11T12:00:00");
 
         Session session = new Session(startTime, endTime, course, location);
         // load session

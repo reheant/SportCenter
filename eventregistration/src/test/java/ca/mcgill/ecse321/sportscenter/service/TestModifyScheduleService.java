@@ -12,7 +12,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -76,8 +79,8 @@ public class TestModifyScheduleService {
 
     @Test
     public void testModifySessionTiming() {
-        Time newStartTime = Time.valueOf("10:00:00");
-        Time newEndTime = Time.valueOf("12:00:00");
+        LocalDateTime newStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
+        LocalDateTime newEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
         Session updatedSession = null;
         try{
         when(session.getStartTime()).thenReturn(newStartTime);

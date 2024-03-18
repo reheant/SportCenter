@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.sportscenter.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ca.mcgill.ecse321.sportscenter.dto.*;
 import ca.mcgill.ecse321.sportscenter.model.*;
 import ca.mcgill.ecse321.sportscenter.service.ModifyScheduleService;
-import java.sql.Time;
+import java.time.LocalDateTime;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -21,8 +20,8 @@ public class ModifyScheduleRestController {
     // modify a session's start and end times
     @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/time", "/schedule/modify/sessions/{sessionId}/time/" })
     public ResponseEntity<SessionDto> modifySessionTime(@PathVariable("sessionId") Integer sessionId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time startTime,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") Time endTime)
+            @RequestParam LocalDateTime startTime,
+            @RequestParam LocalDateTime endTime)
             throws Exception {
                 SessionDto sessionDto = convertToDto(modifyScheduleService.modifySessionTime(sessionId, startTime, endTime));
                 return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);
