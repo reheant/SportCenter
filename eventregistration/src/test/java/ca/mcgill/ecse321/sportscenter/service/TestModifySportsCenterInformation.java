@@ -5,6 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -48,8 +52,9 @@ public class TestModifySportsCenterInformation {
 
         Session session = new Session();
         session.setId(SESSION_ID);
-        Time startTime = Time.valueOf("09:00:00");
-        Time endTime = Time.valueOf("10:30:00");
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("9:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
+        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:30:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
+
         session.setStartTime(startTime);
         session.setEndTime(endTime);
         lenient().when(sessionRepository.findById(SESSION_ID)).thenReturn(Optional.of(session));
