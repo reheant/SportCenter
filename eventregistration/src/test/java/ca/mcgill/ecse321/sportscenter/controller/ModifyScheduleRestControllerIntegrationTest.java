@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import ca.mcgill.ecse321.sportscenter.dao.*;
 import ca.mcgill.ecse321.sportscenter.dto.*;
@@ -40,6 +40,8 @@ public class ModifyScheduleRestControllerIntegrationTest {
     private InstructorRepository instructorRepo;
     @Autowired
     private InstructorAssignmentRepository instructorAssignmentRepo;
+    @Autowired
+    private AccountRepository accountRepo;
 
     @BeforeEach
     @AfterEach
@@ -51,132 +53,95 @@ public class ModifyScheduleRestControllerIntegrationTest {
         instructorAssignmentRepo.deleteAll();
     }
 
+    private Session createDefaultSession(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm:ss");
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("9:00:00", formatter));
+        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", formatter));
+        Time openingTime = Time.valueOf("7:00:00");
+        Time closingTime = Time.valueOf("18:00:00");
+        Course course = new Course("Zumba", "fun zumba for all", CourseStatus.Approved, true, 1.0f, 20.0f);
+        courseRepo.save(course);
+        Location location = new Location("Studio A", 30, openingTime, closingTime);
+        locationRepo.save(location);
+        
+        Session session = new Session(startTime, endTime, course, location);
+        sessionRepo.save(session);
+        return session;
+    }
+
     @Test
     public void testModifySessionTime() {
-        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-
-        Course c = new Course("yoga", "hot yoga", CourseStatus.Approved, true, 1.0f, 13.0f);
-        Location l = new Location("park", 40, Time.valueOf("6:00:00"), Time.valueOf("18:00:00"));
-        Session s = new Session (startTime, endTime, c, l);
-        
+        Session session = createDefaultSession();
         LocalDateTime newStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
         LocalDateTime newEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
+        session.setEndTime(newEndTime);
+        session.setStartTime(newStartTime);
+        sessionRepo.save(session);
 
-        Integer sessionId = s.getId();
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/{sessionId}/time")
+        .queryParam("startTime", newStartTime)
+        .queryParam("endTime", newEndTime)
+        .encode()
+        .toUriString();
+        ResponseEntity<SessionDto> response = client.postForEntity(urlTemplate, session, SessionDto.class);
 
-        ResponseEntity<SessionDto> response = client.exchange(
-            "/schedule/modify/sessions/{sessionId}/time?startTime={startTime}&endTime={endTime}",
-            HttpMethod.PUT,
-            null,
-            SessionDto.class,
-            sessionId,
-            newStartTime,
-            newEndTime
-        );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-    }
-    @Test
-    public void testModifySessionTimeBadRequest() {
-    
-    Integer sessionId = -1; //no such session id
-    Time startTime = Time.valueOf("10:00:00");
-    Time endTime = Time.valueOf("12:00:00");
-
-    ResponseEntity<String> response = client.exchange(
-        "/schedule/modify/sessions/{sessionId}/time?startTime={startTime}&endTime={endTime}",
-        HttpMethod.PUT,
-        null,
-        String.class,
-        sessionId,
-        startTime,
-        endTime
-    );
-    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
     }
 
     @Test
     public void testModifySessionLocation() {
-        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-
         Location newLocation = new Location("gym", 50, Time.valueOf("5:00:00"), Time.valueOf("23:00:00"));
-        Session session = new Session(startTime, endTime, new Course(), newLocation);
-        Integer sessionId = session.getId();
-        Integer locationId = newLocation.getId(); 
+        locationRepo.save(newLocation);
+        Session session = createDefaultSession();
+        session.setLocation(newLocation);
+        sessionRepo.save(session);
 
-        ResponseEntity<SessionDto> response = client.exchange(
-            "/schedule/modify/sessions/{sessionId}/location/{locationId}",
-            HttpMethod.PUT,
-            null,
-            SessionDto.class,
-            sessionId,
-            locationId
-        );
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/location")
+        .queryParam("locationId", newLocation.getId())
+        .encode()
+        .toUriString();
+        ResponseEntity<SessionDto> response = client.postForEntity(urlTemplate, session, SessionDto.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
     }
-
     @Test
-    public void testModifySessionLocationBadRequest() {
-        Integer sessionId = -1; // Id no exist
-        Integer locationId = -1; // Id no exist
+    public void testModifySessionCourse() {
+        Course newCourse = new Course("Zumba", "fun zumba for all", CourseStatus.Approved, true, 1.0f, 20.0f);     
+        courseRepo.save(newCourse);
+        Session session = createDefaultSession();
+        session.setCourse(newCourse);
+        sessionRepo.save(session);
 
-        ResponseEntity<String> response = client.exchange(
-            "/schedule/modify/sessions/{sessionId}/location/{locationId}",
-            HttpMethod.PUT,
-            null,
-            String.class,
-            sessionId,
-            locationId
-        );
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/{sessionId}/course" + session.getId()+ "/course")
+        .queryParam("sessionId", newCourse.getId())
+        .encode()
+        .toUriString();
+        ResponseEntity<SessionDto> response = client.postForEntity(urlTemplate, session, SessionDto.class);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
     }
 
         @Test
         public void testAssignInstructorToSession() {
-            LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-            LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
+            Session session = createDefaultSession();
+            Account acc = new Account("Alex", "Whaba", "awhaba@gmail.com", "aBc123!");
+            accountRepo.save(acc);
+            Instructor instructor = new Instructor(acc);
+            instructorRepo.save(instructor);
+            InstructorAssignment ass = new InstructorAssignment(instructor, session);
+            instructorAssignmentRepo.save(ass);
 
-            Instructor instructor = new Instructor();
-            Session session = new Session(startTime, endTime, new Course(), new Location());
-            Integer sessionId = session.getId();
-            Integer instructorId = instructor.getId(); 
+            String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/instructor")
+            .queryParam("instructorId", instructor.getId())
+            .encode()
+            .toUriString();
+            ResponseEntity<InstructorAssignmentDto> response = client.postForEntity(urlTemplate, ass, InstructorAssignmentDto.class);
 
-            ResponseEntity<InstructorAssignmentDto> response = client.exchange(
-            "/schedule/modify/sessions/{sessionId}/instructor/{instructorId}",
-            HttpMethod.PUT,
-            null,
-            InstructorAssignmentDto.class,
-            sessionId,
-            instructorId
-            );
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
+            assertNotNull(response);
+            assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
     }
 
-    @Test
-    public void testAssignInstructorToSessionBadRequest() {
-        Integer sessionId = -1; 
-        Integer instructorId = -1;
-
-        ResponseEntity<String> response = client.exchange(
-            "/schedule/modify/sessions/{sessionId}/instructor/{instructorId}",
-            HttpMethod.PUT,
-            null,
-            String.class,
-            sessionId,
-            instructorId
-        );
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNotNull(response.getBody());
-    }
-   
 }

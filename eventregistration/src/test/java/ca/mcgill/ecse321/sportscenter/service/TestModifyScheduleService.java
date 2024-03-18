@@ -79,8 +79,10 @@ public class TestModifyScheduleService {
 
     @Test
     public void testModifySessionTiming() {
-        LocalDateTime newStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-        LocalDateTime newEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm:ss");
+        LocalDateTime newStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", formatter));
+        LocalDateTime newEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", formatter));
+       
         Session updatedSession = null;
         try{
         when(session.getStartTime()).thenReturn(newStartTime);

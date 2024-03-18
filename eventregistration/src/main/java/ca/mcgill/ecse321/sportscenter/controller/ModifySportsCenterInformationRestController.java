@@ -12,15 +12,13 @@ import ca.mcgill.ecse321.sportscenter.model.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/sportscenter/modify")
 public class ModifySportsCenterInformationRestController {
     @Autowired
     private ModifySportsCenterInformationService modifySportsCenterInformationService;
 
     // update a course
-    @PutMapping("/courses/{courseId}")
-    public ResponseEntity<CourseDto> updateCourse(@PathVariable Integer courseId, @RequestBody CourseDto courseDto) throws Exception {
-        
+    @PostMapping(value = { "/sportscenter/modify/courses", "sportscenter/modify/courses/"} )
+    public ResponseEntity<CourseDto> updateCourse(@RequestParam(name = "courseId") Integer courseId, @RequestBody CourseDto courseDto) throws Exception {
             Course course = modifySportsCenterInformationService.updateCenterCourse(courseId, 
             courseDto.getName(), courseDto.getDescription(), courseDto.getCourseStatus(), courseDto.getCost(),
             courseDto.getDefaultDuration());
@@ -29,8 +27,8 @@ public class ModifySportsCenterInformationRestController {
     }
 
     // update a location
-    @PutMapping("/locations/{locationId}")
-    public ResponseEntity<LocationDto> updateLocation(@PathVariable Integer locationId, @RequestBody LocationDto locationDto) throws Exception {
+    @PutMapping(value = { "/sportscenter/modify/locations", "/sportscenter/modify/locations/"})
+    public ResponseEntity<LocationDto> updateLocation(@RequestParam(name = "locationId")  Integer locationId, @RequestBody LocationDto locationDto) throws Exception {
             Location location = modifySportsCenterInformationService.updateCenterLocation(locationId, 
             locationDto.getName(), locationDto.getCapacity(), locationDto.getOpeningTime(), locationDto.getClosingTime());
             LocationDto dto = convertToDto(location);
@@ -38,8 +36,8 @@ public class ModifySportsCenterInformationRestController {
     }
 
     // update an instructor's details
-    @PutMapping("/instructors/{instructorId}")
-    public ResponseEntity<InstructorDto> updateInstructor(@PathVariable Integer instructorId, @RequestBody InstructorDto instructorDto) throws Exception {
+    @PutMapping(value = { "/sportscenter/modify/instructors, /sportscenter/modify/instructors/"})
+    public ResponseEntity<InstructorDto> updateInstructor(@RequestParam(name = "instructorId")  Integer instructorId, @RequestBody InstructorDto instructorDto) throws Exception {
         
             Instructor instructor = modifySportsCenterInformationService.updateCenterInstructor(instructorId, 
             instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail());

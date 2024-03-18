@@ -18,7 +18,7 @@ public class ModifyScheduleRestController {
 	private ModifyScheduleService modifyScheduleService;
 
     // modify a session's start and end times
-    @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/time", "/schedule/modify/sessions/{sessionId}/time/" })
+    @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/time", "/schedule/modify/sessions/{sessionId}/time/" })
     public ResponseEntity<SessionDto> modifySessionTime(@PathVariable("sessionId") Integer sessionId,
             @RequestParam LocalDateTime startTime,
             @RequestParam LocalDateTime endTime)
@@ -28,9 +28,9 @@ public class ModifyScheduleRestController {
     }
 
     // modify the course of a session
-    @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/course/{courseId}", "/schedule/modify/sessions/{sessionId}/course/{courseId}/" })
+    @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/course", "/schedule/modify/sessions/{sessionId}/course/" })
     public ResponseEntity<SessionDto> modifySessionCourse(@PathVariable("sessionId") Integer sessionId,
-                                          @PathVariable("courseId") Integer courseId)
+    @RequestParam(name = "courseId") Integer courseId)
                                           throws Exception {
             Session session = modifyScheduleService.modifySessionCourse(sessionId, courseId);
             SessionDto sessionDto = convertToDto(session);
@@ -38,18 +38,18 @@ public class ModifyScheduleRestController {
     }
 
      // modify the location of a session
-     @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/location/{locationId}", "/schedule/modify/sessions/{sessionId}/location/{locationId}/" })
+     @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/location", "/schedule/modify/sessions/{sessionId}/location/" })
      public ResponseEntity<SessionDto> modifySessionLocation(@PathVariable("sessionId") Integer sessionId,
-                                             @PathVariable("locationId") Integer locationId)
+     @RequestParam(name = "locationId") Integer locationId)
                                              throws Exception {
                 SessionDto sessionDto = convertToDto(modifyScheduleService.modifySessionLocation(sessionId, locationId));
                 return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);     
     }
  
      // assign an instructor to a session
-     @PutMapping(value = { "/schedule/modify/sessions/{sessionId}/instructor/{instructorId}", "/schedule/modify/sessions/{sessionId}/instructor/{instructorId}/" })
+     @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/instructor", "/schedule/modify/sessions/{sessionId}/instructor/" })
      public ResponseEntity<InstructorAssignmentDto> assignInstructorToSession(@PathVariable("sessionId") Integer sessionId,
-                                                 @PathVariable("instructorId") Integer instructorId)
+     @RequestParam(name = "instructorId") Integer instructorId)
                                                  throws Exception {
                 InstructorAssignmentDto dto = convertToDto(modifyScheduleService.assignInstructorToSession(sessionId, instructorId));
                 return new ResponseEntity<>(dto, HttpStatus.CREATED);  

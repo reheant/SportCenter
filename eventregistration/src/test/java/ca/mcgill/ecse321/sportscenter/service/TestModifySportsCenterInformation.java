@@ -52,9 +52,9 @@ public class TestModifySportsCenterInformation {
 
         Session session = new Session();
         session.setId(SESSION_ID);
-        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("9:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:30:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm:ss");
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("9:00:00", formatter));
+        LocalDateTime endTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("10:00:00", formatter));
         session.setStartTime(startTime);
         session.setEndTime(endTime);
         lenient().when(sessionRepository.findById(SESSION_ID)).thenReturn(Optional.of(session));
