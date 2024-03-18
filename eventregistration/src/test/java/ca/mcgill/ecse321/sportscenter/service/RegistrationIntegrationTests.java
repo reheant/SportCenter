@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -86,6 +87,28 @@ public class RegistrationIntegrationTests {
     }
 
     @Test
+    public void testRegisterCustomerNotFound() {
+        createAndSaveClassesForRegistration();
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/" + "totallyNotJimBob@yahoo.ca")
+                .queryParam("sessionId", session.getId())
+                .encode()
+                .toUriString();
+        ResponseEntity<String> postResponse = client.postForEntity(urlTemplate, null, String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
+    }
+
+    @Test
+    public void testRegisterSessionNotFound() {
+        createAndSaveClassesForRegistration();
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/" + email)
+                .queryParam("sessionId", 31415)
+                .encode()
+                .toUriString();
+        ResponseEntity<String> postResponse = client.postForEntity(urlTemplate, null, String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
+    }
+
+    @Test
     public void testUnregister() {
         createTestRegistration();
         assertTrue(registrationRepository.findById(registration.getId()).isPresent());
@@ -94,7 +117,7 @@ public class RegistrationIntegrationTests {
             .encode()
             .toUriString();
         client.delete(urlTemplate);
-        registration = null;
+        assertFalse(sessionRepository.findById(registration.getId()).isPresent());
     }
     
     private void createTestRegistration() {
