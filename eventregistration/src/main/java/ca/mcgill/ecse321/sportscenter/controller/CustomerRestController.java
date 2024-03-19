@@ -49,7 +49,7 @@ public class CustomerRestController {
 		CustomerDto customer = null;
 		for (Customer c : customerService.getAllCustomers()) {
 			if (c.getAccount().getEmail().equals(email)){
-				customer = convertToDto(c);
+				customer = DtoConverter.convertToDto(c);
 			}
 		}
 		return customer;
@@ -79,5 +79,10 @@ public class CustomerRestController {
 		return new ResponseEntity<>(cardDto, HttpStatus.CREATED);
 	}
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String authorized(Exception e) {
+        return e.getMessage();
+    }
 
 }
