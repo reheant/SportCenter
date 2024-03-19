@@ -36,8 +36,8 @@ Customers can also access a view of their completed classes as well as their upc
 ## Sprint 1: Effort Table 💪
 | Name | Role | Effort in hours |
 | --- | --- | --- |
-| Anastasiia Nemyrovska | Documentation, Backend service implementation, unit testing and Integration testing for : Filter view of courses and sessions, filter session by instructor name  |  |
-| Julien Audet | Documentation, Backend service implementation, unit testing and Integration testing for : register/unregister for a session, send confirmation email, view additional info about a session |  |
+| Anastasiia Nemyrovska | Documentation, Backend service implementation, Unit testing and Integration testing for: Filter view of courses and sessions, Create/Delete sessions, Send email notification to confirm registration  |  |
+| Julien Audet | Documentation, Backend service implementation, unit testing and Integration testing for : register/unregister for a session, view additional info about a session |  |
 |  Tim Pham | Documentation, Swagger setup, Backend service implementation, unit testing and Integration testing for : Login/Logout |  | 
 |  Rehean Thillainathalingam | Documentation, Backend service implementation, unit testing and Integration testing for : Create customer profile, modify user profiles and add payment information |  |
 |  Marc-Antoine Nadeau | Documentation, Backend service implementation, unit testing and Integration testing for : Add/Delete course, Admin approving a course and create admin profile| 25 |
