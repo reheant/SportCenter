@@ -27,7 +27,7 @@ import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class CustomerIntegrationTests {
+public class CustomerRestControllerIntegrationTests {
     @Autowired
     private TestRestTemplate client;
 

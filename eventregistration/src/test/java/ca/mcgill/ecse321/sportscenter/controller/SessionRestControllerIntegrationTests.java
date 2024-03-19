@@ -1,12 +1,13 @@
-package ca.mcgill.ecse321.sportscenter.service;
+package ca.mcgill.ecse321.sportscenter.controller;
 
-import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
-import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
-import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
-import ca.mcgill.ecse321.sportscenter.dto.SessionDto;
-import ca.mcgill.ecse321.sportscenter.model.Course;
-import ca.mcgill.ecse321.sportscenter.model.Location;
-import ca.mcgill.ecse321.sportscenter.model.Session;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,13 +18,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-
-import static org.junit.jupiter.api.Assertions.*;
+import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
+import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
+import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
+import ca.mcgill.ecse321.sportscenter.dto.SessionDto;
+import ca.mcgill.ecse321.sportscenter.model.Course;
+import ca.mcgill.ecse321.sportscenter.model.Location;
+import ca.mcgill.ecse321.sportscenter.model.Session;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SessionIntegrationTests {
+public class SessionRestControllerIntegrationTests {
     @Autowired
     private TestRestTemplate client;
     @Autowired
