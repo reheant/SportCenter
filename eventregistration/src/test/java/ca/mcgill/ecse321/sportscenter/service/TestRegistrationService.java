@@ -78,6 +78,20 @@ public class TestRegistrationService {
             }
         });
 
+        lenient().when(customerRepository.findCustomerByAccountEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(email)) {
+                customerAccount.setEmail(email);
+                customerAccount.setFirstName(firstName);
+                customerAccount.setLastName(lastName);
+                customerAccount.setPassword(password);
+                customer.setAccount(customerAccount);
+
+                return customer;
+            } else {
+                return null;
+            }
+        });
+
         lenient().when(customerRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             customerAccount.setEmail(email);
             customerAccount.setFirstName(firstName);
@@ -172,10 +186,9 @@ public class TestRegistrationService {
     public void testCreateRegistrationCustomerNotFound() {
         Session session = new Session();
         Registration registration = null;
-        List<Customer> emptyList = new ArrayList<>();
 
         lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
-        lenient().when(customerRepository.findAll()).thenReturn(emptyList); 
+        lenient().when(customerRepository.findCustomerByAccountEmail(anyString())).thenReturn(null); 
 
         try {
             registration = registrationService.register(email, session.getId());

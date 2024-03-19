@@ -40,7 +40,7 @@ public class RegistrationService {
      * @throws Exception if there is an error while creating the registration
      */
     @Transactional
-    public Registration register(String email, Integer session_id) throws Exception {
+    public Registration register(String email, Integer session_id) throws IllegalArgumentException, NullPointerException {
         if (email == null){
             throw new NullPointerException("The customer email cannot be null.");
         } else if (email.isEmpty()){
@@ -62,21 +62,14 @@ public class RegistrationService {
         if (customerAccount == null){
             throw new IllegalArgumentException("Email is not associated to an account.");
         }
-
-        List<Customer> existingCustomers = customerRepository.findAll();
-
-        boolean customerFound = false;
-        for (Customer customer: existingCustomers) {
-            if(customer.getAccount().equals(customerAccount)) {
-                registration.setCustomer(customer);
-                customerFound = true;
-                break;
-            }
-        }
-
-        if (!customerFound){
+        
+        Customer customer = customerRepository.findCustomerByAccountEmail(email);
+        
+        if (customer == null){
             throw new IllegalArgumentException("Account is not associated to a customer.");
         }
+
+        registration.setCustomer(customer);
 
         Session session = sessionRepository.findSessionById(session_id);
 
@@ -98,7 +91,7 @@ public class RegistrationService {
      * @return Boolean: true if a matching registration was found and successfully deleted. False Otherwise.
      */
     @Transactional
-    public Boolean unregister(String email, Integer session_id) {
+    public Boolean unregister(String email, Integer session_id) throws NullPointerException{
         if (email == null) {
             throw new NullPointerException("Email cannot be null.");
         } else if (session_id == null) {

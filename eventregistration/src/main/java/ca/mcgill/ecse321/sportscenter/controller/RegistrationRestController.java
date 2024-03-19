@@ -23,19 +23,25 @@ public class RegistrationRestController {
     private RegistrationService registrationService;
 
     @PostMapping(value = { "/registration/{email}", "registration/{email}/" })
-    public RegistrationDto register(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws Exception{
+    public RegistrationDto register(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException{
         Registration registration = registrationService.register(email, sessionId);
         return DtoConverter.convertToDto(registration);
     }
 
     @DeleteMapping(value = { "/unregister/{email}", "/unregister/{email}/" })
-    public void unregister(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws Exception{
+    public void unregister(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws NullPointerException{
         registrationService.unregister(email, sessionId);
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String authorized(Exception e) {
+    public String authorized(IllegalArgumentException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String authorized(NullPointerException e) {
         return e.getMessage();
     }
 }
