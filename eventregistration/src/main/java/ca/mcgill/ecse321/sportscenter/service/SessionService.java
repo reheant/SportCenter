@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
 import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
+import ca.mcgill.ecse321.sportscenter.dao.InstructorAssignmentRepository;
 import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
 import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
+import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +14,13 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class SessionService {
+    @Autowired
+    InstructorAssignmentRepository instructorAssignmentRepository;
     @Autowired
     SessionRepository sessionRepository;
     @Autowired
@@ -47,13 +49,13 @@ public class SessionService {
      * @param name The name to filter sessions by, typically the course name.
      * @param date The date to filter sessions by. Only sessions on this date are returned.
      * @param duration The exact duration in minutes to filter sessions by.
-     * @param instructorName The full name of the instructor to filter sessions by.
+     * @param instructor The full name of the instructor to filter sessions by.
      * @return A list of sessions that match the provided filter criteria, without duplicates.
      * @throws Exception if no matches are found or if an error occurs during filtering.
      */
     @Transactional
     public List<Session> viewFilteredSessions(
-            Collection<Integer> ids, String name, LocalDate date, Float duration) throws Exception {
+            Collection<Integer> ids, String name, LocalDate date, Float duration, String instructor) throws Exception {
         List<Session> filteredSessions = new ArrayList<>();
         if (ids != null) {
             List<Session> byId = sessionRepository.findSessionsByIdIn(ids);
@@ -77,6 +79,10 @@ public class SessionService {
             List<Session> byDuration = findSessionsByDuration(duration);
             filteredSessions.addAll(byDuration);
         }
+        if (instructor != null) {
+            List<Session> byInstructor = findSessionsByInstructorName(instructor);
+            filteredSessions.addAll(byInstructor);
+        }
         if (filteredSessions == null) {
             throw new Exception("No matches found.");
         }
@@ -97,6 +103,32 @@ public class SessionService {
                     return sessionDuration.toMinutes() == durationInMinutes;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public List<InstructorAssignment> findAssignmentsForSession(Session session) {
+        return instructorAssignmentRepository.findInstructorAssignmentBySessionId(session.getId());
+    }
+
+    public List<Session> findSessionsByInstructorName(String instructor) {
+        List<InstructorAssignment> assignments = instructorAssignmentRepository.findInstructorAssignmentByInstructorNameContainingIgnoreCase(instructor);
+        if (assignments.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Set<Integer> assignmentIds = assignments.stream()
+                .map(InstructorAssignment::getId)
+                .collect(Collectors.toSet());
+        List<Session> allSessions = (List<Session>) sessionRepository.findAll();
+        List<Session> matchedSessions = new ArrayList<>();
+        for (Session session : allSessions) {
+            List<InstructorAssignment> assignmentsForSession = findAssignmentsForSession(session);
+            for (InstructorAssignment assignment : assignmentsForSession) {
+                if (assignmentIds.contains(assignment.getId())) {
+                    matchedSessions.add(session);
+                    break;
+                }
+            }
+        }
+        return matchedSessions;
     }
 
     /**
