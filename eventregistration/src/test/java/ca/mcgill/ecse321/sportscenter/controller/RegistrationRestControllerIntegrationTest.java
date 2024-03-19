@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.sportscenter.service;
+package ca.mcgill.ecse321.sportscenter.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -31,7 +31,7 @@ import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class RegistrationIntegrationTests {
+public class RegistrationRestControllerIntegrationTest {
     
     @Autowired
     private TestRestTemplate client;
