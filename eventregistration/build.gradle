@@ -25,7 +25,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mockito:mockito-core:2.+'
 	testImplementation 'org.mockito:mockito-junit-jupiter:2.18.3'
-	testImplementation "org.junit.jupiter:junit-jupiter-engine" //MODIFIED THIS I PUT TESTIMPLEMENTATION INSTEAD OF TESTRUNTIME
+	//testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+	testImplementation "org.junit.jupiter:junit-jupiter-engine" // testImplementation instead of testRuntime
+	implementation 'com.sun.mail:javax.mail:1.6.2' // to send emails
 }
 
 tasks.named('test') {
