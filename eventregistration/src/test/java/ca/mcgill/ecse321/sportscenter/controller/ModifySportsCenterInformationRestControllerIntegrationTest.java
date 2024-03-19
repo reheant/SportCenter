@@ -40,11 +40,11 @@ public class ModifySportsCenterInformationRestControllerIntegrationTest {
     @BeforeEach
     @AfterEach
     public void clearDb() {
+        instructorRepo.deleteAll();
+        accountRepo.deleteAll();
         sessionRepo.deleteAll();
         courseRepo.deleteAll();
         locationRepo.deleteAll();
-        instructorRepo.deleteAll();
-        accountRepo.deleteAll();
     }
 
     @Test
@@ -53,9 +53,10 @@ public class ModifySportsCenterInformationRestControllerIntegrationTest {
         courseRepo.save(course);
         
         String urlTemplate = UriComponentsBuilder.fromPath("/sportscenter/modify/courses")
+        .queryParam("courseId", course.getId())
         .encode()
         .toUriString();
-        ResponseEntity<CourseDto> response = client.postForEntity(urlTemplate, null, CourseDto.class);
+        ResponseEntity<CourseDto> response = client.postForEntity(urlTemplate, course, CourseDto.class);
 
 		assertNotNull(response);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
@@ -67,10 +68,11 @@ public class ModifySportsCenterInformationRestControllerIntegrationTest {
         Location location = new Location("Studio A", 30, openingTime, closingTime);        
         locationRepo.save(location);
         
-        String urlTemplate = UriComponentsBuilder.fromPath(" /sportscenter/modify/locations")
+        String urlTemplate = UriComponentsBuilder.fromPath("/sportscenter/modify/locations")
+        .queryParam("locationId", location.getId())
         .encode()
         .toUriString();
-        ResponseEntity<LocationDto> response = client.postForEntity(urlTemplate, null, LocationDto.class);
+        ResponseEntity<LocationDto> response = client.postForEntity(urlTemplate, location, LocationDto.class);
 
 		assertNotNull(response);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
@@ -83,9 +85,10 @@ public class ModifySportsCenterInformationRestControllerIntegrationTest {
         instructorRepo.save(instructor);
 
         String urlTemplate = UriComponentsBuilder.fromPath("/sportscenter/modify/instructors")
+        .queryParam("instructorId", instructor.getId())
         .encode()
         .toUriString();
-        ResponseEntity<InstructorDto> response = client.postForEntity(urlTemplate, null, InstructorDto.class);
+        ResponseEntity<InstructorDto> response = client.postForEntity(urlTemplate, instructor, InstructorDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");

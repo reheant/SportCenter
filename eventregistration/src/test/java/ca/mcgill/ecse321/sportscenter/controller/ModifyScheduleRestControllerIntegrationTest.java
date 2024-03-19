@@ -46,11 +46,11 @@ public class ModifyScheduleRestControllerIntegrationTest {
     @BeforeEach
     @AfterEach
     public void clearDb() {
+        instructorAssignmentRepo.deleteAll();
         sessionRepo.deleteAll();
         courseRepo.deleteAll();
         locationRepo.deleteAll();
         instructorRepo.deleteAll();
-        instructorAssignmentRepo.deleteAll();
     }
 
     private Session createDefaultSession(){
@@ -78,7 +78,7 @@ public class ModifyScheduleRestControllerIntegrationTest {
         session.setStartTime(newStartTime);
         sessionRepo.save(session);
 
-        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/{sessionId}/time")
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/time")
         .queryParam("startTime", newStartTime)
         .queryParam("endTime", newEndTime)
         .encode()
@@ -114,8 +114,8 @@ public class ModifyScheduleRestControllerIntegrationTest {
         session.setCourse(newCourse);
         sessionRepo.save(session);
 
-        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/{sessionId}/course" + session.getId()+ "/course")
-        .queryParam("sessionId", newCourse.getId())
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/course")
+        .queryParam("courseId", newCourse.getId())
         .encode()
         .toUriString();
         ResponseEntity<SessionDto> response = client.postForEntity(urlTemplate, session, SessionDto.class);

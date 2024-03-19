@@ -27,7 +27,7 @@ public class ModifySportsCenterInformationRestController {
     }
 
     // update a location
-    @PutMapping(value = { "/sportscenter/modify/locations", "/sportscenter/modify/locations/"})
+    @PostMapping(value = { "/sportscenter/modify/locations", "/sportscenter/modify/locations/"})
     public ResponseEntity<LocationDto> updateLocation(@RequestParam(name = "locationId")  Integer locationId, @RequestBody LocationDto locationDto) throws Exception {
             Location location = modifySportsCenterInformationService.updateCenterLocation(locationId, 
             locationDto.getName(), locationDto.getCapacity(), locationDto.getOpeningTime(), locationDto.getClosingTime());
@@ -36,7 +36,7 @@ public class ModifySportsCenterInformationRestController {
     }
 
     // update an instructor's details
-    @PutMapping(value = { "/sportscenter/modify/instructors, /sportscenter/modify/instructors/"})
+    @PostMapping(value = { "/sportscenter/modify/instructors", "/sportscenter/modify/instructors/"})
     public ResponseEntity<InstructorDto> updateInstructor(@RequestParam(name = "instructorId")  Integer instructorId, @RequestBody InstructorDto instructorDto) throws Exception {
         
             Instructor instructor = modifySportsCenterInformationService.updateCenterInstructor(instructorId, 
