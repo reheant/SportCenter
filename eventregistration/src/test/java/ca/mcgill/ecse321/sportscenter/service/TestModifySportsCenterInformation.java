@@ -33,6 +33,8 @@ public class TestModifySportsCenterInformation {
     private LocationRepository locationRepository;
     @Mock
     private InstructorRepository instructorRepository;
+    @Mock
+    private AccountRepository accountRepository;
     
     @InjectMocks
     private ModifySportsCenterInformationService service;

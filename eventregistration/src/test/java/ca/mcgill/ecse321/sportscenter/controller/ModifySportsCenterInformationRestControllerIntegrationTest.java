@@ -88,6 +88,7 @@ public class ModifySportsCenterInformationRestControllerIntegrationTest {
         .queryParam("instructorId", instructor.getId())
         .encode()
         .toUriString();
+        
         ResponseEntity<InstructorDto> response = client.postForEntity(urlTemplate, instructor, InstructorDto.class);
 
         assertNotNull(response);

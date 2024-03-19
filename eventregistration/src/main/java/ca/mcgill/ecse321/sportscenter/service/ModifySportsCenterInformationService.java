@@ -21,6 +21,8 @@ public class ModifySportsCenterInformationService {
     private CourseRepository courseRepository;
     @Autowired
     private InstructorRepository instructorRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Transactional
     public Location updateCenterLocation(Integer locationId, String newName, Integer newCapacity, Time newOpeningTime, Time newClosingTime) throws Exception {
@@ -78,6 +80,7 @@ public class ModifySportsCenterInformationService {
         account.setFirstName(newFirstName);
         account.setLastName(newLastName);
         account.setEmail(newEmail);
+        accountRepository.save(account);
 
         instructor.setAccount(account);
         return instructorRepository.save(instructor);
