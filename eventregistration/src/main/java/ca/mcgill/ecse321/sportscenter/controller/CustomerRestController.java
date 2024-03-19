@@ -1,13 +1,15 @@
 package ca.mcgill.ecse321.sportscenter.controller;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.sportscenter.dto.CardDto;
@@ -21,6 +23,7 @@ import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.PayPal;
 import ca.mcgill.ecse321.sportscenter.service.CustomerService;
 
+
 @CrossOrigin(origins = "*")
 @RestController
 public class CustomerRestController {
@@ -29,50 +32,52 @@ public class CustomerRestController {
 	private CustomerService customerService;
 
 	@PostMapping(value = { "/customer/{firstName}", "/customer/{firstName}/" })
-	public CustomerDto createCustomer(@PathVariable("firstName") String firstName, @RequestParam(name = "lastName") String lastName,
+	public ResponseEntity<CustomerDto> createCustomer(@PathVariable("firstName") String firstName, @RequestParam(name = "lastName") String lastName,
 			@RequestParam(name = "email") String email, 
 			@RequestParam(name = "password") String password,
 			@RequestParam(name = "wantsEmailConfirmation") Boolean wantsEmailConfirmation)
 			throws Exception {
 		Customer customer = customerService.createCustomer(firstName, lastName, email, password,
 				wantsEmailConfirmation);
-        CustomerDto customerDto = DtoConverter.convertToDto(customer);
-		return customerDto;
+		CustomerDto customerDto = DtoConverter.convertToDto(customer);
+    	return new ResponseEntity<>(customerDto, HttpStatus.CREATED);
 
 	}
 
-	@GetMapping(value = { "/customers", "/customers/" })
-	public List<CustomerDto> getAllCustomers(){
-		List<CustomerDto> customerDtoList = new ArrayList<>();
+	@GetMapping(value = { "/customer/{email}", "/customer/{email}/" })
+	public CustomerDto getCustomer(@PathVariable(name = "email") String email) throws Exception{
+		CustomerDto customer = null;
 		for (Customer c : customerService.getAllCustomers()) {
-            CustomerDto customerDto = DtoConverter.convertToDto(c);
-			customerDtoList.add(customerDto);
+			if (c.getAccount().getEmail().equals(email)){
+				customer = convertToDto(c);
+			}
 		}
-		return customerDtoList;
+		return customer;
 	}
 
 	@PostMapping(value = { "/promote/{email}", "/promote/{email}/" })
-	public InstructorDto promoteCustomerByEmail(@PathVariable("email") String email)
-			throws Exception {
+	public ResponseEntity<InstructorDto> promoteCustomerByEmail(@PathVariable("email") String email) throws Exception {
 		Instructor instructor = customerService.promoteCustomerByEmail(email);
-        InstructorDto instructorDto = DtoConverter.convertToDto(instructor);
-		return instructorDto;
+		InstructorDto instructorDto = DtoConverter.convertToDto(instructor);
+		return new ResponseEntity<>(instructorDto, HttpStatus.CREATED);
 
 	}
 
 	@PostMapping(value = { "/paypal/add", "/paypal/add/" })
-	public PaypalDto setPaypalInformation(@RequestParam(name = "accountName") String accountName,@RequestParam(name = "customerEmail") String customerEmail,@RequestParam(name = "paypalEmail") String paypalEmail,
+	public ResponseEntity<PaypalDto> setPaypalInformation(@RequestParam(name = "accountName") String accountName,@RequestParam(name = "customerEmail") String customerEmail,@RequestParam(name = "paypalEmail") String paypalEmail,
 	@RequestParam(name = "paypalPassword") String paypalPassword) throws Exception {
 		PayPal payPal = customerService.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
-        PaypalDto paypalDto = DtoConverter.convertToDto(payPal);
-		return paypalDto;
+		PaypalDto paypalDto = DtoConverter.convertToDto(payPal);
+		return new ResponseEntity<>(paypalDto, HttpStatus.CREATED);
 	}
 
 	@PostMapping(value = { "/card/add", "/card/add/" })
-	public CardDto setCardInformation(@RequestParam(name = "accountName") String accountName, @RequestParam(name = "customerEmail") String customerEmail, @RequestParam(name = "paymentCardType") PaymentCardType paymentCardType, @RequestParam(name = "cardNumber") int cardNumber,
+	public ResponseEntity<CardDto> setCardInformation(@RequestParam(name = "accountName") String accountName, @RequestParam(name = "customerEmail") String customerEmail, @RequestParam(name = "paymentCardType") PaymentCardType paymentCardType, @RequestParam(name = "cardNumber") int cardNumber,
 	@RequestParam(name = "expirationDate") int expirationDate, @RequestParam(name = "ccv") int ccv) throws Exception{
 		Card card = customerService.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate, ccv);
-        CardDto cardDto = DtoConverter.convertToDto(card);
-		return cardDto;
+		CardDto cardDto = DtoConverter.convertToDto(card);
+		return new ResponseEntity<>(cardDto, HttpStatus.CREATED);
 	}
+
+
 }

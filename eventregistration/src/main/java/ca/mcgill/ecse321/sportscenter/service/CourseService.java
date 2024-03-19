@@ -30,20 +30,6 @@ public class CourseService {
     @Autowired 
     OwnerRepository ownerRepository;
     
-    /**
-    * Retrieves a course by its ID.
-    *
-    * @param id The ID of the course to retrieve. (Integer)
-    * @return The course with the specified ID.
-    * @throws Exception If the course is not found.
-    */
-    @Transactional
-    public Course getCourseById(Integer id) throws Exception {
-       Course course = courseRepository.findById(id).orElse(null);
-
-       if (course != null) return course;
-       else throw new Exception("Could not find Couse with name " + id);
-    }
 
     /**
     * Retrieves a course by its name.
@@ -188,10 +174,10 @@ public class CourseService {
     @Transactional
     public Course approveCourse(String name, String email) throws Exception {
         if (email == null){
-            throw new IllegalArgumentException("email is null");
+            throw new Exception("email is null");
         }
         if (name == null) {
-            throw new IllegalArgumentException("Requires a name");
+            throw new Exception("Requires a name");
         }
         
         Account ownerAccount = accountRepository.findAccountByEmail(email);
@@ -207,7 +193,7 @@ public class CourseService {
             }
         }
         if (!matchFound) {
-            throw new IllegalArgumentException("Owner with email " + email + " was not found.");
+            throw new Exception("Owner with email " + email + " was not found.");
         }
 
         Course course = courseRepository.findCourseByName(name); 
@@ -232,10 +218,10 @@ public class CourseService {
     public Course disapproveCourse(String name, String email) throws Exception {
 
         if (email == null){
-            throw new IllegalArgumentException("email is null");
+            throw new Exception("email is null");
         }
         if (name == null) {
-            throw new IllegalArgumentException("Requires a name");
+            throw new Exception("Requires a name");
         }
 
 
@@ -254,7 +240,7 @@ public class CourseService {
             }
         }
         if (!matchFound) {
-            throw new IllegalArgumentException("Owner with email " + email + " was not found.");
+            throw new Exception("Owner with email " + email + " was not found.");
         }
 
         Course course = courseRepository.findCourseByName(name); 
