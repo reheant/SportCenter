@@ -90,6 +90,13 @@ public class RegistrationService {
     }
 
 
+    /**
+     * Unregisters a customer for a session
+     * 
+     * @param email the email of the account associated to the customer.
+     * @param session_id the id of the session the customer is registered to.
+     * @return Boolean: true if a matching registration was found and successfully deleted. False Otherwise.
+     */
     @Transactional
     public Boolean unregister(String email, Integer session_id) {
         if (email == null) {
@@ -109,17 +116,4 @@ public class RegistrationService {
          }
          return false;
     }
-
-    // unregister a customer
-        // email null
-        // session id null
-        // registration not found?
-    
-        // any way this fails?
-        // what if less than 24h? can they cancel then? yup
-        
-
-        
-    // get all registrations by customer email
-    // get all registrations for a session
 }
