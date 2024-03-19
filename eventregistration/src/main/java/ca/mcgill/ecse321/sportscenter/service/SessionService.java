@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
 import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
+import ca.mcgill.ecse321.sportscenter.dao.InstructorAssignmentRepository;
 import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
 import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
+import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +14,13 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class SessionService {
+    @Autowired
+    InstructorAssignmentRepository instructorAssignmentRepository;
     @Autowired
     SessionRepository sessionRepository;
     @Autowired
@@ -47,13 +49,13 @@ public class SessionService {
      * @param name The name to filter sessions by, typically the course name.
      * @param date The date to filter sessions by. Only sessions on this date are returned.
      * @param duration The exact duration in minutes to filter sessions by.
-     * @param instructorName The full name of the instructor to filter sessions by.
+     * @param instructor The full name of the instructor to filter sessions by.
      * @return A list of sessions that match the provided filter criteria, without duplicates.
      * @throws Exception if no matches are found or if an error occurs during filtering.
      */
     @Transactional
     public List<Session> viewFilteredSessions(
-            Collection<Integer> ids, String name, LocalDate date, Float duration) throws Exception {
+            Collection<Integer> ids, String name, LocalDate date, Float duration, String instructor) throws Exception {
         List<Session> filteredSessions = new ArrayList<>();
         if (ids != null) {
             List<Session> byId = sessionRepository.findSessionsByIdIn(ids);
@@ -77,6 +79,10 @@ public class SessionService {
             List<Session> byDuration = findSessionsByDuration(duration);
             filteredSessions.addAll(byDuration);
         }
+        if (instructor != null) {
+            List<Session> byInstructor = findSessionsByInstructorName(instructor);
+            filteredSessions.addAll(byInstructor);
+        }
         if (filteredSessions == null) {
             throw new Exception("No matches found.");
         }
@@ -97,6 +103,54 @@ public class SessionService {
                     return sessionDuration.toMinutes() == durationInMinutes;
                 })
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Retrieves all InstructorAssignments linked to a specific session.
+     * This method searches for all instructor assignments associated with the provided session,
+     * effectively finding all instructors assigned to that session. This is useful for determining
+     * which instructors are responsible for a particular session.
+     *
+     * @param session The session for which to find associated instructor assignments. Must not be null.
+     * @return A list of InstructorAssignment objects associated with the provided session.
+     *         Returns an empty list if no instructor assignments are found for the session, or if the session is null.
+     * @throws IllegalArgumentException if the provided session is null or the session ID is invalid.
+     */
+    public List<InstructorAssignment> findAssignmentsForSession(Session session) {
+        return instructorAssignmentRepository.findInstructorAssignmentBySessionId(session.getId());
+    }
+
+    /**
+     * Finds all sessions led by instructors whose names contain the specified substring, ignoring case.
+     * This method involves several steps: identifying all instructors matching the given name criteria,
+     * finding their related instructor assignments, and then gathering all sessions that correspond to these assignments.
+     * This allows for the discovery of sessions based on partial instructor name matches.
+     *
+     * @param instructor The name substring to match against instructor names, ignoring case. If null or empty,
+     *                   an empty list is returned without performing a search.
+     * @return A list of Session objects that are associated with instructors whose names contain the specified substring.
+     *         Returns an empty list if no such sessions exist or if the instructor parameter is null or empty.
+     */
+    public List<Session> findSessionsByInstructorName(String instructor) {
+        List<InstructorAssignment> assignments = instructorAssignmentRepository.findInstructorAssignmentByInstructorNameContainingIgnoreCase(instructor);
+        if (assignments.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Set<Integer> assignmentIds = assignments.stream()
+                .map(InstructorAssignment::getId)
+                .collect(Collectors.toSet());
+        List<Session> allSessions = (List<Session>) sessionRepository.findAll();
+        List<Session> matchedSessions = new ArrayList<>();
+        for (Session session : allSessions) {
+            List<InstructorAssignment> assignmentsForSession = findAssignmentsForSession(session);
+            for (InstructorAssignment assignment : assignmentsForSession) {
+                if (assignmentIds.contains(assignment.getId())) {
+                    matchedSessions.add(session);
+                    break;
+                }
+            }
+        }
+        return matchedSessions;
     }
 
     /**

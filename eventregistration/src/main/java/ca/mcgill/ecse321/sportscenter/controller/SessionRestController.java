@@ -48,11 +48,12 @@ public class SessionRestController {
             @RequestParam(value="ids", required=false) Collection<Integer> ids,
             @RequestParam(value="name", required=false) String name,
             @RequestParam(value="date", required=false) LocalDate date,
-            @RequestParam(value="duration", required=false) Float duration) throws Exception {
-        if (ids == null && name == null && date == null && duration == null) {
+            @RequestParam(value="duration", required=false) Float duration,
+            @RequestParam(value="instructor", required=false) String instructor) throws Exception {
+        if (ids == null && name == null && date == null && duration == null && instructor == null) {
             return getAllSessions();
         }
-        return sessionService.viewFilteredSessions(ids, name, date, duration).stream().map(p -> DtoConverter.convertToDto(p)).collect(Collectors.toList());
+        return sessionService.viewFilteredSessions(ids, name, date, duration, instructor).stream().map(p -> DtoConverter.convertToDto(p)).collect(Collectors.toList());
     }
 
     @DeleteMapping(value = {"/sessions/{id}", "/sessions/{id}/"})

@@ -1,8 +1,10 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
 import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
+import ca.mcgill.ecse321.sportscenter.dao.InstructorAssignmentRepository;
 import ca.mcgill.ecse321.sportscenter.dao.LocationRepository;
 import ca.mcgill.ecse321.sportscenter.dao.SessionRepository;
+import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
 import ca.mcgill.ecse321.sportscenter.model.Session;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,12 +29,12 @@ import static org.mockito.Mockito.*;
 public class TestSessionService {
     @Mock
     private SessionRepository sessionRepository;
-
     @Mock
     private CourseRepository courseRepository;
-
     @Mock
     private LocationRepository locationRepository;
+    @Mock
+    private InstructorAssignmentRepository instructorAssignmentRepository;
 
     @InjectMocks
     private SessionService sessionService;
@@ -59,7 +61,7 @@ public class TestSessionService {
         LocalDateTime startOfDay = filterDate.atStartOfDay();
         LocalDateTime endOfDay = filterDate.atTime(LocalTime.MAX);
         when(sessionRepository.findSessionsByStartTimeBetween(startOfDay, endOfDay)).thenReturn(Collections.singletonList(session1));
-        List<Session> sessions = sessionService.viewFilteredSessions(null, null, filterDate, null);
+        List<Session> sessions = sessionService.viewFilteredSessions(null, null, filterDate, null, null);
         assertNotNull(sessions, "The returned session list should not be null.");
         assertEquals(1, sessions.size());
         assertEquals(session1, sessions.get(0));
@@ -78,6 +80,21 @@ public class TestSessionService {
         assertTrue(matchedSessions.contains(session1));
         List<Session> unmatchedSessions = sessionService.findSessionsByDuration(30f);
         assertTrue(unmatchedSessions.isEmpty());
+    }
+
+    @Test
+    void testFindSessionsByInstructorName() {
+        InstructorAssignment mockAssignment = new InstructorAssignment();
+        mockAssignment.setId(1);
+        Session mockSession = new Session();
+        mockSession.setId(1);
+        when(instructorAssignmentRepository.findInstructorAssignmentByInstructorNameContainingIgnoreCase("Existing"))
+                .thenReturn(Arrays.asList(mockAssignment));
+        when(sessionRepository.findAll()).thenReturn(Arrays.asList(mockSession));
+        when(sessionService.findAssignmentsForSession(mockSession)).thenReturn(Arrays.asList(mockAssignment));
+        List<Session> sessions = sessionService.findSessionsByInstructorName("Existing");
+        assertEquals(1, sessions.size());
+        assertEquals(mockSession.getId(), sessions.get(0).getId());
     }
 
     @Test
