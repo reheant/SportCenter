@@ -1,50 +1,52 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
 public class PaypalDto {
+    private String name;
+    private String email;
+    private String password;
+    private String customerAccountEmail;
 
-    private String accountName;
-    private String customerEmail;
-    private String paypalEmail;
-    private String paypalPassword;
-
-    public PaypalDto(String accountName, String customerEmail, String paypalEmail, String paypalPassword){
-        this.accountName = accountName;
-        this.customerEmail = customerEmail;
-        this.paypalEmail = paypalEmail;
-        this.paypalPassword = paypalPassword;
+    public PaypalDto() {
     }
 
-    public void setAccountName(String accountName){
-        this.accountName = accountName;
+    public PaypalDto(String name, String email, String password, String customerAccountEmail){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.customerAccountEmail = customerAccountEmail;
     }
 
-    public String getAccountName(){
-        return accountName;
+    public void setName(String name){
+        this.name = name;
     }
 
-
-    public void setCustomerEmail(String customerEmail){
-        this.customerEmail = customerEmail;
+    public String getName() {
+        return name;
     }
 
-    public String getcustomerEmail(){
-        return customerEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setpaypalEmail(String paypalEmail){
-        this.paypalEmail = paypalEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getpaypalEmail(){
-        return paypalEmail;
+    public String getPassword() {
+        return password;
     }
 
-    public void setpaypalPassword(String paypalPassword){
-        this.paypalPassword = paypalPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getpaypalPassword(){
-        return paypalPassword;
+    public String getCustomerAccountEmail() {
+        return customerAccountEmail;
     }
+
+    public void setCustomerAccountEmail(String customerAccountEmail) {
+        this.customerAccountEmail = customerAccountEmail;
+    }
+
 }
 

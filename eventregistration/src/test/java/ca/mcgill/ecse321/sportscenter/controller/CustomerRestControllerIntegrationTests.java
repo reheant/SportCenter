@@ -93,12 +93,13 @@ public class CustomerRestControllerIntegrationTests {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
         
 		assertNotNull(response.getBody(), "Response has body");
-		assertEquals("Rehean", response.getBody().getFirstName(), "Response has correct name");
-        assertEquals("Thillai", response.getBody().getLastName());
-        assertEquals("rehean@gmail.com", response.getBody().getEmail());
-        assertEquals("Test1234!", response.getBody().getPassword());
+        Account customerAccount = accountRepository.findAccountByEmail(response.getBody().getAccountEmail());
+		assertEquals("Rehean", customerAccount.getFirstName(), "Response has correct name");
+        assertEquals("Thillai", customerAccount.getLastName());
+        assertEquals("rehean@gmail.com", customerAccount.getEmail());
+        assertEquals("Test1234!", customerAccount.getPassword());
         assertEquals(true, response.getBody().getWantsEmailConfirmation());
-		return response.getBody().getEmail();
+		return customerAccount.getEmail();
 	}
     @Test
     private void testGetCustomer(String email) {
@@ -107,10 +108,11 @@ public class CustomerRestControllerIntegrationTests {
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK, response.getStatusCode(), "Response has correct status");
 		assertNotNull(response.getBody(), "Response has body");
-		assertEquals("Rehean", response.getBody().getFirstName(), "Response has correct name");
-        assertEquals("Thillai", response.getBody().getLastName());
-        assertEquals("rehean@gmail.com", response.getBody().getEmail());
-        assertEquals("Test1234!", response.getBody().getPassword());
+        Account customerAccount = accountRepository.findAccountByEmail(response.getBody().getAccountEmail());
+		assertEquals("Rehean", customerAccount.getFirstName(), "Response has correct name");
+        assertEquals("Thillai", customerAccount.getLastName());
+        assertEquals("rehean@gmail.com", customerAccount.getEmail());
+        assertEquals("Test1234!", customerAccount.getPassword());
         assertEquals(true, response.getBody().getWantsEmailConfirmation());
 	}
 
@@ -155,9 +157,9 @@ public class CustomerRestControllerIntegrationTests {
 		ResponseEntity<InstructorDto> response = client.postForEntity(urlTemplate, null, InstructorDto.class, "thillai@gmail.com");
 		assertNotNull(response);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
-        
+        Account customerAccount = accountRepository.findAccountByEmail(response.getBody().getAccountEmail());
 		assertNotNull(response.getBody(), "Response has body");
-        assertEquals(response.getBody().getFirstName(), customer.getAccount().getFirstName());
+        assertEquals(customerAccount.getFirstName(), customer.getAccount().getFirstName());
 		
     }
     
@@ -201,9 +203,9 @@ public class CustomerRestControllerIntegrationTests {
 
 		assertNotNull(response);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
-        
 		assertNotNull(response.getBody(), "Response has body");
-		assertEquals(customer.getAccount().getEmail(), response.getBody().getcustomerEmail(), "Response has correct name");
+
+		assertEquals(customer.getAccount().getEmail(), response.getBody().getCustomerAccountEmail(), "Response has correct name");
         }
 
      @Test
@@ -237,9 +239,8 @@ public class CustomerRestControllerIntegrationTests {
 
 		assertNotNull(response);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
-        
 		assertNotNull(response.getBody(), "Response has body");
-		assertEquals(customer.getAccount().getEmail(), response.getBody().getcustomerEmail(), "Response has correct name");
+		assertEquals(customer.getAccount().getEmail(), response.getBody().getCustomerAccountEmail(), "Response has correct name");
         }
 
     @Test

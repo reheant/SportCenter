@@ -67,10 +67,11 @@ public class OwnerRestControllerIntegrationTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Response has correct status");
         assertNotNull(response.getBody(), "Response has body");
-        assertEquals(firstName, response.getBody().getFirstName(), "Response has correct first name");
-        assertEquals(lastName, response.getBody().getLastName(), "Response has correct last name");
-        assertEquals(email, response.getBody().getEmail(), "Response has correct email");
-        assertEquals(password, response.getBody().getPassword(), "Response has correct password");
+        Account ownerAccount = accountRepo.findAccountByEmail(response.getBody().getAccountEmail());
+        assertEquals(firstName, ownerAccount.getFirstName(), "Response has correct first name");
+        assertEquals(lastName, ownerAccount.getLastName(), "Response has correct last name");
+        assertEquals(email, ownerAccount.getEmail(), "Response has correct email");
+        assertEquals(password, ownerAccount.getPassword(), "Response has correct password");
     }
 
 

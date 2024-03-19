@@ -41,6 +41,8 @@ public class SessionRestControllerIntegrationTests {
     @AfterEach
     public void clearDatabase() {
         sessionRepository.deleteAll();
+        courseRepository.deleteAll();
+        locationRepository.deleteAll();
     }
 
     @Test
@@ -79,16 +81,16 @@ public class SessionRestControllerIntegrationTests {
     @Test
     public void testCreateSession() throws Exception {
         Course course = new Course();
-        course.setName("Sample Course");
+        course.setName("Sample-Course");
         courseRepository.save(course);
         Location location = new Location();
-        location.setName("Sample Location");
+        location.setName("Sample-Location");
         locationRepository.save(location);
         String urlTemplate = UriComponentsBuilder.fromPath("/session")
                 .queryParam("startTime", "2024-03-15T13:00:00")
                 .queryParam("endTime", "2024-03-15T14:00:00")
-                .queryParam("courseName", "Sample Course")
-                .queryParam("locationName", "Sample Location")
+                .queryParam("courseName", "Sample-Course")
+                .queryParam("locationName", "Sample-Location")
                 .encode()
                 .toUriString();
         ResponseEntity<SessionDto> postResponse = client.postForEntity(urlTemplate, null, SessionDto.class);
@@ -110,6 +112,18 @@ public class SessionRestControllerIntegrationTests {
         Session session = new Session();
         session.setStartTime(startTime);
         session.setEndTime(endTime);
+
+        Course course = new Course();
+        course.setName("Carrot Pickling");
+        session.setCourse(course);
+        courseRepository.save(course);
+
+        Location location = new Location();
+        location.setName("Izvoare");
+        session.setLocation(location);
+        locationRepository.save(location);
+
+
         return sessionRepository.save(session);
     }
 

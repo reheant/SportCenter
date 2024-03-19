@@ -16,7 +16,6 @@ import ca.mcgill.ecse321.sportscenter.dto.CardDto;
 import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
 import ca.mcgill.ecse321.sportscenter.dto.InstructorDto;
 import ca.mcgill.ecse321.sportscenter.dto.PaypalDto;
-import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Card;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
@@ -40,7 +39,7 @@ public class CustomerRestController {
 			throws Exception {
 		Customer customer = customerService.createCustomer(firstName, lastName, email, password,
 				wantsEmailConfirmation);
-		CustomerDto customerDto = convertToDto(customer);
+		CustomerDto customerDto = DtoConverter.convertToDto(customer);
     	return new ResponseEntity<>(customerDto, HttpStatus.CREATED);
 
 	}
@@ -50,7 +49,7 @@ public class CustomerRestController {
 		CustomerDto customer = null;
 		for (Customer c : customerService.getAllCustomers()) {
 			if (c.getAccount().getEmail().equals(email)){
-				customer = convertToDto(c);
+				customer = DtoConverter.convertToDto(c);
 			}
 		}
 		return customer;
@@ -59,7 +58,7 @@ public class CustomerRestController {
 	@PostMapping(value = { "/promote/{email}", "/promote/{email}/" })
 	public ResponseEntity<InstructorDto> promoteCustomerByEmail(@PathVariable("email") String email) throws Exception {
 		Instructor instructor = customerService.promoteCustomerByEmail(email);
-		InstructorDto instructorDto = convertToInstructorDto(instructor);
+		InstructorDto instructorDto = DtoConverter.convertToDto(instructor);
 		return new ResponseEntity<>(instructorDto, HttpStatus.CREATED);
 
 	}
@@ -68,7 +67,7 @@ public class CustomerRestController {
 	public ResponseEntity<PaypalDto> setPaypalInformation(@RequestParam(name = "accountName") String accountName,@RequestParam(name = "customerEmail") String customerEmail,@RequestParam(name = "paypalEmail") String paypalEmail,
 	@RequestParam(name = "paypalPassword") String paypalPassword) throws Exception {
 		PayPal payPal = customerService.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
-		PaypalDto paypalDto = convertToPaypalDto(payPal);
+		PaypalDto paypalDto = DtoConverter.convertToDto(payPal);
 		return new ResponseEntity<>(paypalDto, HttpStatus.CREATED);
 	}
 
@@ -76,49 +75,14 @@ public class CustomerRestController {
 	public ResponseEntity<CardDto> setCardInformation(@RequestParam(name = "accountName") String accountName, @RequestParam(name = "customerEmail") String customerEmail, @RequestParam(name = "paymentCardType") PaymentCardType paymentCardType, @RequestParam(name = "cardNumber") int cardNumber,
 	@RequestParam(name = "expirationDate") int expirationDate, @RequestParam(name = "ccv") int ccv) throws Exception{
 		Card card = customerService.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate, ccv);
-		CardDto cardDto = convertToCardDto(card);
+		CardDto cardDto = DtoConverter.convertToDto(card);
 		return new ResponseEntity<>(cardDto, HttpStatus.CREATED);
 	}
 
-	private CardDto convertToCardDto(Card card) throws Exception{
-		if (card == null) {
-			throw new Exception("There is no such card");
-		}
-		CardDto cardDto = new CardDto(card.getName(), card.getCustomer().getAccount().getEmail(), card.getPaymentCardType(), card.getNumber(), card.getExpirationDate(), card.getCcv());
-		return cardDto;
-	}
-	
-	private PaypalDto convertToPaypalDto(PayPal paypal) throws Exception{
-		if (paypal == null) {
-			throw new Exception("There is no such paypal");
-		}
-		PaypalDto paypallDto = new PaypalDto(paypal.getName(), paypal.getCustomer().getAccount().getEmail(), paypal.getEmail(), paypal.getPassword());
-
-		return paypallDto;
-	}
-	private InstructorDto convertToInstructorDto(Instructor instructor) throws Exception {
-		if (instructor == null) {
-			throw new Exception("There is no such instructor");
-		}
-		Account customerAccount = instructor.getAccount();
-		InstructorDto instructorDto = new InstructorDto(customerAccount.getFirstName());
-
-		return instructorDto;
-	}
-
-	private CustomerDto convertToDto(Customer c) throws Exception {
-		if (c == null) {
-			throw new Exception("There is no such customer");
-		}
-		Account customerAccount = c.getAccount();
-		CustomerDto customerDto = new CustomerDto(customerAccount.getFirstName(), customerAccount.getLastName(),
-				customerAccount.getEmail(), customerAccount.getPassword(), c.getWantsEmailConfirmation());
-		return customerDto;
-	}
-
-	@ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String authorized(Exception e) {
         return e.getMessage();
     }
+    
 }

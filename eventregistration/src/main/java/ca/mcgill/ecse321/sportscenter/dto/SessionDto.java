@@ -5,11 +5,24 @@ import java.time.LocalDateTime;
 public class SessionDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    public SessionDto(LocalDateTime startTime, LocalDateTime endTime) {
+    private String courseName;
+    private String locationName;
+
+    public SessionDto() {
+    }
+
+    public SessionDto(LocalDateTime startTime,
+                      LocalDateTime endTime,
+                      String courseName,
+                      String locationName) {
         this.startTime = startTime;
         this.endTime = endTime;
+        this.courseName = courseName;
+        this.locationName = locationName;
     }
+
     public LocalDateTime getStartTime() { return startTime; }
+
     public LocalDateTime getEndTime() {
         return endTime;
     }
@@ -18,5 +31,21 @@ public class SessionDto {
     }
     public void setEndTime(LocalDateTime endTime){
         this.endTime = endTime;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }
