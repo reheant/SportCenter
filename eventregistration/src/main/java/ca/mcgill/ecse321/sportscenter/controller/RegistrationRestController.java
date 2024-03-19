@@ -22,14 +22,14 @@ public class RegistrationRestController {
     @Autowired
     private RegistrationService registrationService;
 
-    @PostMapping(value = { "/registration/{email}", "registration/{email}/" })
-    public RegistrationDto register(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException{
+    @PostMapping(value = { "/registration", "registration/" })
+    public RegistrationDto register(@RequestParam(name = "email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException{
         Registration registration = registrationService.register(email, sessionId);
         return DtoConverter.convertToDto(registration);
     }
 
-    @DeleteMapping(value = { "/unregister/{email}", "/unregister/{email}/" })
-    public void unregister(@PathVariable("email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws NullPointerException{
+    @DeleteMapping(value = { "/unregister", "/unregister/" })
+    public void unregister(@RequestParam(name = "email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws NullPointerException{
         registrationService.unregister(email, sessionId);
     }
 

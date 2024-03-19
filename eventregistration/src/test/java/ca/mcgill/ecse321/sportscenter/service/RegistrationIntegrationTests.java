@@ -78,10 +78,11 @@ public class RegistrationIntegrationTests {
     @Test
     public void testRegister() {
         createAndSaveClassesForRegistration();
-        String urlTemplate = UriComponentsBuilder.fromPath("/registration/" + email)
-                .queryParam("sessionId", session.getId())
-                .encode()
-                .toUriString();
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/")
+            .queryParam("email", email)    
+            .queryParam("sessionId", session.getId())
+            .encode()
+            .toUriString();
         ResponseEntity<RegistrationDto> postResponse = client.postForEntity(urlTemplate, null, RegistrationDto.class);
         assertEquals(HttpStatus.OK, postResponse.getStatusCode());
     }
@@ -89,10 +90,11 @@ public class RegistrationIntegrationTests {
     @Test
     public void testRegisterCustomerNotFound() {
         createAndSaveClassesForRegistration();
-        String urlTemplate = UriComponentsBuilder.fromPath("/registration/" + "totallyNotJimBob@yahoo.ca")
-                .queryParam("sessionId", session.getId())
-                .encode()
-                .toUriString();
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/")
+            .queryParam("email", "totallyNotJimBob@yahoo.ca")
+            .queryParam("sessionId", session.getId())
+            .encode()
+            .toUriString();
         ResponseEntity<String> postResponse = client.postForEntity(urlTemplate, null, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
     }
@@ -100,10 +102,11 @@ public class RegistrationIntegrationTests {
     @Test
     public void testRegisterSessionNotFound() {
         createAndSaveClassesForRegistration();
-        String urlTemplate = UriComponentsBuilder.fromPath("/registration/" + email)
-                .queryParam("sessionId", 31415)
-                .encode()
-                .toUriString();
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/")
+            .queryParam("email", email)
+            .queryParam("sessionId", 31415)
+            .encode()
+            .toUriString();
         ResponseEntity<String> postResponse = client.postForEntity(urlTemplate, null, String.class);
         assertEquals(HttpStatus.BAD_REQUEST, postResponse.getStatusCode());
     }
@@ -112,7 +115,8 @@ public class RegistrationIntegrationTests {
     public void testUnregister() {
         createTestRegistration();
         assertTrue(registrationRepository.findById(registration.getId()).isPresent());
-        String urlTemplate = UriComponentsBuilder.fromPath("/unregister/" + email)
+        String urlTemplate = UriComponentsBuilder.fromPath("/unregister/")
+            .queryParam("email", email)
             .queryParam("sessionId", session.getId())
             .encode()
             .toUriString();

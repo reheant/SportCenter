@@ -97,16 +97,18 @@ public class RegistrationService {
         } else if (session_id == null) {
             throw new NullPointerException("Session id cannot be null.");
         }
-         for (Registration existing_registration: registrationRepository.findAll()) {
-            if (existing_registration.getCustomer().getAccount().getEmail() == email && existing_registration.getSession().getId() == session_id) {
-                try {
-                    existing_registration.delete();
-                    return true;
-                } catch (Exception error){
-                    return false;
-                }
-            }
-         }
-         return false;
+
+        Registration registration = registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(email, session_id);
+
+        if (registration == null) {
+            return false;
+        }
+
+        try {
+            registration.delete();
+            return true;
+        } catch (Exception error){
+            return false;
+        }
     }
 }

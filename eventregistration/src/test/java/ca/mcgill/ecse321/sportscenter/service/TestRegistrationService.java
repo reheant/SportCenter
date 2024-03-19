@@ -59,7 +59,8 @@ public class TestRegistrationService {
 
     private final Customer customer = new Customer();
     private final Account customerAccount = new Account();
-
+    private final Session session = new Session();
+    private final Registration registration = new Registration();
     
 
     @BeforeEach
@@ -87,6 +88,23 @@ public class TestRegistrationService {
                 customer.setAccount(customerAccount);
 
                 return customer;
+            } else {
+                return null;
+            }
+        });
+
+        lenient().when(registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(anyString(), anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(email) && invocation.getArgument(1).equals(session.getId())) {
+                customerAccount.setEmail(email);
+                customerAccount.setFirstName(firstName);
+                customerAccount.setLastName(lastName);
+                customerAccount.setPassword(password);
+                customer.setAccount(customerAccount);
+
+                registration.setCustomer(customer);
+                registration.setSession(session);
+
+                return registration;
             } else {
                 return null;
             }
