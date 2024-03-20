@@ -22,9 +22,11 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
 import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
+import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
+import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,12 +34,17 @@ public class TestCourseService {
 
     @Mock
     private OwnerRepository ownerRepository;
+    @Mock
+    private CustomerRepository customerRepository;
     @Mock 
     private AccountRepository accountRepository;
     @Mock
     private CourseRepository courseRepository;
     @Mock
     private CourseService ownerService;
+    @Mock
+    private CustomerService customerService;
+
 
     @InjectMocks
     private CourseService courseService; 
@@ -51,6 +58,12 @@ public class TestCourseService {
     private static final float cost = (float) 12.52;
     private static final CourseStatus courseStatus = CourseStatus.Pending;
 
+    private static final String customerFirstName = "Rehean";
+    private static final String customerLastName = "Thillai";
+    private static final String customerEmail = "reh@gmail.com";
+    private static final String customerPassword = "Test1234!";
+    private static final boolean customerWantsEmailConfirmation = false;
+
     // For Owner
     private static final String firstName = "Rehean";
     private static final String lastName = "Thillai";
@@ -58,6 +71,8 @@ public class TestCourseService {
     private static final String password = "Test1234!";
 
     private final Owner owner = new Owner();
+    private final Account customerAccount = new Account();
+    private final Customer customer = new Customer();
     private final Account ownerAccount = new Account();
     private final Course course = new Course();
 
@@ -65,14 +80,25 @@ public class TestCourseService {
     @BeforeEach
     public void setMockOutput() {
         lenient().when(accountRepository.findAccountByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(email)) {
+            String requestedEmail = invocation.getArgument(0);
+            
+            if (requestedEmail.equals(email)) {
+                // Your logic for ownerAccount
                 ownerAccount.setEmail(email);
                 ownerAccount.setFirstName(firstName);
                 ownerAccount.setLastName(lastName);
                 ownerAccount.setPassword(password);
                 owner.setAccount(ownerAccount);
-            
                 return ownerAccount;
+            } else if (requestedEmail.equals(customerEmail)) {
+                // Your logic for customerAccount
+                customerAccount.setEmail(customerEmail);
+                customerAccount.setFirstName(customerFirstName);
+                customerAccount.setLastName(customerLastName);
+                customerAccount.setPassword(customerPassword);
+                customer.setAccount(customerAccount);
+                customer.setWantsEmailConfirmation(customerWantsEmailConfirmation);
+                return customerAccount;
             } else {
                 return null;
             }
@@ -99,6 +125,8 @@ public class TestCourseService {
                 course.setCost(cost);
                 course.setCourseStatus(courseStatus);
 
+                
+
                 return course;
             } else {
                 return null;
@@ -111,6 +139,7 @@ public class TestCourseService {
         };
         lenient().when(courseRepository.save(any(Course.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(ownerRepository.save(any(Owner.class))).thenAnswer(returnParameterAsAnswer);
+        lenient().when(customerRepository.save(any(Customer.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(accountRepository.save(any(Account.class))).thenAnswer(returnParameterAsAnswer);
         lenient().when(courseRepository.findCoursesByIdIn(any(Collection.class))).thenAnswer((InvocationOnMock invocation) -> {
             Collection<Integer> ids = invocation.getArgument(0);
@@ -429,6 +458,24 @@ public class TestCourseService {
  
         
         
+    }   
+
+
+    @Test 
+    public void testApproveCourseNotOwner(){
+   
+    
+        Course outputCourse = null;
+        Course course = new Course();
+        lenient().when(courseRepository.findCourseByName(anyString())).thenReturn(course);
+        System.out.println(customer);
+        try {
+            outputCourse = courseService.approveCourse(name, customerEmail);
+
+        } catch (Exception error){
+            assertEquals("Owner with email " + customerEmail + " was not found." , error.getMessage());
+        }    
+        assertNull(outputCourse);
     }
 
     @Test 
@@ -443,7 +490,6 @@ public class TestCourseService {
         course.setCost(cost);
         course.setCourseStatus(courseStatus);
         
-
         try {
             courseService.approveCourse(name, null);
         } catch (Exception error) {
@@ -522,6 +568,23 @@ public class TestCourseService {
         assertEquals(outputCourse, courseRepository.findCourseByName(name));
         assertEquals(CourseStatus.Refused,courseRepository.findCourseByName(name).getCourseStatus()); 
 
+    }
+
+    @Test 
+    public void testDisapproveCourseNotOwner(){
+   
+    
+        Course outputCourse = null;
+        Course course = new Course();
+        lenient().when(courseRepository.findCourseByName(anyString())).thenReturn(course);
+        System.out.println(customer);
+        try {
+            outputCourse = courseService.disapproveCourse(name, customerEmail);
+
+        } catch (Exception error){
+            assertEquals("Owner with email " + customerEmail + " was not found." , error.getMessage());
+        }    
+        assertNull(outputCourse);
     }
 
     @Test 
