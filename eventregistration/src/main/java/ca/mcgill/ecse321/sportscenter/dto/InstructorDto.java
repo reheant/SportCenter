@@ -1,14 +1,23 @@
 package ca.mcgill.ecse321.sportscenter.dto;
 
 public class InstructorDto {
+    private String accountEmail;
 
-    private String firstName;
-
-    public InstructorDto(String firstName){
-        this.firstName = firstName;
+    public InstructorDto(){
     }
 
-    public String getFirstName(){
-        return firstName;
+    public InstructorDto(String accountEmail) {
+        this.accountEmail = accountEmail;
     }
+
+    public String getAccountEmail() {
+        return accountEmail;
+    }
+
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
+    }
+
+
+
 }

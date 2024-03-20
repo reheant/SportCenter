@@ -3,43 +3,34 @@ package ca.mcgill.ecse321.sportscenter.dto;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 
 public class CardDto {
-
-
-
-    private String accountName;
-    private String customerEmail;
+    private String name;
     private PaymentCardType paymentCardType;
-    private int cardNumber;
+    private int number;
     private int expirationDate;
     private int ccv;
 
-    public CardDto(String accountName, String customerEmail, PaymentCardType paymentCardType, int cardNumber,
-      int expirationDate, int ccv){
-        this.accountName = accountName;
-        this.customerEmail = customerEmail;
+    private String customerAccountEmail;
+
+    public CardDto() {
+    }
+
+    public CardDto(String name, PaymentCardType paymentCardType, int number,
+      int expirationDate, int ccv, String customerAccountEmail){
+        this.name = name;
         this.paymentCardType = paymentCardType;
-        this.cardNumber = cardNumber;
+        this.number = number;
         this.expirationDate = expirationDate;
         this.ccv = ccv;
-
+        this.customerAccountEmail = customerAccountEmail;
       }
     
 
-    public void setAccountName(String accountName){
-        this.accountName = accountName;
+    public void setName(String name){
+        this.name = name;
     }
 
-    public String getAccountName(){
-        return accountName;
-    }
-
-
-    public void setCustomerEmail(String customerEmail){
-        this.customerEmail = customerEmail;
-    }
-
-    public String getcustomerEmail(){
-        return customerEmail;
+    public String getName(){
+        return name;
     }
 
     public void setpaymentCardType(PaymentCardType paymentCardType){
@@ -50,12 +41,12 @@ public class CardDto {
         return paymentCardType;
     }
 
-    public void setCardNumber(int cardNumber){
-        this.cardNumber = cardNumber;
+    public void setNumber(int cardNumber){
+        this.number = cardNumber;
     }
 
-    public int getCardNumber(){
-        return cardNumber;
+    public int getNumber(){
+        return number;
     }
 
     public void setexpirationDate(int expirationDate){
@@ -73,5 +64,14 @@ public class CardDto {
     public int getCcv(){
         return ccv;
     }
+
+    public String getCustomerAccountEmail(){
+        return customerAccountEmail;
+    }
+
+    public void setCustomerAccountEmail(String customerAccountEmail){
+        this.customerAccountEmail = customerAccountEmail;
+    }
+
 }
 

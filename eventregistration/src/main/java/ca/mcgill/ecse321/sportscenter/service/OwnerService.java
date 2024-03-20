@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.sportscenter.service;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +21,7 @@ public class OwnerService {
     @Autowired 
     OwnerRepository ownerRepository;
     
-
-    /**
-     * 
-     * @return List of all owners.
-     */
-    @Transactional public List<Owner> getAllOwners() {
-        return (List<Owner>) (ownerRepository.findAll());
-    }
+    
     /**
     * Creates a new owner with the provided details.
     *
@@ -44,22 +36,22 @@ public class OwnerService {
     public Owner createOwner(String firstName, String lastName, String email, String password) throws Exception {        
     
         if (firstName == null|| lastName==null || email==null || password==null){
-            throw new IllegalArgumentException("Please ensure all fields are complete and none are empty");
+            throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid email format");
+            throw new Exception("Invalid email format");
         }
 
         if (!isValidName(firstName)) {
-            throw new IllegalArgumentException("Invalid first name format");
+            throw new Exception("Invalid first name format");
         }
 
         if (!isValidName(lastName)) {
-            throw new IllegalArgumentException("Invalid last name format");
+            throw new Exception("Invalid last name format");
         }
 
         if (!isValidPassword(password)) {
-            throw new IllegalArgumentException("Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 charcters minimum");
+            throw new Exception("Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 characters minimum");
         }
 
         if (accountRepository.findAccountByEmail(email) != null) {
@@ -118,4 +110,5 @@ public class OwnerService {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
+
 }
