@@ -21,6 +21,7 @@ import ca.mcgill.ecse321.sportscenter.dto.CourseDto;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.service.CourseService;
 
+
 @CrossOrigin(origins = "*")
 @RestController
 public class CourseRestController {
@@ -36,7 +37,7 @@ public class CourseRestController {
                                   @RequestParam(name = "defaultDuration") float defaultDuration,
                                   @RequestParam(name = "cost") float cost) throws Exception {
         Course course = courseService.createCourse(name, description, requiresInstructor, defaultDuration, cost);
-        return convertToDto(course);
+        return DtoConverter.convertToDto(course);
     }
 
     @GetMapping(value = { "/courses", "/courses/" })
@@ -45,7 +46,7 @@ public class CourseRestController {
 
         try {
             for (Course c: courseService.getAllCourses()){
-                courseDtoList.add(convertToDto(c));
+                courseDtoList.add(DtoConverter.convertToDto(c));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,19 +65,19 @@ public class CourseRestController {
         if (ids == null && keyword == null && status == null && requiresInstructor == null && defaultDuration == null && cost == null) {
             return getAllCourses();
         }
-        return courseService.viewFilteredCourses(ids, keyword, status, requiresInstructor, defaultDuration, cost).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
+        return courseService.viewFilteredCourses(ids, keyword, status, requiresInstructor, defaultDuration, cost).stream().map(p -> DtoConverter.convertToDto(p)).collect(Collectors.toList());
     }
 
     @PostMapping(value = {"/approve/{name}", "/approve/{name}/" })
     public CourseDto approveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
         Course course = courseService.approveCourse(name, email);
-        return convertToDto(course);
+        return DtoConverter.convertToDto(course);
     }
 
     @PostMapping(value = {"/disapprove/{name}", "/disapprove/{name}/" })
     public CourseDto disapproveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
         Course course = courseService.disapproveCourse(name, email);
-        return convertToDto(course);
+        return DtoConverter.convertToDto(course);
     }
 
     @DeleteMapping(value = {"/courses/{id}", "/courses/{id}/"})
@@ -84,13 +85,6 @@ public class CourseRestController {
         courseService.deleteCourse(id);
     }
 
-    private CourseDto convertToDto(Course c){
-        if (c == null){
-            throw new IllegalArgumentException("There is no such customer");
-        }
-        CourseDto courseDto = new CourseDto(c.getName(), c.getDescription(), c.getCourseStatus(), c.getRequiresInstructor(), c.getDefaultDuration(), c.getCost());
-        return courseDto;
-    }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
