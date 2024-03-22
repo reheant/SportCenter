@@ -45,14 +45,10 @@ public class CustomerRestController {
 	}
 
 	@GetMapping(value = { "/customer/{email}", "/customer/{email}/" })
-	public CustomerDto getCustomer(@PathVariable(name = "email") String email) throws Exception{
-		CustomerDto customer = null;
-		for (Customer c : customerService.getAllCustomers()) {
-			if (c.getAccount().getEmail().equals(email)){
-				customer = DtoConverter.convertToDto(c);
-			}
-		}
-		return customer;
+	public ResponseEntity<CustomerDto> getCustomer(@PathVariable(name = "email") String email) throws Exception{
+		Customer customer = customerService.getCustomerByEmail(email);
+		CustomerDto customerDto = DtoConverter.convertToDto(customer);		
+    	return new ResponseEntity<>(customerDto, HttpStatus.OK);
 	}
 
 	@PostMapping(value = { "/promote/{email}", "/promote/{email}/" })
