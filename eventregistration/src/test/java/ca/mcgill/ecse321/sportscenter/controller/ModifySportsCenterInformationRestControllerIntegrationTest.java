@@ -85,11 +85,14 @@ public class ModifySportsCenterInformationRestControllerIntegrationTest {
         instructorRepo.save(instructor);
 
         String urlTemplate = UriComponentsBuilder.fromPath("/sportscenter/modify/instructors")
-        .queryParam("instructorId", instructor.getId())
-        .encode()
-        .toUriString();
-        
-        ResponseEntity<InstructorDto> response = client.postForEntity(urlTemplate, instructor, InstructorDto.class);
+                .queryParam("instructorId", instructor.getId())
+                .encode()
+                .toUriString();
+
+        Account account = instructor.getAccount();
+        InstructorDto instructorDto = new InstructorDto(account.getFirstName(), account.getLastName(), account.getEmail());
+
+        ResponseEntity<InstructorDto> response = client.postForEntity(urlTemplate, instructorDto, InstructorDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
