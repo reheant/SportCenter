@@ -117,6 +117,14 @@ public class CustomerRestControllerIntegrationTests {
 	}
 
     @Test
+    public void testGetCustomerNonExisting() {
+        String email = "nobody@gmail.com";
+		ResponseEntity<String> response = client.getForEntity("/customer/" + email, String.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+	}
+
+    @Test
 	public void testCreateInvalidCustomer() {
 		String urlTemplate = UriComponentsBuilder.fromPath("/customer/{firstName}")
             .queryParam("lastName", "Thillai")

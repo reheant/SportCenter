@@ -142,6 +142,66 @@ public class TestCustomerService {
     }
 
     @Test
+    public void testCreateCustomerLastNameNull() {
+        String customerFirstName = "Rehean";
+        String customerLastName = null;
+        String customerEmail = "reh@gmail.com";
+        String customerPassword = "Test1234!";
+        boolean customerWantsEmailConfirmation = false;
+        Customer customer = null;
+        Account customerAccount = null;
+
+        try {
+            customer = service.createCustomer(customerFirstName, customerLastName, customerEmail, customerPassword,
+                    customerWantsEmailConfirmation);
+            customerAccount = customer.getAccount();
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(customer);
+    }
+
+    @Test
+    public void testCreateCustomerEmailNull() {
+        String customerFirstName = "Rehean";
+        String customerLastName = "thillai";
+        String customerEmail = null;
+        String customerPassword = "Test1234!";
+        boolean customerWantsEmailConfirmation = false;
+        Customer customer = null;
+        Account customerAccount = null;
+
+        try {
+            customer = service.createCustomer(customerFirstName, customerLastName, customerEmail, customerPassword,
+                    customerWantsEmailConfirmation);
+            customerAccount = customer.getAccount();
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(customer);
+    }
+
+    @Test
+    public void testCreateCustomerPasswordNull() {
+        String customerFirstName = "Rehean";
+        String customerLastName = "thillai";
+        String customerEmail = "reh@gmail.com";
+        String customerPassword = null;
+        boolean customerWantsEmailConfirmation = false;
+        Customer customer = null;
+        Account customerAccount = null;
+
+        try {
+            customer = service.createCustomer(customerFirstName, customerLastName, customerEmail, customerPassword,
+                    customerWantsEmailConfirmation);
+            customerAccount = customer.getAccount();
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(customer);
+    }
+
+    @Test
     public void testCreateCustomerNulls() {
         String customerFirstName = null;
         String customerLastName = null;
@@ -351,6 +411,66 @@ public class TestCustomerService {
     }
 
     @Test
+    public void testNullAccountNamePaypalCreation() {
+        String accountName = null;
+        String customerEmail = "rehean.thillai@gmail.com";
+        String paypalEmail = "rehean1@gmail.com";
+        String paypalPassword = "wedwd1233";
+        PayPal payPal = null;
+        try {
+            payPal = service.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(payPal);
+    }
+
+    @Test
+    public void testNullCustomerEmailPaypalCreation() {
+        String accountName = "my paypal";
+        String customerEmail = null;
+        String paypalEmail = "rehean1@gmail.com";
+        String paypalPassword = "wedwd1233";
+        PayPal payPal = null;
+        try {
+            payPal = service.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(payPal);
+    }
+
+    @Test
+    public void testNullPayPalEmailPaypalCreation() {
+        String accountName = "my paypal";
+        String customerEmail = "rehean.thillai@gmail.com";
+        String paypalEmail = null;
+        String paypalPassword = "wedwd1233";
+        PayPal payPal = null;
+        try {
+            payPal = service.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(payPal);
+    }
+
+    @Test
+    public void testNullPayPalPasswordPaypalCreation() {
+        String accountName = "my paypal";
+        String customerEmail = "rehean.thillai@gmail.com";
+        String paypalEmail = "rehean@gmail.com";
+        String paypalPassword = null;
+        PayPal payPal = null;
+        try {
+            payPal = service.setPaypalInformation(accountName, customerEmail, paypalEmail, paypalPassword);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(payPal);
+    }
+
+    @Test
     public void testPaypalWrongEmail() {
         String accountName = "Rehean's Paypall";
         String customerEmail = "nobody@gmail.com";
@@ -387,13 +507,108 @@ public class TestCustomerService {
     }
 
     @Test
-    public void testNullCardCreation() {
+    public void testNullNameCardCreation() {
         String accountName = null;
         String customerEmail = "rehean.thillai@gmail.com";
+        PaymentCardType paymentCardType = PaymentCardType.DebitCard;
+        int cardNumber = 12356789;
+        int expirationDate = 1225;
+        int ccv = 123;
+        Card card = null;
+        try {
+            card = service.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate,
+                    ccv);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(card);
+
+    }
+    @Test
+    public void testNullEmailCardCreation() {
+        String accountName = "Rehean's debit";
+        String customerEmail = null;
+        PaymentCardType paymentCardType = PaymentCardType.DebitCard;
+        int cardNumber = 12356789;
+        int expirationDate = 1225;
+        int ccv = 123;
+        Card card = null;
+        try {
+            card = service.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate,
+                    ccv);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(card);
+
+    }
+
+    @Test
+    public void testNullPaymentTypeCardCreation() {
+        String accountName = "Rehean's debit";
+        String customerEmail = "rehean.thillai@gmail.com";
         PaymentCardType paymentCardType = null;
+        int cardNumber = 12356789;
+        int expirationDate = 1225;
+        int ccv = 123;
+        Card card = null;
+        try {
+            card = service.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate,
+                    ccv);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(card);
+
+    }
+    
+
+    @Test
+    public void testBadCardNumberCreation() {
+        String accountName = "Rehean's debit";
+        String customerEmail = "rehean.thillai@gmail.com";
+        PaymentCardType paymentCardType = PaymentCardType.DebitCard;
         int cardNumber = 0;
         int expirationDate = 1225;
         int ccv = 123;
+        Card card = null;
+        try {
+            card = service.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate,
+                    ccv);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(card);
+
+    }
+
+    @Test
+    public void testBadExpirationDateCreation() {
+        String accountName = "Rehean's debit";
+        String customerEmail = "rehean.thillai@gmail.com";
+        PaymentCardType paymentCardType = PaymentCardType.DebitCard;
+        int cardNumber = 12356789;
+        int expirationDate = 0;
+        int ccv = 123;
+        Card card = null;
+        try {
+            card = service.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate,
+                    ccv);
+        } catch (Exception error) {
+            assertEquals("Please ensure all fields are complete and none are empty", error.getMessage());
+        }
+        assertNull(card);
+
+    }
+
+    @Test
+    public void testBadccvCreation() {
+        String accountName = "Rehean's debit";
+        String customerEmail = "rehean.thillai@gmail.com";
+        PaymentCardType paymentCardType = PaymentCardType.DebitCard;
+        int cardNumber = 12356789;
+        int expirationDate = 1225;
+        int ccv = 0;
         Card card = null;
         try {
             card = service.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate,

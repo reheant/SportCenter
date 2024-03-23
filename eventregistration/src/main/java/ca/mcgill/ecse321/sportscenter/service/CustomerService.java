@@ -128,7 +128,20 @@ public class CustomerService {
     @Transactional
     public PayPal setPaypalInformation(String accountName, String customerEmail, String paypalEmail,
             String paypalPassword) throws Exception {
-        if (accountName == null|| customerEmail==null || paypalEmail==null || paypalPassword==null){
+
+        if (accountName == null) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (customerEmail == null) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (paypalEmail == null) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (paypalPassword == null ) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (accountRepository.findAccountByEmail(customerEmail) == null) {
@@ -164,7 +177,27 @@ public class CustomerService {
     @Transactional
     public Card setCardInformation(String accountName, String customerEmail, PaymentCardType paymentCardType, int cardNumber,
       int expirationDate, int ccv) throws Exception{
-        if (accountName == null|| customerEmail==null || paymentCardType==null || cardNumber==0 || expirationDate==0 || ccv==0){ //int's are 0 if not initiliazed so we wont accept that case
+        if (accountName == null) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (customerEmail == null) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (paymentCardType == null) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (cardNumber <= 0 ) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (expirationDate <= 0 ) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+
+        if (ccv <= 0 ) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (accountRepository.findAccountByEmail(customerEmail) == null) {
@@ -184,14 +217,24 @@ public class CustomerService {
         return card;
       }
 
-    /**
-    * Gets all customers.
+      /**
+    * Gets customer by email.
     * 
     * @return List of customers
+     * @throws Exception 
     */
-    @Transactional public List<Customer> getAllCustomers() {
-        return (List<Customer>) (customerRepository.findAll());
+    @Transactional 
+    public Customer getCustomerByEmail(String email) throws Exception {
+        if (email == null){
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+        if (customerRepository.findCustomerByAccountEmail(email) == null) {
+            throw new Exception("Email is not accociated to an account");
+        }
+        return customerRepository.findCustomerByAccountEmail(email);
     }
+      
+
 
     /** Helper Method
      * Respecting RFC 5322 email format (source : https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.)
