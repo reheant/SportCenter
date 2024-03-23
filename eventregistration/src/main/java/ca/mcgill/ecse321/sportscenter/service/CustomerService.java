@@ -235,14 +235,6 @@ public class CustomerService {
     }
       
 
-    /**
-    * Gets all customers.
-    * 
-    * @return List of customers
-    */
-    @Transactional public List<Customer> getAllCustomers() {
-        return (List<Customer>) (customerRepository.findAll());
-    }
 
     /** Helper Method
      * Respecting RFC 5322 email format (source : https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.)
