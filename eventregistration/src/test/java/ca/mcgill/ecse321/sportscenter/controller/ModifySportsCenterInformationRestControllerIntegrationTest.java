@@ -86,11 +86,13 @@ public class ModifySportsCenterInformationRestControllerIntegrationTest {
 
         String urlTemplate = UriComponentsBuilder.fromPath("/sportscenter/modify/instructors")
                 .queryParam("instructorId", instructor.getId())
+                .queryParam("newFirstName", "Tiffany")
+                .queryParam ("newLastName", "Miller")
                 .encode()
                 .toUriString();
 
         Account account = instructor.getAccount();
-        InstructorDto instructorDto = new InstructorDto(account.getFirstName(), account.getLastName(), account.getEmail());
+        InstructorDto instructorDto = new InstructorDto(account.getEmail());
 
         ResponseEntity<InstructorDto> response = client.postForEntity(urlTemplate, instructorDto, InstructorDto.class);
 

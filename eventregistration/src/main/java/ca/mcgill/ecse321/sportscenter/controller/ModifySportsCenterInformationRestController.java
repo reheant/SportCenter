@@ -37,10 +37,12 @@ public class ModifySportsCenterInformationRestController {
 
     // update an instructor's details
     @PostMapping(value = { "/sportscenter/modify/instructors", "/sportscenter/modify/instructors/"})
-    public ResponseEntity<InstructorDto> updateInstructor(@RequestParam(name = "instructorId")  Integer instructorId, @RequestBody InstructorDto instructorDto) throws Exception {
+    ResponseEntity<InstructorDto>updateInstructor(@RequestParam(name ="instructorId") Integer instructorId,
+    @RequestParam (name ="newFirstName") String newFirstName , @RequestParam (name ="newLastName" ) String newLastName,
+    @RequestBody InstructorDto instructorDto) throws Exception {
         
             Instructor instructor = modifySportsCenterInformationService.updateCenterInstructor(instructorId, 
-            instructorDto.getFirstName(), instructorDto.getLastName(), instructorDto.getEmail());
+            newFirstName, newLastName, instructorDto.getAccountEmail());
             InstructorDto dto = convertToDto(instructor);
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
@@ -62,8 +64,7 @@ public class ModifySportsCenterInformationRestController {
 
         Account acc = in.getAccount();
         
-        InstructorDto dto = new InstructorDto(acc.getFirstName(), acc.getLastName(), 
-        acc.getEmail());
+        InstructorDto dto = new InstructorDto(acc.getEmail());
         return dto;
     }
 
