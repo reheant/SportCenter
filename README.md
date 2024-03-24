@@ -28,3 +28,17 @@ Customers can also access a view of their completed classes as well as their upc
 |  Rehean Thillainathalingam | Domain model, Requirements, use case diagrams, use case specification and documentation | 22 |
 |  Marc-Antoine Nadeau | Domain model, Requirements, documentation, implement and test persistance layer and use case specification| 22 |
 | Tiffany Miller | Domain model, Requirements, use case diagrams, use case specification and documentation | 20 | 
+
+## Sprint 2: Project Report 📝 
+[Sprint 2 Project Report](../../wiki/Project-Report-Deliverable-2)
+
+
+## Sprint 1: Effort Table 💪
+| Name | Role | Effort in hours |
+| --- | --- | --- |
+| Anastasiia Nemyrovska | Documentation, Backend service implementation, Unit testing and Integration testing for: Filter view of courses and sessions, Create/Delete sessions, Send email notification to confirm registration  |  |
+| Julien Audet | Documentation, Backend service implementation, unit testing and Integration testing for : register/unregister for a session, view additional info about a session |  |
+|  Tim Pham | Documentation, Swagger setup, Backend service implementation, unit testing and Integration testing for : Login/Logout |  | 
+|  Rehean Thillainathalingam | Documentation, Backend service implementation, unit testing and Integration testing for : Create customer profile, modify user profiles and add payment information |  |
+|  Marc-Antoine Nadeau | Documentation, Backend service implementation, unit testing and Integration testing for : Add/Delete course, Admin approving a course and create admin profile| 25 |
+| Tiffany Miller | Documentation, Backend service implementation, unit testing and Integration testing for : Modify sport center information and modify schedule |  | 

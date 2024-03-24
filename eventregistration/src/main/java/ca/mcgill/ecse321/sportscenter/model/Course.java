@@ -58,8 +58,12 @@ public class Course {
     return wasSet;
   }
 
-  public CourseStatus getCourseStatus() {
-    return courseStatus;
+
+  public boolean setCourseStatus(CourseStatus aCourseStatus) {
+    boolean wasSet = false;
+    courseStatus = aCourseStatus;
+    wasSet = true;
+    return wasSet;
   }
 
   public boolean setRequiresInstructor(boolean aRequiresInstructor) {
@@ -100,6 +104,10 @@ public class Course {
 
   public String getDescription() {
     return description;
+  }
+
+  public CourseStatus getCourseStatus() {
+    return courseStatus;
   }
 
   public boolean getRequiresInstructor() {

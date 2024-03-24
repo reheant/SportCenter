@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 
@@ -15,7 +14,8 @@ public class Customer extends AccountRole {
   @JoinColumn(name = "account_id", referencedColumnName = "id")
   private Account account;
 
-  public Customer() {}
+  public Customer() {
+  }
 
   public Customer(boolean aWantsEmailConfirmation, Account aAccount) {
     wantsEmailConfirmation = aWantsEmailConfirmation;

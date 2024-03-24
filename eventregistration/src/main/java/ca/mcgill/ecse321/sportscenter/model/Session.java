@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
+import java.sql.Time;
+
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
