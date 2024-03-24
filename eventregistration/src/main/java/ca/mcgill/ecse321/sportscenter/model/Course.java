@@ -58,7 +58,6 @@ public class Course {
     return wasSet;
   }
 
-
   public boolean setCourseStatus(CourseStatus aCourseStatus) {
     boolean wasSet = false;
     courseStatus = aCourseStatus;
@@ -83,13 +82,6 @@ public class Course {
   public boolean setCost(float aCost) {
     boolean wasSet = false;
     cost = aCost;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setCourseStatus(CourseStatus status){
-    boolean wasSet = false;
-    courseStatus = status;
     wasSet = true;
     return wasSet;
   }
