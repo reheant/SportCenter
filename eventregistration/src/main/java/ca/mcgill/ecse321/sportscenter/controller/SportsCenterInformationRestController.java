@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.sportscenter.controller;
 
 import ca.mcgill.ecse321.sportscenter.dto.*;
-import ca.mcgill.ecse321.sportscenter.service.ModifySportsCenterInformationService;
+import ca.mcgill.ecse321.sportscenter.service.SportsCenterInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +12,9 @@ import ca.mcgill.ecse321.sportscenter.model.*;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class ModifySportsCenterInformationRestController {
+public class SportsCenterInformationRestController {
     @Autowired
-    private ModifySportsCenterInformationService modifySportsCenterInformationService;
+    private SportsCenterInformationService modifySportsCenterInformationService;
 
     // update a course
     @PostMapping(value = { "/sportscenter/modify/courses", "sportscenter/modify/courses/"} )

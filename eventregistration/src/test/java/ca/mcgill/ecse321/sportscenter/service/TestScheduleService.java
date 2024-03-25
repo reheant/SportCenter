@@ -28,7 +28,7 @@ import ca.mcgill.ecse321.sportscenter.dao.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class TestModifyScheduleService {
+public class TestScheduleService {
     @Mock
     private SessionRepository sessionRepository;
     @Mock
@@ -41,7 +41,7 @@ public class TestModifyScheduleService {
     private InstructorAssignmentRepository instructorAssignmentRepository;
     
     @InjectMocks
-    private ModifyScheduleService service;
+    private ScheduleService service;
 
     private static final Integer SESSION_ID = 1;
     private static final Integer COURSE_ID = 1;

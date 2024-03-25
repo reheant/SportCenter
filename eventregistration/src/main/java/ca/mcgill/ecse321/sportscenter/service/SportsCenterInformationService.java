@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ModifySportsCenterInformationService {
+public class SportsCenterInformationService {
 
     @Autowired
     private LocationRepository locationRepository;

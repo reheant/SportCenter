@@ -22,7 +22,7 @@ import ca.mcgill.ecse321.sportscenter.model.*;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ModifySportsCenterInformationRestControllerIntegrationTest {
+public class SportsCenterInformationRestControllerIntegrationTest {
     @Autowired
     private TestRestTemplate client;
 

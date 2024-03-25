@@ -23,7 +23,7 @@ import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 import ca.mcgill.ecse321.sportscenter.dao.*;
 
 @ExtendWith(MockitoExtension.class)
-public class TestModifySportsCenterInformation {
+public class TestSportsCenterInformation {
 
     @Mock
     private CourseRepository courseRepository;
@@ -37,7 +37,7 @@ public class TestModifySportsCenterInformation {
     private AccountRepository accountRepository;
     
     @InjectMocks
-    private ModifySportsCenterInformationService service;
+    private SportsCenterInformationService service;
 
     private static final Integer COURSE_ID = 1;
     private static final Integer SESSION_ID = 1;
