@@ -37,8 +37,8 @@ Customers can also access a view of their completed classes as well as their upc
 | Name | Role | Effort in hours |
 | --- | --- | --- |
 | Anastasiia Nemyrovska | Documentation, Backend service implementation, Unit testing and Integration testing for: Filter view of courses and sessions, Create/Delete sessions, Send email notification to confirm registration  | 40 |
-| Julien Audet | Documentation, Backend service implementation, unit testing and Integration testing for : register/unregister for a session, view additional info about a session |  |
-|  Tim Pham | Documentation, Swagger setup, Backend service implementation, unit testing and Integration testing for : Login/Logout |  | 
-|  Rehean Thillainathalingam | Documentation, Backend service implementation, unit testing and Integration testing for : Create customer profile, modify user profiles and add payment information |  |
+| Julien Audet | Documentation, Backend service implementation, unit testing and Integration testing for : register/unregister for a session, view additional info about a session | 23 |
+|  Tim Pham | Documentation, Swagger setup, Backend service implementation, unit testing and Integration testing for : Login/Logout | 25 | 
+|  Rehean Thillainathalingam | Documentation, Backend service implementation, unit testing and Integration testing for : Create customer profile, modify user profiles and add payment information | 31 |
 |  Marc-Antoine Nadeau | Documentation, Backend service implementation, unit testing and Integration testing for : Add/Delete course, Admin approving a course and create admin profile| 25 |
 | Tiffany Miller | Documentation, Backend service implementation, unit testing and Integration testing for : Modify sport center information and modify schedule |  | 
