@@ -14,4 +14,7 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
     List<Session> findSessionsByIdIn(Collection<Integer> ids);
     List<Session> findSessionsByCourseNameContainingIgnoreCase(String name);
     List<Session> findSessionsByStartTimeBetween(LocalDateTime startTime, LocalDateTime endTime);
+
+  
 }
+

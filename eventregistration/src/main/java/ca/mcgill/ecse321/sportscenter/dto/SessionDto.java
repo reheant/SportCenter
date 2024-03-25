@@ -48,4 +48,6 @@ public class SessionDto {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
+
 }
+
