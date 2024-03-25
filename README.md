@@ -41,4 +41,4 @@ Customers can also access a view of their completed classes as well as their upc
 |  Tim Pham | Documentation, Swagger setup, Backend service implementation, unit testing and Integration testing for : Login/Logout | 25 | 
 |  Rehean Thillainathalingam | Documentation, Backend service implementation, unit testing and Integration testing for : Create customer profile, modify user profiles and add payment information | 31 |
 |  Marc-Antoine Nadeau | Documentation, Backend service implementation, unit testing and Integration testing for : Add/Delete course, Admin approving a course and create admin profile| 25 |
-| Tiffany Miller | Documentation, Backend service implementation, unit testing and Integration testing for : Modify sport center information and modify schedule | 23 | 
+| Tiffany Miller | Documentation, Backend service implementation, unit testing and Integration testing for : Modify sport center information and modify schedule | 26 | 
