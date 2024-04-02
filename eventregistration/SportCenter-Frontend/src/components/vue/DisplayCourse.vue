@@ -1,59 +1,109 @@
 <template>
-    <div>
-      <!-- Table component -->
-      <b-table
-        :items="items"
-        :fields="fields"
-        :select-mode="selectMode"
-        responsive="sm"
-        ref="selectableTable"
-        selectable
-      >
-        <!-- Scoped slot for select state -->
-        <template #cell(selected)="{ rowSelected }">
+  <div>
+
+    
+    <!-- Buttons for interaction -->
+    <p>
+      <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
+      <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+      <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
+      <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
+
+      <router-link to="/createCourse">
+        <b-button size="sm" class="button-custom">Create Course</b-button>
+      </router-link>
+      <b-button size="sm" class="button-custom" @click="deleteCourse">TO BE IMPLEMENTED Delete Course</b-button>
+      <b-button size="sm" class="button-custom" @click="filterCourse">TO BE IMPLEMENTED filters</b-button>
+
+    </p>
+
+    <!-- Table component -->
+    <b-table
+      :items="items"
+      :fields="fields"
+      :select-mode="selectMode"
+      :current-page="currentPage"
+      :per-page="perPage"
+      responsive="sm"
+      ref="selectableTable"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      sort-icon-right
+      selectable
+      @row-selected="onRowSelected"
+    >
+
+      <template #cell(selected)="{ rowSelected, item }">
+        <span 
+          @click="selectRow(item)"
+          :class="{ 'selected-row': rowSelected }"
+        >
           <template v-if="rowSelected">
-            <!-- Selected icon -->
             <span aria-hidden="true">&check;</span>
             <span class="sr-only">Selected</span>
           </template>
           <template v-else>
-            <!-- Unselected icon -->
             <span aria-hidden="true">&nbsp;</span>
             <span class="sr-only">Not selected</span>
           </template>
-        </template>
+        </span>
+      </template>
+      
+    <template #cell(course_description)="row">
+        <b-button size="sm" @click="row.toggleDetails" class="description-button">
+       {{ row.detailsShowing ? 'Hide' : 'Show' }} Description
+      </b-button>
+    </template>
 
-         <!-- Apply class for course status -->
-         <template #cell(course_status)="data">
-          <span 
-            :class="{
-              'text-rejected' : data.value === 'Rejected',
-              'text-pending' : data.value === 'Pending',
-              'text-approved' : data.value === 'Approved',
-            }"
-          >
+    <template #row-details="row">
+      <b-card>
+        <b-row class="mb-2">
+          <b-col sm="3" class="text-sm-right"><b>Course Description:</b></b-col>
+          <b-col>{{ row.item.course_description }}</b-col>
+        </b-row>
+      </b-card>
+    </template>
+
+        <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+     
+
+
+      <!-- Apply class for course status -->
+      <template #cell(course_status)="data">
+        <span 
+          :class="{
+            'text-rejected' : data.value === 'Refused',
+            'text-pending' : data.value === 'Pending',
+            'text-approved' : data.value === 'Approved',
+          }"
+        >
           {{ data.value !== null && data.value !== undefined ? data.value : ''}}
-          </span>
-        </template>
+        </span>
+      </template>
 
-      </b-table>
-  
-      <!-- Buttons for interaction -->
-      <p>
-        <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
-        <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+      <template #cell(course_name)="data">
+        <span class="course-name">
+          {{ data.value }}
+        </span>
+      </template>
 
-        <b-button size="sm" class="button-custom" @click="approveCourse"> Approve Course</b-button>
-        <b-button size="sm" class="button-custom" @click="disapproveCourse"> Disapprove Course </b-button>
-
-        <router-link to="/createCourse">
-            <b-button size="sm" class="button-custom" >Create Course</b-button>
-        </router-link>
-
-      </p>
     
-    </div>
+  </b-table>
+    
+
+    <b-pagination 
+      class ="pagination"
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      align="center"
+      aria-controls="selectableTable"
+      
+    ></b-pagination>
+    
+  </div>
 </template>
+
 
 <script src="../javascript/DisplayCourse.js" > </script>
 
@@ -79,23 +129,26 @@
     margin-top: 15px;
     margin-bottom: 15px; 
   }
+
   .b-table {
     border: 2px solid #ccc; /* Example: add a border */
     border-radius: 5px; /* Example: add border radius */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example: add a box shadow */
   }
 
+  /* Style the table headers */
   .b-table th {
-    background-color: #f0f0f0; /* Example: Style the table headers */
+    background-color: #f0f0f0; 
     color: #333;
   }
 
+  /* Style the table rows */
   .b-table tr {
-    background-color: #ffffff; /* Example: Style the table rows */
+    background-color: #ffffff; 
   }
-
+  /* Style the selected rows */
   .b-table tr.selected {
-    background-color: #f0f0ff; /* Example: Style the selected rows */
+    background-color: #f0f0ff; 
   }
 
   .b-table tr:hover {
@@ -118,7 +171,7 @@
   }
 
 
-  .button-custom {
+.button-custom {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
@@ -136,4 +189,45 @@
 .button-custom:hover {
   background-color: #45a049; /* Darker Green */
 }
+
+.course-name {
+  font-weight: bold;
+}
+
+
+
+.description-button{
+  background-color: #c3fcc5; 
+  border: none;
+  color: rgb(2, 2, 2);
+  padding: 8px 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+
+}
+
+.pagination {
+  color: #b81b1b;
+  font-weight: bold;
+  font-size: 1.25rem;
+  fill: blanchedalmond;
+  color: white;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.pagination a {
+  border-radius: 5px;
+}
+
+.pagination a.active {
+  border-radius: 5px;
+}
+
   </style>
