@@ -19,42 +19,41 @@ function CustomerDto(firstName, lastName, email, password, wantsEmailConfirmatio
 }
 
 export default {
-    name: 'createCustomer',
+    name: 'addPaypal',
     data() {
       return {
         form: {
-          email: '',
-          firstName: '',
-          lastName: '',
+          accountName: '',
+          customerEmail: '',
+          paypalEmail: '',
           password: '',
-          checked: false 
         },
         show: true,
         error: '' 
       };
     },
     methods: {
-      createCustomer() {
-        if (this.form.firstName === "") {
-          this.error = "first name required";
-        } else if (this.form.lastName === "") {
-          this.error = "last name required";
-        } else if (this.form.email === "") {
-          this.error = "email required";
+      addPaypal() {
+        if (this.form.accountName === "") {
+          this.error = "Account name required";
+        } else if (this.form.customerEmail === "") {
+          this.error = "Customer email required";
+        } else if (this.form.paypalEmail === "") {
+          this.error = "Paypal email required";
         } else if (this.form.password === "") {
           this.error = "password required";
         } else {
             const formData = new URLSearchParams();
-            formData.append('lastName', this.form.lastName);
-            formData.append('email', this.form.email);
-            formData.append('password', this.form.password);
-            formData.append('wantsEmailConfirmation', this.form.checked);
+            formData.append('accountName', this.form.accountName);
+            formData.append('customerEmail', this.form.customerEmail);
+            formData.append('paypalEmail', this.form.paypalEmail);
+            formData.append('paypalPassword', this.form.password);
 
-            AXIOS.post(`/customer/${this.form.firstName}`, formData)
+            AXIOS.post(`/paypal/add`, formData)
           .then((response) => {
               console.log(response.data);
               this.error = '';
-              this.$router.push('/selectPaymentType');
+              this.$router.push('/login'); //ROUTES BACK TO LOGIN
           })
           .catch((e) => {
             const errorMsg = e.response ? e.response.data.message : "An error occurred";
@@ -64,15 +63,14 @@ export default {
         }
       },
       onSubmit() {
-        this.createCustomer(); 
+        this.addPaypal();
       },
       onReset() {
         this.form = {
-          email: '',
-          firstName: '',
-          lastName: '',
+          accountName: '',
+          customerEmail: '',
+          paypalEmail: '',
           password: '',
-          checked: false
         };
         this.show = false;
         this.$nextTick(() => {

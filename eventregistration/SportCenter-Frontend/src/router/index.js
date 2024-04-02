@@ -5,8 +5,9 @@ import Login from '@/components/vue/Login'
 import CreateCustomer from '@/components/vue/CreateCustomer'
 import CreateCourse from '@/components/vue/CreateCourse'
 import DisplayCourse from '@/components/vue/DisplayCourse'
-import AddPaymentInfo from '@/components/vue/AddPaymentInfo'
-
+import SelectPaymentType from '@/components/vue/SelectPaymentType'
+import AddPaypal from '@/components/vue/AddPaypal'
+import AddCard from '@/components/vue/AddCard'
 Vue.use(Router)
 
 export default new Router({
@@ -37,9 +38,19 @@ export default new Router({
       component: CreateCourse
     },
     {
-      path: '/addPaymentInfo',
-      name: 'AddPaymentInfo',
-      component: AddPaymentInfo
+      path: '/addPaypal',
+      name: 'AddPaypal',
+      component: AddPaypal
+    },
+    {
+      path: '/addCard',
+      name: 'AddCard',
+      component: AddCard
+    },
+    {
+      path: '/selectPaymentType',
+      name: 'selectPaymentType',
+      component: SelectPaymentType
     }
   ]
 })
