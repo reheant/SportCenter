@@ -35,6 +35,42 @@ export default {
     clearSelected() {
       this.$refs.selectableTable.clearSelected();
     },
-    // Select the third row
-  },
-};
+    // Approve selected rows
+ 
+    approveCourse() {
+      const selectedItems = this.selected;
+        selectedItems.forEach(item => {
+        const name = item.course_name; // Assuming the course name is stored in the 'course_name' property
+        //FIXME:
+        const email = 'admin@mail.com';
+    
+        axios.post(`/approve/${name}`, { params: { email } })
+          .then(response => {
+            // Handle successful response if needed
+            console.log(response.data); // Log the response data
+          })
+          .catch(error => {
+            // Handle error if needed
+            console.error('Error approving course:', error);
+          });
+      });
+    },
+    disapproveCourse() {
+      const selectedItems = this.selected;
+      selectedItems.forEach(item => {
+        const name = item.course_name; // Assuming the course name is stored in the 'course_name' property
+        const email = 'admin@mail.com'; // Set the email parameter for disapproval action
+  
+        axios.post(`/disapprove/${name}`, { params: { email } })
+          .then(response => {
+            // Handle successful response if needed
+            console.log(response.data); // Log the response data
+          })
+          .catch(error => {
+            // Handle error if needed
+            console.error('Error disapproving course:', error);
+          });
+      });
+    }
+  }
+}
