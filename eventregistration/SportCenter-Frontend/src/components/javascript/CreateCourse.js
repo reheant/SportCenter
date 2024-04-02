@@ -9,12 +9,12 @@ const AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 });
 
-function CourseDto(courseName, courseDescription, courseRequiresInstructor, courseDuration, courseCost) {
-  this.name = courseName;
-  this.description = courseDescription;
-  this.requiresInstructor = courseRequiresInstructor;
-  this.defaultDuration = parseFloat(courseDuration);
-  this.cost = parseFloat(courseCost);
+function CourseDto(courseName, courseDescription, requiresInstructor, courseDuration, courseCost) {
+  this.courseName = courseName;
+  this.courseDescription = courseDescription;
+  this.requiresInstructor = requiresInstructor;
+  this.courseDuration = parseFloat(courseDuration);
+  this.courseCost = parseFloat(courseCost);
 }
 
 export default {
@@ -24,10 +24,11 @@ export default {
       form: {
         courseName: '',
         courseDescription: '',
-        courseStatus: '', // Assuming you need this field, if not, you can remove it
-        courseRequiresInstructor: false,
+        //courseStatus: '', // Assuming you need this field, if not, you can remove it
         courseDuration: '',
         courseCost: '',
+        requiresInstructor: false,
+        
       },
       show: true,
       error: '',
@@ -46,22 +47,23 @@ export default {
       } else {
         // Create a new instance of CourseDto
         const formData = new URLSearchParams();
-        formData.append('name', this.form.courseName);
-        formData.append('description', this.form.courseDescription);
+        //formData.append('name', this.form.courseName);
+        formData.append('courseDescription', this.form.courseDescription);
         formData.append('requiresInstructor', this.form.courseRequiresInstructor);
-        formData.append('defaultDuration', this.form.courseDuration);
-        formData.append('cost', this.form.courseCost);
+        formData.append('courseDuration', this.form.courseDuration);
+        formData.append('courseCost', this.form.courseCost);
 
-        AXIOS.post('/course', formData)
+        AXIOS.post(`/course/${this.form.courseName}`, formData)
         .then(response => {
-        console.log("New course created:", response.data);
+        console.log(response.data);
         // Reset form and error message after successful creation
         this.error = '';
         this.resetForm();
   })
-  .catch(error => {
-    this.error = 'An error occurred while creating the course';
-    console.error('Error creating course:', error);
+  .catch((e) => {
+    const errorMsg = e.response ? e.response.data.message : "An error occurred";
+    console.log(errorMsg);
+    this.error = errorMsg;
   });
       }
     },
@@ -76,10 +78,11 @@ export default {
       this.form = {
         courseName: '',
         courseDescription: '',
-        courseStatus: '',
-        courseRequiresInstructor: false,
         courseDuration: '',
         courseCost: '',
+        //courseStatus: '',
+        requiresInstructor: false,
+        
       };
       this.show = false;
       this.$nextTick(() => {
