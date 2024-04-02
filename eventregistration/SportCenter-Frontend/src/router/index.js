@@ -5,6 +5,7 @@ import Login from '@/components/vue/Login'
 import CreateCustomer from '@/components/vue/CreateCustomer'
 import CreateCourse from '@/components/vue/CreateCourse'
 import DisplayCourse from '@/components/vue/DisplayCourse'
+import AddPaymentInfo from '@/components/vue/AddPaymentInfo'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/createCourse',
       name: 'CreateCourse',
       component: CreateCourse
+    },
+    {
+      path: '/addPaymentInfo',
+      name: 'AddPaymentInfo',
+      component: AddPaymentInfo
     }
   ]
 })

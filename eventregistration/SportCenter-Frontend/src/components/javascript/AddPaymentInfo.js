@@ -19,7 +19,7 @@ function CustomerDto(firstName, lastName, email, password, wantsEmailConfirmatio
 }
 
 export default {
-    name: 'createCustomer',
+    name: 'addPaymentInfo',
     data() {
       return {
         form: {
@@ -34,7 +34,7 @@ export default {
       };
     },
     methods: {
-      createCustomer() {
+        addPaymentInfo() {
         if (this.form.firstName === "") {
           this.error = "first name required";
         } else if (this.form.lastName === "") {
@@ -54,7 +54,6 @@ export default {
           .then((response) => {
               console.log(response.data);
               this.error = '';
-              this.$router.push('/addPaymentInfo');
           })
           .catch((e) => {
             const errorMsg = e.response ? e.response.data.message : "An error occurred";
