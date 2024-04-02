@@ -25,10 +25,11 @@ export default {
         form: {
           accountName: '',
           customerEmail: '',
-          selectedForm: 'form1',
+          cardNumber: '',
           expirationDate: '',
           ccv: '',
         },
+        selectedForm: 'form1',
         show: true,
         error: '' 
       };
@@ -44,6 +45,19 @@ export default {
         } else if (this.form.ccv === "") {
           this.error = "CCV required";
         } else {
+            if (!/^\d+$/.test(this.form.ccv)) {
+              this.error = "CCV must be a valid number";
+              return;
+            }
+            if (!/^\d+$/.test(this.form.expirationDate)) {
+              this.error = "Expiration Date must be a valid number";
+              return;
+            }
+            if (!/^\d+$/.test(this.form.cardNumber)) {
+              this.error = "Card Number must be a valid number";
+              return;
+            }
+
             let paymentCardType;
             if (this.selectedForm === 'form1') {
                 paymentCardType = 'DebitCard';
@@ -66,9 +80,9 @@ export default {
               this.$router.push('/login'); //ROUTES BACK TO LOGIN
           })
           .catch((e) => {
-            const errorMsg = e.response ? e.response.data.message : "An error occurred";
-            console.log(errorMsg);
-            this.error = errorMsg;
+            const errorMsg = e.response && e.response.data ? e.response.data : "something went wrong";
+            console.error(errorMsg);
+            this.error = errorMsg; 
           });
         }
       },
@@ -80,6 +94,7 @@ export default {
           accountName: '',
           customerEmail: '',
           selectedForm: 'form1',
+          cardNumber: '',
           expirationDate: '',
           ccv: '',
         };

@@ -86,13 +86,14 @@
               required
             ></b-form-input>
           </b-form-group>
-
+          <div class="error">
+            <p v-if="error" style="color: red">{{ error }}</p>  
+          </div>
           <div class="buttons-container">
             <b-button type="reset" variant="info">Reset</b-button>
             <b-button type="submit" variant="primary">Next</b-button>
             
           </div>
-          <p v-if="error" style="color: red">{{ error }}</p>
         </b-form>
         <!-- <b-card class="mt-3" header="Form Data Result"> 
           <pre class="m-0">{{ form }}</pre>
@@ -104,6 +105,11 @@
   <script src="../javascript/AddCard.js" > </script>
   
   <style>
+
+.error {
+    padding: 10px;
+
+  }
   .form-container {
     max-width: 600px;
     margin: auto;

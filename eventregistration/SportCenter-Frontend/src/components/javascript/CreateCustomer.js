@@ -57,9 +57,9 @@ export default {
               this.$router.push('/selectPaymentType');
           })
           .catch((e) => {
-            const errorMsg = e.response ? e.response.data.message : "An error occurred";
-            console.log(errorMsg);
-            this.error = errorMsg;
+            const errorMsg = e.response && e.response.data ? e.response.data : "something went wrong";
+            console.error(errorMsg);
+            this.error = errorMsg; 
           });
         }
       },
