@@ -10,18 +10,22 @@
         selectable
       >
         <!-- Scoped slot for select state -->
-        <template #cell(selected)="{ rowSelected }">
-          <template v-if="rowSelected">
-            <!-- Selected icon -->
-            <span aria-hidden="true">&check;</span>
-            <span class="sr-only">Selected</span>
-          </template>
-          <template v-else>
-            <!-- Unselected icon -->
-            <span aria-hidden="true">&nbsp;</span>
-            <span class="sr-only">Not selected</span>
-          </template>
+        <template #cell(selected)="{ rowSelected, items }">
+                <!-- Add click event listener to toggle row selection -->
+                <span @click="toggleRowSelection(items)">
+                    <template v-if="rowSelected">
+                        <!-- Selected icon -->
+                        <span aria-hidden="true">&check;</span>
+                        <span class="sr-only">Selected</span>
+                    </template>
+                    <template v-else>
+                        <!-- Unselected icon -->
+                        <span aria-hidden="true">&nbsp;</span>
+                        <span class="sr-only">Not selected</span>
+                    </template>
+                </span>
         </template>
+
 
          <!-- Apply class for course status -->
          <template #cell(course_status)="data">

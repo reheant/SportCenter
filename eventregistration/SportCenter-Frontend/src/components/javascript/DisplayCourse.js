@@ -1,67 +1,107 @@
-import axios from 'axios';
-import config from '../../../config';
+import axios from 'axios'
+import config from '../../../config'
 
-const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port;
-const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort;
+const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
 });
+
 
 export default {
   data() {
     return {
       fields: ['selected', 'course_name', 'instructor', 'course_status'],
-      items: [
-        { selected: true,  course_name: 'Yoga', instructor: 'Macdonald', course_status:'Pending'},
-        { selected: true,  course_name: 'Box', instructor: 'Macdonald', course_status:'Approved'},
-        { selected: true,  course_name: 'Tennis', instructor: 'Macdonald', course_status:'Pending'},
-        { selected: true,  course_name: 'Polo', instructor: 'Macdonald', course_status:'Rejected'},
-      ],
+      items: [],
       selectMode: 'multi',
       selected: []
     };
   },
+  computed: {
+    selectedCourseNames() {
+      return this.selected.map(item => item.course_name);
+    }
+  },
+  created() {
+    this.fetchCourses(); // Fetch courses when the component is created
+  },
   methods: {
-    // Update selected rows
-    onRowSelected(items) {
-      this.selected = items;
+
+    fetchCourses() {
+      // Make an HTTP GET request to fetch all courses
+      AXIOS.get('/courses')
+      .then(response => {
+        // Update items array with the fetched courses
+        this.items = response.data.map(course => ({
+          course_name: course.name,
+          instructor: course.instructor,
+          course_status: course.courseStatus,
+          // Add other fields as needed
+        }));
+      })
+      .catch(error => {
+        console.error('Error fetching courses:', error);
+      });
     },
-    // Select all rows
+
+    toggleRowSelection(items) {
+      // Toggle row selection
+      this.$refs.selectableTable.toggleRowSelection(items);
+      // Update selected items
+      this.selected = this.$refs.selectableTable.selected;
+      console.log(this.selectedCourseNames);
+      console.log(this.items);
+    },
+
+    onRowSelected(items) {
+      
+      this.selected = items;
+      console.log(this.items);
+      console.log(this.selectedCourseNames);
+    },
+
     selectAllRows() {
       this.$refs.selectableTable.selectAllRows();
+      
+      // Add course names to the selected array
+      this.selected = [...this.selected, ...this.items];
+      
+      console.log(this.selectedCourseNames);
+      console.log(this.selected);
+      console.log(this.items);
     },
-    // Clear selected rows
+
     clearSelected() {
       this.$refs.selectableTable.clearSelected();
+      console.log(this.selectedCourseNames);
     },
+
     // Approve selected rows
- 
     approveCourse() {
-      const selectedItems = this.selected;
-        selectedItems.forEach(item => {
-        const name = item.course_name; // Assuming the course name is stored in the 'course_name' property
-        //FIXME:
-        const email = 'admin@mail.com';
+      const email = 'admin@mail.com'; // Assuming the email is constant for approval action
     
-        axios.post(`/approve/${name}`, { params: { email } })
+      this.items.forEach(course => { const name = course.course_name; 
+    
+        AXIOS.post(`/approve/${encodeURIComponent(name)}`, { email: email })
           .then(response => {
             // Handle successful response if needed
-            console.log(response.data); // Log the response data
+            console.log(`Course ${name} approved successfully.`);
           })
           .catch(error => {
             // Handle error if needed
-            console.error('Error approving course:', error);
+            console.error(`Error approving course ${name}:`, error);
           });
       });
     },
     disapproveCourse() {
-      const selectedItems = this.selected;
-      selectedItems.forEach(item => {
-        const name = item.course_name; // Assuming the course name is stored in the 'course_name' property
+      const selectedCourseNames = this.selectedCourseNames;
+      selectedCourseNames.forEach(name => {
+        // Assuming the course name is stored in the 'course_name' property
         const email = 'admin@mail.com'; // Set the email parameter for disapproval action
-  
-        axios.post(`/disapprove/${name}`, { params: { email } })
+
+        axios.post(`/disapprove/:name`, email)
           .then(response => {
             // Handle successful response if needed
             console.log(response.data); // Log the response data

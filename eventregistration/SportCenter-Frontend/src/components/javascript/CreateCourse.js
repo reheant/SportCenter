@@ -24,7 +24,6 @@ export default {
       form: {
         courseName: '',
         courseDescription: '',
-        //courseStatus: '', // Assuming you need this field, if not, you can remove it
         courseDuration: '',
         courseCost: '',
         requiresInstructor: false,
@@ -32,6 +31,7 @@ export default {
       },
       show: true,
       error: '',
+      successMessage: '', 
     };
   },
   methods: {
@@ -48,28 +48,32 @@ export default {
         // Create a new instance of CourseDto
         const formData = new URLSearchParams();
         //formData.append('name', this.form.courseName);
-        formData.append('courseDescription', this.form.courseDescription);
-        formData.append('requiresInstructor', this.form.courseRequiresInstructor);
-        formData.append('courseDuration', this.form.courseDuration);
-        formData.append('courseCost', this.form.courseCost);
+        formData.append('description', this.form.courseDescription);
+        formData.append('requiresInstructor', this.form.requiresInstructor);
+        formData.append('defaultDuration', this.form.courseDuration);
+        formData.append('cost', this.form.courseCost);
 
         AXIOS.post(`/course/${this.form.courseName}`, formData)
         .then(response => {
         console.log(response.data);
-        // Reset form and error message after successful creation
+        this.successMessage = 'Course created successfully'; 
         this.error = '';
-        this.resetForm();
-  })
-  .catch((e) => {
-    const errorMsg = e.response ? e.response.data.message : "An error occurred";
-    console.log(errorMsg);
-    this.error = errorMsg;
-  });
+        
+        })
+        .catch((e) => {
+          const errorMsg = e.response ? e.response.data.message : "An error occurred";
+          console.log(errorMsg);
+          this.error = errorMsg;
+        });
       }
     },
     // Reset error message
     resetError() {
       this.error = '';
+      this.successMessage = '';
+    },
+    resetSucces() {
+      this.successMessage = '';
     },
     onSubmit() {
       this.createCourse();
@@ -82,6 +86,7 @@ export default {
         courseCost: '',
         //courseStatus: '',
         requiresInstructor: false,
+    
         
       };
       this.show = false;

@@ -76,6 +76,7 @@
           <b-button type="submit" variant="primary">Next</b-button>
         </div>
         <p v-if="error" style="color: red">{{ error }}</p>
+        <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
       </b-form>
       <!-- <b-card class="mt-3" header="Form Data Result"> 
         <pre class="m-0">{{ form }}</pre>
