@@ -13,20 +13,43 @@ const AXIOS = axios.create({
 export default {
   data() {
     return {
-      fields: ['selected', 'course_name', 'instructor', 'course_status'],
+    
+      fields: [ {key: 'selected',sortable:false},
+                {key: 'course_name', sortable:true},
+                {key: 'course_description', sortable:false}, 
+                {key: 'course_cost', sortable:true},
+                {key: 'course_duration', sortable:true},
+                {key: 'requires_instructor', sortable:true},
+                {key: 'course_status', sortable:true}],
       items: [],
       selectMode: 'multi',
-      selected: []
+      selected: [],
+      currentPage: 1, // initial current page
+      perPage: 10, // initial items per page
+      
     };
+    
   },
   computed: {
     selectedCourseNames() {
       return this.selected.map(item => item.course_name);
+    },
+    totalRows() {
+      return this.items.length;
     }
   },
+  filteredItems() {
+      if (!this.selectedStatus) {
+        return this.items; // If no status selected, return all items
+      }
+      return this.items.filter(item => item.course_status === this.selectedStatus);
+    },
+    
   created() {
     this.fetchCourses(); // Fetch courses when the component is created
   },
+  
+  
   methods: {
 
     fetchCourses() {
@@ -36,10 +59,16 @@ export default {
         // Update items array with the fetched courses
         this.items = response.data.map(course => ({
           course_name: course.name,
-          instructor: course.instructor,
+          requires_instructor: course.requiresInstructor,
+          course_cost: course.cost,
+          course_description:course.description,
+          course_duration: course.defaultDuration,
           course_status: course.courseStatus,
+          
+          
           // Add other fields as needed
         }));
+        
       })
       .catch(error => {
         console.error('Error fetching courses:', error);
@@ -65,6 +94,11 @@ export default {
       this.selected = [];
     },
 
+    onPageChange(page) {
+      console.log("Current Page:", page);
+      // You can perform any necessary actions here when the page changes
+    },
+    
     // Approve selected rows
     approveCourse() {
       const email = 'admin@mail.com'; // Assuming the email is constant for approval action
@@ -105,5 +139,12 @@ export default {
           });
       });
     },
-  }
-}
+  },
+  watch: {
+
+    currentPage(newValue) {
+      this.onPageChange(newValue);
+    },
+  },
+};
+

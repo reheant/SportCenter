@@ -1,12 +1,31 @@
 <template>
   <div>
+
+    
+    <!-- Buttons for interaction -->
+    <p>
+      <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
+      <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+      <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
+      <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
+
+      <router-link to="/createCourse">
+        <b-button size="sm" class="button-custom">Create Course</b-button>
+      </router-link>
+    </p>
+
     <!-- Table component -->
     <b-table
       :items="items"
       :fields="fields"
       :select-mode="selectMode"
+      :current-page="currentPage"
+      :per-page="perPage"
       responsive="sm"
       ref="selectableTable"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      sort-icon-right
       selectable
       @row-selected="onRowSelected"
     >
@@ -26,6 +45,27 @@
           </template>
         </span>
       </template>
+      
+    <template #cell(course_description)="row">
+        <b-button size="sm" @click="row.toggleDetails" class="description-button">
+       {{ row.detailsShowing ? 'Hide' : 'Show' }} Description
+      </b-button>
+    </template>
+
+    <template #row-details="row">
+      <b-card>
+        <b-row class="mb-2">
+          <b-col sm="3" class="text-sm-right"><b>Course Description:</b></b-col>
+          <b-col>{{ row.item.course_description }}</b-col>
+        </b-row>
+
+        <b-button size="sm" class="description-button" @click="row.toggleDetails">Hide Details</b-button>
+      </b-card>
+    </template>
+
+        <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+     
+
 
       <!-- Apply class for course status -->
       <template #cell(course_status)="data">
@@ -40,19 +80,27 @@
         </span>
       </template>
 
-    </b-table>
-  
-    <!-- Buttons for interaction -->
-    <p>
-      <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
-      <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-      <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
-      <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
+      <template #cell(course_name)="data">
+        <span class="course-name">
+          {{ data.value }}
+        </span>
+      </template>
 
-      <router-link to="/createCourse">
-        <b-button size="sm" class="button-custom">Create Course</b-button>
-      </router-link>
-    </p>
+    
+  </b-table>
+    
+
+    <b-pagination 
+      class ="pagination-course"
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      align="center"
+      aria-controls="selectableTable"
+      pills
+      
+    ></b-pagination>
+    
   </div>
 </template>
 
@@ -120,7 +168,7 @@
   }
 
 
-  .button-custom {
+.button-custom {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
@@ -138,4 +186,30 @@
 .button-custom:hover {
   background-color: #45a049; /* Darker Green */
 }
+
+.course-name {
+  font-weight: bold;
+}
+.pagination-course {
+  color: #333;
+  font-weight: bold;
+  
+  font-size: 1.25rem;
+}
+.description-button{
+  background-color: #c3fcc5; 
+  border: none;
+  color: rgb(2, 2, 2);
+  padding: 8px 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+
+}
+
   </style>
