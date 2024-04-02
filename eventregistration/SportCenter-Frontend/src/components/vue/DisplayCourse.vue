@@ -12,6 +12,9 @@
       <router-link to="/createCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
+      <b-button size="sm" class="button-custom" @click="deleteCourse">TO BE IMPLEMENTED Delete Course</b-button>
+      <b-button size="sm" class="button-custom" @click="filterCourse">TO BE IMPLEMENTED filters</b-button>
+
     </p>
 
     <!-- Table component -->
@@ -89,13 +92,12 @@
     
 
     <b-pagination 
-      class ="pagination-course"
+      class ="pagination"
       v-model="currentPage"
       :total-rows="totalRows"
       :per-page="perPage"
       align="center"
       aria-controls="selectableTable"
-      pills
       
     ></b-pagination>
     
@@ -127,23 +129,26 @@
     margin-top: 15px;
     margin-bottom: 15px; 
   }
+
   .b-table {
     border: 2px solid #ccc; /* Example: add a border */
     border-radius: 5px; /* Example: add border radius */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example: add a box shadow */
   }
 
+  /* Style the table headers */
   .b-table th {
-    background-color: #f0f0f0; /* Example: Style the table headers */
+    background-color: #f0f0f0; 
     color: #333;
   }
 
+  /* Style the table rows */
   .b-table tr {
-    background-color: #ffffff; /* Example: Style the table rows */
+    background-color: #ffffff; 
   }
-
+  /* Style the selected rows */
   .b-table tr.selected {
-    background-color: #f0f0ff; /* Example: Style the selected rows */
+    background-color: #f0f0ff; 
   }
 
   .b-table tr:hover {
@@ -188,12 +193,9 @@
 .course-name {
   font-weight: bold;
 }
-.pagination-course {
-  color: #333;
-  font-weight: bold;
-  
-  font-size: 1.25rem;
-}
+
+
+
 .description-button{
   background-color: #c3fcc5; 
   border: none;
@@ -208,6 +210,24 @@
   cursor: pointer;
   border-radius: 4px;
 
+}
+
+.pagination {
+  color: #b81b1b;
+  font-weight: bold;
+  font-size: 1.25rem;
+  fill: blanchedalmond;
+  color: white;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.pagination a {
+  border-radius: 5px;
+}
+
+.pagination a.active {
+  border-radius: 5px;
 }
 
   </style>

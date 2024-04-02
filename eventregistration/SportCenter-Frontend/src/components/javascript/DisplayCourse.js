@@ -26,6 +26,8 @@ export default {
       selected: [],
       currentPage: 1, // initial current page
       perPage: 10, // initial items per page
+      sortDesc: false,
+      sortBy: 'course_name',
       
     };
     
@@ -64,6 +66,7 @@ export default {
           course_description:course.description,
           course_duration: course.defaultDuration,
           course_status: course.courseStatus,
+          course_id: course.id,
           
           
           // Add other fields as needed
@@ -139,6 +142,13 @@ export default {
           });
       });
     },
+  },
+  deleteCourse() {
+    //TODO: not implement 
+    
+  },
+  filterCourse(){
+    // TODO: not implement
   },
   watch: {
 
