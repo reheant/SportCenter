@@ -35,36 +35,58 @@
             ></b-form-input>
           </b-form-group>
   
-          <b-form-group
-            id="input-group-1"
-            label="PayPal Email:"
-            label-for="input-email"
-            class="form-group-content"
-          >
-            <b-form-input
-              id="input-email"
-              v-model="form.paypalEmail"
-              type="email"
-              placeholder="Enter PayPal Email"
-              required
-            ></b-form-input>
-          </b-form-group>
+          <b-form-group label="Select Form:">
+            <b-form-radio-group v-model="selectedForm" name="formOptions">
+                <b-form-radio value="form1">Debit Card</b-form-radio>
+                <b-form-radio value="form2">Credit Card</b-form-radio>
+            </b-form-radio-group>
+            </b-form-group>
   
           <b-form-group
             id="input-group-4"
-            label="PayPal Password:"
+            label="Card Number:"
             label-for="input-password"
             class="form-group-content"
           >
             <b-form-input
               id="input-password"
-              v-model="form.password"
+              v-model="form.cardNumber"
               type="password"
-              placeholder="Enter PayPal Password"
+              placeholder="Enter Card Number"
               required
             ></b-form-input>
           </b-form-group>
-  
+          
+          <b-form-group
+            id="input-group-4"
+            label="Expiration Date:"
+            label-for="input-password"
+            class="form-group-content"
+          >
+            <b-form-input
+              id="input-password"
+              v-model="form.expirationDate"
+              type="password"
+              placeholder="Enter Expiration Date"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-4"
+            label="CCV:"
+            label-for="input-password"
+            class="form-group-content"
+          >
+            <b-form-input
+              id="input-password"
+              v-model="form.ccv"
+              type="password"
+              placeholder="Enter CCV"
+              required
+            ></b-form-input>
+          </b-form-group>
+
           <div class="buttons-container">
             <b-button type="reset" variant="info">Reset</b-button>
             <b-button type="submit" variant="primary">Next</b-button>
@@ -79,7 +101,7 @@
     </div>
   </template>
   
-  <script src="../javascript/AddPaypal.js" > </script>
+  <script src="../javascript/AddCard.js" > </script>
   
   <style>
   .form-container {

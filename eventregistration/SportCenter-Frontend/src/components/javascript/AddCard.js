@@ -19,37 +19,47 @@ function CustomerDto(firstName, lastName, email, password, wantsEmailConfirmatio
 }
 
 export default {
-    name: 'addPaypal',
+    name: 'addCard',
     data() {
       return {
         form: {
           accountName: '',
           customerEmail: '',
-          paypalEmail: '',
-          password: '',
+          selectedForm: 'form1',
+          expirationDate: '',
+          ccv: '',
         },
         show: true,
         error: '' 
       };
     },
     methods: {
-      addPaypal() {
+        addCard() {
         if (this.form.accountName === "") {
           this.error = "Account name required";
         } else if (this.form.customerEmail === "") {
           this.error = "Customer email required";
-        } else if (this.form.paypalEmail === "") {
-          this.error = "Paypal email required";
-        } else if (this.form.password === "") {
-          this.error = "password required";
+        } else if (this.form.expirationDate === "") {
+          this.error = "Expiration date required";
+        } else if (this.form.ccv === "") {
+          this.error = "CCV required";
         } else {
+            let paymentCardType;
+            if (this.selectedForm === 'form1') {
+                paymentCardType = 'DebitCard';
+              } else if (this.selectedForm === 'form2') {
+                paymentCardType = 'CreditCard';
+              }
+
             const formData = new URLSearchParams();
             formData.append('accountName', this.form.accountName);
             formData.append('customerEmail', this.form.customerEmail);
-            formData.append('paypalEmail', this.form.paypalEmail);
-            formData.append('paypalPassword', this.form.password);
+            formData.append('paymentCardType', paymentCardType);
+            formData.append('cardNumber', this.form.cardNumber);
+            formData.append('expirationDate', this.form.expirationDate);
+            formData.append('ccv', this.form.ccv);
 
-            AXIOS.post(`/paypal/add`, formData)
+            AXIOS.post(`/card/add`, formData)
           .then((response) => {
               console.log(response.data);
               this.error = '';
@@ -63,14 +73,15 @@ export default {
         }
       },
       onSubmit() {
-        this.addPaypal();
+        this.addCard();
       },
       onReset() {
         this.form = {
           accountName: '',
           customerEmail: '',
-          paypalEmail: '',
-          password: '',
+          selectedForm: 'form1',
+          expirationDate: '',
+          ccv: '',
         };
         this.show = false;
         this.$nextTick(() => {
