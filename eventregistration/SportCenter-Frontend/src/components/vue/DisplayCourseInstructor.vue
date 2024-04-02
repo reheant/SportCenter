@@ -7,10 +7,10 @@
       <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
       <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
 
-      <router-link to="/createCourse">
+      <router-link to="/instructor/createCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
-      
+
       <b-button size="sm" class="button-custom" @click="filterCourse">TO BE IMPLEMENTED filters</b-button>
 
     </p>

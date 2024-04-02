@@ -9,7 +9,7 @@
       <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
       <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
 
-      <router-link to="admin/createCourse">
+      <router-link to="/admin/CreateCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
       <b-button size="sm" class="button-custom" @click="deleteCourse">TO BE IMPLEMENTED Delete Course</b-button>

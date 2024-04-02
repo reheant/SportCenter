@@ -18,7 +18,7 @@ function CourseDto(courseName, courseDescription, requiresInstructor, courseDura
 }
 
 export default {
-  name: 'createCourse',
+  name: 'createCourseAdmin',
   data() {
     return {
       form: {
@@ -94,5 +94,8 @@ export default {
         this.show = true;
       });
     },
+    onReturn(){
+      this.$router.push('DisplayCourse');
+    }
   },
 };

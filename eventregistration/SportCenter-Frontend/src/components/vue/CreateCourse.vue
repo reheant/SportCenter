@@ -86,7 +86,7 @@
   </div>
 </template>
 
-<script src="../javascript/CreateCourseAdmin.js"></script>
+<script src="../javascript/CreateCourse.js"></script>
 
 <style>
 .form-container {
