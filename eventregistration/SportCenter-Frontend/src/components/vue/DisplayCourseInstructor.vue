@@ -6,13 +6,11 @@
     <p>
       <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
       <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-      <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
-      <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
 
       <router-link to="/createCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
-      <b-button size="sm" class="button-custom" @click="deleteCourse">TO BE IMPLEMENTED Delete Course</b-button>
+      
       <b-button size="sm" class="button-custom" @click="filterCourse">TO BE IMPLEMENTED filters</b-button>
 
     </p>
@@ -105,7 +103,7 @@
 </template>
 
 
-<script src="../javascript/DisplayCourse.js" > </script>
+<script src="../javascript/DisplayCourseInstructor.js" > </script>
 
 <style>
   
@@ -140,20 +138,28 @@
   .b-table th {
     background-color: #f0f0f0; 
     color: #333;
+    text-align: center;
   }
 
   /* Style the table rows */
   .b-table tr {
     background-color: #ffffff; 
+    text-align: center;
   }
   /* Style the selected rows */
   .b-table tr.selected {
     background-color: #f0f0ff; 
+    text-align: center;
   }
 
   .b-table tr:hover {
     background-color: #f9f9f9; /* Example: Style the hover effect */
   }
+
+  .b-table tr:hover {
+    background-color: #f9f9f9; /* Example: Style the hover effect */
+  }
+
 
   .text-rejected {
     color: red;
@@ -192,6 +198,7 @@
 
 .course-name {
   font-weight: bold;
+
 }
 
 

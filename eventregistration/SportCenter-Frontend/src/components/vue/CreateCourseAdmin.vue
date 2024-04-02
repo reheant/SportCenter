@@ -72,6 +72,7 @@
         </b-form-group>
 
         <div class="buttons-container">
+          <b-button @click="onReturn" variant="info">Return</b-button>
           <b-button type="reset" variant="info">Reset</b-button>
           <b-button type="submit" variant="primary">Next</b-button>
         </div>
@@ -85,7 +86,7 @@
   </div>
 </template>
 
-<script src="../javascript/CreateCourse.js"></script>
+<script src="../javascript/CreateCourseAdmin.js"></script>
 
 <style>
 .form-container {

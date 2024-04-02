@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import Hello from '@/components/vue/Hello'
 import Login from '@/components/vue/Login'
 import CreateCustomer from '@/components/vue/CreateCustomer'
-import CreateCourse from '@/components/vue/CreateCourse'
-import DisplayCourse from '@/components/vue/DisplayCourse'
+import CreateCourseAdmin from '@/components/vue/CreateCourseAdmin'
+import DisplayCourseAdmin from '@/components/vue/DisplayCourseAdmin'
+import DisplayCourseInstructor from '@/components/vue/DisplayCourseInstructor'
 
 Vue.use(Router)
 
@@ -26,14 +27,19 @@ export default new Router({
       component: CreateCustomer
     },
     {
-      path: '/displayCourse',
-      name: 'DisplayCourse',
-      component: DisplayCourse
+      path: '/admin/displayCourse',
+      name: 'DisplayCourseAdmin',
+      component: DisplayCourseAdmin
     },
     {
-      path: '/createCourse',
-      name: 'CreateCourse',
-      component: CreateCourse
+      path: '/instructor/displayCourse',
+      name: 'DisplayCourseInstructor',
+      component: DisplayCourseInstructor
+    },
+    {
+      path: 'admin/createCourse',
+      name: 'CreateCourseAdmin',
+      component: CreateCourseAdmin
     }
   ]
 })
