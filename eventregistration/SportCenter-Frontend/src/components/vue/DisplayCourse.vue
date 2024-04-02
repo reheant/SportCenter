@@ -58,8 +58,6 @@
           <b-col sm="3" class="text-sm-right"><b>Course Description:</b></b-col>
           <b-col>{{ row.item.course_description }}</b-col>
         </b-row>
-
-        <b-button size="sm" class="description-button" @click="row.toggleDetails">Hide Details</b-button>
       </b-card>
     </template>
 
