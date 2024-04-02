@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+eventregistration/src/SportCenter-Frontend
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
