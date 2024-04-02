@@ -1,63 +1,61 @@
 <template>
-    <div>
-      <!-- Table component -->
-      <b-table
-        :items="items"
-        :fields="fields"
-        :select-mode="selectMode"
-        responsive="sm"
-        ref="selectableTable"
-        selectable
-      >
-        <!-- Scoped slot for select state -->
-        <template #cell(selected)="{ rowSelected, items }">
-                <!-- Add click event listener to toggle row selection -->
-                <span @click="toggleRowSelection(items)">
-                    <template v-if="rowSelected">
-                        <!-- Selected icon -->
-                        <span aria-hidden="true">&check;</span>
-                        <span class="sr-only">Selected</span>
-                    </template>
-                    <template v-else>
-                        <!-- Unselected icon -->
-                        <span aria-hidden="true">&nbsp;</span>
-                        <span class="sr-only">Not selected</span>
-                    </template>
-                </span>
-        </template>
+  <div>
+    <!-- Table component -->
+    <b-table
+      :items="items"
+      :fields="fields"
+      :select-mode="selectMode"
+      responsive="sm"
+      ref="selectableTable"
+      selectable
+      @row-selected="onRowSelected"
+    >
 
+      <template #cell(selected)="{ rowSelected, item }">
+        <span 
+          @click="selectRow(item)"
+          :class="{ 'selected-row': rowSelected }"
+        >
+          <template v-if="rowSelected">
+            <span aria-hidden="true">&check;</span>
+            <span class="sr-only">Selected</span>
+          </template>
+          <template v-else>
+            <span aria-hidden="true">&nbsp;</span>
+            <span class="sr-only">Not selected</span>
+          </template>
+        </span>
+      </template>
 
-         <!-- Apply class for course status -->
-         <template #cell(course_status)="data">
-          <span 
-            :class="{
-              'text-rejected' : data.value === 'Rejected',
-              'text-pending' : data.value === 'Pending',
-              'text-approved' : data.value === 'Approved',
-            }"
-          >
+      <!-- Apply class for course status -->
+      <template #cell(course_status)="data">
+        <span 
+          :class="{
+            'text-rejected' : data.value === 'Refused',
+            'text-pending' : data.value === 'Pending',
+            'text-approved' : data.value === 'Approved',
+          }"
+        >
           {{ data.value !== null && data.value !== undefined ? data.value : ''}}
-          </span>
-        </template>
+        </span>
+      </template>
 
-      </b-table>
+    </b-table>
   
-      <!-- Buttons for interaction -->
-      <p>
-        <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
-        <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+    <!-- Buttons for interaction -->
+    <p>
+      <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
+      <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+      <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
+      <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
 
-        <b-button size="sm" class="button-custom" @click="approveCourse"> Approve Course</b-button>
-        <b-button size="sm" class="button-custom" @click="disapproveCourse"> Disapprove Course </b-button>
-
-        <router-link to="/createCourse">
-            <b-button size="sm" class="button-custom" >Create Course</b-button>
-        </router-link>
-
-      </p>
-    
-    </div>
+      <router-link to="/createCourse">
+        <b-button size="sm" class="button-custom">Create Course</b-button>
+      </router-link>
+    </p>
+  </div>
 </template>
+
 
 <script src="../javascript/DisplayCourse.js" > </script>
 

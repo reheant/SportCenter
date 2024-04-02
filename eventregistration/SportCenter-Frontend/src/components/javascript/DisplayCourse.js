@@ -46,47 +46,52 @@ export default {
       });
     },
 
-    toggleRowSelection(items) {
-      // Toggle row selection
-      this.$refs.selectableTable.toggleRowSelection(items);
-      // Update selected items
-      this.selected = this.$refs.selectableTable.selected;
-      console.log(this.selectedCourseNames);
-      console.log(this.items);
+ 
+    toggleRowSelection(item) {
+      console.log('test')
+      this.selected.push(item);
+      console.log("Selected Courses:", this.selected);
     },
 
     onRowSelected(items) {
-      
-      this.selected = items;
-      console.log(this.items);
-      console.log(this.selectedCourseNames);
+      this.selected = items
+      console.log(this.selected);
     },
 
     selectAllRows() {
+      console.log('selectedCourseNames',this.selectedCourseNames);
+      console.log('selected', this.selected);
+      console.log('items',this.items);
+
+      this.clearSelected()
       this.$refs.selectableTable.selectAllRows();
       
       // Add course names to the selected array
       this.selected = [...this.selected, ...this.items];
       
-      console.log(this.selectedCourseNames);
-      console.log(this.selected);
-      console.log(this.items);
+      console.log('selectedCourseNames',this.selectedCourseNames);
+      console.log('selected', this.selected);
+      console.log('items',this.items);
     },
 
     clearSelected() {
       this.$refs.selectableTable.clearSelected();
+      this.selected = [];
       console.log(this.selectedCourseNames);
     },
 
     // Approve selected rows
     approveCourse() {
       const email = 'admin@mail.com'; // Assuming the email is constant for approval action
+      console.log('calling approve')
+      console.log(this.selected);
+      this.selected.forEach(course => { const name = course.course_name; 
     
-      this.items.forEach(course => { const name = course.course_name; 
-    
-        AXIOS.post(`/approve/${encodeURIComponent(name)}`, { email: email })
+        AXIOS.post(`/approve/${encodeURIComponent(name)}`, null, {
+          params: { email: email }
+        })
           .then(response => {
-            // Handle successful response if needed
+            this.fetchCourses();
             console.log(`Course ${name} approved successfully.`);
           })
           .catch(error => {
@@ -96,21 +101,24 @@ export default {
       });
     },
     disapproveCourse() {
-      const selectedCourseNames = this.selectedCourseNames;
-      selectedCourseNames.forEach(name => {
-        // Assuming the course name is stored in the 'course_name' property
-        const email = 'admin@mail.com'; // Set the email parameter for disapproval action
-
-        axios.post(`/disapprove/:name`, email)
+      const email = 'admin@mail.com'; // Assuming the email is constant for approval action
+      console.log('calling disapprove')
+      console.log(this.selected);
+      this.selected.forEach(course => { const name = course.course_name; 
+    
+        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`, null, {
+          params: { email: email }
+        })
           .then(response => {
             // Handle successful response if needed
-            console.log(response.data); // Log the response data
+            this.fetchCourses();
+            console.log(`Course ${name} disapproved successfully.`);
           })
           .catch(error => {
             // Handle error if needed
-            console.error('Error disapproving course:', error);
+            console.error(`Error disapproving course ${name}:`, error);
           });
       });
-    }
+    },
   }
 }
