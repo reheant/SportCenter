@@ -46,12 +46,7 @@ export default {
       });
     },
 
- 
-    toggleRowSelection(item) {
-      console.log('test')
-      this.selected.push(item);
-      console.log("Selected Courses:", this.selected);
-    },
+
 
     onRowSelected(items) {
       this.selected = items
@@ -59,25 +54,15 @@ export default {
     },
 
     selectAllRows() {
-      console.log('selectedCourseNames',this.selectedCourseNames);
-      console.log('selected', this.selected);
-      console.log('items',this.items);
 
       this.clearSelected()
       this.$refs.selectableTable.selectAllRows();
-      
-      // Add course names to the selected array
-      this.selected = [...this.selected, ...this.items];
-      
-      console.log('selectedCourseNames',this.selectedCourseNames);
-      console.log('selected', this.selected);
-      console.log('items',this.items);
+  
     },
 
     clearSelected() {
       this.$refs.selectableTable.clearSelected();
       this.selected = [];
-      console.log(this.selectedCourseNames);
     },
 
     // Approve selected rows
