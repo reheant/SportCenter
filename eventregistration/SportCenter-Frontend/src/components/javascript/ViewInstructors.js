@@ -46,24 +46,24 @@ export default {
     },
     
   created() {
-    this.fetchCustomers(); // Fetch customers when the component is created
+    this.fetchInstructors(); // Fetch customers when the component is created
   },
   
   
   methods: {
 
-    fetchCustomers() {
-      AXIOS.get('/customers')
+    fetchInstructors() {
+      AXIOS.get('/instructors')
       .then(response => {
-        this.items = response.data.map(customer => ({
-          accountEmail: customer.accountEmail,
-          firstName: customer.firstName,
-          lastName: customer.lastName
+        this.items = response.data.map(instructor => ({
+          accountEmail: instructor.accountEmail,
+          firstName: instructor.firstName,
+          lastName: instructor.lastName
         }));
         
       })
       .catch(error => {
-        console.error('Error fetching customers:', error);
+        console.error('Error fetching instructors:', error);
       });
     },
 
@@ -88,7 +88,6 @@ export default {
 
     onPageChange(page) {
       console.log("Current Page:", page);
-      // You can perform any necessary actions here when the page changes
     },
     
     promoteCustomer() {

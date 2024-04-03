@@ -16,18 +16,20 @@ public class SportscenterApplication {
 
 	@Autowired
 	private OwnerRepository ownerDto;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SportscenterApplication.class, args);
 
 	}
-	@PostConstruct
-	public void initializeAdminUser() throws Exception{
-		if (ownerDto.findAll().isEmpty()) {
-			String firstName = "Marc-Antoine";
-			String lastName = "Nadeau";
-			String email = "admin@mail.com";
-			String password = "1234AbC!";
-			ownerService.createOwner(firstName, lastName, email, password);
-		}
-    }
+
+	// @PostConstruct
+	// public void initializeAdminUser() throws Exception {
+	// if (ownerDto.findAll().isEmpty()) {
+	// String firstName = "Marc-Antoine";
+	// String lastName = "Nadeau";
+	// String email = "admin@mail.com";
+	// String password = "1234AbC!";
+	// ownerService.createOwner(firstName, lastName, email, password);
+	// }
+	// }
 }

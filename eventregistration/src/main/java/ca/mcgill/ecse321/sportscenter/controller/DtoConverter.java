@@ -44,7 +44,7 @@ public class DtoConverter {
         if (instructor == null){
             throw new NullPointerException("Instructor cannot be null.");
         }
-        InstructorDto instructorDto = new InstructorDto(instructor.getAccount().getEmail());
+        InstructorDto instructorDto = new InstructorDto(instructor.getAccount().getEmail(), instructor.getAccount().getFirstName(), instructor.getAccount().getLastName());
         return instructorDto;
     }
 
@@ -52,10 +52,9 @@ public class DtoConverter {
         if (customer == null){
             throw new NullPointerException("Customer cannot be null.");
         }
-        CustomerDto customerDto = new CustomerDto(customer.getAccount().getEmail(), customer.getWantsEmailConfirmation());
+        CustomerDto customerDto = new CustomerDto(customer.getAccount().getEmail(), customer.getWantsEmailConfirmation(), customer.getAccount().getFirstName(), customer.getAccount().getLastName());
         return customerDto;
     }
-
     public static PaypalDto convertToDto(PayPal paypal) {
         if (paypal == null){
             throw new NullPointerException("Paypal cannot be null.");

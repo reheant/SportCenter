@@ -1,5 +1,4 @@
 
-<!-- //TODO: this is just copy paste of paypal, change it for card keep in mind it takes a paymentCardType as input and some ints -->
 <template> 
     <div class="form-container">
       <b-card>

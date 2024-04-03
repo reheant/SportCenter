@@ -28,8 +28,8 @@
       <p>
         <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
         <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-        <b-button size="sm" class="button-custom" @click="promoteCustomer">Promote Customer</b-button>
-        <b-button size="sm" class="button-custom" @click="deleteCustomer">Delete Customer</b-button>
+        <b-button size="sm" class="button-custom" @click="promoteCustomer">Demote Instructor</b-button>
+        <b-button size="sm" class="button-custom" @click="deleteCustomer">Delete Instructor</b-button>
       </p>
   
       <!-- Table component -->
@@ -121,7 +121,7 @@
     
     
 
-<script src="../javascript/ViewAccounts.js" > </script>
+<script src="../javascript/ViewInstructors.js" > </script>
 
 
 <style>

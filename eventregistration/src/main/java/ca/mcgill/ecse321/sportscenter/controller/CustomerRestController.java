@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +15,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.sportscenter.dto.AccountDto;
 import ca.mcgill.ecse321.sportscenter.dto.CardDto;
 import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
 import ca.mcgill.ecse321.sportscenter.dto.InstructorDto;
 import ca.mcgill.ecse321.sportscenter.dto.PaypalDto;
+import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Card;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.PayPal;
+import ca.mcgill.ecse321.sportscenter.service.AccountService;
 import ca.mcgill.ecse321.sportscenter.service.CustomerService;
 
 
@@ -30,6 +36,8 @@ public class CustomerRestController {
 
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private AccountService accountService;
 
 	@PostMapping(value = { "/customer/{firstName}", "/customer/{firstName}/" })
 	public ResponseEntity<CustomerDto> createCustomer(@PathVariable("firstName") String firstName, @RequestParam(name = "lastName") String lastName,
@@ -73,6 +81,48 @@ public class CustomerRestController {
 		Card card = customerService.setCardInformation(accountName, customerEmail, paymentCardType, cardNumber, expirationDate, ccv);
 		CardDto cardDto = DtoConverter.convertToDto(card);
 		return new ResponseEntity<>(cardDto, HttpStatus.CREATED);
+	}
+
+	@GetMapping(value = { "/accounts", "/accounts/" })
+	public ResponseEntity<List<AccountDto>> getAllAccounts() {
+    List<AccountDto> accountDTOlist = new ArrayList<>();
+    try {
+        for (Account a: accountService.getAllAccounts()){
+            accountDTOlist.add(DtoConverter.convertToDto(a));
+        }
+        return new ResponseEntity<>(accountDTOlist, HttpStatus.OK);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	}
+
+	@GetMapping(value = { "/customers", "/customers/" })
+	public ResponseEntity<List<CustomerDto>> getAllCustomers() {
+    List<CustomerDto> customerDTOlist = new ArrayList<>();
+    try {
+        for (Customer a: customerService.getAllCustomers()){
+            customerDTOlist.add(DtoConverter.convertToDto(a));
+        }
+        return new ResponseEntity<>(customerDTOlist, HttpStatus.OK);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	}
+
+	@GetMapping(value = { "/instructors", "/instructors/" })
+	public ResponseEntity<List<InstructorDto>> getAllInstructors() {
+    List<InstructorDto> instructorDTOlist = new ArrayList<>();
+    try {
+        for (Instructor a: customerService.getAllInstructors()){
+            instructorDTOlist.add(DtoConverter.convertToDto(a));
+        }
+        return new ResponseEntity<>(instructorDTOlist, HttpStatus.OK);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 	}
 
     @ExceptionHandler(Exception.class)

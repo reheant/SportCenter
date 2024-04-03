@@ -8,6 +8,9 @@ import DisplayCourse from '@/components/vue/DisplayCourse'
 import SelectPaymentType from '@/components/vue/SelectPaymentType'
 import AddPaypal from '@/components/vue/AddPaypal'
 import AddCard from '@/components/vue/AddCard'
+import Admin from '@/components/vue/Admin'
+import ViewAccounts from '@/components/vue/ViewAccounts'
+import ViewInstructors from '@/components/vue/ViewInstructors'
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +54,21 @@ export default new Router({
       path: '/selectPaymentType',
       name: 'selectPaymentType',
       component: SelectPaymentType
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin
+    },
+    {
+      path: '/viewAccounts',
+      name: 'viewAccounts',
+      component: ViewAccounts
+    },
+    {
+      path: '/viewInstructors',
+      name: 'viewInstructors',
+      component: ViewInstructors
     }
   ]
 })
