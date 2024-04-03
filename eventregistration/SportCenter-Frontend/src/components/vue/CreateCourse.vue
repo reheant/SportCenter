@@ -58,7 +58,7 @@
               placeholder="Enter Duration (minutes)"
               required
               step="5"
-              min = 0
+              min="0"
             ></b-form-input>
           </b-input-group>
         </b-form-group>
@@ -80,7 +80,7 @@
               required
               pattern="\d+(\.\d{2})?"
               step="0.01"
-              min = 0
+              min="0"
             ></b-form-input>
           </b-input-group>
         </b-form-group>

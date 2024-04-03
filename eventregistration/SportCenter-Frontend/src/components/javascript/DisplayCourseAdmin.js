@@ -109,7 +109,6 @@ export default {
           .then((response) => {
             this.fetchCourses();
             console.log(`Course ${name} approved successfully.`);
-            
           })
           .catch((error) => {
             // Handle error if needed
