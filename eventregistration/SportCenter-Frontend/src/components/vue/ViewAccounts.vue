@@ -8,8 +8,8 @@
 
             <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="#" >Promote Customers</b-nav-item>
-                <b-nav-item to="admin/createCourse" href="#">Create Course</b-nav-item>
+                <b-nav-item to="/viewCustomers" href="#">View Customers</b-nav-item>
+                <b-nav-item to="/viewInstructors" href="#">View Instructors</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
@@ -31,8 +31,17 @@
         <b-button size="sm" class="button-custom" @click="promoteCustomer">Promote Customer</b-button>
         <b-button size="sm" class="button-custom" @click="deleteCustomer">Delete Customer</b-button>
       </p>
-  
+
+      <div v-if="successMessage" class="alert alert-success">
+          {{ successMessage }}
+      </div>
+
+      <div v-if="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+      </div>
+
       <!-- Table component -->
+    <div class="tableContainer">
       <b-table
         :items="items"
         :fields="fields"
@@ -104,7 +113,7 @@
   
       
     </b-table>
-      
+    </div>
   
       <b-pagination 
         class ="pagination"
@@ -125,6 +134,10 @@
 
 
 <style>
+  .tableContainer{
+      max-width: 90%; 
+      margin: 0 auto;
+    }
     .navbar {
       position: fixed;
       top: 0;
@@ -256,4 +269,5 @@
 .pagination a.active {
   border-radius: 5px;
 }
+
 </style>

@@ -26,7 +26,8 @@ export default {
         perPage: 10, // initial items per page
         sortDesc: false,
         sortBy: 'course_name',
-        
+        successMessage: '',
+        errorMessage: '',
         };
     
   },
@@ -68,7 +69,6 @@ export default {
     },
 
 
-
     onRowSelected(items) {
       this.selected = items
       console.log(this.selected);
@@ -90,50 +90,25 @@ export default {
       console.log("Current Page:", page);
     },
     
-    promoteCustomer() {
+    demoteInstructor() {
 
-      this.selected.forEach(customer => { const email = customer.accountEmail; 
+      this.selected.forEach(instructor => { const email = instructor.accountEmail; 
     
-        AXIOS.post(`/promote/${encodeURIComponent(email)}`, null, {
+        AXIOS.post(`/demote/${encodeURIComponent(email)}`, null, {
         })
           .then(response => {
-            this.fetchCustomers();
-            console.log(`Customer ${customer.firstName} promoted successfully.`);
+            this.fetchInstructors();
+            this.successMessage = `Instructor demoted successfully.`;
+            this.errorMessage = ''; 
           })
           .catch(error => {
-            // Handle error if needed
-            console.error(`Error promoting customer ${customer.firstName}:`, error);
-          });
-      });
-    },
-    deleteCustomer() {
-      const email = 'admin@mail.com'; // Assuming the email is constant for approval action
-      console.log('calling disapprove')
-      console.log(this.selected);
-      this.selected.forEach(course => { const name = course.course_name; 
-    
-        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`, null, {
-          params: { email: email }
-        })
-          .then(response => {
-            // Handle successful response if needed
-            this.fetchCourses();
-            console.log(`Course ${name} disapproved successfully.`);
-          })
-          .catch(error => {
-            // Handle error if needed
-            console.error(`Error disapproving course ${name}:`, error);
+            this.errorMessage = `An issue has occured during demotion.`;
+            this.successMessage = '';
           });
       });
     },
   },
-  deleteCourse() {
-    //TODO: not implement 
-    
-  },
-  filterCourse(){
-    // TODO: not implement
-  },
+  
   watch: {
 
     currentPage(newValue) {

@@ -8,8 +8,8 @@
 
             <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="#" >Promote Customers</b-nav-item>
-                <b-nav-item to="admin/createCourse" href="#">Create Course</b-nav-item>
+                <b-nav-item to="/viewCustomers" >View Customers</b-nav-item>
+                <b-nav-item to="/viewInstructors" href="#">View Instructors</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
@@ -28,11 +28,17 @@
       <p>
         <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
         <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-        <b-button size="sm" class="button-custom" @click="promoteCustomer">Demote Instructor</b-button>
-        <b-button size="sm" class="button-custom" @click="deleteCustomer">Delete Instructor</b-button>
+        <b-button size="sm" class="button-custom" @click="demoteInstructor">Demote Instructor</b-button>
       </p>
-  
+      <div v-if="successMessage" class="alert alert-success">
+          {{ successMessage }}
+      </div>
+
+      <div v-if="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+      </div>
       <!-- Table component -->
+      <div class="tableContainer">
       <b-table
         :items="items"
         :fields="fields"
@@ -69,19 +75,7 @@
          {{ row.detailsShowing ? 'Hide' : 'Show' }} Description
         </b-button>
       </template>
-  
-      <template #row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>Course Description:</b></b-col>
-            <b-col>{{ row.item.course_description }}</b-col>
-          </b-row>
-        </b-card>
-      </template>
-  
-          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-       
-  
+    
   
         <!-- Apply class for course status -->
         <template #cell(course_status)="data">
@@ -104,6 +98,7 @@
   
       
     </b-table>
+    </div>
       
   
       <b-pagination 
@@ -125,6 +120,10 @@
 
 
 <style>
+    .tableContainer{
+      max-width: 90%; 
+      margin: 0 auto;
+    }
     .navbar {
       position: fixed;
       top: 0;

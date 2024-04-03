@@ -26,7 +26,8 @@ export default {
         perPage: 10, // initial items per page
         sortDesc: false,
         sortBy: 'course_name',
-        
+        successMessage: '',
+        errorMessage: '',
         };
     
   },
@@ -99,42 +100,33 @@ export default {
         })
           .then(response => {
             this.fetchCustomers();
-            console.log(`Customer ${customer.firstName} promoted successfully.`);
+            this.successMessage = `Customer promoted successfully.`;
+            this.errorMessage = ''; 
           })
           .catch(error => {
-            // Handle error if needed
-            console.error(`Error promoting customer ${customer.firstName}:`, error);
+            this.errorMessage = `Chosen customer is aleady an Instructor.`;
+            this.successMessage = '';
           });
       });
     },
     deleteCustomer() {
-      const email = 'admin@mail.com'; // Assuming the email is constant for approval action
-      console.log('calling disapprove')
-      console.log(this.selected);
-      this.selected.forEach(course => { const name = course.course_name; 
+      this.selected.forEach(customer => { const email = customer.accountEmail; 
     
-        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`, null, {
-          params: { email: email }
+        AXIOS.delete(`/delete/${encodeURIComponent(email)}`, null, {
         })
           .then(response => {
-            // Handle successful response if needed
-            this.fetchCourses();
-            console.log(`Course ${name} disapproved successfully.`);
+            this.fetchCustomers();
+            this.successMessage = `Customer ${customer.firstName} deleted successfully.`;
+            this.errorMessage = ''; 
           })
           .catch(error => {
-            // Handle error if needed
-            console.error(`Error disapproving course ${name}:`, error);
+            this.errorMessage = `Error deleting customer ${customer.firstName}.`;
+            this.successMessage = ''; 
           });
       });
     },
   },
-  deleteCourse() {
-    //TODO: not implement 
-    
-  },
-  filterCourse(){
-    // TODO: not implement
-  },
+
   watch: {
 
     currentPage(newValue) {

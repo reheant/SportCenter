@@ -61,7 +61,7 @@ export default new Router({
       component: Admin
     },
     {
-      path: '/viewAccounts',
+      path: '/viewCustomers',
       name: 'viewAccounts',
       component: ViewAccounts
     },

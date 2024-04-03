@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
@@ -13,8 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CardRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CustomerRepository;
+import ca.mcgill.ecse321.sportscenter.dao.InstructorAssignmentRepository;
 import ca.mcgill.ecse321.sportscenter.dao.InstructorRepository;
 import ca.mcgill.ecse321.sportscenter.dao.PayPalRepository;
+import ca.mcgill.ecse321.sportscenter.dao.PaymentMethodRepository;
+import ca.mcgill.ecse321.sportscenter.dao.RegistrationRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Card;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
@@ -35,7 +39,12 @@ public class CustomerService {
     PayPalRepository payPalRepository;
     @Autowired
     CardRepository cardRepository;
-
+    @Autowired
+    PaymentMethodRepository paymentMethodRepository;
+    @Autowired
+    RegistrationRepository registrationRepository;   
+    @Autowired
+    InstructorAssignmentRepository instructorAssignmentRepository;    
     /**
      * Creates a customer and sets relevant information.
      * 
@@ -118,6 +127,27 @@ public class CustomerService {
         instructor.setAccount(customerAccount);
         instructorRepository.save(instructor);
         return instructor;
+    }
+
+    @Transactional
+    public boolean demoteInstructorByEmail(String email) throws Exception {
+        if (email == null) {
+            throw new Exception("Email is null");
+        }
+
+        Account customerAccount = accountRepository.findAccountByEmail(email);
+        if (customerAccount == null) {
+            throw new Exception("Email is not associated with any account");
+        }
+
+        Instructor instructor = instructorRepository.findByAccount(customerAccount);
+        if (instructor == null) {
+            throw new Exception("No instructor found for the given email");
+        }
+
+        instructorRepository.delete(instructor);
+
+        return true;
     }
 
     /**
@@ -311,6 +341,37 @@ public class CustomerService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    /**
+     * Deletes a customer account from the repository based on the given ID.
+     *
+     * @param email The email of the customer to be deleted.
+     */
+    @Transactional
+    public void deleteCustomer(String email) {
+        Account account = accountRepository.findAccountByEmail(email);
+
+        customerRepository.findByAccountId(account.getId()).ifPresent(customer -> {
+            registrationRepository.findAllByCustomerId(customer.getId()).forEach(registration -> {
+                registrationRepository.deleteById(registration.getId());
+            });
+
+            paymentMethodRepository.findAllByCustomerId(customer.getId()).forEach(paymentMethod -> {
+                paymentMethodRepository.deleteById(paymentMethod.getId());
+            });
+
+            customerRepository.deleteById(customer.getId());
+        });
+
+        instructorRepository.findByAccountId(account.getId()).ifPresent(instructor -> {
+            instructorAssignmentRepository.findAllByInstructorId(instructor.getId())
+                .forEach(assignment -> instructorAssignmentRepository.deleteById(assignment.getId()));
+            
+            instructorRepository.deleteById(instructor.getId());
+        });
+
+        accountRepository.deleteById(account.getId());
     }
 
 }
