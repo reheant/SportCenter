@@ -151,11 +151,14 @@
 }
 
 .b-table tr:hover {
-  background-color: #f9f9f9; /* Example: Style the hover effect */
+  background-color: #f9f9f9;
 }
 
 .b-table tr:hover {
-  background-color: #f9f9f9; /* Example: Style the hover effect */
+  background-color: #f9f9f9;
+}
+.custom-striped-table tbody tr:nth-child(odd):not(:hover) {
+  background-color: #fafff8;
 }
 
 .text-rejected {
@@ -174,28 +177,28 @@
 }
 
 .button-custom {
-  background-color: #4caf50; /* Green */
+  background-color: #4caf50;
   border: none;
   color: white;
   padding: 8px 14px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 14px;
-  margin: 4px 2px;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 2px;
   transition-duration: 0.4s;
   cursor: pointer;
   border-radius: 4px;
 }
 
 .button-custom:hover {
-  background-color: #45a049; /* Darker Green */
+  background-color: #45a049;
 }
 
 .course-name {
   font-weight: bold;
 }
-
 .description-button {
   background-color: #c3fcc5;
   border: none;
@@ -210,22 +213,31 @@
   cursor: pointer;
   border-radius: 4px;
 }
-
-.pagination {
-  color: #b81b1b;
+.pagination .page-link {
+  color: #4caf50;
   font-weight: bold;
   font-size: 1.25rem;
-  fill: blanchedalmond;
-  color: white;
   margin: 10px;
   cursor: pointer;
 }
 
-.pagination a {
-  border-radius: 5px;
+.pagination .page-item.active .page-link {
+  background-color: #4caf50;
+  border-color: #4caf50;
 }
 
-.pagination a.active {
+.pagination .page-link:hover {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
+
+.pagination .page-link:focus {
+  box-shadow: none;
+}
+
+.pagination .page-link,
+.pagination .page-item.active .page-link {
   border-radius: 5px;
 }
 </style>
