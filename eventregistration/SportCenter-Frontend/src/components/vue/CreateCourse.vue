@@ -1,7 +1,12 @@
 <template>
   <div class="form-container">
     <b-card>
-      <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show" class="form-content">
+      <b-form
+        @submit.prevent="onSubmit"
+        @reset.prevent="onReset"
+        v-if="show"
+        class="form-content"
+      >
         <div class="title">Create a Course</div>
 
         <b-form-group
@@ -24,12 +29,16 @@
           label-for="input-description"
           class="form-group-content"
         >
-          <b-form-input
+          <b-form-textarea
             id="input-description"
             v-model="form.courseDescription"
-            placeholder="Enter Description"
+            placeholder="Enter Description (Maximum 255 chararcters)"
+            placeholder2="(Maximum 255 chararcters)"
+            rows="4"
+            max-rows="6"
+            maxlength="255"
             required
-          ></b-form-input>
+          ></b-form-textarea>
         </b-form-group>
 
         <b-form-group
@@ -38,28 +47,42 @@
           label-for="input-duration"
           class="form-group-content"
         >
-          <b-form-input
-            id="input-duration"
-            v-model="form.courseDuration"
-            type="text"
-            placeholder="Enter Duration"
-            required
-          ></b-form-input>
+          <b-input-group>
+            <b-input-group-prepend is-text>
+              <b-icon icon="clock"></b-icon>
+            </b-input-group-prepend>
+            <b-form-input
+              id="input-duration"
+              v-model="form.courseDuration"
+              type="number"
+              placeholder="Enter Duration (minutes)"
+              required
+              step="5"
+              min = 0
+            ></b-form-input>
+          </b-input-group>
         </b-form-group>
-
         <b-form-group
           id="input-group-4"
           label="Cost:"
           label-for="input-cost"
           class="form-group-content"
         >
-          <b-form-input
-            id="input-cost"
-            v-model="form.courseCost"
-            type="text"
-            placeholder="Enter Cost"
-            required
-          ></b-form-input>
+          <b-input-group>
+            <b-input-group-prepend is-text
+              ><b-icon icon="currency-dollar"></b-icon
+            ></b-input-group-prepend>
+            <b-form-input
+              type="number"
+              id="input-cost"
+              placeholder="Enter Cost"
+              v-model="form.courseCost"
+              required
+              pattern="\d+(\.\d{2})?"
+              step="0.01"
+              min = 0
+            ></b-form-input>
+          </b-input-group>
         </b-form-group>
 
         <b-form-group
@@ -68,7 +91,9 @@
           v-slot="{ ariaDescribedby }"
           class="form-group-content"
         >
-          <b-form-checkbox v-model="form.requiresInstructor">Requires Instructor</b-form-checkbox>
+          <b-form-checkbox v-model="form.requiresInstructor"
+            >Requires Instructor
+          </b-form-checkbox>
         </b-form-group>
 
         <div class="buttons-container">

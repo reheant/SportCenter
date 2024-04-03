@@ -1,15 +1,22 @@
-import axios from 'axios';
-import config from '../../../config';
+import axios from "axios";
+import config from "../../../config";
 
-const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port;
-const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort;
+const frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
+const backendUrl =
+  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
 });
 
-function CourseDto(courseName, courseDescription, requiresInstructor, courseDuration, courseCost) {
+function CourseDto(
+  courseName,
+  courseDescription,
+  requiresInstructor,
+  courseDuration,
+  courseCost
+) {
   this.courseName = courseName;
   this.courseDescription = courseDescription;
   this.requiresInstructor = requiresInstructor;
@@ -18,20 +25,19 @@ function CourseDto(courseName, courseDescription, requiresInstructor, courseDura
 }
 
 export default {
-  name: 'createCourseAdmin',
+  name: "createCourseAdmin",
   data() {
     return {
       form: {
-        courseName: '',
-        courseDescription: '',
-        courseDuration: '',
-        courseCost: '',
+        courseName: "",
+        courseDescription: "",
+        courseDuration: "",
+        courseCost: "",
         requiresInstructor: false,
-        
       },
       show: true,
-      error: '',
-      successMessage: '', 
+      error: "",
+      successMessage: "",
     };
   },
   methods: {
@@ -48,54 +54,57 @@ export default {
         // Create a new instance of CourseDto
         const formData = new URLSearchParams();
         //formData.append('name', this.form.courseName);
-        formData.append('description', this.form.courseDescription);
-        formData.append('requiresInstructor', this.form.requiresInstructor);
-        formData.append('defaultDuration', this.form.courseDuration);
-        formData.append('cost', this.form.courseCost);
+        formData.append("description", this.form.courseDescription);
+        formData.append("requiresInstructor", this.form.requiresInstructor);
+        formData.append("defaultDuration", this.form.courseDuration);
+        formData.append("cost", this.form.courseCost);
 
         AXIOS.post(`/course/${this.form.courseName}`, formData)
-        .then(response => {
-        console.log(response.data);
-        this.successMessage = 'Course created successfully'; 
-        this.error = '';
-        
-        })
-        .catch((e) => {
-          const errorMsg = e.response && e.response.data ? e.response.data : "something went wrong";
-          console.error(errorMsg);
-          this.error = errorMsg; 
-        });
+          .then((response) => {
+            console.log(response.data);
+            this.successMessage = "Course created successfully";
+            this.error = "";
+            setTimeout(() => {
+              this.$router.push("DisplayCourse");
+            }, 300);
+          })
+          .catch((e) => {
+            const errorMsg =
+              e.response && e.response.data
+                ? e.response.data
+                : "something went wrong";
+            console.error(errorMsg);
+            this.error = errorMsg;
+          });
       }
     },
     // Reset error message
     resetError() {
-      this.error = '';
-      this.successMessage = '';
+      this.error = "";
+      this.successMessage = "";
     },
     resetSucces() {
-      this.successMessage = '';
+      this.successMessage = "";
     },
     onSubmit() {
       this.createCourse();
     },
     onReset() {
       this.form = {
-        courseName: '',
-        courseDescription: '',
-        courseDuration: '',
-        courseCost: '',
+        courseName: "",
+        courseDescription: "",
+        courseDuration: "",
+        courseCost: "",
         //courseStatus: '',
         requiresInstructor: false,
-    
-        
       };
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
       });
     },
-    onReturn(){
-      this.$router.push('DisplayCourse');
-    }
+    onReturn() {
+      this.$router.push("DisplayCourse");
+    },
   },
 };
