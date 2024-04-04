@@ -6,6 +6,9 @@ import CreateCustomer from "@/components/vue/CreateCustomer";
 import CreateCourse from "@/components/vue/CreateCourse";
 import DisplayCourseAdmin from "@/components/vue/DisplayCourseAdmin";
 import DisplayCourseInstructor from "@/components/vue/DisplayCourseInstructor";
+import DisplaySessionsAdmin from "@/components/vue/DisplaySessionsAdmin";
+import ModifySession from "@/components/vue/ModifySession";
+import CreateSession from "@/components/vue/CreateSession";
 
 Vue.use(Router);
 
@@ -45,6 +48,21 @@ export default new Router({
       path: "/instructor/createCourse",
       name: "CreateCourse",
       component: CreateCourse,
+    },
+    {
+      path: "/admin/DisplaySessions",
+      name: "DisplaySessions",
+      component: DisplaySessionsAdmin,
+    },
+    {
+      path: "/admin/ModifySession",
+      name: "ModifySession",
+      component: ModifySession,
+    },
+    {
+      path: "/admin/CreateSession",
+      name: "CreateSession",
+      component: CreateSession,
     },
   ],
 });
