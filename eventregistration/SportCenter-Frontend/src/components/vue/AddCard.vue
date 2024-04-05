@@ -1,76 +1,89 @@
-<template>
+
+<template> 
     <div class="form-container">
       <b-card>
         <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show" class="form-content">
-          <div class="title"> Create an Account </div>
+          <div class="title"> Add Credit Card </div>
   
           <b-form-group
             id="input-group-2"
-            label="Your First Name:"
+            label="Account Name:"
             label-for="input-first-name"
             class="form-group-content"
           >
             <b-form-input
               id="input-first-name"
-              v-model="form.firstName"
+              v-model="form.accountName"
               placeholder="Enter First Name"
               required
             ></b-form-input>
           </b-form-group>
   
           <b-form-group
-            id="input-group-3"
-            label="Your Last Name:"
-            label-for="input-last-name"
-            class="form-group-content"
-          >
-            <b-form-input
-              id="input-last-name"
-              v-model="form.lastName"
-              placeholder="Enter Last Name"
-              required
-            ></b-form-input>
-          </b-form-group>
-  
-          <b-form-group
             id="input-group-1"
-            label="Email address:"
+            label="Customer Account Email:"
             label-for="input-email"
             class="form-group-content"
           >
             <b-form-input
               id="input-email"
-              v-model="form.email"
+              v-model="form.customerEmail"
               type="email"
-              placeholder="Enter email"
+              placeholder="Enter Customer Email"
               required
             ></b-form-input>
           </b-form-group>
   
+          <b-form-group label="Select Form:">
+            <b-form-radio-group v-model="selectedForm" name="formOptions">
+                <b-form-radio value="form1">Debit Card</b-form-radio>
+                <b-form-radio value="form2">Credit Card</b-form-radio>
+            </b-form-radio-group>
+            </b-form-group>
+  
           <b-form-group
             id="input-group-4"
-            label="Password:"
+            label="Card Number:"
             label-for="input-password"
-            description="Password must have at least: one lower case letter, one upper case letter, one digit, one special character and be 8 characters minimum"
             class="form-group-content"
           >
             <b-form-input
               id="input-password"
-              v-model="form.password"
+              v-model="form.cardNumber"
               type="password"
-              placeholder="Enter Password"
+              placeholder="Enter Card Number"
               required
             ></b-form-input>
           </b-form-group>
-  
+          
           <b-form-group
-            id="input-group-5"
-            label="Email Preferences:"
-            v-slot="{ ariaDescribedby }"
+            id="input-group-4"
+            label="Expiration Date:"
+            label-for="input-password"
             class="form-group-content"
           >
-           
-            <b-form-checkbox v-model="form.checked"> Wants Email Confirmations</b-form-checkbox>
+            <b-form-input
+              id="input-password"
+              v-model="form.expirationDate"
+              type="password"
+              placeholder="Enter Expiration Date"
+              required
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-4"
+            label="CCV:"
+            label-for="input-password"
+            class="form-group-content"
+          >
+            <b-form-input
+              id="input-password"
+              v-model="form.ccv"
+              type="password"
+              placeholder="Enter CCV"
+              required
+            ></b-form-input>
           </b-form-group>
           <div class="error">
             <p v-if="error" style="color: red">{{ error }}</p>  
@@ -78,6 +91,7 @@
           <div class="buttons-container">
             <b-button type="reset" variant="info">Reset</b-button>
             <b-button type="submit" variant="primary">Next</b-button>
+            
           </div>
         </b-form>
         <!-- <b-card class="mt-3" header="Form Data Result"> 
@@ -87,10 +101,11 @@
     </div>
   </template>
   
-  <script src="../javascript/createCustomer.js" > </script>
+  <script src="../javascript/AddCard.js" > </script>
   
   <style>
-  .error {
+
+.error {
     padding: 10px;
 
   }

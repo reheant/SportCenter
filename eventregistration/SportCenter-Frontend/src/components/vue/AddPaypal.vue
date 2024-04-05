@@ -2,75 +2,65 @@
     <div class="form-container">
       <b-card>
         <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show" class="form-content">
-          <div class="title"> Create an Account </div>
+          <div class="title"> Add PayPal </div>
   
           <b-form-group
             id="input-group-2"
-            label="Your First Name:"
+            label="Account Name:"
             label-for="input-first-name"
             class="form-group-content"
           >
             <b-form-input
               id="input-first-name"
-              v-model="form.firstName"
+              v-model="form.accountName"
               placeholder="Enter First Name"
               required
             ></b-form-input>
           </b-form-group>
   
           <b-form-group
-            id="input-group-3"
-            label="Your Last Name:"
-            label-for="input-last-name"
+            id="input-group-1"
+            label="Customer Account Email:"
+            label-for="input-email"
             class="form-group-content"
           >
             <b-form-input
-              id="input-last-name"
-              v-model="form.lastName"
-              placeholder="Enter Last Name"
+              id="input-email"
+              v-model="form.customerEmail"
+              type="email"
+              placeholder="Enter Customer Email"
               required
             ></b-form-input>
           </b-form-group>
   
           <b-form-group
             id="input-group-1"
-            label="Email address:"
+            label="PayPal Email:"
             label-for="input-email"
             class="form-group-content"
           >
             <b-form-input
               id="input-email"
-              v-model="form.email"
+              v-model="form.paypalEmail"
               type="email"
-              placeholder="Enter email"
+              placeholder="Enter PayPal Email"
               required
             ></b-form-input>
           </b-form-group>
   
           <b-form-group
             id="input-group-4"
-            label="Password:"
+            label="PayPal Password:"
             label-for="input-password"
-            description="Password must have at least: one lower case letter, one upper case letter, one digit, one special character and be 8 characters minimum"
             class="form-group-content"
           >
             <b-form-input
               id="input-password"
               v-model="form.password"
               type="password"
-              placeholder="Enter Password"
+              placeholder="Enter PayPal Password"
               required
             ></b-form-input>
-          </b-form-group>
-  
-          <b-form-group
-            id="input-group-5"
-            label="Email Preferences:"
-            v-slot="{ ariaDescribedby }"
-            class="form-group-content"
-          >
-           
-            <b-form-checkbox v-model="form.checked"> Wants Email Confirmations</b-form-checkbox>
           </b-form-group>
           <div class="error">
             <p v-if="error" style="color: red">{{ error }}</p>  
@@ -78,6 +68,7 @@
           <div class="buttons-container">
             <b-button type="reset" variant="info">Reset</b-button>
             <b-button type="submit" variant="primary">Next</b-button>
+            
           </div>
         </b-form>
         <!-- <b-card class="mt-3" header="Form Data Result"> 
@@ -87,10 +78,11 @@
     </div>
   </template>
   
-  <script src="../javascript/createCustomer.js" > </script>
+  <script src="../javascript/AddPaypal.js" > </script>
   
   <style>
-  .error {
+
+.error {
     padding: 10px;
 
   }

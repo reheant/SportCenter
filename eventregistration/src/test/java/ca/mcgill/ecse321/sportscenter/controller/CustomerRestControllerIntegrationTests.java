@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.sportscenter.controller;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -195,7 +199,18 @@ public class CustomerRestControllerIntegrationTests {
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
 	}
 
-
+    @Test
+    public void testDemoteInstructor() {
+        createDefaultInstructor();
+        String urlTemplate = UriComponentsBuilder.fromPath("/demote/{email}")
+            .encode()
+            .toUriString();
+		ResponseEntity<Boolean> response = client.postForEntity(urlTemplate, null, Boolean.class, "thillai@gmail.com");
+		assertNotNull(response);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
+        assertTrue(response.getBody());
+        
+    }
 
     @Test
     public void addPayPal() {
@@ -267,5 +282,43 @@ public class CustomerRestControllerIntegrationTests {
 		assertNotNull(response);
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
         }
+    
+    @Test
+    public void listCustomers() {
+        Customer customer = createDefaultCustomer();
+        
+        String urlTemplate = UriComponentsBuilder.fromPath("/customers")
+            .encode()
+            .toUriString();
+		ResponseEntity<CustomerDto[]> response = client.getForEntity(urlTemplate, CustomerDto[].class);
+        CustomerDto[] customers = response.getBody();
+        assertNotNull(response);
+        assertEquals(customer.getAccount().getEmail(), customers[0].getAccountEmail());
+		
+        }
 
+    @Test
+    public void listInstructors() {
+        Instructor instructor = createDefaultInstructor();
+        
+        String urlTemplate = UriComponentsBuilder.fromPath("/instructors")
+            .encode()
+            .toUriString();
+		ResponseEntity<InstructorDto[]> response = client.getForEntity(urlTemplate, InstructorDto[].class);
+        InstructorDto[] instructors = response.getBody();
+        assertNotNull(response);
+        assertEquals(instructor.getAccount().getEmail(), instructors[0].getAccountEmail());
+		
+        }
+
+    @Test
+    public void deleteCustomer(){
+        Customer customer = createDefaultCustomer();
+        String urlTemplate = UriComponentsBuilder.fromPath("/delete/{email}")
+            .encode()
+            .toUriString();
+        ResponseEntity<Void> response = client.exchange(urlTemplate, HttpMethod.DELETE, HttpEntity.EMPTY, Void.class, customer.getAccount().getEmail());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertFalse(customerRepository.existsById(customer.getId()));
+    }
 }

@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
+
 import javax.naming.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,4 +57,5 @@ public class AccountService {
 
         return a.getId();
     }
+
 }

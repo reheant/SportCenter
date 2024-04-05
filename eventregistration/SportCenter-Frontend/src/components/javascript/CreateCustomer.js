@@ -25,49 +25,47 @@ function CustomerDto(
 }
 
 export default {
-  name: "createCustomer",
-  data() {
-    return {
-      form: {
-        email: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-        checked: false,
-      },
-      show: true,
-      error: "",
-    };
-  },
-  methods: {
-    createCustomer() {
-      console.log("IN THE CREATE");
-      if (this.form.firstName === "") {
-        this.error = "first name required";
-      } else if (this.form.lastName === "") {
-        this.error = "last name required";
-      } else if (this.form.email === "") {
-        this.error = "email required";
-      } else if (this.form.password === "") {
-        this.error = "password required";
-      } else {
-        const formData = new URLSearchParams();
-        formData.append("lastName", this.form.lastName);
-        formData.append("email", this.form.email);
-        formData.append("password", this.form.password);
-        formData.append("wantsEmailConfirmation", this.form.checked);
+    name: 'createCustomer',
+    data() {
+      return {
+        form: {
+          email: '',
+          firstName: '',
+          lastName: '',
+          password: '',
+          checked: false 
+        },
+        show: true,
+        error: '' 
+      };
+    },
+    methods: {
+      createCustomer() {
+        if (this.form.firstName === "") {
+          this.error = "first name required";
+        } else if (this.form.lastName === "") {
+          this.error = "last name required";
+        } else if (this.form.email === "") {
+          this.error = "email required";
+        } else if (this.form.password === "") {
+          this.error = "password required";
+        } else {
+            const formData = new URLSearchParams();
+            formData.append('lastName', this.form.lastName);
+            formData.append('email', this.form.email);
+            formData.append('password', this.form.password);
+            formData.append('wantsEmailConfirmation', this.form.checked);
 
         AXIOS.post(`/customer/${this.form.firstName}`, formData)
           .then((response) => {
-            console.log(response.data);
-            this.error = "";
+              console.log(response.data);
+              this.error = '';
+              this.$router.push('/selectPaymentType');
           })
           .catch((e) => {
-            const errorMsg = e.response
-              ? e.response.data.message
-              : "An error occurred";
-            console.log(errorMsg);
-            this.error = errorMsg;
+            const errorMsg = e.response && e.response.data ? e.response.data : "something went wrong";
+            console.error(errorMsg);
+            this.error = errorMsg; 
           });
       }
     },

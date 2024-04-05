@@ -2,7 +2,9 @@ package ca.mcgill.ecse321.sportscenter.dto;
 
 public class CustomerDto {
     private String accountEmail;
-    private Boolean wantsEmailConfirmation ;
+    private Boolean wantsEmailConfirmation;
+    private String firstName;
+    private String lastName;
 
     public CustomerDto() {
     }
@@ -10,6 +12,13 @@ public class CustomerDto {
     public CustomerDto(String accountEmail, Boolean wantsEmailConfirmation){
         this.accountEmail = accountEmail;
         this.wantsEmailConfirmation = wantsEmailConfirmation;
+    }
+
+    public CustomerDto(String accountEmail, Boolean wantsEmailConfirmation, String firstName, String lastName){
+        this.accountEmail = accountEmail;
+        this.wantsEmailConfirmation = wantsEmailConfirmation;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public String getAccountEmail() {
@@ -28,5 +37,20 @@ public class CustomerDto {
         this.wantsEmailConfirmation = wantsEmailConfirmation;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }
