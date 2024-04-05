@@ -25,7 +25,6 @@ import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Instructor;
 import ca.mcgill.ecse321.sportscenter.model.PayPal;
-import ca.mcgill.ecse321.sportscenter.service.AccountService;
 import ca.mcgill.ecse321.sportscenter.service.CustomerService;
 
 @CrossOrigin(origins = "*")
@@ -34,8 +33,7 @@ public class CustomerRestController {
 
 	@Autowired
 	private CustomerService customerService;
-	@Autowired
-	private AccountService accountService;
+
 
 	@PostMapping(value = { "/customer/{firstName}", "/customer/{firstName}/" })
 	public ResponseEntity<CustomerDto> createCustomer(@PathVariable("firstName") String firstName,

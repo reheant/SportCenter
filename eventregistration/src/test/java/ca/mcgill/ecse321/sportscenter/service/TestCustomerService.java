@@ -341,7 +341,7 @@ public class TestCustomerService {
         }
 
         assertNotNull(instructor);
-        assertEquals(customerAccount, instructor.getAccount()); // comparing instructor acc to the acc created in mock
+        assertEquals(customerAccount, instructor.getAccount()); 
     }
     @Test
     public void testPromotingNullCustomer() {

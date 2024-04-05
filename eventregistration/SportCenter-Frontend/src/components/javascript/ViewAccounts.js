@@ -22,10 +22,10 @@ export default {
         items: [],
         selectMode: 'multi',
         selected: [],
-        currentPage: 1, // initial current page
-        perPage: 10, // initial items per page
+        currentPage: 1, 
+        perPage: 10, 
         sortDesc: false,
-        sortBy: 'course_name',
+        sortBy: 'firstName',
         successMessage: '',
         errorMessage: '',
         };
@@ -47,7 +47,7 @@ export default {
     },
     
   created() {
-    this.fetchCustomers(); // Fetch customers when the component is created
+    this.fetchCustomers(); 
   },
   
   
@@ -89,7 +89,6 @@ export default {
 
     onPageChange(page) {
       console.log("Current Page:", page);
-      // You can perform any necessary actions here when the page changes
     },
     
     promoteCustomer() {

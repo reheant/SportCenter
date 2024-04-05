@@ -26,7 +26,6 @@
         </b-navbar>
         </div>
       
-      <!-- Buttons for interaction -->
       <p>
         <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
         <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
@@ -39,7 +38,6 @@
       <div v-if="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
       </div>
-      <!-- Table component -->
       <div class="tableContainer">
       <b-table
         :items="items"
@@ -55,8 +53,7 @@
         selectable
         @row-selected="onRowSelected"
       >
-  
-        <template #cell(selected)="{ rowSelected, item }">
+      <template #cell(selected)="{ rowSelected, item }">
           <span 
             @click="selectRow(item)"
             :class="{ 'selected-row': rowSelected }"
@@ -69,32 +66,6 @@
               <span aria-hidden="true">&nbsp;</span>
               <span class="sr-only">Not selected</span>
             </template>
-          </span>
-        </template>
-        
-      <template #cell(course_description)="row">
-          <b-button size="sm" @click="row.toggleDetails" class="description-button">
-         {{ row.detailsShowing ? 'Hide' : 'Show' }} Description
-        </b-button>
-      </template>
-    
-  
-        <!-- Apply class for course status -->
-        <template #cell(course_status)="data">
-          <span 
-            :class="{
-              'text-rejected' : data.value === 'Refused',
-              'text-pending' : data.value === 'Pending',
-              'text-approved' : data.value === 'Approved',
-            }"
-          >
-            {{ data.value !== null && data.value !== undefined ? data.value : ''}}
-          </span>
-        </template>
-  
-        <template #cell(course_name)="data">
-          <span class="course-name">
-            {{ data.value }}
           </span>
         </template>
   
