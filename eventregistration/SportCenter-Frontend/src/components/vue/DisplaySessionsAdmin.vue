@@ -1,19 +1,46 @@
 <template>
   <div>
     <!-- Buttons for interaction -->
+            <div>
+              <b-navbar class="navbar" toggleable="lg" type="dark" variant="info">
+                <b-navbar-brand href="#">Sport Center</b-navbar-brand>
+
+                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+                <b-collapse id="nav-collapse" is-nav>
+                  <b-navbar-nav>
+                        <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
+                        <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
+                        <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
+                    </b-navbar-nav>
+
+                  <b-navbar-nav class="ml-auto">
+                    <b-nav-item-dropdown right>
+                      <template #button-content>
+                        <em>User</em>
+                      </template>
+                      <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                  </b-navbar-nav>
+                </b-collapse>
+              </b-navbar>
+            </div>
+    <!-- Buttons for interaction -->
     <p>
       <b-button size="sm" class="button-custom" @click="selectAllRows"
-        >Select all</b-button
+        >Select All</b-button
       >
       <b-button size="sm" class="button-custom" @click="clearSelected"
         >Clear selected</b-button
       >
-
+      <router-link to="/admin/CreateSession">
+        <b-button size="sm" class="button-custom">Create Session</b-button>
+      </router-link>
       <router-link to="/admin/ModifySession">
         <b-button size="sm" class="button-custom">Modify Session</b-button>
       </router-link>
       <b-button size="sm" class="button-custom" @click="deleteSession"
-        >TBI Delete Session</b-button
+        >Delete Session</b-button
       >
     </p>
 
