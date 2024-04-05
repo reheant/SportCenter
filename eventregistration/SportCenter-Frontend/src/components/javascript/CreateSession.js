@@ -61,7 +61,7 @@ export default {
             this.successMessage = "Session created successfully";
             this.error = "";
             setTimeout(() => {
-              this.$router.push("DisplaySession");
+              this.$router.push("DisplaySessions");
             }, 300);
           })
           .catch((e) => {

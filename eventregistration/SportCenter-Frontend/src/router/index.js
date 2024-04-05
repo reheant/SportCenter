@@ -6,6 +6,7 @@ import CreateCourse from '@/components/vue/CreateCourse'
 import DisplayCourseAdmin from "@/components/vue/DisplayCourseAdmin";
 import DisplayCourseInstructor from "@/components/vue/DisplayCourseInstructor";
 import DisplaySessionsAdmin from "@/components/vue/DisplaySessionsAdmin";
+import DisplaySessionsCustomer from "@/components/vue/DisplaySessionsCustomer";
 import ModifySession from "@/components/vue/ModifySession";
 import CreateSession from "@/components/vue/CreateSession";
 import SelectPaymentType from '@/components/vue/SelectPaymentType'
@@ -85,6 +86,11 @@ export default new Router({
       name: "DisplaySessionsAdmin",
       component: DisplaySessionsAdmin,
     },
+    {
+        path: "/customer/DisplaySessions",
+        name: "DisplaySessionsCustomer",
+        component: DisplaySessionsCustomer,
+      },
     {
       path: "/admin/ModifySession",
       name: "ModifySession",
