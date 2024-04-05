@@ -20,40 +20,32 @@
               >Create Course</b-nav-item
             >
           </b-navbar-nav>
+            <b-navbar-nav class="ml-auto">
+                <b-nav-item-dropdown right>
+                <template #button-content>
+                    <em>User</em>
+                </template>
+                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+        </div>
+      
+      <p>
+        <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
+        <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+        <b-button size="sm" class="button-custom" @click="demoteInstructor">Demote Instructor</b-button>
+      </p>
+      <div v-if="successMessage" class="alert alert-success">
+          {{ successMessage }}
+      </div>
 
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
-              <template #button-content>
-                <em>User</em>
-              </template>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
-    </div>
+      <div v-if="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+      </div>
+      <div class="tableContainer">
 
-    <!-- Buttons for interaction -->
-    <p>
-      <b-button size="sm" class="button-custom" @click="selectAllRows"
-        >Select all</b-button
-      >
-      <b-button size="sm" class="button-custom" @click="clearSelected"
-        >Clear selected</b-button
-      >
-      <b-button size="sm" class="button-custom" @click="demoteInstructor"
-        >Demote Instructor</b-button
-      >
-    </p>
-    <div v-if="successMessage" class="alert alert-success">
-      {{ successMessage }}
-    </div>
-
-    <div v-if="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
-    <!-- Table component -->
-    <div class="tableContainer">
       <b-table
         :items="items"
         :fields="fields"
@@ -68,8 +60,10 @@
         selectable
         @row-selected="onRowSelected"
       >
-        <template #cell(selected)="{ rowSelected, item }">
-          <span
+
+      <template #cell(selected)="{ rowSelected, item }">
+          <span 
+
             @click="selectRow(item)"
             :class="{ 'selected-row': rowSelected }"
           >
@@ -84,37 +78,10 @@
           </span>
         </template>
 
-        <template #cell(course_description)="row">
-          <b-button
-            size="sm"
-            @click="row.toggleDetails"
-            class="description-button"
-          >
-            {{ row.detailsShowing ? "Hide" : "Show" }} Description
-          </b-button>
-        </template>
+  
+      
+    </b-table>
 
-        <!-- Apply class for course status -->
-        <template #cell(course_status)="data">
-          <span
-            :class="{
-              'text-rejected': data.value === 'Refused',
-              'text-pending': data.value === 'Pending',
-              'text-approved': data.value === 'Approved',
-            }"
-          >
-            {{
-              data.value !== null && data.value !== undefined ? data.value : ""
-            }}
-          </span>
-        </template>
-
-        <template #cell(course_name)="data">
-          <span class="course-name">
-            {{ data.value }}
-          </span>
-        </template>
-      </b-table>
     </div>
 
     <b-pagination
