@@ -1,21 +1,27 @@
-import axios from 'axios'
-import config from '../../../config'
+import axios from "axios";
+import config from "../../../config";
 
-const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+const frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
+const backendUrl =
+  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
 
 const AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { 'Access-Control-Allow-Origin': frontendUrl }
-  
-})
+  headers: { "Access-Control-Allow-Origin": frontendUrl },
+});
 
-function CustomerDto(firstName, lastName, email, password, wantsEmailConfirmation ) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
-    this.wantsEmailConfirmation = wantsEmailConfirmation;
+function CustomerDto(
+  firstName,
+  lastName,
+  email,
+  password,
+  wantsEmailConfirmation
+) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.email = email;
+  this.password = password;
+  this.wantsEmailConfirmation = wantsEmailConfirmation;
 }
 
 export default {
@@ -50,7 +56,7 @@ export default {
             formData.append('password', this.form.password);
             formData.append('wantsEmailConfirmation', this.form.checked);
 
-            AXIOS.post(`/customer/${this.form.firstName}`, formData)
+        AXIOS.post(`/customer/${this.form.firstName}`, formData)
           .then((response) => {
               console.log(response.data);
               this.error = '';
@@ -61,23 +67,23 @@ export default {
             console.error(errorMsg);
             this.error = errorMsg; 
           });
-        }
-      },
-      onSubmit() {
-        this.createCustomer(); 
-      },
-      onReset() {
-        this.form = {
-          email: '',
-          firstName: '',
-          lastName: '',
-          password: '',
-          checked: false
-        };
-        this.show = false;
-        this.$nextTick(() => {
-          this.show = true;
-        });
       }
     },
-  }
+    onSubmit() {
+      this.createCustomer();
+    },
+    onReset() {
+      this.form = {
+        email: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+        checked: false,
+      };
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
+  },
+};

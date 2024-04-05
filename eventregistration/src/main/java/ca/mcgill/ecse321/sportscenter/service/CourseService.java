@@ -24,12 +24,7 @@ public class CourseService {
     @Autowired 
     CourseRepository courseRepository;
 
-    @Autowired
-    AccountRepository accountRepository;
 
-    @Autowired 
-    OwnerRepository ownerRepository;
-    
 
     /**
     * Retrieves a course by its name.
@@ -167,36 +162,18 @@ public class CourseService {
     * Approves a course with the specified name for the given owner. 
     *
     * @param name the name of the course to approve
-    * @param email the owner that approves the course
     * @return true if the course is successfully approved, false otherwise
     * @throws Exception if there is an error while approving the course
     */
     @Transactional
-    public Course approveCourse(String name, String email) throws Exception {
-        if (email == null){
-            throw new Exception("email is null");
-        }
+    public Course approveCourse(String name) throws Exception {
+        
         if (name == null) {
             throw new Exception("Requires a name");
         }
         
-        Account ownerAccount = accountRepository.findAccountByEmail(email);
-        List<Owner> existingOwners = ownerRepository.findAll();
-        if(ownerAccount == null){
-            throw new Exception("Email is not accociated to an account");
-        }
-        boolean matchFound = false;
-        for (Owner owner : existingOwners) {
-            if (owner.getAccount().equals(ownerAccount)) {
-                matchFound = true;
-                break;
-            }
-        }
-        if (!matchFound) {
-            throw new Exception("Owner with email " + email + " was not found.");
-        }
-
         Course course = courseRepository.findCourseByName(name); 
+
         if (course == null){
             throw new Exception("A Course with name " + name + " does not exists");
         }
@@ -210,37 +187,14 @@ public class CourseService {
     * Dissapproves a course with the specified name by the given owner. 
     *
     * @param name the name of the course to approve
-    * @param email the owner that disapproves the course
     * @return true if the course is successfully disapproved, false otherwise
     * @throws Exception if there is an error while disapproving the course
     */
     @Transactional
-    public Course disapproveCourse(String name, String email) throws Exception {
+    public Course disapproveCourse(String name) throws Exception {
 
-        if (email == null){
-            throw new Exception("email is null");
-        }
         if (name == null) {
             throw new Exception("Requires a name");
-        }
-
-
-        Account ownerAccount = new Account();
-        ownerAccount = accountRepository.findAccountByEmail(email);
-        List<Owner> existingOwners = ownerRepository.findAll();
-        if(ownerAccount == null){
-
-            throw new Exception("Email is not accociated to an account");
-        }
-        boolean matchFound = false;
-        for (Owner owner : existingOwners) {
-            if (owner.getAccount().equals(ownerAccount)) {
-                matchFound = true;
-                break;
-            }
-        }
-        if (!matchFound) {
-            throw new Exception("Owner with email " + email + " was not found.");
         }
 
         Course course = courseRepository.findCourseByName(name); 

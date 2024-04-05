@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/vue/Hello'
 import Login from '@/components/vue/Login'
 import CreateCustomer from '@/components/vue/CreateCustomer'
 import CreateCourse from '@/components/vue/CreateCourse'
-import DisplayCourse from '@/components/vue/DisplayCourse'
+import DisplayCourseAdmin from "@/components/vue/DisplayCourseAdmin";
+import DisplayCourseInstructor from "@/components/vue/DisplayCourseInstructor";
 import SelectPaymentType from '@/components/vue/SelectPaymentType'
 import AddPaypal from '@/components/vue/AddPaypal'
 import AddCard from '@/components/vue/AddCard'
@@ -13,33 +13,25 @@ import ViewAccounts from '@/components/vue/ViewAccounts'
 import ViewInstructors from '@/components/vue/ViewInstructors'
 Vue.use(Router)
 
+
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
+      path: "/login",
+      name: "Login",
+      component: Login,
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: "/createCustomer",
+      name: "CreateCustomer",
+      component: CreateCustomer,
     },
     {
-      path: '/createCustomer',
-      name: 'CreateCustomer',
-      component: CreateCustomer
+      path: "/admin/displayCourse",
+      name: "DisplayCourseAdmin",
+      component: DisplayCourseAdmin,
     },
-    {
-      path: '/admin/displayCourse',
-      name: 'DisplayCourse',
-      component: DisplayCourse
-    },
-    {
-      path: '/createCourse',
-      name: 'CreateCourse',
-      component: CreateCourse
-    },
+    
     {
       path: '/addPaypal',
       name: 'AddPaypal',
@@ -69,6 +61,22 @@ export default new Router({
       path: '/admin/viewInstructors',
       name: 'viewInstructors',
       component: ViewInstructors
-    }
+    },
+    {
+      path: "/instructor/displayCourse",
+      name: "DisplayCourseInstructor",
+      component: DisplayCourseInstructor,
+    },
+    {
+      path: "/admin/createCourse",
+      name: "CreateCourse",
+      component: CreateCourse,
+    },
+    {
+      path: "/instructor/createCourse",
+      name: "CreateCourse",
+      component: CreateCourse,
+    },
   ]
 })
+
