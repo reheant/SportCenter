@@ -17,7 +17,7 @@ export default {
         
         fields: [ {key: 'selected',sortable:false},
                     {key: 'firstName', sortable:true},
-                    {key: 'lastName', sortable:false}, 
+                    {key: 'lastName', sortable:true}, 
                     {key: 'accountEmail', sortable:true},],
         items: [],
         selectMode: 'multi',
@@ -25,7 +25,7 @@ export default {
         currentPage: 1, 
         perPage: 10, 
         sortDesc: false,
-        sortBy: 'firstName',
+        sortBy: 'lastName',
         successMessage: '',
         errorMessage: '',
         };
