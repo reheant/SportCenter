@@ -11,7 +11,6 @@
                 <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
                 <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
                 <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
-                <b-nav-item to="/admin/createCourse" href="#">Create Course</b-nav-item>
             </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">

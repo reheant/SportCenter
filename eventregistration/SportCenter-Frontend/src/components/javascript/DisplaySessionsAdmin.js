@@ -17,8 +17,7 @@ export default {
         { key: "start_time", sortable: true },
         { key: "end_time", sortable: false },
         { key: "course_name", sortable: true },
-        { key: "location", sortable: false },
-        { key: "instructor", sortable: false }
+        { key: "location", sortable: false }
       ],
       items: [],
       selectMode: "single",
@@ -37,7 +36,7 @@ export default {
       return this.items.length;
     },
   },
-  
+
 
   created() {
     this.fetchSessions(); // Fetch sessions when the component is created
@@ -81,7 +80,7 @@ export default {
       // You can perform any necessary actions here when the page changes
     },
 
-  
+
   },
   deleteSession() {
     //TODO: not implement
