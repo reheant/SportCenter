@@ -83,6 +83,7 @@ export default {
     selectAllRows() {
       this.clearSelected();
       this.$refs.selectableTable.selectAllRows();
+      console.log(selected)
     },
 
     clearSelected() {
