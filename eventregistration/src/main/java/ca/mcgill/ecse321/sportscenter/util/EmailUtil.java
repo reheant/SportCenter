@@ -11,14 +11,14 @@ import java.util.*;
 public class EmailUtil {
     private static String password;
 
-    @Value("${email.password}")
+    @Value("${emailPassword}")
     private String emailPassword;
 
     @PostConstruct
     private void init() {
         EmailUtil.password = this.emailPassword;
     }
-    public static void sendConfirmationEmail(String recipient) throws MessagingException {
+    public static void sendConfirmationEmail(String recipient, String sessionInformation) throws MessagingException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
@@ -32,18 +32,18 @@ public class EmailUtil {
                 return new PasswordAuthentication(myAccountEmail, password);
             }
         });
-        Message message = prepareMessage(session, myAccountEmail, recipient);
+        Message message = prepareMessage(session, myAccountEmail, recipient, sessionInformation);
         Transport.send(message);
     }
 
-    private static Message prepareMessage(Session session, String myAccountEmail, String recipient) {
+    private static Message prepareMessage(Session session, String myAccountEmail, String recipient, String sessionInformation) {
         Message message = new MimeMessage(session);
         try {
             message.setFrom(new InternetAddress(myAccountEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             message.setSubject("Sports Center Registration Confirmation");
-            String htmlCode = "<h1>Sports Center Account Created!</h1>\n" +
-                    "<p>Your Sports Center account has been created successfully! Thank you for joining us.</p>\n" +
+            String htmlCode = "<h1>Sports Center Registration Created!</h1>\n" +
+                    "<p>Your registration for " + sessionInformation + " has been processed successfully! Thank you for joining us.</p>\n" +
                     "<p>See you soon,</p>\n" +
                     "<p>Sports Center Team</p>\n" +
                     "<p>[Do not reply]<p>";

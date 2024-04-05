@@ -105,32 +105,6 @@ public class SessionService {
                 .collect(Collectors.toList());
     }
 
-    public List<InstructorAssignment> findAssignmentsForSession(Session session) {
-        return instructorAssignmentRepository.findInstructorAssignmentBySessionId(session.getId());
-    }
-
-    public List<Session> findSessionsByInstructorName(String instructor) {
-        List<InstructorAssignment> assignments = instructorAssignmentRepository.findInstructorAssignmentByInstructorNameContainingIgnoreCase(instructor);
-        if (assignments.isEmpty()) {
-            return Collections.emptyList();
-        }
-        Set<Integer> assignmentIds = assignments.stream()
-                .map(InstructorAssignment::getId)
-                .collect(Collectors.toSet());
-        List<Session> allSessions = (List<Session>) sessionRepository.findAll();
-        List<Session> matchedSessions = new ArrayList<>();
-        for (Session session : allSessions) {
-            List<InstructorAssignment> assignmentsForSession = findAssignmentsForSession(session);
-            for (InstructorAssignment assignment : assignmentsForSession) {
-                if (assignmentIds.contains(assignment.getId())) {
-                    matchedSessions.add(session);
-                    break;
-                }
-            }
-        }
-        return matchedSessions;
-    }
-
     /**
      * Retrieves all InstructorAssignments linked to a specific session.
      * This method searches for all instructor assignments associated with the provided session,

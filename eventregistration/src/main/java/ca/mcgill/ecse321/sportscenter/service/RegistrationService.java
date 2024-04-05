@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
@@ -10,11 +11,13 @@ import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
-
+import ca.mcgill.ecse321.sportscenter.util.EmailUtil;
 import jakarta.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.mail.MessagingException;
 
 @Service
 public class RegistrationService {
@@ -31,6 +34,12 @@ public class RegistrationService {
     @Autowired
     RegistrationRepository registrationRepository;
 
+    @Value("${emailPassword}")
+    private String emailPassword;
+
+    @Value("${sendConfirmationEmail}")
+    private boolean sendConfirmationEmail;
+
     /**
      * Registers a customer for a session
      * 
@@ -40,7 +49,7 @@ public class RegistrationService {
      * @throws Exception if there is an error while creating the registration
      */
     @Transactional
-    public Registration register(String email, Integer session_id) throws IllegalArgumentException, NullPointerException {
+    public Registration register(String email, Integer session_id) throws IllegalArgumentException, NullPointerException, MessagingException {
         if (email == null){
             throw new NullPointerException("The customer email cannot be null.");
         } else if (email.isEmpty()){
@@ -78,8 +87,17 @@ public class RegistrationService {
         } else {
             registration.setSession(session);
         }
-
-        return registrationRepository.save(registration);
+        Registration savedRegistration = registrationRepository.save(registration);
+        if (!emailPassword.isEmpty()) {
+            System.out.println("Found password");
+            if (sendConfirmationEmail) {
+                System.out.println("Sending is on");
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm 'on' yyyy-MM-dd");
+//                String sessionInformation = session.getCourse().getName() + ", at " + session.getStartTime().format(formatter);
+//                EmailUtil.sendConfirmationEmail(email, sessionInformation);
+            }
+        }
+        return savedRegistration;
     }
 
 
