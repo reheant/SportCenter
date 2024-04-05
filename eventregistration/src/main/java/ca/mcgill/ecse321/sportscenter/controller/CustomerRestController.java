@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.sportscenter.dto.AccountDto;
 import ca.mcgill.ecse321.sportscenter.dto.CardDto;
 import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
 import ca.mcgill.ecse321.sportscenter.dto.InstructorDto;
 import ca.mcgill.ecse321.sportscenter.dto.PaypalDto;
-import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Card;
 import ca.mcgill.ecse321.sportscenter.model.Card.PaymentCardType;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
@@ -98,19 +96,6 @@ public class CustomerRestController {
 		return new ResponseEntity<>(cardDto, HttpStatus.CREATED);
 	}
 
-	@GetMapping(value = { "/accounts", "/accounts/" })
-	public ResponseEntity<List<AccountDto>> getAllAccounts() {
-		List<AccountDto> accountDTOlist = new ArrayList<>();
-		try {
-			for (Account a : accountService.getAllAccounts()) {
-				accountDTOlist.add(DtoConverter.convertToDto(a));
-			}
-			return new ResponseEntity<>(accountDTOlist, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
 
 	@GetMapping(value = { "/customers", "/customers/" })
 	public ResponseEntity<List<CustomerDto>> getAllCustomers() {

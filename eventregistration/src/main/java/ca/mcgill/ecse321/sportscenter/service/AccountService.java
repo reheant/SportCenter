@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,17 +58,4 @@ public class AccountService {
         return a.getId();
     }
 
-    /**
-     * Retrieves a list of all accounts.
-     *
-     * @return List of all accounts.
-     * @throws Exception If an error occurs while retrieving the accounts.
-     */
-    @Transactional
-    public List<Account> getAllAccounts() throws Exception {
-        List<Account> accounts = new ArrayList<>();
-        accountRepo.findAll().forEach(accounts::add);
-        // Log the number of accounts found
-        return accounts;
-    }
 }
