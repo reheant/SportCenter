@@ -1,6 +1,32 @@
 <template>
   <div>
     <!-- Buttons for interaction -->
+    <div>
+      <b-navbar class="navbar" toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#">Sport Center</b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+    
+            <b-nav-item to="/admin/createCourse" href="#"
+              >Create Course</b-nav-item
+            >
+          </b-navbar-nav>
+
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right>
+              <template #button-content>
+                <em>User</em>
+              </template>
+              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+    <!-- Buttons for interaction -->
     <p>
       <b-button size="sm" class="button-custom" @click="selectAllRows"
         >Select all</b-button
@@ -25,82 +51,85 @@
         >TBI filters</b-button
       >
     </p>
+    <div class="tableContainer">
+      <!-- Table component -->
+      <b-table
+        :items="items"
+        :fields="fields"
+        :select-mode="selectMode"
+        :current-page="currentPage"
+        :per-page="perPage"
+        responsive="sm"
+        ref="selectableTable"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        fixed="fixed"
+        sort-icon-right
+        class="custom-striped-table"
+        selectable
+        @row-selected="onRowSelected"
+      >
+        <template #cell(selected)="{ rowSelected, item }">
+          <span
+            @click="selectRow(item)"
+            :class="{ 'selected-row': rowSelected }"
+          >
+            <template v-if="rowSelected">
+              <span aria-hidden="true">&check;</span>
+              <span class="sr-only">Selected</span>
+            </template>
+            <template v-else>
+              <span aria-hidden="true">&nbsp;</span>
+              <span class="sr-only">Not selected</span>
+            </template>
+          </span>
+        </template>
 
-    <!-- Table component -->
-    <b-table
-      :items="items"
-      :fields="fields"
-      :select-mode="selectMode"
-      :current-page="currentPage"
-      :per-page="perPage"
-      responsive="sm"
-      ref="selectableTable"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      fixed="fixed"
-      sort-icon-right
-      class="custom-striped-table"
-      selectable
-      @row-selected="onRowSelected"
-    >
-      <template #cell(selected)="{ rowSelected, item }">
-        <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
-          <template v-if="rowSelected">
-            <span aria-hidden="true">&check;</span>
-            <span class="sr-only">Selected</span>
-          </template>
-          <template v-else>
-            <span aria-hidden="true">&nbsp;</span>
-            <span class="sr-only">Not selected</span>
-          </template>
-        </span>
-      </template>
+        <template #cell(course_description)="row">
+          <b-button
+            size="sm"
+            @click="row.toggleDetails"
+            class="description-button"
+          >
+            {{ row.detailsShowing ? "Hide" : "Show" }} Description
+          </b-button>
+        </template>
 
-      <template #cell(course_description)="row">
-        <b-button
-          size="sm"
-          @click="row.toggleDetails"
-          class="description-button"
-        >
-          {{ row.detailsShowing ? "Hide" : "Show" }} Description
-        </b-button>
-      </template>
+        <template #row-details="row">
+          <b-card>
+            <b-row class="mb-2">
+              <b-col sm="3" class="text-sm-right"
+                ><b>Course Description:</b></b-col
+              >
+              <b-col>{{ row.item.course_description }}</b-col>
+            </b-row>
+          </b-card>
+        </template>
 
-      <template #row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"
-              ><b>Course Description:</b></b-col
-            >
-            <b-col>{{ row.item.course_description }}</b-col>
-          </b-row>
-        </b-card>
-      </template>
+        <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
 
-      <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+        <!-- Apply class for course status -->
+        <template #cell(course_status)="data">
+          <span
+            :class="{
+              'text-rejected': data.value === 'Refused',
+              'text-pending': data.value === 'Pending',
+              'text-approved': data.value === 'Approved',
+            }"
+          >
+            {{
+              data.value !== null && data.value !== undefined ? data.value : ""
+            }}
+          </span>
+        </template>
 
-      <!-- Apply class for course status -->
-      <template #cell(course_status)="data">
-        <span
-          :class="{
-            'text-rejected': data.value === 'Refused',
-            'text-pending': data.value === 'Pending',
-            'text-approved': data.value === 'Approved',
-          }"
-        >
-          {{
-            data.value !== null && data.value !== undefined ? data.value : ""
-          }}
-        </span>
-      </template>
-
-      <template #cell(course_name)="data">
-        <span class="course-name">
-          {{ data.value }}
-        </span>
-      </template>
-    </b-table>
-
+        <template #cell(course_name)="data">
+          <span class="course-name">
+            {{ data.value }}
+          </span>
+        </template>
+      </b-table>
+    </div>
     <b-pagination
       class="pagination"
       v-model="currentPage"
@@ -113,8 +142,22 @@
 </template>
 
 <script src="../javascript/DisplayCourseAdmin.js"></script>
-
 <style>
+.tableContainer {
+  max-width: 90%;
+  margin: 0 auto;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+body {
+  padding-top: 56px;
+}
+
 .form-group-content {
   width: 100%;
   max-width: 400px;
@@ -168,7 +211,7 @@
   background-color: #f9f9f9;
 }
 .custom-striped-table tbody tr:nth-child(odd):not(:hover) {
-  background-color: #fafff8;
+  background-color: #00cffd19;
 }
 
 .text-rejected {
