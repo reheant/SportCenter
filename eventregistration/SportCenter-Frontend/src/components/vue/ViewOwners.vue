@@ -7,7 +7,7 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
-              <b-navbar-nav>
+            <b-navbar-nav>
                 <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
                 <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
                 <b-nav-item to="/admin/viewOwners" >View Owners</b-nav-item>
@@ -27,13 +27,14 @@
         </b-navbar>
         </div>
       
+      <!-- Buttons for interaction -->
       <p>
         <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
         <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-        <b-button size="sm" class="button-custom" @click="promoteCustomer">Promote Customer</b-button>
-        <b-button size="sm" class="button-custom" @click="deleteCustomer">Delete Customer</b-button>
+        <router-link to="/admin/createAdministrator">
+        <b-button size="sm" class="button-custom">Create Administrator</b-button>
+      </router-link>
       </p>
-
       <div v-if="successMessage" class="alert alert-success">
           {{ successMessage }}
       </div>
@@ -41,8 +42,8 @@
       <div v-if="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
       </div>
-
-    <div class="tableContainer">
+      <!-- Table component -->
+      <div class="tableContainer">
       <b-table
         :items="items"
         :fields="fields"
@@ -57,8 +58,8 @@
         selectable
         @row-selected="onRowSelected"
       >
-      
-      <template #cell(selected)="{ rowSelected, item }">
+  
+        <template #cell(selected)="{ rowSelected, item }">
           <span 
             @click="selectRow(item)"
             :class="{ 'selected-row': rowSelected }"
@@ -74,9 +75,20 @@
           </span>
         </template>
         
+    
+    
+  
+    
+        <template #cell(lastName)="data">
+          <span class="course-name">
+            {{ data.value }}
+          </span>
+        </template>
+  
       
     </b-table>
     </div>
+      
   
       <b-pagination 
         class ="pagination"
@@ -93,11 +105,11 @@
     
     
 
-<script src="../javascript/ViewAccounts.js" > </script>
+<script src="../javascript/ViewOwners.js" > </script>
 
 
 <style>
-  .tableContainer{
+    .tableContainer{
       max-width: 90%; 
       margin: 0 auto;
     }

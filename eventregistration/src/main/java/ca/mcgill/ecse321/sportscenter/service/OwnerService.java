@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.sportscenter.service;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.model.Account;
+
 import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 
@@ -70,6 +73,19 @@ public class OwnerService {
         owner.setAccount(ownerAccount); 
         ownerRepository.save(owner);
         return owner;
+    }
+
+    /**
+     * Retrieves a list of all instructors.
+     *
+     * @return List of all instructors.
+     * @throws Exception If an error occurs while retrieving the instructors.
+     */
+    @Transactional
+    public List<Owner> getAllOwners() throws Exception {
+        List<Owner> owners = new ArrayList<>();
+        ownerRepository.findAll().forEach(owners::add);
+        return owners;
     }
 
     /** Helper Method

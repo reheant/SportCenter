@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     selectedCourseNames() {
-      return this.selected.map(item => item.course_name);
+      return this.selected.map(item => item.lastName);
     },
     totalRows() {
       return this.items.length;

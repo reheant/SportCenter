@@ -10,7 +10,11 @@ import AddPaypal from '@/components/vue/AddPaypal'
 import AddCard from '@/components/vue/AddCard'
 import Admin from '@/components/vue/Admin'
 import ViewAccounts from '@/components/vue/ViewAccounts'
+
 import ViewInstructors from '@/components/vue/ViewInstructors'
+import ViewOwners from '@/components/vue/ViewOwners'
+import CreateOwner from '@/components/vue/CreateOwner'
+
 Vue.use(Router)
 
 
@@ -77,6 +81,17 @@ export default new Router({
       name: "CreateCourse",
       component: CreateCourse,
     },
+    {
+      path: "/admin/viewOwners",
+      name: "ViewOwners",
+      component: ViewOwners,
+    },
+    {
+      path: "/admin/createAdministrator",
+      name: "CreateOwner",
+      component: CreateOwner,
+    },
+    
   ]
 })
 
