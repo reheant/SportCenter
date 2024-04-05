@@ -29,7 +29,7 @@
     <!-- Buttons for interaction -->
     <p>
       <b-button size="sm" class="button-custom" @click="selectAllRows"
-        >Select all</b-button
+        >Select All</b-button
       >
       <b-button size="sm" class="button-custom" @click="clearSelected"
         >Clear selected</b-button
@@ -45,10 +45,10 @@
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
       <b-button size="sm" class="button-custom" @click="deleteCourse"
-        >TBI Delete Course</b-button
+        >Delete Course</b-button
       >
       <b-button size="sm" class="button-custom" @click="filterCourse"
-        >TBI filters</b-button
+        >Filter</b-button
       >
     </p>
     <div class="tableContainer">
@@ -190,6 +190,8 @@ body {
   background-color: #f0f0f0;
   color: #333;
   text-align: center;
+  white-space: nowrap;
+  width: 100%;
 }
 
 /* Style the table rows */
