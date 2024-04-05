@@ -69,14 +69,14 @@ public class CourseRestController {
     }
 
     @PostMapping(value = {"/approve/{name}", "/approve/{name}/" })
-    public CourseDto approveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
-        Course course = courseService.approveCourse(name, email);
+    public CourseDto approveCourse(@PathVariable String name) throws Exception {
+        Course course = courseService.approveCourse(name);
         return DtoConverter.convertToDto(course);
     }
 
     @PostMapping(value = {"/disapprove/{name}", "/disapprove/{name}/" })
-    public CourseDto disapproveCourse(@PathVariable("name") String name, @RequestParam(name = "email") String email) throws Exception {
-        Course course = courseService.disapproveCourse(name, email);
+    public CourseDto disapproveCourse(@PathVariable String name) throws Exception {
+        Course course = courseService.disapproveCourse(name);
         return DtoConverter.convertToDto(course);
     }
 
