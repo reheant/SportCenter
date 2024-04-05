@@ -82,6 +82,29 @@ export default {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
     },
+    register() {
+        console.log("calling register");
+        const customerEmail = "jubiiz.audet@gmail.com"; // TODO get email from customer Id
+        console.log(this.selected);
+        this.selected.forEach((session) => {
+            const sessionId = session.id;
+           
+            AXIOS.post(`/registration/`, null, {
+                params: { email: customerEmail,
+                          sessionId: sessionId
+                        },
+              })
+                .then((response) => {
+                  this.fetchSessions();
+                  console.log(`Customer with email ${customerEmail} successfully registered for session with id ${sessionId}.`);
+                })
+                .catch((error) => {
+                  // Handle error if needed
+                  console.error(`Error registering customer with email ${customerEmail} for session with id ${sessionId}:`, error);
+                });
+
+        });
+      },
 
   
   },
@@ -89,27 +112,7 @@ export default {
     // TODO: not implement
   },
     // Approve selected rows
-  register() {
-    const customerId = "jubiiz.audet@gmail.com"; // TODO get 
-    console.log("calling register");
-    console.log(this.selected);
-    this.selected.forEach((session) => {
-        const sessionId = session.id;
-        console.log('session id: ');
-        console.log(sessionId);
-        AXIOS.post(`/approve/${encodeURIComponent(name)}`, null, {
-        params: { email: email },
-        })
-        .then((response) => {
-            this.fetchCourses();
-            console.log(`Course ${name} approved successfully.`);
-        })
-        .catch((error) => {
-            // Handle error if needed
-            console.error(`Error approving course ${name}:`, error);
-        });
-    });
-  },
+
   watch: {
     currentPage(newValue) {
       this.onPageChange(newValue);
