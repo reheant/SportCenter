@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.sportscenter.dto;
 import java.time.LocalDateTime;
 
 public class SessionDto {
+    private Integer id;    
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String courseName;
@@ -11,14 +12,22 @@ public class SessionDto {
     public SessionDto() {
     }
 
-    public SessionDto(LocalDateTime startTime,
+    public SessionDto(Integer id,
+                      LocalDateTime startTime,
                       LocalDateTime endTime,
                       String courseName,
                       String locationName) {
+        this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.courseName = courseName;
         this.locationName = locationName;
+    }
+
+    public Integer getid() { return id; }
+
+    public void setid(Integer id) {
+        this.id = id;
     }
 
     public LocalDateTime getStartTime() { return startTime; }

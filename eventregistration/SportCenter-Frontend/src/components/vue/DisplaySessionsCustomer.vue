@@ -32,10 +32,8 @@
         <b-button size="sm" class="button-custom" @click="clearSelected"
           >Clear selected</b-button
         >
-
-        <router-link to="/customer/register">
-          <b-button size="sm" class="button-custom">Register for Session</b-button>
-        </router-link>
+        <b-button size="sm" class="button-custom" @click="register"
+        >Register for Selected Session</b-button>
       </p>
   
       <!-- Table component -->

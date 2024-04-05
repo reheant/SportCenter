@@ -29,8 +29,8 @@ export default {
     };
   },
   computed: {
-    selectedSessionNames() {
-      return this.selected.map((item) => item.session_name);
+    selectedSessionIds() {
+      return this.selected.map((item) => item.id);
     },
     totalRows() {
       return this.items.length;
@@ -49,6 +49,7 @@ export default {
         .then((response) => {
           // Update items array with the fetched sessions
           this.items = response.data.map((session) => ({
+            id: session.id,
             start_time: session.startTime,
             end_time: session.endTime,
             course_name: session.courseName,

@@ -50,6 +50,7 @@ export default {
         .then((response) => {
           // Update items array with the fetched sessions
           this.items = response.data.map((session) => ({
+            id: session.id,
             start_time: session.startTime,
             end_time: session.endTime,
             course_name: session.courseName,
@@ -83,11 +84,30 @@ export default {
 
   
   },
-  deleteSession() {
-    //TODO: not implement
-  },
   filterSession() {
     // TODO: not implement
+  },
+    // Approve selected rows
+  register() {
+    const customerId = "jubiiz.audet@gmail.com"; // TODO get 
+    console.log("calling register");
+    console.log(this.selected);
+    this.selected.forEach((session) => {
+        const sessionId = session.id;
+        console.log('session id: ');
+        console.log(sessionId);
+        AXIOS.post(`/approve/${encodeURIComponent(name)}`, null, {
+        params: { email: email },
+        })
+        .then((response) => {
+            this.fetchCourses();
+            console.log(`Course ${name} approved successfully.`);
+        })
+        .catch((error) => {
+            // Handle error if needed
+            console.error(`Error approving course ${name}:`, error);
+        });
+    });
   },
   watch: {
     currentPage(newValue) {

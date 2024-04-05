@@ -11,11 +11,13 @@ const AXIOS = axios.create({
 });
 
 function SessionDto(
+  id,
   startTime,
   endTime,
   courseName,
   locationName
 ) {
+  this.id = id;
   this.startTime = startTime;
   this.endTime = endTime;
   this.courseName = courseName;
@@ -27,6 +29,7 @@ export default {
   data() {
     return {
       form: {
+        id: "",
         startTime: "",
         endTime: "",
         courseName: "",
@@ -50,6 +53,7 @@ export default {
       } else {
         // Create a new instance of SessionDto
         const formData = new URLSearchParams();
+        formData.append("id", this.id);
         formData.append("startTime", this.form.startTime);
         formData.append("endTime", this.form.endTime);
         formData.append("courseName", this.form.courseName);
@@ -87,6 +91,7 @@ export default {
     },
     onReset() {
      this.form = {
+        id:"",
         startTime: "",
         endTime: "",
         courseName: "",
