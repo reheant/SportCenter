@@ -25,7 +25,7 @@ export default {
         currentPage: 1, // initial current page
         perPage: 10, // initial items per page
         sortDesc: false,
-        sortBy: 'course_name',
+        sortBy: 'lastName',
         successMessage: '',
         errorMessage: '',
         };
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     selectedCourseNames() {
-      return this.selected.map(item => item.course_name);
+      return this.selected.map(item => item.lastName);
     },
     totalRows() {
       return this.items.length;

@@ -17,10 +17,10 @@ export default {
         
         fields: [ {key: 'selected',sortable:false},
                     {key: 'firstName', sortable:true},
-                    {key: 'lastName', sortable:false}, 
+                    {key: 'lastName', sortable:true}, 
                     {key: 'accountEmail', sortable:true},],
         items: [],
-        selectMode: 'multi',
+        selectMode: 'multi', // 
         selected: [],
         currentPage: 1, // initial current page
         perPage: 10, // initial items per page
@@ -33,38 +33,32 @@ export default {
   },
   computed: {
     selectedCourseNames() {
-      return this.selected.map(item => item.course_name);
+      return this.selected.map(item => item.lastName);
     },
     totalRows() {
       return this.items.length;
     }
   },
-  filteredItems() {
-      if (!this.selectedStatus) {
-        return this.items; 
-      }
-      return this.items.filter(item => item.course_status === this.selectedStatus);
-    },
-    
+  
   created() {
-    this.fetchInstructors(); // Fetch customers when the component is created
+    this.fetchOwners(); // Fetch customers when the component is created
   },
   
   
   methods: {
 
-    fetchInstructors() {
-      AXIOS.get('/instructors')
+    fetchOwners() {
+      AXIOS.get('/owners')
       .then(response => {
-        this.items = response.data.map(instructor => ({
-          accountEmail: instructor.accountEmail,
-          firstName: instructor.firstName,
-          lastName: instructor.lastName
+        this.items = response.data.map(owner => ({
+          accountEmail: owner.accountEmail,
+          firstName: owner.firstName,
+          lastName: owner.lastName
         }));
         
       })
       .catch(error => {
-        console.error('Error fetching instructors:', error);
+        console.error('Error fetching owners:', error);
       });
     },
 
@@ -90,23 +84,7 @@ export default {
       console.log("Current Page:", page);
     },
     
-    demoteInstructor() {
 
-      this.selected.forEach(instructor => { const email = instructor.accountEmail; 
-    
-        AXIOS.post(`/demote/${encodeURIComponent(email)}`, null, {
-        })
-          .then(response => {
-            this.fetchInstructors();
-            this.successMessage = `Instructor demoted successfully.`;
-            this.errorMessage = ''; 
-          })
-          .catch(error => {
-            this.errorMessage = `An issue has occured during demotion.`;
-            this.successMessage = '';
-          });
-      });
-    },
   },
   
   watch: {

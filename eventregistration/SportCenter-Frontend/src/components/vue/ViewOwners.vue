@@ -7,7 +7,7 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav>
-              <b-navbar-nav>
+            <b-navbar-nav>
                 <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
                 <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
                 <b-nav-item to="/admin/viewOwners" >View Owners</b-nav-item>
@@ -31,10 +31,10 @@
       <p>
         <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
         <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-        <b-button size="sm" class="button-custom" @click="promoteCustomer">Promote Customer</b-button>
-        <b-button size="sm" class="button-custom" @click="deleteCustomer">Delete Customer</b-button>
+        <router-link to="/admin/createAdministrator">
+        <b-button size="sm" class="button-custom">Create Administrator</b-button>
+      </router-link>
       </p>
-
       <div v-if="successMessage" class="alert alert-success">
           {{ successMessage }}
       </div>
@@ -42,9 +42,8 @@
       <div v-if="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
       </div>
-
       <!-- Table component -->
-    <div class="tableContainer">
+      <div class="tableContainer">
       <b-table
         :items="items"
         :fields="fields"
@@ -76,39 +75,11 @@
           </span>
         </template>
         
-      <template #cell(course_description)="row">
-          <b-button size="sm" @click="row.toggleDetails" class="description-button">
-         {{ row.detailsShowing ? 'Hide' : 'Show' }} Description
-        </b-button>
-      </template>
+    
+    
   
-      <template #row-details="row">
-        <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>Course Description:</b></b-col>
-            <b-col>{{ row.item.course_description }}</b-col>
-          </b-row>
-        </b-card>
-      </template>
-  
-          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-       
-  
-  
-        <!-- Apply class for course status -->
-        <template #cell(course_status)="data">
-          <span 
-            :class="{
-              'text-rejected' : data.value === 'Refused',
-              'text-pending' : data.value === 'Pending',
-              'text-approved' : data.value === 'Approved',
-            }"
-          >
-            {{ data.value !== null && data.value !== undefined ? data.value : ''}}
-          </span>
-        </template>
-  
-        <template #cell(course_name)="data">
+    
+        <template #cell(lastName)="data">
           <span class="course-name">
             {{ data.value }}
           </span>
@@ -117,6 +88,7 @@
       
     </b-table>
     </div>
+      
   
       <b-pagination 
         class ="pagination"
@@ -133,11 +105,11 @@
     
     
 
-<script src="../javascript/ViewAccounts.js" > </script>
+<script src="../javascript/ViewOwners.js" > </script>
 
 
 <style>
-  .tableContainer{
+    .tableContainer{
       max-width: 90%; 
       margin: 0 auto;
     }
