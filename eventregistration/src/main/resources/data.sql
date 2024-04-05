@@ -26,8 +26,8 @@ INSERT INTO card (id, ccv, expiration_date, number, payment_card_type) VALUES
     (2, 456, '0924', '23456789', 0),
     (3, 789, '0328', '34567890', 1);
 
--- INSERT INTO pay_pal (id, password) VALUES
---     (1, "asdja@b.com", "definitelyextremelystrongpassword");
+INSERT INTO pay_pal (id, email, password) VALUES
+    (1, 'asdja@b.com', 'definitelyextremelystrongpassword');
 
 INSERT INTO location (id, capacity, closing_time, opening_time, name) VALUES
     (1, 200, '21:20', '09:20', 'Sports center');
