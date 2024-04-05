@@ -42,46 +42,47 @@
       </router-link>
     </p>
 
-    <!-- Table component -->
-    <b-table
-      :items="items"
-      :fields="fields"
-      :select-mode="selectMode"
-      :current-page="currentPage"
-      :per-page="perPage"
-      responsive="sm"
-      ref="selectableTable"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      fixed="fixed"
-      sort-icon-right
-      class="custom-striped-table"
-      selectable
-      @row-selected="onRowSelected"
-    >
-      <template #cell(selected)="{ rowSelected, item }">
-        <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
-          <template v-if="rowSelected">
-            <span aria-hidden="true">&check;</span>
-            <span class="sr-only">Selected</span>
-          </template>
-          <template v-else>
-            <span aria-hidden="true">&nbsp;</span>
-            <span class="sr-only">Not selected</span>
-          </template>
-        </span>
-      </template>
+    <div class="tableContainer">
+        <!-- Table component -->
+        <b-table
+        :items="items"
+        :fields="fields"
+        :select-mode="selectMode"
+        :current-page="currentPage"
+        :per-page="perPage"
+        responsive="sm"
+        ref="selectableTable"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        fixed="fixed"
+        sort-icon-right
+        class="custom-striped-table"
+        selectable
+        @row-selected="onRowSelected"
+        >
+        <template #cell(selected)="{ rowSelected, item }">
+            <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
+            <template v-if="rowSelected">
+                <span aria-hidden="true">&check;</span>
+                <span class="sr-only">Selected</span>
+            </template>
+            <template v-else>
+                <span aria-hidden="true">&nbsp;</span>
+                <span class="sr-only">Not selected</span>
+            </template>
+            </span>
+        </template>
 
 
-      <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+        <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
 
-      <template #cell(session_name)="data">
-        <span class="session-name">
-          {{ data.value }}
-        </span>
-      </template>
-    </b-table>
-
+        <template #cell(session_id)="data">
+            <span class="session-id">
+            {{ data.value }}
+            </span>
+        </template>
+        </b-table>
+    </div>
     <b-pagination
       class="pagination"
       v-model="currentPage"

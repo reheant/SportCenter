@@ -69,8 +69,8 @@
   
         <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
   
-        <template #cell(session_name)="data">
-          <span class="session-name">
+        <template #cell(session_id)="data">
+          <span class="session-id">
             {{ data.value }}
           </span>
         </template>

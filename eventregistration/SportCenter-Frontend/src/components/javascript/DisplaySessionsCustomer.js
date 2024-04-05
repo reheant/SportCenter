@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       fields: [
+        { key: "selected", sortable: false },
         { key: "start_time", sortable: true },
         { key: "end_time", sortable: false },
         { key: "course_name", sortable: true },
@@ -21,17 +22,17 @@ export default {
         { key: "instructor", sortable: false }
       ],
       items: [],
-      selectMode: "single",
+      selectMode: "multi",
       selected: [],
       currentPage: 1, // initial current page
       perPage: 10, // initial items per page
       sortDesc: false,
-      sortBy: "session_name",
+      sortBy: "start_time",
     };
   },
   computed: {
-    selectedSessionNames() {
-      return this.selected.map((item) => item.session_name);
+    selectedSessionIds() {
+      return this.selected.map((item) => item.id);
     },
     totalRows() {
       return this.items.length;
