@@ -87,7 +87,7 @@
     </div>
   </template>
   
-  <script src="../javascript/createCustomer.js" > </script>
+  <script src="../javascript/CreateCustomer.js" > </script>
   
   <style>
   .error {
