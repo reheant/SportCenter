@@ -82,7 +82,7 @@ export default new Router({
     },
     {
       path: "/admin/DisplaySessions",
-      name: "DisplaySessions",
+      name: "DisplaySessionsAdmin",
       component: DisplaySessionsAdmin,
     },
     {
