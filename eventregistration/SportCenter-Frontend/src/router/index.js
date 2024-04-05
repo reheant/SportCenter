@@ -31,7 +31,7 @@ export default new Router({
       component: CreateCustomer
     },
     {
-      path: '/displayCourse',
+      path: '/admin/displayCourse',
       name: 'DisplayCourse',
       component: DisplayCourse
     },
@@ -61,12 +61,12 @@ export default new Router({
       component: Admin
     },
     {
-      path: '/viewCustomers',
+      path: '/admin/viewCustomers',
       name: 'viewAccounts',
       component: ViewAccounts
     },
     {
-      path: '/viewInstructors',
+      path: '/admin/viewInstructors',
       name: 'viewInstructors',
       component: ViewInstructors
     }
