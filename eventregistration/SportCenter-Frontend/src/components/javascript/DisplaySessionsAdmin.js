@@ -15,62 +15,50 @@ export default {
     return {
       fields: [
         { key: "selected", sortable: false },
+        { key: "start_time", sortable: true },
+        { key: "end_time", sortable: false },
         { key: "course_name", sortable: true },
-        { key: "course_description", sortable: false },
-        { key: "course_cost", sortable: true },
-        { key: "course_duration", sortable: true },
-        { key: "requires_instructor", sortable: true },
-        { key: "course_status", sortable: true },
+        { key: "location", sortable: false }
       ],
       items: [],
       selectMode: "multi",
       selected: [],
-      currentPage: 1, 
-      perPage: 10, 
+      currentPage: 1, // initial current page
+      perPage: 10, // initial items per page
       sortDesc: false,
-      sortBy: "course_name",
+      sortBy: "start_time",
     };
   },
   computed: {
-    selectedCourseNames() {
-      return this.selected.map((item) => item.course_name);
+    selectedSessionIds() {
+      return this.selected.map((item) => item.id);
     },
     totalRows() {
       return this.items.length;
     },
   },
-  filteredItems() {
-    if (!this.selectedStatus) {
-      return this.items; 
-    }
-    return this.items.filter(
-      (item) => item.course_status === this.selectedStatus
-    );
-  },
+
 
   created() {
-    this.fetchCourses(); 
+    this.fetchSessions(); // Fetch sessions when the component is created
   },
 
   methods: {
-    fetchCourses() {
-
-      AXIOS.get("/courses")
+    fetchSessions() {
+      // Make an HTTP GET request to fetch all sessions
+      AXIOS.get("/sessions")
         .then((response) => {
-  
-          this.items = response.data.map((course) => ({
-            course_name: course.name,
-            requires_instructor: course.requiresInstructor,
-            course_cost: course.cost,
-            course_description: course.description,
-            course_duration: course.defaultDuration,
-            course_status: course.courseStatus,
-            course_id: course.id,
-
+          // Update items array with the fetched sessions
+          this.items = response.data.map((session) => ({
+            id: session.id,
+            start_time: session.startTime,
+            end_time: session.endTime,
+            course_name: session.courseName,
+            location: session.locationName,
           }));
         })
         .catch((error) => {
-          console.error("Error fetching courses:", error);
+          console.error("Error fetching sessions:", error);
         });
     },
 
@@ -82,7 +70,6 @@ export default {
     selectAllRows() {
       this.clearSelected();
       this.$refs.selectableTable.selectAllRows();
-      console.log(selected)
     },
 
     clearSelected() {
@@ -92,14 +79,10 @@ export default {
 
     onPageChange(page) {
       console.log("Current Page:", page);
+      // You can perform any necessary actions here when the page changes
     },
-  },
 
-  deleteCourse() {
-    //TODO: not implement
-  },
-  filterCourse() {
-    // TODO: not implement
+
   },
   watch: {
     currentPage(newValue) {

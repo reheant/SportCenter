@@ -10,7 +10,7 @@
           <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
           <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
           <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
-          <b-nav-item to="/admin/createCourse" href="#">Create Course</b-nav-item>
+          <b-nav-item to="/admin/displaySessions" href="#">View Sessions</b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -35,10 +35,10 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 body {
-  padding-top: 56px; 
+  padding-top: 56px;
 }
 </style>
