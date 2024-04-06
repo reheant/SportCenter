@@ -51,9 +51,9 @@ export default {
       } else if (this.form.courseCost === "") {
         this.error = "Course cost is required";
       } else {
-        // Create a new instance of CourseDto
+       
         const formData = new URLSearchParams();
-        //formData.append('name', this.form.courseName);
+ 
         formData.append("description", this.form.courseDescription);
         formData.append("requiresInstructor", this.form.requiresInstructor);
         formData.append("defaultDuration", this.form.courseDuration);
@@ -78,7 +78,7 @@ export default {
           });
       }
     },
-    // Reset error message
+  
     resetError() {
       this.error = "";
       this.successMessage = "";
@@ -95,7 +95,7 @@ export default {
         courseDescription: "",
         courseDuration: "",
         courseCost: "",
-        //courseStatus: '',
+
         requiresInstructor: false,
       };
       this.show = false;

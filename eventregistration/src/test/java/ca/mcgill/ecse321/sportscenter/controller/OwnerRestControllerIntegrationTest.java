@@ -14,14 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
-import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
 import ca.mcgill.ecse321.sportscenter.dto.OwnerDto;
 import ca.mcgill.ecse321.sportscenter.model.Account;
-import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
