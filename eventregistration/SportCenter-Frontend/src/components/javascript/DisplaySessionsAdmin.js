@@ -84,12 +84,6 @@ export default {
 
 
   },
-  deleteSession() {
-    //TODO: not implement
-  },
-  filterSession() {
-    // TODO: not implement
-  },
   watch: {
     currentPage(newValue) {
       this.onPageChange(newValue);
