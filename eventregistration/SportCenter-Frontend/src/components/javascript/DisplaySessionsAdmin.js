@@ -13,6 +13,9 @@ const AXIOS = axios.create({
 export default {
   data() {
     return {
+        form: {
+            instructorEmail: ""
+            },
       fields: [
         { key: "selected", sortable: false },
         { key: "start_time", sortable: true },
@@ -27,6 +30,7 @@ export default {
       perPage: 10, // initial items per page
       sortDesc: false,
       sortBy: "start_time",
+      assigningInstructor: false,
     };
   },
   computed: {
@@ -77,12 +81,24 @@ export default {
       this.selected = [];
     },
 
+    assignInstructor() {
+        this.assigningInstructor = !this.assigningInstructor;
+        console.log(this.assigningInstructor);
+    },
+
     onPageChange(page) {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
     },
 
-
+    onReset() {
+        this.error = '';
+        this.assigningInstructor = false;
+        this.show = false;
+        this.$nextTick(() => {
+          this.show = true;
+        })
+      }
   },
   watch: {
     currentPage(newValue) {
