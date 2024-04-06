@@ -5,6 +5,9 @@ import CreateCustomer from '@/components/vue/CreateCustomer'
 import CreateCourse from '@/components/vue/CreateCourse'
 import DisplayCourseAdmin from "@/components/vue/DisplayCourseAdmin";
 import DisplayCourseInstructor from "@/components/vue/DisplayCourseInstructor";
+import DisplaySessionsAdmin from "@/components/vue/DisplaySessionsAdmin";
+import DisplaySessionsCustomer from "@/components/vue/DisplaySessionsCustomer";
+import CreateSession from "@/components/vue/CreateSession";
 import SelectPaymentType from '@/components/vue/SelectPaymentType'
 import AddPaypal from '@/components/vue/AddPaypal'
 import AddCard from '@/components/vue/AddCard'
@@ -40,7 +43,7 @@ export default new Router({
       name: "DisplayCourseAdmin",
       component: DisplayCourseAdmin,
     },
-    
+
     {
       path: '/addPaypal',
       name: 'AddPaypal',
@@ -85,6 +88,21 @@ export default new Router({
       path: "/instructor/createCourse",
       name: "CreateCourse",
       component: CreateCourse,
+    },
+    {
+      path: "/admin/DisplaySessions",
+      name: "DisplaySessionsAdmin",
+      component: DisplaySessionsAdmin,
+    },
+    {
+        path: "/customer/DisplaySessions",
+        name: "DisplaySessionsCustomer",
+        component: DisplaySessionsCustomer,
+      },
+    {
+      path: "/admin/CreateSession",
+      name: "CreateSession",
+      component: CreateSession,
     },
     {
       path: "/admin/viewOwners",

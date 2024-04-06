@@ -31,7 +31,7 @@
             </b-collapse>
         </b-navbar>
         </div>
-      
+
       <p>
         <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
         <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
@@ -62,8 +62,7 @@
       >
 
       <template #cell(selected)="{ rowSelected, item }">
-          <span 
-
+          <span
             @click="selectRow(item)"
             :class="{ 'selected-row': rowSelected }"
           >
@@ -78,22 +77,24 @@
           </span>
         </template>
 
-  
-      
+
     </b-table>
 
     </div>
 
-    <b-pagination
-      class="pagination"
-      v-model="currentPage"
-      :total-rows="totalRows"
-      :per-page="perPage"
-      align="center"
-      aria-controls="selectableTable"
-    ></b-pagination>
-  </div>
-</template>
+
+      <b-pagination
+        class ="pagination"
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        align="center"
+        aria-controls="selectableTable"
+
+      ></b-pagination>
+
+    </div>
+  </template>
 
 <script src="../javascript/ViewInstructors.js"></script>
 

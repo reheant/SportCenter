@@ -91,7 +91,7 @@ public class DtoConverter {
         if (session == null) {
             throw new NullPointerException("Session cannot be null.");
         }
-        SessionDto sessionDto = new SessionDto(session.getStartTime(), session.getEndTime(), session.getCourse().getName(), session.getLocation().getName());
+        SessionDto sessionDto = new SessionDto(session.getId(), session.getStartTime(), session.getEndTime(), session.getCourse().getName(), session.getLocation().getName());
         return sessionDto;
     }
 
