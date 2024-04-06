@@ -30,6 +30,7 @@ export default {
       sortBy: "start_time",
       show: true,
       error: '',
+      successMessage: '',
     };
   },
   computed: {
@@ -62,6 +63,7 @@ export default {
         })
         .catch((error) => {
           const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
+          this.successMessage = '';
           console.error("Error fetching sessions:", errorMsg);
           this.error = errorMsg;
         });
@@ -100,11 +102,13 @@ export default {
               })
                 .then((response) => {
                   this.fetchSessions();
-                  console.log(`Customer with email ${customerEmail} successfully registered for session with id ${sessionId}.`);
+                  this.successMessage = `Customer with email ${customerEmail} successfully registered for session with id ${sessionId}.`;
+                  console.log(this.successMessage);
                 })
                 .catch((error) => {
                   // Handle error if needed
                   const errorMsg = (error.response && error.response.data) ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
                   console.error(`Error registering customer with email ${customerEmail} for session with id ${sessionId}:`, error);
                   this.error = errorMsg;                  
                 });
@@ -133,11 +137,13 @@ export default {
             AXIOS.delete(urlWithParams)
                 .then((response) => {
                   this.fetchSessions();
-                  console.log(`Customer with email ${customerEmail} successfully unregistered for session with id ${sessionId}.`);
+                  this.successMessage = `Customer with email ${customerEmail} successfully unregistered for session with id ${sessionId}.`;
+                  console.log(this.successMessage);
                 })
                 .catch((error) => {
                   // Handle error if needed
                   const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
                   console.error(`Error registering customer with email ${customerEmail} for session with id ${sessionId}:`, error);
                   this.error = errorMsg;
                   console.error(`Error unregistering customer with email ${customerEmail} for session with id ${sessionId}:`, error);

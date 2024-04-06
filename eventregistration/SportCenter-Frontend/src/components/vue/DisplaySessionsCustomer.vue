@@ -93,6 +93,7 @@
       <div class="error">
         <p v-if="error" style="color: red">{{ error }}</p>
       </div>
+      <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
   
 
     </div>
