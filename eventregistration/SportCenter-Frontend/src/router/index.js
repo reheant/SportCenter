@@ -16,6 +16,7 @@ import Admin from '@/components/vue/Admin'
 import ViewAccounts from '@/components/vue/ViewAccounts'
 import ViewInstructors from '@/components/vue/ViewInstructors'
 import FilterCourseAdmin from '@/components/vue/FilterCourseAdmin'
+import FilterCourseInstructor from '@/components/vue/FilterCourseInstructor'
 import FilterCourseCustomer from '@/components/vue/FilterCourseCustomer'
 import ViewOwners from "@/components/vue/ViewOwners";
 import CreateOwner from "@/components/vue/CreateOwner";
@@ -46,14 +47,22 @@ export default new Router({
     },
     {
       path: "/admin/displayCourse",
+      path: "/admin/displayCourse",
       name: "DisplayCourseAdmin",
       component: DisplayCourseAdmin,
+      props: true
+    },
+    {
+      path: "/instructor/displayCourse",
+      name: "DisplayCourseInstructor",
+      component: DisplayCourseInstructor,
       props: true
     },
     {
       path: "/customer/displayCourse",
       name: "DisplayCourseCustomer",
       component: DisplayCourseCustomer,
+      props: true
     },
     {
       path: "/addPaypal",
@@ -118,7 +127,7 @@ export default new Router({
     {
       path: '/instructor/FilterCourses',
       name: "FilterCourses",
-      component: FilterCourseAdmin,
+      component: FilterCourseInstructor,
     },
     {
       path: '/customer/FilterCourses',

@@ -11,6 +11,7 @@ const AXIOS = axios.create({
 });
 
 export default {
+  props: ['filteredData'],
   data() {
     return {
       fields: [
@@ -49,7 +50,11 @@ export default {
   },
 
   created() {
-    this.fetchCourses();
+    if (this.filteredData) {
+      this.fetchFilteredCourses();
+    } else {
+      this.fetchCourses();
+    }
   },
 
   methods: {
@@ -73,7 +78,23 @@ export default {
           console.error("Error fetching courses:", error);
         });
     },
-
+    fetchFilteredCourses() {
+          AXIOS.get("/courses")
+            .then((response) => {
+              this.items = this.filteredData.map((course) => ({
+                course_name: course.name,
+                requires_instructor: course.requiresInstructor,
+                course_cost: course.cost,
+                course_description: course.description,
+                course_duration: course.defaultDuration,
+                course_status: course.courseStatus,
+                course_id: course.id,
+              }));
+            })
+            .catch((error) => {
+              console.error("Error fetching courses:", error);
+            });
+        },
     onRowSelected(items) {
       this.selected = items;
       console.log(this.selected);

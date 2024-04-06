@@ -60,7 +60,9 @@ export default {
       AXIOS.get("/courses")
         .then((response) => {
           // Update items array with the fetched courses
-          this.items = response.data.map((course) => ({
+          this.items = response.data
+            .filter(course => course.courseStatus === 'Approved')
+            .map((course) => ({
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
             course_cost: course.cost,
@@ -79,7 +81,9 @@ export default {
     fetchFilteredCourses() {
       AXIOS.get("/courses")
         .then((response) => {
-          this.items = this.filteredData.map((course) => ({
+          this.items = this.filteredData
+            .filter(course => course.courseStatus === 'Approved')
+            .map((course) => ({
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
             course_cost: course.cost,
