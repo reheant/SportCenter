@@ -28,6 +28,8 @@ export default {
       perPage: 10, // initial items per page
       sortDesc: false,
       sortBy: "start_time",
+      show: true,
+      error: '',
     };
   },
   computed: {
@@ -59,7 +61,9 @@ export default {
           }));
         })
         .catch((error) => {
-          console.error("Error fetching sessions:", error);
+          const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
+          console.error("Error fetching sessions:", errorMsg);
+          this.error = errorMsg;
         });
     },
 
@@ -100,7 +104,9 @@ export default {
                 })
                 .catch((error) => {
                   // Handle error if needed
+                  const errorMsg = (error.response && error.response.data) ? error.response.data : "Something went wrong";
                   console.error(`Error registering customer with email ${customerEmail} for session with id ${sessionId}:`, error);
+                  this.error = errorMsg;                  
                 });
 
         });
@@ -131,12 +137,22 @@ export default {
                 })
                 .catch((error) => {
                   // Handle error if needed
+                  const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
                   console.error(`Error registering customer with email ${customerEmail} for session with id ${sessionId}:`, error);
+                  this.error = errorMsg;
+                  console.error(`Error unregistering customer with email ${customerEmail} for session with id ${sessionId}:`, error);
                 });
 
         });
       },
 
+      onReset() {
+        this.error = '';
+        this.show = false;
+        this.$nextTick(() => {
+          this.show = true;
+        })
+      }
   
   },
   filterSession() {

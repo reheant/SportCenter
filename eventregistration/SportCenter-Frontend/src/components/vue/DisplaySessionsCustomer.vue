@@ -25,6 +25,8 @@
             </div>
     <!-- Buttons for interaction -->
 
+
+
       <p>
         <b-button size="sm" class="button-custom" @click="selectAllRows"
           >Select All</b-button
@@ -77,7 +79,8 @@
           </span>
         </template>
       </b-table>
-  
+
+
       <b-pagination
         class="pagination"
         v-model="currentPage"
@@ -86,9 +89,17 @@
         align="center"
         aria-controls="selectableTable"
       ></b-pagination>
+
+      <div class="error">
+        <p v-if="error" style="color: red">{{ error }}</p>
+      </div>
+  
+
     </div>
   </template>
   
+
+
   <script src="../javascript/DisplaySessionsCustomer.js"></script>
   
   <style>
