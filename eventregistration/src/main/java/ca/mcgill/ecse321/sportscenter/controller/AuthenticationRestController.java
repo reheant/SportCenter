@@ -26,7 +26,7 @@ public class AuthenticationRestController {
     public LoginResponseDto login(@RequestBody LoginRequestDto form) throws AuthenticationException {
         int id;
         id = service.authenticate(form.email, form.password, form.userType);
-        return new LoginResponseDto(id);
+        return new LoginResponseDto(id, form.userType);
     }
 
     @ExceptionHandler(AuthenticationException.class)

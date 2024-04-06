@@ -36,7 +36,7 @@ public class DtoConverter {
         if (owner == null){
             throw new NullPointerException("Owner cannot be null.");
         }
-        OwnerDto ownerDto = new OwnerDto(owner.getAccount().getEmail());
+        OwnerDto ownerDto = new OwnerDto(owner.getAccount().getEmail(), owner.getAccount().getFirstName(),owner.getAccount().getLastName());
         return ownerDto;
     }
 

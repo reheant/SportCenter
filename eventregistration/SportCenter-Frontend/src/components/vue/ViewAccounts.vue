@@ -10,6 +10,7 @@
               <b-navbar-nav>
                 <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
                 <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
+                <b-nav-item to="/admin/viewOwners" >View Owners</b-nav-item>
                 <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
                 <b-nav-item to="/admin/displaySessions" href="#">View Sessions</b-nav-item>
             </b-navbar-nav>
@@ -213,23 +214,31 @@
   border-radius: 4px;
 
 }
-
-.pagination {
-  color: #b81b1b;
+.pagination .page-link {
+  color: #4caf50;
   font-weight: bold;
   font-size: 1.25rem;
-  fill: blanchedalmond;
-  color: white;
   margin: 10px;
   cursor: pointer;
 }
 
-.pagination a {
-  border-radius: 5px;
+.pagination .page-item.active .page-link {
+  background-color: #4caf50;
+  border-color: #4caf50;
 }
 
-.pagination a.active {
-  border-radius: 5px;
+.pagination .page-link:hover {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: white;
 }
 
+.pagination .page-link:focus {
+  box-shadow: none;
+}
+
+.pagination .page-link,
+.pagination .page-item.active .page-link {
+  border-radius: 5px;
+}
 </style>

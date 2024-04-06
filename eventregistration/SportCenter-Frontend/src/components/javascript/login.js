@@ -11,22 +11,48 @@ const AXIOS = axios.create({
 })
 
 export default {
-    name: '',
+    name: 'login',
     data() {
       return {
         form: {
           email: '',
-          firstName: '',
-          lastName: '',
           password: '',
-          checked: false 
+          userType: "Customer",
         },
-        show: true,
-        error: '' 
+        error: '' ,
+        show: true
       };
     },
     methods: {
-     
-     
+      login() {
+        console.log(this.form);
+        AXIOS.post("/login", this.form)
+          .then((r) => {
+            console.log(r.data);
+            localStorage.setItem("user_id", r.data.id);
+            localStorage.setItem("user_role", r.data.role);
+            this.$router.back();
+          })
+          .catch((e) => {
+            const errorMsg = e.response && e.response.data.error ? e.response.data.error : "Something went wrong";
+            console.error(errorMsg);
+            this.error = errorMsg;
+          })
+      },
+      onSubmit() {
+        this.login();
+      },
+      onReset() {
+        this.form = {
+          email: "",
+          password: "",
+          role: ""
+        };
+        this.error = '';
+        this.show = false;
+        this.$nextTick(() => {
+          this.show = true;
+        })
+      }
     },
   }

@@ -2,16 +2,23 @@ package ca.mcgill.ecse321.sportscenter.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.ArrayList;
 
+import ca.mcgill.ecse321.sportscenter.dto.CustomerDto;
 import ca.mcgill.ecse321.sportscenter.dto.OwnerDto;
+import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Owner;
 import ca.mcgill.ecse321.sportscenter.service.OwnerService;
 
@@ -28,6 +35,20 @@ public class OwnerRestController {
 		Owner owner = ownerService.createOwner(firstName, lastName, email, password);
 		return DtoConverter.convertToDto(owner);
 
+	}
+
+	@GetMapping(value = { "/owners", "/owners/" })
+	public ResponseEntity<List<OwnerDto>> getAllOwners() {
+		List<OwnerDto> ownerDTOlist = new ArrayList<>();
+		try {
+			for (Owner a : ownerService.getAllOwners()) {
+				ownerDTOlist.add(DtoConverter.convertToDto(a));
+			}
+			return new ResponseEntity<>(ownerDTOlist, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@ExceptionHandler(Exception.class)

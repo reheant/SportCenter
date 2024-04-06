@@ -88,7 +88,21 @@ export default {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
     },
-    register() {
+    register() {        
+        const userRole = localStorage.getItem("user_role");        
+        if (userRole != 'Customer'){
+            this.error = "You must be logged in as a customer to register for a session";
+            console.log(this.error);
+            return false;    
+        }
+
+        const accountId = localStorage.getItem("user_id");
+        
+        
+
+        console.log("the data you wanted to print: " + userRole + " " + customerId);
+        
+        
         console.log("calling register");
         const customerEmail = "jubiiz.audet@gmail.com"; // TODO get email from customer Id
         console.log(this.selected);
