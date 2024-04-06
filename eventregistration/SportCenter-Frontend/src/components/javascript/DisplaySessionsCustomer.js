@@ -96,15 +96,10 @@ export default {
             return false;    
         }
 
-        const accountId = localStorage.getItem("user_id");
-        
-        
-
-        console.log("the data you wanted to print: " + userRole + " " + customerId);
-        
-        
+        const customerEmail = localStorage.getItem("account_email");
+                        
         console.log("calling register");
-        const customerEmail = "jubiiz.audet@gmail.com"; // TODO get email from customer Id
+        
         console.log(this.selected);
         this.selected.forEach((session) => {
             const sessionId = session.id;
@@ -131,7 +126,7 @@ export default {
       },
       unregister() {
         console.log("calling unregister");
-        const customerEmail = "jubiiz.audet@gmail.com"; // TODO get email from customer Id
+        const customerEmail = localStorage.getItem("account_email");
         console.log(this.selected);
 
         let sessionId = "";
