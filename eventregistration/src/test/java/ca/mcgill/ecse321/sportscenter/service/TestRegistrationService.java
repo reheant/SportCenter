@@ -350,11 +350,6 @@ public class TestRegistrationService {
         lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
         lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
 
-        try {
-            Boolean result = registrationService.unregister("youCantSeeMe@gmail.com", 9721);
-            assertFalse(result);
-        } catch (Exception error) { 
-            fail(error.getMessage());
-        }        
+        assertThrows(IllegalArgumentException.class, () -> {registrationService.unregister("youCantSeeMe@gmail.com", 9721);});      
     }
 }
