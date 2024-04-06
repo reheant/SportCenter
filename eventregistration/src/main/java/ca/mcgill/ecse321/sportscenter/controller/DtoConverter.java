@@ -75,7 +75,7 @@ public class DtoConverter {
         if (course == null) {
             throw new NullPointerException("Course cannot be null.");
         }
-        CourseDto courseDto = new CourseDto(course.getName(), course.getDescription(), course.getCourseStatus(), course.getRequiresInstructor(), course.getDefaultDuration(), course.getCost());
+        CourseDto courseDto = new CourseDto(course.getId(), course.getName(), course.getDescription(), course.getCourseStatus(), course.getRequiresInstructor(), course.getDefaultDuration(), course.getCost());
         return courseDto;
     }
 

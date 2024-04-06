@@ -77,6 +77,28 @@ export default {
       this.selected = [];
     },
 
+    deleteSession() {
+        this.selected.forEach((session) => {
+            const sessionId = session.id;
+            // https://developer.chrome.com/blog/urlsearchparams/
+            const urlWithParams = `/sessions/${sessionId}`;
+
+            AXIOS.delete(urlWithParams)
+                .then((response) => {
+                  this.fetchSessions();
+                  this.successMessage = `Successfully deleted for session with id ${sessionId}.`;
+                  console.log(this.successMessage);
+                })
+                .catch((error) => {
+                  // Handle error if needed
+                  const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
+                  this.error = errorMsg;
+                  console.error(`Error deleting session with id ${sessionId}:`, error);
+                });
+        });
+    },
+
     onPageChange(page) {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes

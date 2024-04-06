@@ -59,15 +59,14 @@ export default {
         .then((response) => {
           
           this.items = response.data.map((course) => ({
+            id: course.id,
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
             course_cost: course.cost,
             course_description: course.description,
             course_duration: course.defaultDuration,
             course_status: course.courseStatus,
-            course_id: course.id,
 
-         
           }));
         })
         .catch((error) => {
@@ -93,6 +92,28 @@ export default {
     onPageChange(page) {
       console.log("Current Page:", page);
     
+    },
+
+    deleteCourse() {
+        this.selected.forEach((course) => {
+            const courseId = course.id;
+            // https://developer.chrome.com/blog/urlsearchparams/
+            const urlWithParams = `/courses/${courseId}`;
+
+            AXIOS.delete(urlWithParams)
+                .then((response) => {
+                  this.fetchCourses();
+                  this.successMessage = `Successfully deleted course with id ${courseId}.`;
+                  console.log(this.successMessage);
+                })
+                .catch((error) => {
+                  // Handle error if needed
+                  const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
+                  this.error = errorMsg;
+                  console.error(`Error deleting course with id ${courseId}:`, error);
+                });
+        });
     },
 
     approveCourse() {

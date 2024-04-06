@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.sportscenter.dto;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
 
 public class CourseDto {
+    private Integer id;
     private String name;
     private String description;
     private CourseStatus courseStatus;
@@ -13,7 +14,8 @@ public class CourseDto {
     public CourseDto() {
     }
 
-    public CourseDto(String name, String description, CourseStatus courseStatus, Boolean requiresInstructor, Float defaultDuration, Float cost){
+    public CourseDto(Integer id, String name, String description, CourseStatus courseStatus, Boolean requiresInstructor, Float defaultDuration, Float cost){
+        this.id = id;
         this.name = name;
         this.description = description;
         this.courseStatus = courseStatus;
@@ -21,6 +23,10 @@ public class CourseDto {
         this.defaultDuration = defaultDuration;
         this.cost = cost;
     }
+    public Integer getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -38,6 +44,9 @@ public class CourseDto {
     }
     public Float getCost() {
         return cost;
+    }
+    public void setId(Integer id){
+        this.id = id;
     }
     public void setName(String name){
         this.name = name;

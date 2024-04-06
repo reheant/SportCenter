@@ -73,7 +73,7 @@ public class SportsCenterInformationRestController {
             throw new IllegalArgumentException("There is no such Course!");
         }
         
-        CourseDto dto = new CourseDto(c.getName(), c.getDescription(), c.getCourseStatus(), 
+        CourseDto dto = new CourseDto(c.getId(), c.getName(), c.getDescription(), c.getCourseStatus(), 
         c.getRequiresInstructor(), c.getDefaultDuration(), c.getCost());
         return dto;
     }

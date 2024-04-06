@@ -40,6 +40,8 @@
       <router-link to="/admin/ModifySession">
         <b-button size="sm" class="button-custom">Modify Session</b-button>
       </router-link>
+      <b-button size="sm" class="button-custom" @click="deleteSession"
+        >Delete Session</b-button>
     </p>
 
     <div class="tableContainer">

@@ -51,7 +51,7 @@
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
       <b-button size="sm" class="button-custom" @click="deleteCourse"
-        >TBI Delete Course</b-button
+        >Delete Course</b-button
       >
       <b-button size="sm" class="button-custom" @click="filterCourse"
         >TBI filters</b-button
