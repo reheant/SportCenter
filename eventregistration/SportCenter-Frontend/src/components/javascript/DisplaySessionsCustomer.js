@@ -106,19 +106,25 @@ export default {
         });
       },
       unregister() {
-        // https://www.baeldung.com/spring-cors
-
         console.log("calling unregister");
         const customerEmail = "jubiiz.audet@gmail.com"; // TODO get email from customer Id
         console.log(this.selected);
+
+        let sessionId = "";
+        let params = "";
+        let urlWithParams = "";
+
         this.selected.forEach((session) => {
-            const sessionId = session.id;
+            sessionId = session.id;
            
-            AXIOS.delete(`/unregister/`, null, {
-                params: { email: customerEmail,
-                          sessionId: sessionId
-                        },
-              })
+            params = {
+                email: customerEmail,
+                sessionId: sessionId    
+            }
+            // https://developer.chrome.com/blog/urlsearchparams/
+            urlWithParams = `/unregister/?${new URLSearchParams(params).toString()}`;
+
+            AXIOS.delete(urlWithParams)
                 .then((response) => {
                   this.fetchSessions();
                   console.log(`Customer with email ${customerEmail} successfully unregistered for session with id ${sessionId}.`);

@@ -51,7 +51,7 @@ public class RegistrationService {
 
         List<Registration> otherRegistrations = registrationRepository.findAll();
         for (Registration otherRegistration: otherRegistrations) {
-            if (otherRegistration.getCustomer().getAccount().getEmail() == email && otherRegistration.getSession().getId() == session_id){
+            if (otherRegistration.getCustomer().getAccount().getEmail().equals(email) && otherRegistration.getSession().getId() == session_id){
                 throw new IllegalArgumentException("Email is already registered for session with that id.");
             }
         }
@@ -101,14 +101,10 @@ public class RegistrationService {
         Registration registration = registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(email, session_id);
 
         if (registration == null) {
-            throw new IllegalArgumentException("no matching registration was found");
+            throw new IllegalArgumentException("No matching registration was found");
         }
 
-        try {
-            registration.delete();
-            return true;
-        } catch (Exception error){
-            return false;
-        }
+        registrationRepository.deleteById(registration.getId());
+        return true;
     }
 }
