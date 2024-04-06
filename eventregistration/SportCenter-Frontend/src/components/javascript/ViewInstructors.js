@@ -22,8 +22,8 @@ export default {
         items: [],
         selectMode: 'multi',
         selected: [],
-        currentPage: 1, // initial current page
-        perPage: 10, // initial items per page
+        currentPage: 1, 
+        perPage: 10, 
         sortDesc: false,
         sortBy: 'lastName',
         successMessage: '',
@@ -47,7 +47,7 @@ export default {
     },
     
   created() {
-    this.fetchInstructors(); // Fetch customers when the component is created
+    this.fetchInstructors(); 
   },
   
   

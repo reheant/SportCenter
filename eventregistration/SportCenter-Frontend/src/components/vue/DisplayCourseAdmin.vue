@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Buttons for interaction -->
     <div>
       <b-navbar class="navbar" toggleable="lg" type="dark" variant="info">
         <b-navbar-brand href="#">Sport Center</b-navbar-brand>
@@ -33,7 +32,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <!-- Buttons for interaction -->
+
     <p>
       <b-button size="sm" class="button-custom" @click="selectAllRows"
         >Select all</b-button
@@ -59,7 +58,7 @@
       >
     </p>
     <div class="tableContainer">
-      <!-- Table component -->
+
       <b-table
         :items="items"
         :fields="fields"
@@ -113,9 +112,7 @@
           </b-card>
         </template>
 
-        <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-
-        <!-- Apply class for course status -->
+       
         <template #cell(course_status)="data">
           <span
             :class="{
@@ -187,24 +184,24 @@ body {
 }
 
 .b-table {
-  border: 2px solid #ccc; /* Example: add a border */
-  border-radius: 5px; /* Example: add border radius */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example: add a box shadow */
+  border: 2px solid #ccc; 
+  border-radius: 5px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* Style the table headers */
+
 .b-table th {
   background-color: #f0f0f0;
   color: #333;
   text-align: center;
 }
 
-/* Style the table rows */
+
 .b-table tr {
   background-color: #ffffff;
   text-align: center;
 }
-/* Style the selected rows */
+
 .b-table tr.selected {
   background-color: #f0f0ff;
   text-align: center;
