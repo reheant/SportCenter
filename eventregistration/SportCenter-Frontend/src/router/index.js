@@ -5,6 +5,7 @@ import CreateCustomer from "@/components/vue/CreateCustomer";
 import CreateCourse from "@/components/vue/CreateCourse";
 import DisplayCourseAdmin from "@/components/vue/DisplayCourseAdmin";
 import DisplayCourseInstructor from "@/components/vue/DisplayCourseInstructor";
+import DisplayCourseCustomer from "@/components/vue/DisplayCourseCustomer";
 import DisplaySessionsAdmin from "@/components/vue/DisplaySessionsAdmin";
 import DisplaySessionsCustomer from "@/components/vue/DisplaySessionsCustomer";
 import CreateSession from "@/components/vue/CreateSession";
@@ -13,12 +14,12 @@ import AddPaypal from '@/components/vue/AddPaypal'
 import AddCard from '@/components/vue/AddCard'
 import Admin from '@/components/vue/Admin'
 import ViewAccounts from '@/components/vue/ViewAccounts'
-
-import ViewInstructors from "@/components/vue/ViewInstructors";
+import ViewInstructors from '@/components/vue/ViewInstructors'
+import FilterCourseAdmin from '@/components/vue/FilterCourseAdmin'
+import FilterCourseCustomer from '@/components/vue/FilterCourseCustomer'
 import ViewOwners from "@/components/vue/ViewOwners";
 import CreateOwner from "@/components/vue/CreateOwner";
 import ModifyCourse from "@/components/vue/ModifyCourse";
-
 Vue.use(Router);
 
 export default new Router({
@@ -47,8 +48,13 @@ export default new Router({
       path: "/admin/displayCourse",
       name: "DisplayCourseAdmin",
       component: DisplayCourseAdmin,
+      props: true
     },
-
+    {
+      path: "/customer/displayCourse",
+      name: "DisplayCourseCustomer",
+      component: DisplayCourseCustomer,
+    },
     {
       path: "/addPaypal",
       name: "AddPaypal",
@@ -80,11 +86,6 @@ export default new Router({
       component: ViewInstructors,
     },
     {
-      path: "/instructor/displayCourse",
-      name: "DisplayCourseInstructor",
-      component: DisplayCourseInstructor,
-    },
-    {
       path: "/admin/createCourse",
       name: "CreateCourse",
       component: CreateCourse,
@@ -108,6 +109,21 @@ export default new Router({
       path: "/admin/CreateSession",
       name: "CreateSession",
       component: CreateSession,
+    },
+    {
+      path: "/admin/FilterCourses",
+      name: "FilterCourses",
+      component: FilterCourseAdmin,
+    },
+    {
+      path: '/instructor/FilterCourses',
+      name: "FilterCourses",
+      component: FilterCourseAdmin,
+    },
+    {
+      path: '/customer/FilterCourses',
+      name: "FilterCourses",
+      component: FilterCourseCustomer,
     },
     {
       path: "/admin/viewOwners",

@@ -41,6 +41,12 @@ export default {
     };
   },
   methods: {
+    convertToDateTime(inputedDateTime) {
+      const dateTimeParts = inputedDateTime.split(' ');
+      const date = dateTimeParts[0];
+      const time = dateTimeParts[1];
+      return `${date}T${time}:00`;
+    },
     createSession() {
       if (this.form.startTime === "") {
         this.error = "startTime is required";
@@ -54,8 +60,8 @@ export default {
         // Create a new instance of SessionDto
         const formData = new URLSearchParams();
         formData.append("id", this.id);
-        formData.append("startTime", this.form.startTime);
-        formData.append("endTime", this.form.endTime);
+        formData.append("startTime", this.convertToDateTime(this.form.startTime));
+        formData.append("endTime", this.convertToDateTime(this.form.endTime));
         formData.append("courseName", this.form.courseName);
         formData.append("locationName", this.form.locationName);
 
@@ -103,6 +109,7 @@ export default {
       });
     },
     onReturn() {
+      console.log("Returning to DisplayCourse");
       this.$router.push("DisplaySessions");
     },
   },

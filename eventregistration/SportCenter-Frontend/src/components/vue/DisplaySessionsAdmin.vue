@@ -41,7 +41,11 @@
         <b-button size="sm" class="button-custom">Modify Session</b-button>
       </router-link>
       <b-button size="sm" class="button-custom" @click="deleteSession"
-        >Delete Session</b-button>
+        >Delete Session</b-button
+      >
+      <b-button size="sm" class="button-custom" @click="filterCourse"
+        >Filter</b-button
+      >
     </p>
 
     <div class="tableContainer">
@@ -119,9 +123,9 @@
 }
 
 .b-table {
-  border: 2px solid #ccc; 
-  border-radius: 5px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Style the table headers */

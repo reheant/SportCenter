@@ -51,8 +51,8 @@ export default {
           // Update items array with the fetched sessions
           this.items = response.data.map((session) => ({
             id: session.id,
-            start_time: session.startTime,
-            end_time: session.endTime,
+            start_time: this.formatDateTime(session.startTime),
+            end_time: this.formatDateTime(session.endTime),
             course_name: session.courseName,
             location: session.locationName,
           }));
@@ -103,8 +103,6 @@ export default {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
     },
-
-
   },
   watch: {
     currentPage(newValue) {

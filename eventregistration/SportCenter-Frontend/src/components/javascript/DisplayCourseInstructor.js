@@ -25,8 +25,8 @@ export default {
       items: [],
       selectMode: "multi",
       selected: [],
-      currentPage: 1, 
-      perPage: 10, 
+      currentPage: 1,
+      perPage: 10,
       sortDesc: false,
       sortBy: "course_name",
     };
@@ -41,7 +41,7 @@ export default {
   },
   filteredItems() {
     if (!this.selectedStatus) {
-      return this.items; 
+      return this.items;
     }
     return this.items.filter(
       (item) => item.course_status === this.selectedStatus
@@ -49,7 +49,7 @@ export default {
   },
 
   created() {
-    this.fetchCourses(); 
+    this.fetchCourses();
   },
 
   methods: {
@@ -57,7 +57,7 @@ export default {
 
       AXIOS.get("/courses")
         .then((response) => {
-  
+
           this.items = response.data.map((course) => ({
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
@@ -93,13 +93,6 @@ export default {
     onPageChange(page) {
       console.log("Current Page:", page);
     },
-  },
-
-  deleteCourse() {
-    //TODO: not implement
-  },
-  filterCourse() {
-    // TODO: not implement
   },
   watch: {
     currentPage(newValue) {
