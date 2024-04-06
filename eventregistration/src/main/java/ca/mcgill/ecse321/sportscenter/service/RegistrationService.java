@@ -101,7 +101,7 @@ public class RegistrationService {
         Registration registration = registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(email, session_id);
 
         if (registration == null) {
-            return false;
+            throw new IllegalArgumentException("no matching registration was found");
         }
 
         try {

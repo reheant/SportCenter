@@ -34,6 +34,8 @@
         >
         <b-button size="sm" class="button-custom" @click="register"
         >Register for Selected Session</b-button>
+        <b-button size="sm" class="button-custom" @click="unregister"
+        >Unegister for Selected Session</b-button>
       </p>
   
       <!-- Table component -->
