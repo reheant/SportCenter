@@ -40,7 +40,7 @@
       <router-link to="/admin/ModifySession">
         <b-button size="sm" class="button-custom">Modify Session</b-button>
       </router-link>
-      <b-button size="sm" class="button-custom" @click="assignInstructor"
+      <b-button size="sm" class="button-custom" @click="displayAssignInstructor"
         >Assign an Instructor</b-button>
 
     </p>
@@ -62,7 +62,7 @@
             >
                 <b-form-input
                 id="input-instructor-email"
-                v-model="form.courseName"
+                v-model="form.instructorEmail"
                 placeholder="Enter Instructor Email"
                 required
                 ></b-form-input>

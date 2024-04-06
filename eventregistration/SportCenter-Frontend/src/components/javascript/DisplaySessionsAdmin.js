@@ -81,11 +81,10 @@ export default {
       this.selected = [];
     },
 
-    assignInstructor() {
+    displayAssignInstructor() {
         this.assigningInstructor = !this.assigningInstructor;
         console.log(this.assigningInstructor);
     },
-
     onPageChange(page) {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
@@ -98,7 +97,16 @@ export default {
         this.$nextTick(() => {
           this.show = true;
         })
-      }
+      },
+
+    onSubmit() {
+        this.assignInstructor();
+    },
+
+    assignInstructor() {
+        console.log(this.form.instructorEmail);
+    },
+
   },
   watch: {
     currentPage(newValue) {
