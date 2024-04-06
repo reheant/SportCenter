@@ -21,7 +21,9 @@ import FilterCourseCustomer from '@/components/vue/FilterCourseCustomer'
 import ViewOwners from "@/components/vue/ViewOwners";
 import CreateOwner from "@/components/vue/CreateOwner";
 import ModifyCourse from "@/components/vue/ModifyCourse";
-Vue.use(Router);
+import FilterSessionsAdmin from '@/components/vue/FilterSessionsAdmin'
+Vue.use(Router)
+
 
 export default new Router({
   routes: [
@@ -108,6 +110,7 @@ export default new Router({
       path: "/admin/DisplaySessions",
       name: "DisplaySessionsAdmin",
       component: DisplaySessionsAdmin,
+      props: true
     },
     {
         path: "/customer/DisplaySessions",
@@ -144,5 +147,11 @@ export default new Router({
       name: "CreateOwner",
       component: CreateOwner,
     },
+    },
+    {
+      path: '/admin/FilterSessions',
+      name: "FilterSessions",
+      component: FilterSessionsAdmin,
+    }
   ],
 });

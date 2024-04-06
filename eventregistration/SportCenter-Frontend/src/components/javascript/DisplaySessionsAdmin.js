@@ -11,6 +11,7 @@ const AXIOS = axios.create({
 });
 
 export default {
+  props: ['filteredData'],
   data() {
     return {
       fields: [
@@ -38,9 +39,12 @@ export default {
     },
   },
 
-
   created() {
-    this.fetchSessions(); // Fetch sessions when the component is created
+    if (this.filteredData) {
+      this.fetchFilteredSessions();
+    } else {
+      this.fetchSessions();
+    }
   },
 
   methods: {
@@ -61,6 +65,22 @@ export default {
           console.error("Error fetching sessions:", error);
         });
     },
+    fetchFilteredSessions() {
+          // Make an HTTP GET request to fetch all sessions
+          AXIOS.get("/sessions")
+            .then((response) => {
+              // Update items array with the fetched sessions
+              this.items = this.filteredData.map((session) => ({
+                start_time: session.startTime,
+                end_time: session.endTime,
+                course_name: session.courseName,
+                location: session.locationName,
+              }));
+            })
+            .catch((error) => {
+              console.error("Error fetching sessions:", error);
+            });
+        },
 
     onRowSelected(items) {
       this.selected = items;

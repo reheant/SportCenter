@@ -43,9 +43,9 @@
       <b-button size="sm" class="button-custom" @click="deleteSession"
         >Delete Session</b-button
       >
-      <b-button size="sm" class="button-custom" @click="filterCourse"
-        >Filter</b-button
-      >
+      <router-link to="/admin/FilterSessions">
+        <b-button size="sm" class="button-custom">Filter</b-button>
+      </router-link>
     </p>
 
     <div class="tableContainer">
