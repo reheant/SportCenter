@@ -15,27 +15,23 @@ export default {
   data() {
     return {
       fields: [
-        { key: "selected", sortable: false },
         { key: "start_time", sortable: true },
         { key: "end_time", sortable: false },
         { key: "course_name", sortable: true },
         { key: "location", sortable: false }
       ],
       items: [],
-      selectMode: "multi",
+      selectMode: "single",
       selected: [],
       currentPage: 1, // initial current page
       perPage: 10, // initial items per page
       sortDesc: false,
-      sortBy: "start_time",
-      show: true,
-      error: '',
-      successMessage: '',
+      sortBy: "session_name",
     };
   },
   computed: {
-    selectedSessionIds() {
-      return this.selected.map((item) => item.id);
+    selectedSessionNames() {
+      return this.selected.map((item) => item.session_name);
     },
     totalRows() {
       return this.items.length;
@@ -51,20 +47,14 @@ export default {
   },
 
   methods: {
-    formatDateTime(dateTimeString) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-      const date = new Date(dateTimeString);
-      return new Intl.DateTimeFormat('en-US', options).format(date);
-    },
     fetchSessions() {
       // Make an HTTP GET request to fetch all sessions
       AXIOS.get("/sessions")
         .then((response) => {
           // Update items array with the fetched sessions
           this.items = response.data.map((session) => ({
-            id: session.id,
-            start_time: this.formatDateTime(session.startTime),
-            end_time: this.formatDateTime(session.endTime),
+            start_time: session.startTime,
+            end_time: session.endTime,
             course_name: session.courseName,
             location: session.locationName,
           }));
@@ -79,8 +69,8 @@ export default {
             .then((response) => {
               // Update items array with the fetched sessions
               this.items = this.filteredData.map((session) => ({
-                start_time: this.formatDateTime(session.startTime),
-                end_time: this.formatDateTime(session.endTime),
+                start_time: session.startTime,
+                end_time: session.endTime,
                 course_name: session.courseName,
                 location: session.locationName,
               }));
@@ -105,32 +95,15 @@ export default {
       this.selected = [];
     },
 
-    deleteSession() {
-        this.selected.forEach((session) => {
-            const sessionId = session.id;
-            // https://developer.chrome.com/blog/urlsearchparams/
-            const urlWithParams = `/sessions/${sessionId}`;
-
-            AXIOS.delete(urlWithParams)
-                .then((response) => {
-                  this.fetchSessions();
-                  this.successMessage = `Successfully deleted for session with id ${sessionId}.`;
-                  console.log(this.successMessage);
-                })
-                .catch((error) => {
-                  // Handle error if needed
-                  const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
-                  this.successMessage = '';
-                  this.error = errorMsg;
-                  console.error(`Error deleting session with id ${sessionId}:`, error);
-                });
-        });
-    },
-
     onPageChange(page) {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
     },
+
+
+  },
+  deleteSession() {
+    //TODO: not implement
   },
   watch: {
     currentPage(newValue) {

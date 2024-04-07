@@ -8,10 +8,9 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/instructor/createCourse" href="#"
-              >Create Course</b-nav-item
-            >
-          </b-navbar-nav>
+            <b-nav-item to="/instructor/displayCourse" href="#">View Courses</b-nav-item>
+            <b-nav-item to="/instructor/displaySessions" href="#">View Sessions</b-nav-item>
+        </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
@@ -36,9 +35,9 @@
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
 
-      <b-button size="sm" class="button-custom" @click="filterCourse"
-        >TO BE IMPLEMENTED filters</b-button
-      >
+      <router-link to="/instructor/filterCourses">
+        <b-button size="sm" class="button-custom">Filter</b-button>
+      </router-link>
     </p>
 
     <div class="tableContainer">

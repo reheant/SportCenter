@@ -8,10 +8,8 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-                <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
-                <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
-                <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
-                <b-nav-item to="/admin/displaySessions" href="#">View Sessions</b-nav-item>
+                <b-nav-item to="/instructor/displayCourse" href="#">View Courses</b-nav-item>
+                <b-nav-item to="/instructor/displaySessions" href="#">View Sessions</b-nav-item>
             </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
@@ -33,80 +31,88 @@
           v-if="show"
           class="form-content"
         >
-          <div class="title">Create a Session</div>
+          <div class="title">Filtering Sessions</div>
 
           <b-form-group
             id="input-group-1"
-            label="Start Time:"
-            label-for="input-startTime"
+            label="ID:"
+            label-for="input-ids"
             class="form-group-content"
           >
             <b-form-input
-              id="input-startTime"
-              v-model="form.startTime"
-              placeholder="YYYY-MM-DD HH:mm"
-              pattern="^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"
-              required
+              id="input-ids"
+              v-model="form.ids"
+              placeholder="Enter IDs (separate with commas)"
             ></b-form-input>
           </b-form-group>
 
           <b-form-group
             id="input-group-2"
-            label="End Time:"
-            label-for="input-endTime"
+            label="Course Name:"
+            label-for="input-name"
             class="form-group-content"
           >
             <b-form-input
-              id="input-endTime"
-              v-model="form.endTime"
-              placeholder="YYYY-MM-DD HH:mm"
-              pattern="^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"
-              required
+              id="input-name"
+              v-model="form.name"
+              placeholder="Enter Course Name"
             ></b-form-input>
           </b-form-group>
 
           <b-form-group
             id="input-group-3"
-            label="Course Name:"
-            label-for="input-courseName"
+            label="Date:"
+            label-for="input-date"
             class="form-group-content"
           >
             <b-form-input
-              id="input-courseName"
-              v-model="form.courseName"
-              placeholder="Enter course name"
-              required
+              id="input-date"
+              v-model="form.date"
+              placeholder="Enter Date (YYYY-MM-DD)"
             ></b-form-input>
           </b-form-group>
 
-            <b-form-group
-              id="input-group-4"
-              label="Location Name:"
-              label-for="input-locationName"
-              class="form-group-content"
-            >
-              <b-form-input
-                id="input-locationName"
-                v-model="form.locationName"
-                placeholder="Enter location name"
-                required
-              ></b-form-input>
-            </b-form-group>
+          <b-form-group
+            id="input-group-4"
+            label="Duration:"
+            label-for="input-duration"
+            class="form-group-content"
+          >
+            <b-form-input
+              id="input-duration"
+              v-model="form.duration"
+              placeholder="Enter Duration"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-5"
+            label="Instructor:"
+            label-for="input-instructor"
+            class="form-group-content"
+          >
+            <b-form-input
+              id="input-instructor"
+              v-model="form.instructor"
+              placeholder="Enter Instructor Name"
+            ></b-form-input>
+          </b-form-group>
 
           <div class="buttons-container">
             <b-button @click="onReturn" variant="info">Return</b-button>
             <b-button type="reset" variant="info">Reset</b-button>
-            <b-button type="submit" variant="primary">Create</b-button>
+            <b-button type="submit" variant="primary">Filter</b-button>
           </div>
           <p v-if="error" style="color: red">{{ error }}</p>
           <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
         </b-form>
       </b-card>
+      </b-card>
     </div>
   </div>
 </template>
 
-<script src="../javascript/CreateSession.js"></script>
+<script src="../javascript/FilterSessionsInstructor.js"></script>
 
 <style>
 .form-container {
