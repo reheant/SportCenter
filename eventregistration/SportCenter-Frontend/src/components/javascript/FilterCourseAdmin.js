@@ -11,56 +11,42 @@ const AXIOS = axios.create({
 });
 
 export default {
+  name: "filterCoursesAdmin",
   data() {
     return {
       form: {
-        courseId: -1,
-        courseName: "",
-        courseDescription: "",
-        courseDuration: "",
-        courseCost: "",
+        ids: "",
+        keyword: "",
         courseStatus: "",
+        requiresInstructor: false,
+        defaultDuration: "",
+        cost: "",
       },
       show: true,
       error: "",
       successMessage: "",
     };
   },
-
-  created() {
-    AXIOS.get(`/course/${this.$route.params.id}`)
-      .then((r) => {
-        this.form.id = r.data.id;
-        this.form.name = r.data.name;
-        this.form.description = r.data.description;
-        this.form.defaultDuration = r.data.defaultDuration;
-        this.form.cost = r.data.cost;
-        this.form.courseStatus = r.data.courseStatus;
-      })
-      .catch((e) => {
-        const errorMsg =
-          e.response && e.response.data
-            ? e.response.data
-            : "something went wrong";
-        console.error(errorMsg);
-        this.error = errorMsg;
-      });
-  },
-
   methods: {
-    modifyCourse() {
-      console.log(this.form);
-      AXIOS.post(`sportscenter/modify/courses`, this.form)
+    filterCourse() {
+      const params = new URLSearchParams();
+      if (this.form.ids) params.append("ids", this.form.ids);
+      if (this.form.keyword) params.append("keyword", this.form.keyword);
+      if (this.form.courseStatus) params.append("courseStatus", this.form.courseStatus);
+      if (this.form.requiresInstructor) params.append("requiresInstructor", this.form.requiresInstructor);
+      if (this.form.defaultDuration) params.append("defaultDuration", this.form.defaultDuration);
+      if (this.form.cost) params.append("cost", this.form.cost);
+
+      AXIOS.get(`/courses/filter?${params.toString()}`)
         .then((response) => {
           console.log(response.data);
-          this.successMessage = "Course updated successfully";
+          this.successMessage = "";
           this.error = "";
           setTimeout(() => {
-            this.$router.back();
-          }, 500);
+            this.$router.push({ name: 'DisplayCourseAdmin', params: { filteredData: response.data }});
+          }, 300);
         })
         .catch((e) => {
-          console.log(e);
           const errorMsg =
             e.response && e.response.data
               ? e.response.data
@@ -68,8 +54,7 @@ export default {
           console.error(errorMsg);
           this.error = errorMsg;
         });
-    },
-
+      },
     // Reset error message
     resetError() {
       this.error = "";
@@ -79,17 +64,16 @@ export default {
       this.successMessage = "";
     },
     onSubmit() {
-      this.modifyCourse();
+      this.filterCourse();
     },
-
     onReset() {
       this.form = {
-        courseId: -1,
-        courseName: "",
-        courseDescription: "",
-        courseDuration: "",
-        courseCost: "",
+        ids: "",
+        keyword: "",
         courseStatus: "",
+        requiresInstructor: false,
+        defaultDuration: "",
+        cost: "",
       };
       this.show = false;
       this.$nextTick(() => {
@@ -97,9 +81,7 @@ export default {
       });
     },
     onReturn() {
-      setTimeout(() => {
-        this.$router.back();
-      }, 500);
-    }
-  },
-};
+      this.$router.push("DisplayCourse");
+    },
+  }
+}

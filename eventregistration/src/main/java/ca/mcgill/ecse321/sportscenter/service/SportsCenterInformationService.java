@@ -23,7 +23,8 @@ public class SportsCenterInformationService {
     private InstructorRepository instructorRepository;
     @Autowired
     private AccountRepository accountRepository;
-
+    
+    
     @Transactional
     public Location getLocation() throws Exception {
         return locationRepository.findById(1).orElseThrow();
@@ -46,7 +47,17 @@ public class SportsCenterInformationService {
 
         return locationRepository.save(location);
     }
-
+    /**
+     * 
+     * @param courseId - ID of course to modify
+     * @param newName - New name of course to modify
+     * @param newDescription - New description of course to modify
+     * @param status - New Status of course to modify
+     * @param newCost   - New cost of course to modify
+     * @param newDefaultDuration    - New duration of course to modify
+     * @return the modifed course
+     * @throws Exception
+     */
     @Transactional
     public Course updateCenterCourse(Integer courseId, String newName, String newDescription, CourseStatus status,
             Float newCost, Float newDefaultDuration) throws Exception {
@@ -57,8 +68,11 @@ public class SportsCenterInformationService {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new Exception("No course found with id " + courseId));
+        if(courseRepository.findCourseByName(capitalize(newName)) != null && !course.getName().equals(capitalize(newName)) ){
 
-        course.setName(newName);
+            throw new Exception("Course with this " + newName +" already exists");
+        }
+        course.setName(capitalize(newName));
         course.setDescription(newDescription);
         course.setCourseStatus(status);
         course.setCost(newCost);
@@ -124,6 +138,25 @@ public class SportsCenterInformationService {
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(name);
         return matcher.matches();
+    }
+
+    /** Helper Method
+     * Capitalize the first letter of word in the name
+     *
+     * @param name The name be capitalize
+     */
+    private static String capitalize(String name) {
+        StringBuilder capitalizedName = new StringBuilder();
+        String[] words = name.toLowerCase().split("\\s+");
+        
+        for (String word: words){
+
+            String capitalizedWord = word.substring(0,1).toUpperCase() + word.substring(1);
+            capitalizedName.append(capitalizedWord).append(" ");
+
+        }
+        return capitalizedName.toString().trim();
+    
     }
 
 }

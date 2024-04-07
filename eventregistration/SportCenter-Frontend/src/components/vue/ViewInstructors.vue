@@ -136,9 +136,9 @@ body {
 }
 
 .b-table {
-  border: 2px solid #ccc; /* Example: add a border */
-  border-radius: 5px; /* Example: add border radius */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example: add a box shadow */
+  border: 2px solid #ccc;
+  border-radius: 5px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 /* Style the table headers */
@@ -157,7 +157,7 @@ body {
 }
 
 .b-table tr:hover {
-  background-color: #f9f9f9; /* Example: Style the hover effect */
+  background-color: #f9f9f9; 
 }
 
 .text-rejected {

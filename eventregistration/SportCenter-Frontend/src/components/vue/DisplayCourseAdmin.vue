@@ -29,16 +29,28 @@
     </div>
 
     <p>
-      <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
-      <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-      <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
-      <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
-
+      <b-button size="sm" class="button-custom" @click="selectAllRows"
+        >Select All</b-button
+      >
+      <b-button size="sm" class="button-custom" @click="clearSelected"
+        >Clear selected</b-button
+      >
+      <b-button size="sm" class="button-custom" @click="approveCourse"
+        >Approve Course</b-button
+      >
+      <b-button size="sm" class="button-custom" @click="disapproveCourse"
+        >Disapprove Course</b-button
+      >
+      
       <router-link to="/admin/CreateCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
-      <b-button size="sm" class="button-custom" @click="deleteCourse">Delete Course</b-button>
-      <b-button size="sm" class="button-custom" @click="filterCourse">TBI filters</b-button>
+      <b-button size="sm" class="button-custom" @click="deleteCourse"
+        >Delete Course</b-button
+      >
+      <router-link to="/admin/FilterCourses">
+        <b-button size="sm" class="button-custom">Filter</b-button>
+      </router-link>
     </p>
     <div class="tableContainer">
 
@@ -94,7 +106,7 @@
         </template>
 
         <template #cell(action)="data">
-          <b-button variant="info" :to="{ name: 'Modify Course', params: { id: data.value } }">
+          <b-button variant="info" :to="{name: 'Modify Course', params: {id: data.value}}">
             Modify
           </b-button>
         </template>
@@ -155,6 +167,7 @@ body {
   background-color: #f0f0f0;
   color: #333;
   text-align: center;
+  white-space: nowrap;
 }
 
 
