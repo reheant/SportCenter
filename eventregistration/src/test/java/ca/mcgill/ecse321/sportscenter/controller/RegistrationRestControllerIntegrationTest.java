@@ -56,7 +56,6 @@ public class RegistrationRestControllerIntegrationTest {
 
 
     private String email = "jimbob@gmail.com";
-
     private Account account = new Account();
     private Customer customer = new Customer();
     private Location location = new Location();

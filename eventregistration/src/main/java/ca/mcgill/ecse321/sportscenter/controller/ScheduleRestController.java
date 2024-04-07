@@ -46,17 +46,16 @@ public class ScheduleRestController {
                 SessionDto sessionDto = DtoConverter.convertToDto(modifyScheduleService.modifySessionLocation(sessionId, locationId));
                 return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);     
     }
- 
+
      // assign an instructor to a session
      @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/instructor", "/schedule/modify/sessions/{sessionId}/instructor/" })
      public ResponseEntity<InstructorAssignmentDto> assignInstructorToSession(@PathVariable("sessionId") Integer sessionId,
-     @RequestParam(name = "instructorId") Integer instructorId)
+     @RequestParam(name = "instructorAccountEmail") String instructorAccountEmail)
                                                  throws Exception {
-                InstructorAssignmentDto dto = DtoConverter.convertToDto(modifyScheduleService.assignInstructorToSession(sessionId, instructorId));
-                return new ResponseEntity<>(dto, HttpStatus.CREATED);  
+                InstructorAssignmentDto dto = DtoConverter.convertToDto(modifyScheduleService.assignInstructorToSession(sessionId, instructorAccountEmail));
+                return new ResponseEntity<>(dto, HttpStatus.OK);  
      }
 
-    
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String authorized(Exception e) {

@@ -71,15 +71,19 @@ public class ScheduleService {
     }
 
     @Transactional
-    public InstructorAssignment assignInstructorToSession(Integer sessionId, Integer instructorId) throws Exception {
-        if (sessionId == null || instructorId == null){
+    public InstructorAssignment assignInstructorToSession(Integer sessionId, String instructorAccountEmail) throws Exception {
+        if (sessionId == null || instructorAccountEmail == null){
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
+
         Session session = sessionRepository.findById(sessionId)
         .orElseThrow(() -> new Exception("No session found with id " + sessionId));
         
-        Instructor instructor = instructorRepository.findById(instructorId)
-        .orElseThrow(() -> new Exception("No instructor found with id " + instructorId));
+        Instructor instructor = instructorRepository.findInstructorByAccountEmail(instructorAccountEmail);
+
+        if (instructor == null) {
+            throw new NullPointerException("No instructor found with email " + instructorAccountEmail);
+        }
 
         InstructorAssignment instructorAssignment = new InstructorAssignment();
         instructorAssignment.setInstructor(instructor);
