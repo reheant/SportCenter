@@ -94,8 +94,8 @@ export default {
         this.show = true;
       });
     },
-    // onReturn() {
-    //   this.$router.push("DisplayCourse");
-    // },
+    onReturn() {
+      this.$router.back();
+    },
   },
 };
