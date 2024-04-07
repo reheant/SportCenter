@@ -97,7 +97,9 @@ export default {
       });
     },
     onReturn() {
-      this.$router.push("DisplayCourse");
-    },
+      setTimeout(() => {
+        this.$router.back();
+      }, 500);
+    }
   },
 };
