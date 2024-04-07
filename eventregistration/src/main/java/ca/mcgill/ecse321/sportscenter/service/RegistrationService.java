@@ -88,14 +88,10 @@ public class RegistrationService {
             registration.setSession(session);
         }
         Registration savedRegistration = registrationRepository.save(registration);
-        if (!emailPassword.isEmpty()) {
-            System.out.println("Found password");
-            if (sendConfirmationEmail) {
-                System.out.println("Sending is on");
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm 'on' yyyy-MM-dd");
-//                String sessionInformation = session.getCourse().getName() + ", at " + session.getStartTime().format(formatter);
-//                EmailUtil.sendConfirmationEmail(email, sessionInformation);
-            }
+        if (customer.getWantsEmailConfirmation() && sendConfirmationEmail && !emailPassword.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm 'on' yyyy-MM-dd");
+            String sessionInformation = session.getCourse().getName() + ", at " + session.getStartTime().format(formatter);
+            EmailUtil.sendConfirmationEmail(email, sessionInformation, emailPassword);
         }
         return savedRegistration;
     }

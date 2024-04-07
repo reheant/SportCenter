@@ -1,24 +1,14 @@
 package ca.mcgill.ecse321.sportscenter.util;
 
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.*;
 
-
+@Service
 public class EmailUtil {
-    private static String password;
-
-    @Value("${emailPassword}")
-    private String emailPassword;
-
-    @PostConstruct
-    private void init() {
-        EmailUtil.password = this.emailPassword;
-    }
-    public static void sendConfirmationEmail(String recipient, String sessionInformation) throws MessagingException {
+    public static void sendConfirmationEmail(String recipient, String sessionInformation, String password) throws MessagingException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
