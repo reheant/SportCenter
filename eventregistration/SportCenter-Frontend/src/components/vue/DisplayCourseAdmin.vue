@@ -9,16 +9,11 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/admin/viewCustomers">View Customers</b-nav-item>
-            <b-nav-item to="/admin/viewInstructors" href="#"
-              >View Instructors</b-nav-item
-            >
+            <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
             <b-nav-item to="/admin/viewOwners">View Owners</b-nav-item>
-            <b-nav-item to="/admin/displayCourse" href="#"
-              >View Courses</b-nav-item
-            >
-            <b-nav-item to="/admin/createCourse" href="#"
-              >Create Course</b-nav-item
-            >
+            <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
+            <b-nav-item to="/admin/createCourse" href="#">Create Course</b-nav-item>
+            <b-nav-item to="/admin/modify/location" href="#">Modify Location</b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
@@ -34,52 +29,24 @@
     </div>
 
     <p>
-      <b-button size="sm" class="button-custom" @click="selectAllRows"
-        >Select all</b-button
-      >
-      <b-button size="sm" class="button-custom" @click="clearSelected"
-        >Clear selected</b-button
-      >
-      <b-button size="sm" class="button-custom" @click="approveCourse"
-        >Approve Course</b-button
-      >
-      <b-button size="sm" class="button-custom" @click="disapproveCourse"
-        >Disapprove Course</b-button
-      >
+      <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
+      <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+      <b-button size="sm" class="button-custom" @click="approveCourse">Approve Course</b-button>
+      <b-button size="sm" class="button-custom" @click="disapproveCourse">Disapprove Course</b-button>
 
       <router-link to="/admin/CreateCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
-      <b-button size="sm" class="button-custom" @click="deleteCourse"
-        >Delete Course</b-button
-      >
-      <b-button size="sm" class="button-custom" @click="filterCourse"
-        >TBI filters</b-button
-      >
+      <b-button size="sm" class="button-custom" @click="deleteCourse">Delete Course</b-button>
+      <b-button size="sm" class="button-custom" @click="filterCourse">TBI filters</b-button>
     </p>
     <div class="tableContainer">
 
-      <b-table
-        :items="items"
-        :fields="fields"
-        :select-mode="selectMode"
-        :current-page="currentPage"
-        :per-page="perPage"
-        responsive="sm"
-        ref="selectableTable"
-        :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc"
-        fixed="fixed"
-        sort-icon-right
-        class="custom-striped-table"
-        selectable
-        @row-selected="onRowSelected"
-      >
+      <b-table :items="items" :fields="fields" :select-mode="selectMode" :current-page="currentPage" :per-page="perPage"
+        responsive="sm" ref="selectableTable" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" fixed="fixed"
+        sort-icon-right class="custom-striped-table" selectable @row-selected="onRowSelected">
         <template #cell(selected)="{ rowSelected, item }">
-          <span
-            @click="selectRow(item)"
-            :class="{ 'selected-row': rowSelected }"
-          >
+          <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
             <template v-if="rowSelected">
               <span aria-hidden="true">&check;</span>
               <span class="sr-only">Selected</span>
@@ -92,11 +59,7 @@
         </template>
 
         <template #cell(course_description)="row">
-          <b-button
-            size="sm"
-            @click="row.toggleDetails"
-            class="description-button"
-          >
+          <b-button size="sm" @click="row.toggleDetails" class="description-button">
             {{ row.detailsShowing ? "Hide" : "Show" }} Description
           </b-button>
         </template>
@@ -104,26 +67,22 @@
         <template #row-details="row">
           <b-card>
             <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"
-                ><b>Course Description:</b></b-col
-              >
+              <b-col sm="3" class="text-sm-right"><b>Course Description:</b></b-col>
               <b-col>{{ row.item.course_description }}</b-col>
             </b-row>
           </b-card>
         </template>
-        
 
-       
+
+
         <template #cell(course_status)="data">
-          <span
-            :class="{
-              'text-rejected': data.value === 'Refused',
-              'text-pending': data.value === 'Pending',
-              'text-approved': data.value === 'Approved',
-            }"
-          >
+          <span :class="{
+            'text-rejected': data.value === 'Refused',
+            'text-pending': data.value === 'Pending',
+            'text-approved': data.value === 'Approved',
+          }">
             {{
-              data.value !== null && data.value !== undefined ? data.value : ""
+            data.value !== null && data.value !== undefined ? data.value : ""
             }}
           </span>
         </template>
@@ -135,20 +94,14 @@
         </template>
 
         <template #cell(action)="data">
-          <b-button variant="info" :to="{name: 'Modify Course', params: {id: data.value}}">
-            Modify 
+          <b-button variant="info" :to="{ name: 'Modify Course', params: { id: data.value } }">
+            Modify
           </b-button>
         </template>
       </b-table>
     </div>
-    <b-pagination
-      class="pagination"
-      v-model="currentPage"
-      :total-rows="totalRows"
-      :per-page="perPage"
-      align="center"
-      aria-controls="selectableTable"
-    ></b-pagination>
+    <b-pagination class="pagination" v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="center"
+      aria-controls="selectableTable"></b-pagination>
   </div>
 </template>
 
@@ -158,6 +111,7 @@
   max-width: 90%;
   margin: 0 auto;
 }
+
 .navbar {
   position: fixed;
   top: 0;
@@ -191,9 +145,9 @@ body {
 }
 
 .b-table {
-  border: 2px solid #ccc; 
-  border-radius: 5px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 

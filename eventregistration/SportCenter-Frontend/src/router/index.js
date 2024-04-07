@@ -15,6 +15,7 @@ import Admin from '@/components/vue/Admin'
 import ViewAccounts from '@/components/vue/ViewAccounts'
 
 import ViewInstructors from "@/components/vue/ViewInstructors";
+import ModifyLocation from "@/components/vue/ModifyLocation";
 import ViewOwners from "@/components/vue/ViewOwners";
 import CreateOwner from "@/components/vue/CreateOwner";
 import ModifyCourse from "@/components/vue/ModifyCourse";
@@ -42,6 +43,12 @@ export default new Router({
       path: "/admin/modify/course/:id",
       name: "Modify Course",
       component: ModifyCourse,
+    },
+    {
+      path: "/admin/modify/location",
+      name: "Modify Location",
+      component: ModifyLocation,
+
     },
     {
       path: "/admin/displayCourse",

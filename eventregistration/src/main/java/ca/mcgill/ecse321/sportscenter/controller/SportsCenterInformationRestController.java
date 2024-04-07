@@ -26,11 +26,16 @@ public class SportsCenterInformationRestController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @GetMapping(value = { "/sportscenter/location" })
+    public LocationDto getLocation() throws Exception {
+        return convertToDto(modifySportsCenterInformationService.getLocation());
+    }
+
     // update a location
     @PostMapping(value = { "/sportscenter/modify/locations", "/sportscenter/modify/locations/" })
-    public ResponseEntity<LocationDto> updateLocation(@RequestParam(name = "locationId") Integer locationId,
+    public ResponseEntity<LocationDto> updateLocation(
             @RequestBody LocationDto locationDto) throws Exception {
-        Location location = modifySportsCenterInformationService.updateCenterLocation(locationId,
+        Location location = modifySportsCenterInformationService.updateCenterLocation(locationDto.getId(),
                 locationDto.getName(), locationDto.getCapacity(), locationDto.getOpeningTime(),
                 locationDto.getClosingTime());
         LocationDto dto = convertToDto(location);
@@ -55,7 +60,7 @@ public class SportsCenterInformationRestController {
             throw new IllegalArgumentException("There is no such Location!");
         }
 
-        LocationDto dto = new LocationDto(location.getName(), location.getCapacity(),
+        LocationDto dto = new LocationDto(location.getId(), location.getName(), location.getCapacity(),
                 location.getOpeningTime(), location.getClosingTime());
         return dto;
     }
@@ -75,8 +80,8 @@ public class SportsCenterInformationRestController {
         if (c == null) {
             throw new IllegalArgumentException("There is no such Course!");
         }
-        CourseDto dto = new CourseDto(c.getId(), c.getName(), c.getDescription(), c.getCourseStatus(), 
-        c.getRequiresInstructor(), c.getDefaultDuration(), c.getCost());
+        CourseDto dto = new CourseDto(c.getId(), c.getName(), c.getDescription(), c.getCourseStatus(),
+                c.getRequiresInstructor(), c.getDefaultDuration(), c.getCost());
         return dto;
     }
 
