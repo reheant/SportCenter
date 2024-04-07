@@ -23,6 +23,7 @@ public class CourseDto {
         this.defaultDuration = defaultDuration;
         this.cost = cost;
     }
+
     public Integer getId() {
         return id;
     }
@@ -30,41 +31,51 @@ public class CourseDto {
     public String getName() {
         return name;
     }
+
     public String getDescription() {
         return description;
     }
+
     public CourseStatus getCourseStatus() {
         return courseStatus;
     }
+
     public Boolean getRequiresInstructor() {
         return requiresInstructor;
     }
+
     public Float getDefaultDuration() {
         return defaultDuration;
     }
+
     public Float getCost() {
         return cost;
     }
+
     public void setId(Integer id){
         this.id = id;
     }
     public void setName(String name){
         this.name = name;
     }
-    public void setDescription(String description){
+
+    public void setDescription(String description) {
         this.description = description;
     }
-    public void setCourseStatus(CourseStatus courseStatus){
+
+    public void setCourseStatus(CourseStatus courseStatus) {
         this.courseStatus = courseStatus;
     }
-    public void setRequiresInstructor(Boolean requiresInstructor){
+
+    public void setRequiresInstructor(Boolean requiresInstructor) {
         this.requiresInstructor = requiresInstructor;
     }
-    public void setDefaultDuration(Float defaultDuration){
+
+    public void setDefaultDuration(Float defaultDuration) {
         this.defaultDuration = defaultDuration;
     }
-    public void setCost(Float cost){
+
+    public void setCost(Float cost) {
         this.cost = cost;
     }
 }
-

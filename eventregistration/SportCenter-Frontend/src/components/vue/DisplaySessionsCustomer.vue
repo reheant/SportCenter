@@ -126,9 +126,9 @@
   }
   
   .b-table {
-    border: 2px solid #ccc; /* Example: add a border */
-    border-radius: 5px; /* Example: add border radius */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example: add a box shadow */
+    border: 2px solid #ccc; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
   
   /* Style the table headers */
