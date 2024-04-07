@@ -92,7 +92,7 @@ export default {
       });
     },
     onReturn() {
-      this.$router.push("DisplayCourse");
+      this.$router.back();
     },
   },
 };
