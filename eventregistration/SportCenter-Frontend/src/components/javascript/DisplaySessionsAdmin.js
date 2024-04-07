@@ -28,6 +28,9 @@ export default {
       perPage: 10, // initial items per page
       sortDesc: false,
       sortBy: "start_time",
+      show: true,
+      error: '',
+      successMessage: '',
     };
   },
   computed: {
