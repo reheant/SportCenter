@@ -32,10 +32,6 @@ public class CourseDto {
         return name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getDescription() {
         return description;
     }
