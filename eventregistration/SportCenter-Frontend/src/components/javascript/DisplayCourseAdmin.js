@@ -21,6 +21,7 @@ export default {
         { key: "course_duration", sortable: true },
         { key: "requires_instructor", sortable: true },
         { key: "course_status", sortable: true },
+        { key: "action", sortable: false },
       ],
       items: [],
       selectMode: "multi",
@@ -66,7 +67,7 @@ export default {
             course_duration: course.defaultDuration,
             course_status: course.courseStatus,
             course_id: course.id,
-
+            action: course.id,
             // Add other fields as needed
           }));
         })

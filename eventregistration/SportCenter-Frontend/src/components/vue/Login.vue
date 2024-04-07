@@ -3,6 +3,7 @@
     <b-card>
       <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show" class="form-content">
         <div class="title"> Login Page </div>
+
         <b-form-group id="input-group-1" label-for="input-email" class="form-group-content">
           <b-form-select v-model="form.userType">
             <b-form-select-option value="Customer">

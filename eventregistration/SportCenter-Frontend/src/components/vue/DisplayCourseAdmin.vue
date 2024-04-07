@@ -112,6 +112,7 @@
             </b-row>
           </b-card>
         </template>
+        
 
         <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
 
@@ -134,6 +135,12 @@
           <span class="course-name">
             {{ data.value }}
           </span>
+        </template>
+
+        <template #cell(action)="data">
+          <b-button variant="info" :to="{name: 'Modify Course', params: {id: data.value}}">
+            Modify 
+          </b-button>
         </template>
       </b-table>
     </div>
