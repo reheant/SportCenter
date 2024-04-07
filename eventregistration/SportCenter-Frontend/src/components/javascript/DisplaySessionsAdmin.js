@@ -149,8 +149,39 @@ export default {
         })
       },
 
+    
     onSubmit() {
-        this.assignInstructor();
+        // nothing: buttons directly call the necessary actions :)
+    },
+
+    unassignInstructor(){
+        const instructorAccountEmail = this.form.instructorEmail;        
+
+        this.selected.forEach((session) => {
+            const sessionId = session.id;
+        
+            console.log(instructorAccountEmail + " " + sessionId);
+
+            const params = {
+                instructorAccountEmail: instructorAccountEmail,
+            }
+            // https://developer.chrome.com/blog/urlsearchparams/
+            const urlWithParams = `/schedule/modify/sessions/${sessionId}/instructor/?${new URLSearchParams(params).toString()}`;
+
+            AXIOS.delete(urlWithParams)
+                .then((response) => {
+                  this.fetchSessions();
+                  this.successMessage = `Instructor with email ${instructorAccountEmail} successfully unassigned to session with id ${sessionId}.`;
+                  console.log(this.successMessage);
+                })
+                .catch((error) => {
+                  const errorMsg = (error.response && error.response.data) ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
+                  console.error(`Error unassigning instructor with email ${instructorAccountEmail} to session with id ${sessionId}:`, error);
+                  this.error = errorMsg;                  
+                });
+
+        });
     },
 
     assignInstructor() {
@@ -173,7 +204,6 @@ export default {
                   console.log(this.successMessage);
                 })
                 .catch((error) => {
-                  // Handle error if needed
                   const errorMsg = (error.response && error.response.data) ? error.response.data : "Something went wrong";
                   this.successMessage = '';
                   console.error(`Error assigning instructor with email ${instructorAccountEmail} to session with id ${sessionId}:`, error);

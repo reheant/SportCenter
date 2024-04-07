@@ -77,7 +77,8 @@
 
             <div class="buttons-container">
                 <b-button type="reset" variant="info">Reset</b-button>
-                <b-button type="submit" variant="primary">Assign</b-button>
+                <b-button type="submit" class="btn btn-danger" @click="unassignInstructor">Unassign</b-button>
+                <b-button type="submit" variant="primary" @click="assignInstructor">Assign</b-button>
             </div>
             </b-form>
         </b-card>
