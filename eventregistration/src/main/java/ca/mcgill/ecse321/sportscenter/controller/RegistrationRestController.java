@@ -14,6 +14,8 @@ import ca.mcgill.ecse321.sportscenter.dto.RegistrationDto;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.service.RegistrationService;
 
+import javax.mail.MessagingException;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class RegistrationRestController {
@@ -22,7 +24,7 @@ public class RegistrationRestController {
     private RegistrationService registrationService;
 
     @PostMapping(value = { "/registration", "registration/" })
-    public RegistrationDto register(@RequestParam(name = "email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException{
+    public RegistrationDto register(@RequestParam(name = "email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException, MessagingException {
         Registration registration = registrationService.register(email, sessionId);
         return DtoConverter.convertToDto(registration);
     }
