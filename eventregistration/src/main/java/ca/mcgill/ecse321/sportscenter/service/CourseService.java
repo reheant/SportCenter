@@ -10,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
-import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
-import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
-import ca.mcgill.ecse321.sportscenter.model.Owner;
+
+
 
 @Service
 public class CourseService {
@@ -155,11 +153,11 @@ public class CourseService {
 
         if (name == null || name.equals("")) {
             throw new Exception("The course requires a name");
-        } else if (courseRepository.findCourseByName(name) != null) {
-            throw new Exception("A Course with name " + name + " already exists");
-        }
-
-        if (description == null || description.equals("")) {
+        } else if ( courseRepository.findCourseByName(capitalize(name)) != null) {
+            throw new Exception("A Course with name " + name + " already exists"); 
+        } 
+        
+        if (description == null || description.equals("")){
             throw new Exception("The course requires a description");
         }
 
@@ -173,7 +171,8 @@ public class CourseService {
 
         Course course = new Course();
 
-        course.setName(name);
+
+        course.setName(capitalize(name)); 
         course.setDescription(description);
         course.setRequiresInstructor(requiresInstructor);
         course.setDefaultDuration(duration);
@@ -242,5 +241,24 @@ public class CourseService {
      */
     public void deleteCourse(Integer courseId) {
         courseRepository.deleteById(courseId);
+    }
+
+    /** Helper Method
+     * Capitalize the first letter of word in the name
+     *
+     * @param name The name be capitalize
+     */
+    private static String capitalize(String name) {
+        StringBuilder capitalizedName = new StringBuilder();
+        String[] words = name.toLowerCase().split("\\s+");
+        
+        for (String word: words){
+
+            String capitalizedWord = word.substring(0,1).toUpperCase() + word.substring(1);
+            capitalizedName.append(capitalizedWord).append(" ");
+
+        }
+        return capitalizedName.toString().trim();
+    
     }
 }

@@ -14,8 +14,7 @@ public class CourseDto {
     public CourseDto() {
     }
 
-    public CourseDto(Integer id, String name, String description, CourseStatus courseStatus, Boolean requiresInstructor,
-            Float defaultDuration, Float cost) {
+    public CourseDto(Integer id, String name, String description, CourseStatus courseStatus, Boolean requiresInstructor, Float defaultDuration, Float cost){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -23,6 +22,10 @@ public class CourseDto {
         this.requiresInstructor = requiresInstructor;
         this.defaultDuration = defaultDuration;
         this.cost = cost;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {
@@ -53,7 +56,10 @@ public class CourseDto {
         return cost;
     }
 
-    public void setName(String name) {
+    public void setId(Integer id){
+        this.id = id;
+    }
+    public void setName(String name){
         this.name = name;
     }
 

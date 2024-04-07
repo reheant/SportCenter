@@ -26,8 +26,8 @@ export default {
       items: [],
       selectMode: "multi",
       selected: [],
-      currentPage: 1, // initial current page
-      perPage: 10, // initial items per page
+      currentPage: 1, 
+      perPage: 10, 
       sortDesc: false,
       sortBy: "course_name",
     };
@@ -42,7 +42,7 @@ export default {
   },
   filteredItems() {
     if (!this.selectedStatus) {
-      return this.items; // If no status selected, return all items
+      return this.items; 
     }
     return this.items.filter(
       (item) => item.course_status === this.selectedStatus
@@ -50,16 +50,17 @@ export default {
   },
 
   created() {
-    this.fetchCourses(); // Fetch courses when the component is created
+    this.fetchCourses(); 
   },
 
   methods: {
     fetchCourses() {
-      // Make an HTTP GET request to fetch all courses
+    
       AXIOS.get("/courses")
         .then((response) => {
-          // Update items array with the fetched courses
+          
           this.items = response.data.map((course) => ({
+            id: course.id,
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
             course_cost: course.cost,
@@ -93,47 +94,61 @@ export default {
 
     onPageChange(page) {
       console.log("Current Page:", page);
-      // You can perform any necessary actions here when the page changes
+    
     },
 
-    // Approve selected rows
+    deleteCourse() {
+        this.selected.forEach((course) => {
+            const courseId = course.id;
+            // https://developer.chrome.com/blog/urlsearchparams/
+            const urlWithParams = `/courses/${courseId}`;
+
+            AXIOS.delete(urlWithParams)
+                .then((response) => {
+                  this.fetchCourses();
+                  this.successMessage = `Successfully deleted course with id ${courseId}.`;
+                  console.log(this.successMessage);
+                })
+                .catch((error) => {
+                  // Handle error if needed
+                  const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
+                  this.error = errorMsg;
+                  console.error(`Error deleting course with id ${courseId}:`, error);
+                });
+        });
+    },
+
     approveCourse() {
-      const email = "admin@mail.com"; // Assuming the email is constant for approval action
       console.log("calling approve");
-      console.log(this.selected);
       this.selected.forEach((course) => {
         const name = course.course_name;
 
-        AXIOS.post(`/approve/${encodeURIComponent(name)}`, null, {
-          params: { email: email },
-        })
+        AXIOS.post(`/approve/${encodeURIComponent(name)}`)
           .then((response) => {
             this.fetchCourses();
             console.log(`Course ${name} approved successfully.`);
           })
           .catch((error) => {
-            // Handle error if needed
+           
             console.error(`Error approving course ${name}:`, error);
           });
       });
     },
     disapproveCourse() {
-      const email = "admin@mail.com"; // Assuming the email is constant for approval action
       console.log("calling disapprove");
       console.log(this.selected);
       this.selected.forEach((course) => {
         const name = course.course_name;
 
-        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`, null, {
-          params: { email: email },
-        })
+        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`)
           .then((response) => {
-            // Handle successful response if needed
+          
             this.fetchCourses();
             console.log(`Course ${name} disapproved successfully.`);
           })
           .catch((error) => {
-            // Handle error if needed
+            
             console.error(`Error disapproving course ${name}:`, error);
           });
       });

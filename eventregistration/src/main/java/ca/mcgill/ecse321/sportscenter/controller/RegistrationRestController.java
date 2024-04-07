@@ -17,18 +17,20 @@ import ca.mcgill.ecse321.sportscenter.service.RegistrationService;
 @CrossOrigin(origins = "*")
 @RestController
 public class RegistrationRestController {
-    
+
     @Autowired
     private RegistrationService registrationService;
 
     @PostMapping(value = { "/registration", "registration/" })
-    public RegistrationDto register(@RequestParam(name = "email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException{
+    public RegistrationDto register(@RequestParam(name = "email") String email,
+                                    @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException {
         Registration registration = registrationService.register(email, sessionId);
         return DtoConverter.convertToDto(registration);
     }
 
     @DeleteMapping(value = { "/unregister", "/unregister/" })
-    public void unregister(@RequestParam(name = "email") String email, @RequestParam(name = "sessionId") Integer sessionId) throws NullPointerException{
+    public void unregister(@RequestParam(name = "email") String email,
+                           @RequestParam(name = "sessionId") Integer sessionId) throws NullPointerException {
         registrationService.unregister(email, sessionId);
     }
 
