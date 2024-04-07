@@ -29,7 +29,9 @@
         </div>
         <div class="buttons-container">
           <b-button type="reset" variant="info">Reset</b-button>
+          <router-link to="/admin/DisplayCourse">
           <b-button type="submit" variant="primary">Save</b-button>
+          </router-link>
         </div>
         <p v-if="error" style="color: red">{{ error }}</p>
         <p v-if="successMessage" style="color: green">{{ successMessage }}</p>

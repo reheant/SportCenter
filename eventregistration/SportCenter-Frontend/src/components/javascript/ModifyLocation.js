@@ -54,6 +54,9 @@ export default {
           console.log(response.data);
           this.successMessage = "Location updated successfully";
           this.error = "";
+          setTimeout(() => {
+            this.$router.push("DisplayCourse");
+          }, 300);
         })
         .catch((e) => {
           console.log(e);
