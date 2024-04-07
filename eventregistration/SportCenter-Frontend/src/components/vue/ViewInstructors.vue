@@ -9,43 +9,63 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/admin/viewCustomers">View Customers</b-nav-item>
-            <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
+            <b-nav-item to="/admin/viewInstructors" href="#"
+              >View Instructors</b-nav-item
+            >
             <b-nav-item to="/admin/viewOwners">View Owners</b-nav-item>
-            <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
-            <b-nav-item to="/admin/createCourse" href="#">Create Course</b-nav-item>
+            <b-nav-item to="/admin/displayCourse" href="#"
+              >View Courses</b-nav-item
+            >
+            <b-nav-item to="/admin/createCourse" href="#"
+              >Create Course</b-nav-item
+            >
           </b-navbar-nav>
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
-              <template #button-content>
-                <em>User</em>
-              </template>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
-    </div>
+            <b-navbar-nav class="ml-auto">
+                <b-nav-item-dropdown right>
+                <template #button-content>
+                    <em>User</em>
+                </template>
+                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+        </div>
 
-    <p>
-      <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
-      <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
-      <b-button size="sm" class="button-custom" @click="demoteInstructor">Demote Instructor</b-button>
-    </p>
-    <div v-if="successMessage" class="alert alert-success">
-      {{ successMessage }}
-    </div>
+      <p>
+        <b-button size="sm" class="button-custom" @click="selectAllRows">Select all</b-button>
+        <b-button size="sm" class="button-custom" @click="clearSelected">Clear selected</b-button>
+        <b-button size="sm" class="button-custom" @click="demoteInstructor">Demote Instructor</b-button>
+      </p>
+      <div v-if="successMessage" class="alert alert-success">
+          {{ successMessage }}
+      </div>
 
-    <div v-if="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
-    <div class="tableContainer">
+      <div v-if="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+      </div>
+      <div class="tableContainer">
 
-      <b-table :items="items" :fields="fields" :select-mode="selectMode" :current-page="currentPage" :per-page="perPage"
-        responsive="sm" ref="selectableTable" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-right
-        selectable @row-selected="onRowSelected">
+      <b-table
+        :items="items"
+        :fields="fields"
+        :select-mode="selectMode"
+        :current-page="currentPage"
+        :per-page="perPage"
+        responsive="sm"
+        ref="selectableTable"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        sort-icon-right
+        selectable
+        @row-selected="onRowSelected"
+      >
 
-        <template #cell(selected)="{ rowSelected, item }">
-          <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
+      <template #cell(selected)="{ rowSelected, item }">
+          <span
+            @click="selectRow(item)"
+            :class="{ 'selected-row': rowSelected }"
+          >
             <template v-if="rowSelected">
               <span aria-hidden="true">&check;</span>
               <span class="sr-only">Selected</span>
@@ -57,22 +77,24 @@
           </span>
         </template>
 
-        <template #cell(action)="data">
-          <b-button variant="info" :to="{ name: 'Modify Instructor', params: { email: data.value } }">
-            Modify
-          </b-button>
-        </template>
 
-      </b-table>
+    </b-table>
 
     </div>
 
 
-    <b-pagination class="pagination" v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="center"
-      aria-controls="selectableTable"></b-pagination>
+      <b-pagination
+        class ="pagination"
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        align="center"
+        aria-controls="selectableTable"
 
-  </div>
-</template>
+      ></b-pagination>
+
+    </div>
+  </template>
 
 <script src="../javascript/ViewInstructors.js"></script>
 

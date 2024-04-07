@@ -5,8 +5,8 @@
         <div class="title">Modify Customer</div>
 
         <b-form-group id="input-group-1" label="Email address:" label-for="input-email" class="form-group-content">
-          <b-form-input disabled id="input-email" v-model="form.accountEmail" type="email" placeholder="Enter email"
-            required></b-form-input>
+          <b-form-input disabled="true" id="input-email" v-model="form.accountEmail" type="email"
+            placeholder="Enter email" required></b-form-input>
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Your First Name:" label-for="input-first-name"

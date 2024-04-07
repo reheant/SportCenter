@@ -14,24 +14,22 @@ export default {
     name: 'viewAccounts',
     data() {
         return {
-
+        
         fields: [ {key: 'selected',sortable:false},
                     {key: 'firstName', sortable:true},
-                    {key: 'lastName', sortable:true},
-                    {key: 'accountEmail', sortable:true},
-                    {key: 'action', sortable:true},
-                  ],
+                    {key: 'lastName', sortable:true}, 
+                    {key: 'accountEmail', sortable:true},],
         items: [],
         selectMode: 'multi',
         selected: [],
-        currentPage: 1,
-        perPage: 10,
+        currentPage: 1, 
+        perPage: 10, 
         sortDesc: false,
         sortBy: 'lastName',
         successMessage: '',
         errorMessage: '',
         };
-
+    
   },
   computed: {
     selectedCourseNames() {
@@ -43,16 +41,16 @@ export default {
   },
   filteredItems() {
       if (!this.selectedStatus) {
-        return this.items;
+        return this.items; 
       }
       return this.items.filter(item => item.course_status === this.selectedStatus);
     },
-
+    
   created() {
-    this.fetchInstructors();
+    this.fetchInstructors(); 
   },
-
-
+  
+  
   methods: {
 
     fetchInstructors() {
@@ -61,10 +59,9 @@ export default {
         this.items = response.data.map(instructor => ({
           accountEmail: instructor.accountEmail,
           firstName: instructor.firstName,
-          lastName: instructor.lastName,
-          action: instructor.accountEmail
+          lastName: instructor.lastName
         }));
-
+        
       })
       .catch(error => {
         console.error('Error fetching instructors:', error);
@@ -81,7 +78,7 @@ export default {
 
       this.clearSelected()
       this.$refs.selectableTable.selectAllRows();
-
+  
     },
 
     clearSelected() {
@@ -92,17 +89,17 @@ export default {
     onPageChange(page) {
       console.log("Current Page:", page);
     },
-
+    
     demoteInstructor() {
 
-      this.selected.forEach(instructor => { const email = instructor.accountEmail;
-
+      this.selected.forEach(instructor => { const email = instructor.accountEmail; 
+    
         AXIOS.post(`/demote/${encodeURIComponent(email)}`, null, {
         })
           .then(response => {
             this.fetchInstructors();
             this.successMessage = `Instructor demoted successfully.`;
-            this.errorMessage = '';
+            this.errorMessage = ''; 
           })
           .catch(error => {
             this.errorMessage = `An issue has occured during demotion.`;
@@ -111,7 +108,7 @@ export default {
       });
     },
   },
-
+  
   watch: {
 
     currentPage(newValue) {

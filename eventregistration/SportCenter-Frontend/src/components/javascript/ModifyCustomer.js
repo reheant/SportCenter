@@ -82,11 +82,12 @@ export default {
 
     onReset() {
       this.form = {
-        accountEmail: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-        wantsEmailConfirmation: false,
+        courseId: -1,
+        courseName: "",
+        courseDescription: "",
+        courseDuration: "",
+        courseCost: "",
+        courseStatus: "",
       };
       this.show = false;
       this.$nextTick(() => {

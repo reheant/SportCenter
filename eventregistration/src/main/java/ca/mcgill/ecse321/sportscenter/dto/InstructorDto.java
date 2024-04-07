@@ -4,24 +4,18 @@ public class InstructorDto {
     private String accountEmail;
     private String firstName;
     private String lastName;
-    private String password;
 
-    public InstructorDto() {
+    public InstructorDto(){
     }
 
     public InstructorDto(String accountEmail) {
         this.accountEmail = accountEmail;
     }
 
-    public InstructorDto(String accountEmail, String firstName, String lastName, String password) {
+    public InstructorDto(String accountEmail, String firstName, String lastName) {
         this.accountEmail = accountEmail;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getAccountEmail() {
@@ -40,6 +34,7 @@ public class InstructorDto {
         this.firstName = firstName;
     }
 
+
     public String getLastName() {
         return lastName;
     }
@@ -48,3 +43,4 @@ public class InstructorDto {
         this.lastName = lastName;
     }
 }
+
