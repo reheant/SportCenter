@@ -11,6 +11,7 @@ const AXIOS = axios.create({
 });
 
 export default {
+  props: ['filteredData'],
   data() {
     return {
       fields: [
@@ -25,8 +26,8 @@ export default {
       items: [],
       selectMode: "multi",
       selected: [],
-      currentPage: 1, // initial current page
-      perPage: 10, // initial items per page
+      currentPage: 1,
+      perPage: 10,
       sortDesc: false,
       sortBy: "course_name",
     };
@@ -41,7 +42,7 @@ export default {
   },
   filteredItems() {
     if (!this.selectedStatus) {
-      return this.items; // If no status selected, return all items
+      return this.items;
     }
     return this.items.filter(
       (item) => item.course_status === this.selectedStatus
@@ -49,15 +50,19 @@ export default {
   },
 
   created() {
-    this.fetchCourses(); // Fetch courses when the component is created
+    if (this.filteredData) {
+      this.fetchFilteredCourses();
+    } else {
+      this.fetchCourses();
+    }
   },
 
   methods: {
     fetchCourses() {
-      // Make an HTTP GET request to fetch all courses
+
       AXIOS.get("/courses")
         .then((response) => {
-          // Update items array with the fetched courses
+
           this.items = response.data.map((course) => ({
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
@@ -67,14 +72,29 @@ export default {
             course_status: course.courseStatus,
             course_id: course.id,
 
-            // Add other fields as needed
           }));
         })
         .catch((error) => {
           console.error("Error fetching courses:", error);
         });
     },
-
+    fetchFilteredCourses() {
+          AXIOS.get("/courses")
+            .then((response) => {
+              this.items = this.filteredData.map((course) => ({
+                course_name: course.name,
+                requires_instructor: course.requiresInstructor,
+                course_cost: course.cost,
+                course_description: course.description,
+                course_duration: course.defaultDuration,
+                course_status: course.courseStatus,
+                course_id: course.id,
+              }));
+            })
+            .catch((error) => {
+              console.error("Error fetching courses:", error);
+            });
+        },
     onRowSelected(items) {
       this.selected = items;
       console.log(this.selected);
@@ -93,58 +113,7 @@ export default {
 
     onPageChange(page) {
       console.log("Current Page:", page);
-      // You can perform any necessary actions here when the page changes
     },
-
-    // Approve selected rows
-    approveCourse() {
-      const email = "admin@mail.com"; // Assuming the email is constant for approval action
-      console.log("calling approve");
-      console.log(this.selected);
-      this.selected.forEach((course) => {
-        const name = course.course_name;
-
-        AXIOS.post(`/approve/${encodeURIComponent(name)}`, null, {
-          params: { email: email },
-        })
-          .then((response) => {
-            this.fetchCourses();
-            console.log(`Course ${name} approved successfully.`);
-          })
-          .catch((error) => {
-            // Handle error if needed
-            console.error(`Error approving course ${name}:`, error);
-          });
-      });
-    },
-    disapproveCourse() {
-      const email = "admin@mail.com"; // Assuming the email is constant for approval action
-      console.log("calling disapprove");
-      console.log(this.selected);
-      this.selected.forEach((course) => {
-        const name = course.course_name;
-
-        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`, null, {
-          params: { email: email },
-        })
-          .then((response) => {
-            // Handle successful response if needed
-            this.fetchCourses();
-            console.log(`Course ${name} disapproved successfully.`);
-            
-          })
-          .catch((error) => {
-            // Handle error if needed
-            console.error(`Error disapproving course ${name}:`, error);
-          });
-      });
-    },
-  },
-  deleteCourse() {
-    //TODO: not implement
-  },
-  filterCourse() {
-    // TODO: not implement
   },
   watch: {
     currentPage(newValue) {

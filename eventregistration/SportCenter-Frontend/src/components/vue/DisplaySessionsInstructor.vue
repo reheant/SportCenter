@@ -9,10 +9,8 @@
 
                 <b-collapse id="nav-collapse" is-nav>
                   <b-navbar-nav>
-                        <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
-                        <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
-                        <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
-                        <b-nav-item to="/admin/displaySessions" href="#">View Sessions</b-nav-item>
+                        <b-nav-item to="/instructor/displayCourse" href="#">View Courses</b-nav-item>
+                        <b-nav-item to="/instructor/displaySessions" href="#">View Sessions</b-nav-item>
                     </b-navbar-nav>
 
                   <b-navbar-nav class="ml-auto">
@@ -34,95 +32,60 @@
       <b-button size="sm" class="button-custom" @click="clearSelected"
         >Clear selected</b-button
       >
-      <router-link to="/admin/CreateSession">
+      <router-link to="/instructor/CreateSession">
         <b-button size="sm" class="button-custom">Create Session</b-button>
       </router-link>
-      <router-link to="/admin/ModifySession">
+      <router-link to="/instructor/ModifySession">
         <b-button size="sm" class="button-custom">Modify Session</b-button>
       </router-link>
       <b-button size="sm" class="button-custom" @click="deleteSession"
         >Delete Session</b-button
       >
-      <router-link to="/admin/FilterSessions">
+      <router-link to="/instructor/FilterSessions">
         <b-button size="sm" class="button-custom">Filter</b-button>
       </router-link>
-      <b-button size="sm" class="button-custom" @click="displayAssignInstructor"
-        >Assign an Instructor</b-button>
-
     </p>
 
-    <div v-if="assigningInstructor">
-        <div class="form-container">
-        <b-card>
-            <b-form
-            @submit.prevent="onSubmit"
-            @reset.prevent="onReset"
-            class="form-content"
-            >
-            
-            <b-form-group
-                id="input-group-2"
-                label="Instructor Email:"
-                label-for="input-instructor-email"
-                class="form-group-content"
-            >
-                <b-form-input
-                id="input-instructor-email"
-                v-model="form.instructorEmail"
-                placeholder="Enter Instructor Email"
-                required
-                ></b-form-input>
-            </b-form-group>
+    <!-- Table component -->
+    <b-table
+      :items="items"
+      :fields="fields"
+      :select-mode="selectMode"
+      :current-page="currentPage"
+      :per-page="perPage"
+      responsive="sm"
+      ref="selectableTable"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      fixed="fixed"
+      sort-icon-right
+      class="custom-striped-table"
+      selectable
+      @row-selected="onRowSelected"
+    >
+      <template #cell(selected)="{ rowSelected, item }">
+        <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
+          <template v-if="rowSelected">
+            <span aria-hidden="true">&check;</span>
+            <span class="sr-only">Selected</span>
+          </template>
+          <template v-else>
+            <span aria-hidden="true">&nbsp;</span>
+            <span class="sr-only">Not selected</span>
+          </template>
+        </span>
+      </template>
 
 
-            <div class="buttons-container">
-                <b-button type="reset" variant="info">Reset</b-button>
-                <b-button type="submit" variant="primary">Assign</b-button>
-            </div>
-            </b-form>
-        </b-card>
-        </div>
-    </div>
-    
-    <div class="tableContainer">
-        <!-- Table component -->
-        <b-table
-        :items="items"
-        :fields="fields"
-        :select-mode="selectMode"
-        :current-page="currentPage"
-        :per-page="perPage"
-        responsive="sm"
-        ref="selectableTable"
-        :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc"
-        fixed="fixed"
-        sort-icon-right
-        class="custom-striped-table"
-        selectable
-        @row-selected="onRowSelected"
-        >
-        <template #cell(selected)="{ rowSelected, item }">
-            <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
-            <template v-if="rowSelected">
-                <span aria-hidden="true">&check;</span>
-                <span class="sr-only">Selected</span>
-            </template>
-            <template v-else>
-                <span aria-hidden="true">&nbsp;</span>
-                <span class="sr-only">Not selected</span>
-            </template>
-            </span>
-        </template>
+      <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
 
+      <template #cell(session_name)="data">
+        <span class="session-name">
+          {{ data.value }}
+        </span>
+      </template>
+    </b-table>
 
-        <template #cell(session_id)="data">
-            <span class="session-id">
-            {{ data.value }}
-            </span>
-        </template>
-        </b-table>
-    </div>
     <b-pagination
       class="pagination"
       v-model="currentPage"
@@ -134,19 +97,13 @@
   </div>
 </template>
 
-<script src="../javascript/DisplaySessionsAdmin.js"></script>
+<script src="../javascript/DisplaySessionsInstructor.js"></script>
 
 <style>
 .form-group-content {
   width: 100%;
   max-width: 400px;
   margin-bottom: 1rem;
-}
-
-.form-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .buttons-container {
@@ -165,9 +122,9 @@
 }
 
 .b-table {
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ccc; /* Example: add a border */
+  border-radius: 5px; /* Example: add border radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example: add a box shadow */
 }
 
 /* Style the table headers */

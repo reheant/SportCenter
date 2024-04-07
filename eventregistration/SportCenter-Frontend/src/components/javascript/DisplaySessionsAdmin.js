@@ -11,6 +11,7 @@ const AXIOS = axios.create({
 });
 
 export default {
+  props: ['filteredData'],
   data() {
     return {
         form: {
@@ -42,12 +43,20 @@ export default {
     },
   },
 
-
   created() {
-    this.fetchSessions(); // Fetch sessions when the component is created
+    if (this.filteredData) {
+      this.fetchFilteredSessions();
+    } else {
+      this.fetchSessions();
+    }
   },
 
   methods: {
+    formatDateTime(dateTimeString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const date = new Date(dateTimeString);
+      return new Intl.DateTimeFormat('en-US', options).format(date);
+    },
     fetchSessions() {
       // Make an HTTP GET request to fetch all sessions
       AXIOS.get("/sessions")
@@ -55,8 +64,8 @@ export default {
           // Update items array with the fetched sessions
           this.items = response.data.map((session) => ({
             id: session.id,
-            start_time: session.startTime,
-            end_time: session.endTime,
+            start_time: this.formatDateTime(session.startTime),
+            end_time: this.formatDateTime(session.endTime),
             course_name: session.courseName,
             location: session.locationName,
           }));
@@ -65,6 +74,22 @@ export default {
           console.error("Error fetching sessions:", error);
         });
     },
+    fetchFilteredSessions() {
+          // Make an HTTP GET request to fetch all sessions
+          AXIOS.get("/sessions")
+            .then((response) => {
+              // Update items array with the fetched sessions
+              this.items = this.filteredData.map((session) => ({
+                start_time: this.formatDateTime(session.startTime),
+                end_time: this.formatDateTime(session.endTime),
+                course_name: session.courseName,
+                location: session.locationName,
+              }));
+            })
+            .catch((error) => {
+              console.error("Error fetching sessions:", error);
+            });
+        },
 
     onRowSelected(items) {
       this.selected = items;
@@ -85,6 +110,28 @@ export default {
         this.assigningInstructor = !this.assigningInstructor;
         console.log(this.assigningInstructor);
     },
+    deleteSession() {
+        this.selected.forEach((session) => {
+            const sessionId = session.id;
+            // https://developer.chrome.com/blog/urlsearchparams/
+            const urlWithParams = `/sessions/${sessionId}`;
+
+            AXIOS.delete(urlWithParams)
+                .then((response) => {
+                  this.fetchSessions();
+                  this.successMessage = `Successfully deleted for session with id ${sessionId}.`;
+                  console.log(this.successMessage);
+                })
+                .catch((error) => {
+                  // Handle error if needed
+                  const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
+                  this.error = errorMsg;
+                  console.error(`Error deleting session with id ${sessionId}:`, error);
+                });
+        });
+    },
+
     onPageChange(page) {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
