@@ -85,6 +85,12 @@ public class ScheduleService {
             throw new NullPointerException("No instructor found with email " + instructorAccountEmail);
         }
 
+        InstructorAssignment duplicateAssignment = instructorAssignmentRepository.findRegistrationByCustomerAccountEmailAndSessionId(instructorAccountEmail, sessionId);
+        if (duplicateAssignment != null) {
+            throw new IllegalArgumentException("Instructor with email " + instructorAccountEmail + " is already assigned to session with id " + sessionId);
+        }
+        
+
         InstructorAssignment instructorAssignment = new InstructorAssignment();
         instructorAssignment.setInstructor(instructor);
         instructorAssignment.setSession(session);
