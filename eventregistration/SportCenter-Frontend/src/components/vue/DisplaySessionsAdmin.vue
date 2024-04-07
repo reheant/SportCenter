@@ -46,8 +46,44 @@
       <router-link to="/admin/FilterSessions">
         <b-button size="sm" class="button-custom">Filter</b-button>
       </router-link>
+      <b-button size="sm" class="button-custom" @click="displayAssignInstructor"
+        >Assign an Instructor</b-button>
+
     </p>
 
+    <div v-if="assigningInstructor">
+        <div class="form-container">
+        <b-card>
+            <b-form
+            @submit.prevent="onSubmit"
+            @reset.prevent="onReset"
+            class="form-content"
+            >
+            
+            <b-form-group
+                id="input-group-2"
+                label="Instructor Email:"
+                label-for="input-instructor-email"
+                class="form-group-content"
+            >
+                <b-form-input
+                id="input-instructor-email"
+                v-model="form.instructorEmail"
+                placeholder="Enter Instructor Email"
+                required
+                ></b-form-input>
+            </b-form-group>
+
+
+            <div class="buttons-container">
+                <b-button type="reset" variant="info">Reset</b-button>
+                <b-button type="submit" variant="primary">Assign</b-button>
+            </div>
+            </b-form>
+        </b-card>
+        </div>
+    </div>
+    
     <div class="tableContainer">
         <!-- Table component -->
         <b-table
@@ -95,6 +131,12 @@
       align="center"
       aria-controls="selectableTable"
     ></b-pagination>
+
+    <div class="error">
+        <p v-if="error" style="color: red">{{ error }}</p>
+    </div>
+    <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
+
   </div>
 </template>
 
@@ -105,6 +147,12 @@
   width: 100%;
   max-width: 400px;
   margin-bottom: 1rem;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .buttons-container {
