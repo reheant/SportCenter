@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class ScheduleRestController {
 
 	@Autowired
-	private ScheduleService modifyScheduleService;
+	private ScheduleService scheduleService;
 
     // modify a session's start and end times
     @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/time", "/schedule/modify/sessions/{sessionId}/time/" })
@@ -24,7 +24,7 @@ public class ScheduleRestController {
             @RequestParam LocalDateTime startTime,
             @RequestParam LocalDateTime endTime)
             throws Exception {
-                SessionDto sessionDto = DtoConverter.convertToDto(modifyScheduleService.modifySessionTime(sessionId, startTime, endTime));
+                SessionDto sessionDto = DtoConverter.convertToDto(scheduleService.modifySessionTime(sessionId, startTime, endTime));
                 return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);
     }
 
@@ -33,7 +33,7 @@ public class ScheduleRestController {
     public ResponseEntity<SessionDto> modifySessionCourse(@PathVariable("sessionId") Integer sessionId,
     @RequestParam(name = "courseId") Integer courseId)
                                           throws Exception {
-            Session session = modifyScheduleService.modifySessionCourse(sessionId, courseId);
+            Session session = scheduleService.modifySessionCourse(sessionId, courseId);
             SessionDto sessionDto = DtoConverter.convertToDto(session);
             return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);
     }
@@ -43,20 +43,27 @@ public class ScheduleRestController {
      public ResponseEntity<SessionDto> modifySessionLocation(@PathVariable("sessionId") Integer sessionId,
      @RequestParam(name = "locationId") Integer locationId)
                                              throws Exception {
-                SessionDto sessionDto = DtoConverter.convertToDto(modifyScheduleService.modifySessionLocation(sessionId, locationId));
+                SessionDto sessionDto = DtoConverter.convertToDto(scheduleService.modifySessionLocation(sessionId, locationId));
                 return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);     
     }
- 
+
      // assign an instructor to a session
      @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/instructor", "/schedule/modify/sessions/{sessionId}/instructor/" })
      public ResponseEntity<InstructorAssignmentDto> assignInstructorToSession(@PathVariable("sessionId") Integer sessionId,
-     @RequestParam(name = "instructorId") Integer instructorId)
+     @RequestParam(name = "instructorAccountEmail") String instructorAccountEmail)
                                                  throws Exception {
-                InstructorAssignmentDto dto = DtoConverter.convertToDto(modifyScheduleService.assignInstructorToSession(sessionId, instructorId));
-                return new ResponseEntity<>(dto, HttpStatus.CREATED);  
+                InstructorAssignmentDto dto = DtoConverter.convertToDto(scheduleService.assignInstructorToSession(sessionId, instructorAccountEmail));
+                return new ResponseEntity<>(dto, HttpStatus.OK);  
      }
 
-    
+    // unassign an instructor from a session
+    @DeleteMapping(value = { "/schedule/modify/sessions/{sessionId}/instructor", "/schedule/modify/sessions/{sessionId}/instructor/" })
+    public void unassignInstructorFromSession(@PathVariable("sessionId") Integer sessionId,
+    @RequestParam(name = "instructorAccountEmail") String instructorAccountEmail)
+                                                throws Exception {
+                scheduleService.unassignInstructorFromSession(sessionId, instructorAccountEmail);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String authorized(Exception e) {

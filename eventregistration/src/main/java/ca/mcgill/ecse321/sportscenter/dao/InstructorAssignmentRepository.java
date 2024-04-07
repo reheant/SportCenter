@@ -13,5 +13,7 @@ public interface InstructorAssignmentRepository
     List<InstructorAssignment> findInstructorAssignmentBySessionId(Integer id);
     @Query("SELECT ia FROM InstructorAssignment ia WHERE LOWER(CONCAT(ia.instructor.account.firstName, ' ', ia.instructor.account.lastName)) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<InstructorAssignment> findInstructorAssignmentByInstructorNameContainingIgnoreCase(@Param("name") String name);
+    @Query("SELECT ia FROM InstructorAssignment ia WHERE ia.instructor.account.email = :email AND ia.session.id = :sessionId")
+    InstructorAssignment findInstructorAssignmentByInstructorAccountEmailAndSessionId(String email, Integer sessionId);    
     List<InstructorAssignment> findAllByInstructorId(Integer instructorId);
 }

@@ -35,7 +35,7 @@
 
     <p>
       <b-button size="sm" class="button-custom" @click="selectAllRows"
-        >Select all</b-button
+        >Select All</b-button
       >
       <b-button size="sm" class="button-custom" @click="clearSelected"
         >Clear selected</b-button
@@ -53,9 +53,9 @@
       <b-button size="sm" class="button-custom" @click="deleteCourse"
         >Delete Course</b-button
       >
-      <b-button size="sm" class="button-custom" @click="filterCourse"
-        >TBI filters</b-button
-      >
+      <router-link to="/admin/FilterCourses">
+        <b-button size="sm" class="button-custom">Filter</b-button>
+      </router-link>
     </p>
     <div class="tableContainer">
 
@@ -111,9 +111,9 @@
             </b-row>
           </b-card>
         </template>
-        
 
-       
+
+
         <template #cell(course_status)="data">
           <span
             :class="{
@@ -136,7 +136,7 @@
 
         <template #cell(action)="data">
           <b-button variant="info" :to="{name: 'Modify Course', params: {id: data.value}}">
-            Modify 
+            Modify
           </b-button>
         </template>
       </b-table>
@@ -191,9 +191,9 @@ body {
 }
 
 .b-table {
-  border: 2px solid #ccc; 
-  border-radius: 5px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -201,6 +201,7 @@ body {
   background-color: #f0f0f0;
   color: #333;
   text-align: center;
+  white-space: nowrap;
 }
 
 
