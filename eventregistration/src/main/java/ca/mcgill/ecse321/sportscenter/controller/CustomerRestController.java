@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +36,6 @@ public class CustomerRestController {
 	@Autowired
 	private CustomerService customerService;
 
-
 	@PostMapping(value = { "/customer/{firstName}", "/customer/{firstName}/" })
 	public ResponseEntity<CustomerDto> createCustomer(@PathVariable("firstName") String firstName,
 			@RequestParam(name = "lastName") String lastName,
@@ -54,6 +55,13 @@ public class CustomerRestController {
 		Customer customer = customerService.getCustomerByEmail(email);
 		CustomerDto customerDto = DtoConverter.convertToDto(customer);
 		return new ResponseEntity<>(customerDto, HttpStatus.OK);
+	}
+
+	@PostMapping(value = { "/customer", "/customer/" })
+	public ResponseEntity<CustomerDto> updateCustomer(@RequestBody CustomerDto customer) throws Exception {
+		customerService.updateCustomer(customer.getFirstName(), customer.getLastName(), customer.getAccountEmail(),
+				customer.getPassword(), customer.getWantsEmailConfirmation());
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping(value = { "/promote/{email}", "/promote/{email}/" })
@@ -94,7 +102,6 @@ public class CustomerRestController {
 		return new ResponseEntity<>(cardDto, HttpStatus.CREATED);
 	}
 
-
 	@GetMapping(value = { "/customers", "/customers/" })
 	public ResponseEntity<List<CustomerDto>> getAllCustomers() {
 		List<CustomerDto> customerDTOlist = new ArrayList<>();
@@ -123,10 +130,10 @@ public class CustomerRestController {
 		}
 	}
 
-	@DeleteMapping(value = {"/delete/{email}", "/delete/{email}/"})
-    public void deleteCustomer(@PathVariable String email) throws Exception {
-        customerService.deleteCustomer(email);
-    }
+	@DeleteMapping(value = { "/delete/{email}", "/delete/{email}/" })
+	public void deleteCustomer(@PathVariable String email) throws Exception {
+		customerService.deleteCustomer(email);
+	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

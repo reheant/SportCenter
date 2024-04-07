@@ -14,22 +14,24 @@ export default {
     name: 'viewAccounts',
     data() {
         return {
-        
+
         fields: [ {key: 'selected',sortable:false},
                     {key: 'firstName', sortable:true},
-                    {key: 'lastName', sortable:true}, 
-                    {key: 'accountEmail', sortable:true},],
+                    {key: 'lastName', sortable:true},
+                    {key: 'accountEmail', sortable:true},
+                    {key: 'action', sortable:false},
+                  ],
         items: [],
         selectMode: 'multi',
         selected: [],
-        currentPage: 1, 
-        perPage: 10, 
+        currentPage: 1,
+        perPage: 10,
         sortDesc: false,
         sortBy: 'lastName',
         successMessage: '',
         errorMessage: '',
         };
-    
+
   },
   computed: {
     selectedCourseNames() {
@@ -41,16 +43,16 @@ export default {
   },
   filteredItems() {
       if (!this.selectedStatus) {
-        return this.items; 
+        return this.items;
       }
       return this.items.filter(item => item.course_status === this.selectedStatus);
     },
-    
+
   created() {
-    this.fetchCustomers(); 
+    this.fetchCustomers();
   },
-  
-  
+
+
   methods: {
 
     fetchCustomers() {
@@ -59,9 +61,10 @@ export default {
         this.items = response.data.map(customer => ({
           accountEmail: customer.accountEmail,
           firstName: customer.firstName,
-          lastName: customer.lastName
+          lastName: customer.lastName,
+          action: customer.accountEmail,
         }));
-        
+
       })
       .catch(error => {
         console.error('Error fetching customers:', error);
@@ -79,7 +82,7 @@ export default {
 
       this.clearSelected()
       this.$refs.selectableTable.selectAllRows();
-  
+
     },
 
     clearSelected() {
@@ -90,17 +93,17 @@ export default {
     onPageChange(page) {
       console.log("Current Page:", page);
     },
-    
+
     promoteCustomer() {
 
-      this.selected.forEach(customer => { const email = customer.accountEmail; 
-    
+      this.selected.forEach(customer => { const email = customer.accountEmail;
+
         AXIOS.post(`/promote/${encodeURIComponent(email)}`, null, {
         })
           .then(response => {
             this.fetchCustomers();
             this.successMessage = `Customer promoted successfully.`;
-            this.errorMessage = ''; 
+            this.errorMessage = '';
           })
           .catch(error => {
             this.errorMessage = `Chosen customer is aleady an Instructor.`;
@@ -109,18 +112,18 @@ export default {
       });
     },
     deleteCustomer() {
-      this.selected.forEach(customer => { const email = customer.accountEmail; 
-    
+      this.selected.forEach(customer => { const email = customer.accountEmail;
+
         AXIOS.delete(`/delete/${encodeURIComponent(email)}`, null, {
         })
           .then(response => {
             this.fetchCustomers();
             this.successMessage = `Customer ${customer.firstName} deleted successfully.`;
-            this.errorMessage = ''; 
+            this.errorMessage = '';
           })
           .catch(error => {
             this.errorMessage = `Error deleting customer ${customer.firstName}.`;
-            this.successMessage = ''; 
+            this.successMessage = '';
           });
       });
     },

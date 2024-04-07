@@ -18,6 +18,7 @@ import ViewInstructors from "@/components/vue/ViewInstructors";
 import ViewOwners from "@/components/vue/ViewOwners";
 import CreateOwner from "@/components/vue/CreateOwner";
 import ModifyCourse from "@/components/vue/ModifyCourse";
+import ModifyCustomer from "@/components/vue/ModifyCustomer";
 
 Vue.use(Router);
 
@@ -73,6 +74,11 @@ export default new Router({
       path: "/admin/viewCustomers",
       name: "viewAccounts",
       component: ViewAccounts,
+    },
+    {
+      path: "/admin/modify/customer/:email",
+      name: "Modify Customer",
+      component: ModifyCustomer,
     },
     {
       path: "/admin/viewInstructors",

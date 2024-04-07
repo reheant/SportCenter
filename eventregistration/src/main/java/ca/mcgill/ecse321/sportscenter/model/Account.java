@@ -1,11 +1,9 @@
 package ca.mcgill.ecse321.sportscenter.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 
 @Entity
 public class Account {
@@ -18,7 +16,8 @@ public class Account {
   private String email;
   private String password;
 
-  public Account() {}
+  public Account() {
+  }
 
   public Account(String aFirstName, String aLastName, String aEmail, String aPassword) {
     firstName = aFirstName;
@@ -82,6 +81,7 @@ public class Account {
     return password;
   }
 
-  public void delete() {}
+  public void delete() {
+  }
 
 }

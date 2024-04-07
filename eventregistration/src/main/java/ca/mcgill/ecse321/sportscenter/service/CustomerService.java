@@ -40,12 +40,13 @@ public class CustomerService {
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
     @Autowired
-    RegistrationRepository registrationRepository;   
+    RegistrationRepository registrationRepository;
     @Autowired
-    InstructorAssignmentRepository instructorAssignmentRepository;    
+    InstructorAssignmentRepository instructorAssignmentRepository;
+
     /**
      * Creates a customer and sets relevant information.
-     * 
+     *
      * @param firstName              first name of customer (String)
      * @param lastName               last name of customer (String)
      * @param email                  email of customer (String)
@@ -98,8 +99,61 @@ public class CustomerService {
     }
 
     /**
+     * Creates a customer and sets relevant information.
+     *
+     * @param firstName              first name of customer (String)
+     * @param lastName               last name of customer (String)
+     * @param email                  email of customer (String)
+     * @param passowrd               password of customer (String)
+     * @param wantsEmailConfirmation customer's email confirmation status (Bool)
+     * @return The created customer
+     * @throws Exception if name, email or password is invalid format or if an
+     *                   account already exists with the email.
+     */
+    @Transactional
+    public Account updateCustomer(String firstName, String lastName, String email, String password,
+            Boolean wantsEmailConfirmation) throws Exception {
+
+        if (firstName == null || lastName == null || email == null || password == null
+                || wantsEmailConfirmation == null) {
+            throw new Exception("Please ensure all fields are complete and none are empty");
+        }
+        if (!isValidEmail(email)) {
+            throw new Exception("Invalid email format");
+        }
+
+        if (!isValidName(firstName)) {
+            throw new Exception("Invalid first name format");
+        }
+
+        if (!isValidName(lastName)) {
+            throw new Exception("Invalid last name format");
+        }
+
+        if (!isValidPassword(password)) {
+            throw new Exception(
+                    "Invalid password format, password must have at least: one lower case letter, one higher case letter, one digit, one special character and be 8 charcters minimum");
+        }
+
+        if (accountRepository.findAccountByEmail(email) == null) {
+            throw new Exception("Email not found");
+        }
+
+        Account customerAccount = accountRepository.findAccountByEmail(email);
+        customerAccount.setEmail(email);
+        customerAccount.setFirstName(firstName);
+        customerAccount.setLastName(lastName);
+        customerAccount.setPassword(password);
+        accountRepository.save(customerAccount);
+        Customer c = customerRepository.findByAccount(customerAccount);
+        c.setWantsEmailConfirmation(wantsEmailConfirmation);
+        customerRepository.save(c);
+        return customerAccount;
+    }
+
+    /**
      * Promotes a customer to instructor from their email.
-     * 
+     *
      * @param email email of customer (String)
      * @return The created instructor
      * @throws Exception if email is null, not accociated to an account or if
@@ -150,7 +204,7 @@ public class CustomerService {
 
     /**
      * Adds Paypal information for customer.
-     * 
+     *
      * @param accountName    name of account (String)
      * @param customerEmail  customer's email (String)
      * @param paypalEmail    customer's paypal account email (String)
@@ -198,7 +252,7 @@ public class CustomerService {
 
     /**
      * Adds card information for customer.
-     * 
+     *
      * @param accountName     name of account (String)
      * @param customerEmail   customer's email (String)
      * @param paymentCardType customer's paymentCardType (PaymentCardType)
@@ -255,7 +309,7 @@ public class CustomerService {
 
     /**
      * Gets customer by email.
-     * 
+     *
      * @return List of customers
      * @throws Exception
      */
@@ -300,7 +354,7 @@ public class CustomerService {
      * Helper Method
      * Respecting RFC 5322 email format (source :
      * https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.)
-     * 
+     *
      * @param email the email to verify
      * @return true if the email is valid, false otherwise
      */
@@ -315,7 +369,7 @@ public class CustomerService {
      * Helper Method
      * Regex respects basic name formats, including names like "Louis-Phillipe" or
      * "Henry Jr." (allows Hyphens and periods)
-     * 
+     *
      * @param name the name to verify
      * @return true if the name is valid, false otherwise
      */
@@ -330,7 +384,7 @@ public class CustomerService {
      * Helper Method
      * Password requirements: AT LEAST: one upper case letter, one lower case
      * letter, one digit, one special character, minimum 8 character length
-     * 
+     *
      * @param password the password to verify
      * @return true if the password is valid, false otherwise
      */
@@ -364,8 +418,8 @@ public class CustomerService {
 
         instructorRepository.findByAccountId(account.getId()).ifPresent(instructor -> {
             instructorAssignmentRepository.findAllByInstructorId(instructor.getId())
-                .forEach(assignment -> instructorAssignmentRepository.deleteById(assignment.getId()));
-            
+                    .forEach(assignment -> instructorAssignmentRepository.deleteById(assignment.getId()));
+
             instructorRepository.deleteById(instructor.getId());
         });
 
