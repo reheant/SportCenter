@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Time;
@@ -49,6 +51,7 @@ public class ScheduleRestControllerIntegrationTest {
     private Location location = new Location();
     private Course course = new Course();
     private Session session = new Session();
+    private InstructorAssignment instructorAssignment = new InstructorAssignment();
 
     @BeforeEach
     @AfterEach
@@ -131,15 +134,34 @@ public class ScheduleRestControllerIntegrationTest {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
     }
 
-        @Test
-        public void testAssignInstructorToSession() {
-            createAndSaveClassesForRegistration();
-            String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId() + "/instructor")
-                .queryParam("instructorAccountEmail", instructor.getAccount().getEmail())
-                .encode()
-                .toUriString();
-            ResponseEntity<InstructorAssignmentDto> postResponse = client.postForEntity(urlTemplate, null, InstructorAssignmentDto.class);
-            assertEquals(HttpStatus.OK, postResponse.getStatusCode());
+    @Test
+    public void testAssignInstructorToSessionSucceeds() {
+        createAndSaveClassesForRegistration();
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId() + "/instructor")
+            .queryParam("instructorAccountEmail", instructor.getAccount().getEmail())
+            .encode()
+            .toUriString();
+        ResponseEntity<InstructorAssignmentDto> postResponse = client.postForEntity(urlTemplate, null, InstructorAssignmentDto.class);
+        assertEquals(HttpStatus.OK, postResponse.getStatusCode());
+    }
+
+    @Test
+    public void testUnassignInstructorToSessionSucceeds() {
+        createTestInstructorAssignment();
+        assertTrue(instructorAssignmentRepository.findById(instructorAssignment.getId()).isPresent());
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId() + "/instructor")
+            .queryParam("instructorAccountEmail", instructor.getAccount().getEmail())
+            .encode()
+            .toUriString();
+        client.delete(urlTemplate);
+        assertFalse(instructorAssignmentRepository.findById(instructorAssignment.getId()).isPresent());
+    }
+
+    private void createTestInstructorAssignment() {
+        createAndSaveClassesForRegistration();
+        instructorAssignment.setInstructor(instructor);
+        instructorAssignment.setSession(session);
+        instructorAssignmentRepository.save(instructorAssignment);
     }
 
     private void createAndSaveClassesForRegistration() {

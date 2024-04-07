@@ -85,18 +85,37 @@ public class ScheduleService {
             throw new NullPointerException("No instructor found with email " + instructorAccountEmail);
         }
 
-        InstructorAssignment duplicateAssignment = instructorAssignmentRepository.findRegistrationByCustomerAccountEmailAndSessionId(instructorAccountEmail, sessionId);
+        InstructorAssignment duplicateAssignment = instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(instructorAccountEmail, sessionId);
         if (duplicateAssignment != null) {
             throw new IllegalArgumentException("Instructor with email " + instructorAccountEmail + " is already assigned to session with id " + sessionId);
         }
         
-
         InstructorAssignment instructorAssignment = new InstructorAssignment();
         instructorAssignment.setInstructor(instructor);
         instructorAssignment.setSession(session);
 
         return instructorAssignmentRepository.save(instructorAssignment);
         
+    }
+
+    @Transactional
+    public Boolean unassignInstructorFromSession(Integer sessionId, String instructorAccountEmail) throws NullPointerException{
+        if (sessionId == null){
+            throw new NullPointerException("The session id cannot be null.");
+        }
+
+        if (instructorAccountEmail == null) {
+            throw new NullPointerException("The instructor account email cannot be null.");
+        }
+
+        InstructorAssignment instructorAssignment = instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(instructorAccountEmail, sessionId);
+
+        if (instructorAssignment == null) {
+            throw new IllegalArgumentException("No matching instructor assignment.");
+        }
+
+        instructorAssignmentRepository.deleteById(instructorAssignment.getId());
+        return true;
     }
 
 }

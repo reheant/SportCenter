@@ -120,7 +120,7 @@ public class RegistrationRestControllerIntegrationTest {
             .encode()
             .toUriString();
         client.delete(urlTemplate);
-        assertFalse(sessionRepository.findById(registration.getId()).isPresent());
+        assertFalse(registrationRepository.findById(registration.getId()).isPresent());
     }
     
     private void createTestRegistration() {

@@ -4,9 +4,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -47,42 +49,34 @@ public class TestScheduleService {
     private InstructorAssignmentRepository instructorAssignmentRepository;
     
     @InjectMocks
-    private ScheduleService service;
+    private ScheduleService scheduleService;
 
-    private static final Integer COURSE_ID = 1;
-    private static final Integer LOCATION_ID = 1;
-    private static final Integer INSTRUCTOR_ID = 1;
     private static final String INSTRUCTOR_EMAIL = "gordonramsay@gmail.com";
     private static final String INSTRUCTOR_FIRST_NAME = "Gordon";
     private static final String INSTRUCTOR_LAST_NAME = "Ramsay";
     private static final String INSTRUCTOR_PASSWORD = "L4mbS8uce";
-    private static final Integer INSTRUCTORASSIGNMENT_ID = 1;
 
-    private Session session = new Session();
-    private Course course;
-    private Location location;
+
+    private final Session session = new Session();
+    private final Course course = new Course();
+    private final Location location = new Location();
     private final Account instructorAccount = new Account();
     private final Instructor instructor = new Instructor();
-    private InstructorAssignment instructorAssignment;
+    private final InstructorAssignment instructorAssignment = new InstructorAssignment();
 
     @BeforeEach
     public void setMockOutput() {
-        session = mock(Session.class);
-        course = mock(Course.class);
-        location = mock(Location.class);
-        instructorAssignment = new InstructorAssignment();
-        Session mySession = new Session();
-        mySession.setId(session.getId());
-        instructorAssignment.setSession(mySession);
-        Instructor myIn = new Instructor();
-        myIn.setId(INSTRUCTOR_ID);
-        instructorAssignment.setInstructor(myIn);
+        instructorAccount.setEmail(INSTRUCTOR_EMAIL);
+        instructor.setAccount(instructorAccount);
+
+        instructorAssignment.setSession(session);
+        instructorAssignment.setInstructor(instructor);
 
         lenient().when(sessionRepository.findById(session.getId())).thenReturn(Optional.of(session));
-        lenient().when(courseRepository.findById(COURSE_ID)).thenReturn(Optional.of(course));
-        lenient().when(locationRepository.findById(LOCATION_ID)).thenReturn(Optional.of(location));
-        lenient().when(instructorRepository.findById(INSTRUCTOR_ID)).thenReturn(Optional.of(instructor));
-        lenient().when(instructorAssignmentRepository.findById(INSTRUCTORASSIGNMENT_ID)).thenReturn(Optional.of(instructorAssignment));
+        lenient().when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
+        lenient().when(locationRepository.findById(location.getId())).thenReturn(Optional.of(location));
+        lenient().when(instructorRepository.findById(instructor.getId())).thenReturn(Optional.of(instructor));
+        lenient().when(instructorAssignmentRepository.findById(instructorAssignment.getId())).thenReturn(Optional.of(instructorAssignment));
         lenient().when(instructorAssignmentRepository.save(any(InstructorAssignment.class))).thenReturn(instructorAssignment);
     
         lenient().when(instructorRepository.findInstructorByAccountEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
@@ -114,10 +108,8 @@ public class TestScheduleService {
        
         Session updatedSession = null;
         try{
-        when(session.getStartTime()).thenReturn(newStartTime);
-        when(session.getEndTime()).thenReturn(newEndTime);
 
-        updatedSession = service.modifySessionTime(session.getId(), newStartTime, newEndTime);
+        updatedSession = scheduleService.modifySessionTime(session.getId(), newStartTime, newEndTime);
 
         verify(sessionRepository).save(any(Session.class));
         } catch (Exception error) {
@@ -132,41 +124,35 @@ public class TestScheduleService {
     public void testModifySessionCourse() {
         Session updatedSession = null;
         try{
-        when(session.getCourse()).thenReturn(course);
-        when(course.getId()).thenReturn(COURSE_ID);
-
-        updatedSession = service.modifySessionCourse(session.getId(), COURSE_ID);
+        updatedSession = scheduleService.modifySessionCourse(session.getId(), course.getId());
 
         verify(sessionRepository).save(any(Session.class));
     } catch (Exception error) {
         fail(error.getMessage());
     }
         assertNotNull(updatedSession);
-        assertEquals(COURSE_ID, updatedSession.getCourse().getId());
+        assertEquals(course.getId(), updatedSession.getCourse().getId());
     }
 
     @Test
     public void testModifySessionLocation() {
         Session updatedSession = null;
         try{
-        when(session.getLocation()).thenReturn(location);
-        when(location.getId()).thenReturn(LOCATION_ID);
-
-        updatedSession = service.modifySessionLocation(session.getId(), LOCATION_ID);
+        updatedSession = scheduleService.modifySessionLocation(session.getId(), location.getId());
 
         verify(sessionRepository).save(any(Session.class));
         } catch (Exception error) {
         fail(error.getMessage());
         }
         assertNotNull(updatedSession);
-        assertEquals(LOCATION_ID, updatedSession.getLocation().getId());
+        assertEquals(location.getId(), updatedSession.getLocation().getId());
     }
 
     @Test
     public void testAssignInstructorToSession() {
         InstructorAssignment returnedAssignment = null;
         try{
-            returnedAssignment = service.assignInstructorToSession(session.getId(), INSTRUCTOR_EMAIL);
+            returnedAssignment = scheduleService.assignInstructorToSession(session.getId(), INSTRUCTOR_EMAIL);
         } catch (Exception error) {
             fail(error.getMessage());
         }
@@ -175,4 +161,112 @@ public class TestScheduleService {
         assertEquals(INSTRUCTOR_EMAIL, returnedAssignment.getInstructor().getAccount().getEmail());
     }
 
+    @Test
+    public void testUnassignInstructorFromSessionSuccessful() {
+
+        lenient().when(instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(anyString(), anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(INSTRUCTOR_EMAIL) && invocation.getArgument(1).equals(session.getId())) {
+                instructorAccount.setEmail(INSTRUCTOR_EMAIL);
+                instructorAccount.setFirstName(INSTRUCTOR_FIRST_NAME);
+                instructorAccount.setLastName(INSTRUCTOR_LAST_NAME);
+                instructorAccount.setPassword(INSTRUCTOR_PASSWORD);
+                instructor.setAccount(instructorAccount);
+
+                instructorAssignment.setInstructor(instructor);
+                instructorAssignment.setSession(session);
+
+                return instructorAssignment;
+            } else {
+                return null;
+            }
+        });
+
+        try {            
+            Boolean result = scheduleService.unassignInstructorFromSession(session.getId(), instructor.getAccount().getEmail());
+            assertTrue(result);
+        } catch (Exception error) {
+            fail(error.getMessage());
+        }
+    }
+
+    @Test
+    public void testUnassignInstructorFromSessionNullSessionIdFails() {
+        lenient().when(instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(anyString(), anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(INSTRUCTOR_EMAIL) && invocation.getArgument(1).equals(session.getId())) {
+                instructorAccount.setEmail(INSTRUCTOR_EMAIL);
+                instructorAccount.setFirstName(INSTRUCTOR_FIRST_NAME);
+                instructorAccount.setLastName(INSTRUCTOR_LAST_NAME);
+                instructorAccount.setPassword(INSTRUCTOR_PASSWORD);
+                instructor.setAccount(instructorAccount);
+
+                instructorAssignment.setInstructor(instructor);
+                instructorAssignment.setSession(session);
+
+                return instructorAssignment;
+            } else {
+                return null;
+            }
+        });
+
+        try {            
+            scheduleService.unassignInstructorFromSession(null, instructor.getAccount().getEmail());
+        } catch (Exception error) {
+            assertEquals("The session id cannot be null.", error.getMessage());
+            assertEquals(NullPointerException.class, error.getClass());
+        }
+    }
+
+    @Test
+    public void testUnassignInstructorFromSessionNullInstructorAccountEmailFails() {
+        lenient().when(instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(anyString(), anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(INSTRUCTOR_EMAIL) && invocation.getArgument(1).equals(session.getId())) {
+                instructorAccount.setEmail(INSTRUCTOR_EMAIL);
+                instructorAccount.setFirstName(INSTRUCTOR_FIRST_NAME);
+                instructorAccount.setLastName(INSTRUCTOR_LAST_NAME);
+                instructorAccount.setPassword(INSTRUCTOR_PASSWORD);
+                instructor.setAccount(instructorAccount);
+
+                instructorAssignment.setInstructor(instructor);
+                instructorAssignment.setSession(session);
+
+                return instructorAssignment;
+            } else {
+                return null;
+            }
+        });
+
+        try {            
+            scheduleService.unassignInstructorFromSession(session.getId(), null);
+        } catch (Exception error) {
+            assertEquals("The instructor account email cannot be null.", error.getMessage());
+            assertEquals(NullPointerException.class, error.getClass());
+        }
+    }
+
+    @Test
+    public void testUnassignInstructorFromSessionAssignmentNotFoundFails() {
+        lenient().when(instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(anyString(), anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(INSTRUCTOR_EMAIL) && invocation.getArgument(1).equals(session.getId())) {
+                instructorAccount.setEmail(INSTRUCTOR_EMAIL);
+                instructorAccount.setFirstName(INSTRUCTOR_FIRST_NAME);
+                instructorAccount.setLastName(INSTRUCTOR_LAST_NAME);
+                instructorAccount.setPassword(INSTRUCTOR_PASSWORD);
+                instructor.setAccount(instructorAccount);
+
+                instructorAssignment.setInstructor(instructor);
+                instructorAssignment.setSession(session);
+
+                return instructorAssignment;
+            } else {
+                return null;
+            }
+        });
+
+        try {            
+            scheduleService.unassignInstructorFromSession(76, "randomPerson@whoStillUsesYahooAnymore.com");
+        } catch (Exception error) {
+            assertEquals("No matching instructor assignment.", error.getMessage());
+            assertEquals(IllegalArgumentException.class, error.getClass());
+        }
+    }
 }
