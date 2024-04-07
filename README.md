@@ -42,3 +42,18 @@ Customers can also access a view of their completed classes as well as their upc
 |  Rehean Thillainathalingam | Documentation, Backend service implementation, unit testing and Integration testing for : Create customer profile, modify user profiles and add payment information | 31 |
 |  Marc-Antoine Nadeau | Documentation, Backend service implementation, unit testing and Integration testing for : Add/Delete course, Admin approving a course and create admin profile| 25 |
 | Tiffany Miller | Documentation, Backend service implementation, unit testing and Integration testing for : Modify sport center information and modify schedule | 26 | 
+
+## Sprint 3: Project Report 📝 
+[Sprint 3 Project Report](../../wiki/Project-Report-Deliverable-3)
+
+
+## Sprint 3: Effort Table 💪
+| Name | Role | Effort in hours |
+| --- | --- | --- |
+| Anastasiia Nemyrovska | .......  | 45 |
+| Julien Audet | ....... | 45 |
+|  Tim Pham | ....... | 40 | 
+|  Rehean Thillainathalingam | ........ | 41 |
+|  Marc-Antoine Nadeau | .....| 41 |
+| Tiffany Miller | ........ | 43 | 
+
