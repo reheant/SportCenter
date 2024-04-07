@@ -26,12 +26,19 @@ public class SportsCenterInformationService {
     
     
     @Transactional
-    public Location updateCenterLocation(Integer locationId, String newName, Integer newCapacity, Time newOpeningTime, Time newClosingTime) throws Exception {
-        if (locationId == null || newName == null || newCapacity == null || newOpeningTime == null || newClosingTime == null){
+    public Location getLocation() throws Exception {
+        return locationRepository.findById(1).orElseThrow();
+    }
+
+    @Transactional
+    public Location updateCenterLocation(Integer id, String newName, Integer newCapacity, Time newOpeningTime,
+            Time newClosingTime) throws Exception {
+        if (id == null || newName == null || newCapacity == null || newOpeningTime == null
+                || newClosingTime == null) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
-        Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new Exception("No location found with id " + locationId));
+        Location location = locationRepository.findById(id)
+                .orElseThrow(() -> new Exception("No location found with id " + id));
 
         location.setName(newName);
         location.setCapacity(newCapacity);
@@ -52,11 +59,13 @@ public class SportsCenterInformationService {
      * @throws Exception
      */
     @Transactional
-    public Course updateCenterCourse(Integer courseId, String newName, String newDescription, CourseStatus status, Float newCost, Float newDefaultDuration) throws Exception {
-        if (courseId == null || newName == null || newDescription == null || status == null || newCost == null || newDefaultDuration ==null){
+    public Course updateCenterCourse(Integer courseId, String newName, String newDescription, CourseStatus status,
+            Float newCost, Float newDefaultDuration) throws Exception {
+        if (courseId == null || newName == null || newDescription == null || status == null || newCost == null
+                || newDefaultDuration == null) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
-        
+
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new Exception("No course found with id " + courseId));
         if(courseRepository.findCourseByName(capitalize(newName)) != null && !course.getName().equals(capitalize(newName)) ){
@@ -73,8 +82,9 @@ public class SportsCenterInformationService {
     }
 
     @Transactional
-    public Instructor updateCenterInstructor(Integer instructorId, String newFirstName, String newLastName, String newEmail) throws Exception {
-        if (instructorId == null || newFirstName == null || newLastName == null || newEmail == null){
+    public Instructor updateCenterInstructor(Integer instructorId, String newFirstName, String newLastName,
+            String newEmail) throws Exception {
+        if (instructorId == null || newFirstName == null || newLastName == null || newEmail == null) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (!isValidName(newFirstName)) {
@@ -100,9 +110,11 @@ public class SportsCenterInformationService {
         return instructorRepository.save(instructor);
     }
 
-     /** Helper Method
-     * Respecting RFC 5322 email format (source : https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.)
-     * 
+    /**
+     * Helper Method
+     * Respecting RFC 5322 email format (source :
+     * https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.)
+     *
      * @param email the email to verify
      * @return true if the email is valid, false otherwise
      */
@@ -113,9 +125,11 @@ public class SportsCenterInformationService {
         return matcher.matches();
     }
 
-    /** Helper Method
-     * Regex respects basic name formats, including names like "Louis-Phillipe" or "Henry Jr." (allows Hyphens and periods)
-     * 
+    /**
+     * Helper Method
+     * Regex respects basic name formats, including names like "Louis-Phillipe" or
+     * "Henry Jr." (allows Hyphens and periods)
+     *
      * @param name the name to verify
      * @return true if the name is valid, false otherwise
      */

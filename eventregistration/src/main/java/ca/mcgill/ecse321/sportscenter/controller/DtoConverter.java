@@ -94,7 +94,8 @@ public class DtoConverter {
         if (location == null) {
             throw new NullPointerException("Location cannot be null.");
         }
-        LocationDto locationDto = new LocationDto(location.getName(), location.getCapacity(), location.getOpeningTime(),
+        LocationDto locationDto = new LocationDto(location.getId(), location.getName(), location.getCapacity(),
+                location.getOpeningTime(),
                 location.getClosingTime());
         return locationDto;
     }

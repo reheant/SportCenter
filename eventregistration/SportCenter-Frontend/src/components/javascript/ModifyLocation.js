@@ -14,11 +14,11 @@ export default {
   data() {
     return {
       form: {
-        accountEmail: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-        wantsEmailConfirmation: false,
+        id: -1,
+        name: "",
+        capacity: 0,
+        openingTime: "",
+        closingTime: "",
       },
       show: true,
       error: "",
@@ -27,15 +27,16 @@ export default {
   },
 
   created() {
-    AXIOS.get(`/customer/${this.$route.params.email}`)
+    AXIOS.get(`/sportscenter/location`)
       .then((r) => {
-        this.form.accountEmail= r.data.accountEmail,
-        this.form.firstName= r.data.firstName,
-        this.form.lastName= r.data.lastName,
-        this.form.password= r.data.password,
-        this.form.wantsEmailConfirmation = r.data.wantsEmailConfirmation
+        this.form.id = r.data.id;
+        this.form.name = r.data.name;
+        this.form.capacity = r.data.capacity;
+        this.form.openingTime = r.data.openingTime;
+        this.form.closingTime = r.data.closingTime;
       })
       .catch((e) => {
+        console.log(e);
         const errorMsg =
           e.response && e.response.data
             ? e.response.data
@@ -48,14 +49,11 @@ export default {
   methods: {
     modifyCourse() {
       console.log(this.form);
-      AXIOS.post(`customer`, this.form)
+      AXIOS.post(`sportscenter/modify/locations`, this.form)
         .then((response) => {
           console.log(response.data);
-          this.successMessage = "Customer updated successfully";
+          this.successMessage = "Location updated successfully";
           this.error = "";
-          setTimeout(() => {
-            this.$router.back();
-          }, 500);
         })
         .catch((e) => {
           console.log(e);
@@ -82,11 +80,11 @@ export default {
 
     onReset() {
       this.form = {
-        accountEmail: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-        wantsEmailConfirmation: false,
+        id: -1,
+        name: "",
+        capacity: 0,
+        openingTime: "",
+        closingTime: "",
       };
       this.show = false;
       this.$nextTick(() => {
