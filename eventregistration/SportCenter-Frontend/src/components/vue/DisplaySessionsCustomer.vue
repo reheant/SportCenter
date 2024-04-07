@@ -39,7 +39,7 @@
         <b-button size="sm" class="button-custom" @click="unregister"
         >Unegister for Selected Session</b-button>
       </p>
-
+      <div class="tableContainer">
       <!-- Table component -->
       <b-table
         :items="items"
@@ -80,7 +80,7 @@
         </template>
       </b-table>
 
-
+    </div>
       <b-pagination
         class="pagination"
         v-model="currentPage"
@@ -239,4 +239,8 @@
   .pagination .page-item.active .page-link {
     border-radius: 5px;
   }
+  .tableContainer {
+  max-width: 90%;
+  margin: 0 auto;
+}
   </style>
