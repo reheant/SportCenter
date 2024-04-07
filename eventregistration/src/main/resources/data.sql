@@ -6,6 +6,7 @@ INSERT INTO account (id, email, first_name, last_name, password) VALUES
     (5, 'david.brown@example.com', 'David', 'Brown', 'D@v1dBrown!'),          -- 5
     (6, 'admin@example.com', 'Jesus', 'Christ', 'J3susChr!st');               -- 6
 
+
 -- INSERT INTO account_role (id) VALUES
 --     (1), (2), (3), (4), (5), (6);
 

@@ -18,7 +18,6 @@ export default {
         firstName: "",
         lastName: "",
         password: "",
-        wantsEmailConfirmation: false,
       },
       show: true,
       error: "",
@@ -27,13 +26,12 @@ export default {
   },
 
   created() {
-    AXIOS.get(`/customer/${this.$route.params.email}`)
+    AXIOS.get(`/instructor/${this.$route.params.email}`)
       .then((r) => {
         this.form.accountEmail= r.data.accountEmail,
         this.form.firstName= r.data.firstName,
         this.form.lastName= r.data.lastName,
-        this.form.password= r.data.password,
-        this.form.wantsEmailConfirmation = r.data.wantsEmailConfirmation
+        this.form.password= r.data.password
       })
       .catch((e) => {
         const errorMsg =
@@ -46,12 +44,12 @@ export default {
   },
 
   methods: {
-    modifyCourse() {
+    modifyInstructor() {
       console.log(this.form);
-      AXIOS.post(`customer`, this.form)
+      AXIOS.post(`instructor`, this.form)
         .then((response) => {
           console.log(response.data);
-          this.successMessage = "Customer updated successfully";
+          this.successMessage = "Instructor updated successfully";
           this.error = "";
           setTimeout(() => {
             this.$router.back();
@@ -77,7 +75,7 @@ export default {
       this.successMessage = "";
     },
     onSubmit() {
-      this.modifyCourse();
+      this.modifyInstructor();
     },
 
     onReset() {
@@ -86,7 +84,6 @@ export default {
         firstName: "",
         lastName: "",
         password: "",
-        wantsEmailConfirmation: false,
       };
       this.show = false;
       this.$nextTick(() => {

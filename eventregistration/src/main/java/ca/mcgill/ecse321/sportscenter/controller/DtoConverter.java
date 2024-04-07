@@ -47,7 +47,8 @@ public class DtoConverter {
             throw new NullPointerException("Instructor cannot be null.");
         }
         InstructorDto instructorDto = new InstructorDto(instructor.getAccount().getEmail(),
-                instructor.getAccount().getFirstName(), instructor.getAccount().getLastName());
+                instructor.getAccount().getFirstName(), instructor.getAccount().getLastName(),
+                instructor.getAccount().getPassword());
         return instructorDto;
     }
 

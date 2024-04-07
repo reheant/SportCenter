@@ -2,7 +2,7 @@
   <div class="form-container">
     <b-card>
       <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show" class="form-content">
-        <div class="title">Modify Customer</div>
+        <div class="title">Modify Instructor</div>
 
         <b-form-group id="input-group-1" label="Email address:" label-for="input-email" class="form-group-content">
           <b-form-input disabled id="input-email" v-model="form.accountEmail" type="email" placeholder="Enter email"
@@ -27,11 +27,6 @@
             required></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-5" label="Email Preferences:" v-slot="{ ariaDescribedby }"
-          class="form-group-content">
-
-          <b-form-checkbox v-model="form.wantsEmailConfirmation"> Wants Email Confirmations</b-form-checkbox>
-        </b-form-group>
         <div class="error">
           <p v-if="error" style="color: red">{{ error }}</p>
         </div>
@@ -49,7 +44,7 @@
   </div>
 </template>
 
-<script src="../javascript/ModifyCustomer.js"></script>
+<script src="../javascript/ModifyInstructor.js"></script>
 
 <style>
 .error {

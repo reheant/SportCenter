@@ -99,6 +99,7 @@ public class CustomerService {
     }
 
     /**
+
      * Updates a customer and sets relevant information.
      *
      * @param firstName              first name of customer (String)
