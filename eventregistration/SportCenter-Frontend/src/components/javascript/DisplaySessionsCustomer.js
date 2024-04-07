@@ -42,15 +42,6 @@ export default {
     };
   },
   computed: {
-    selectedSessionNames() {
-      return this.selected.map((item) => item.session_name);
-      sortBy: "start_time",
-      show: true,
-      error: '',
-      successMessage: '',
-    };
-  },
-  computed: {
     selectedSessionIds() {
       return this.selected.map((item) => item.id);
     },
@@ -64,8 +55,8 @@ export default {
       this.fetchFilteredSessions();
     } else {
       this.fetchSessions();
+      }
   },
-
   methods: {
     fetchSessions() {
       // Make an HTTP GET request to fetch all sessions
@@ -211,3 +202,5 @@ export default {
     },
   },
 };
+}
+}
