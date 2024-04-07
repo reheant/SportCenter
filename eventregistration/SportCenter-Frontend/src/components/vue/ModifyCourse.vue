@@ -40,7 +40,7 @@
           v-if="show"
           class="form-content"
         >
-          <div class="title">Create a Course</div>
+          <div class="title">Modify Course</div>
 
           <b-form-group
             id="input-group-2"

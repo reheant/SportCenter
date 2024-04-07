@@ -45,7 +45,6 @@ export default {
       },
       error: "",
       show: true,
-    };
   },
   methods: {
     login() {

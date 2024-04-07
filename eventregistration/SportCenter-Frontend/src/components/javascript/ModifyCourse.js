@@ -55,7 +55,9 @@ export default {
           console.log(response.data);
           this.successMessage = "Course updated successfully";
           this.error = "";
-          this.$router.back();
+          setTimeout(() => {
+            this.$router.back();
+          }, 500);
         })
         .catch((e) => {
           console.log(e);
