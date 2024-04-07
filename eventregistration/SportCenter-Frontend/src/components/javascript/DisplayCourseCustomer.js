@@ -21,14 +21,12 @@ export default {
         { key: "course_cost", sortable: true },
         { key: "course_duration", sortable: true },
         { key: "requires_instructor", sortable: true },
-        { key: "course_status", sortable: true },
-        { key: "action", sortable: false },
       ],
       items: [],
       selectMode: "multi",
       selected: [],
-      currentPage: 1,
-      perPage: 10,
+      currentPage: 1, // initial current page
+      perPage: 10, // initial items per page
       sortDesc: false,
       sortBy: "course_name",
     };
@@ -58,12 +56,13 @@ export default {
   },
   methods: {
     fetchCourses() {
-
+      // Make an HTTP GET request to fetch all courses
       AXIOS.get("/courses")
         .then((response) => {
-
-          this.items = response.data.map((course) => ({
-            id: course.id,
+          // Update items array with the fetched courses
+          this.items = response.data
+            .filter(course => course.courseStatus === 'Approved')
+            .map((course) => ({
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
             course_cost: course.cost,
@@ -71,7 +70,7 @@ export default {
             course_duration: course.defaultDuration,
             course_status: course.courseStatus,
             course_id: course.id,
-            action: course.id,
+
             // Add other fields as needed
           }));
         })
@@ -82,7 +81,9 @@ export default {
     fetchFilteredCourses() {
       AXIOS.get("/courses")
         .then((response) => {
-          this.items = this.filteredData.map((course) => ({
+          this.items = this.filteredData
+            .filter(course => course.courseStatus === 'Approved')
+            .map((course) => ({
             course_name: course.name,
             requires_instructor: course.requiresInstructor,
             course_cost: course.cost,
@@ -113,65 +114,54 @@ export default {
 
     onPageChange(page) {
       console.log("Current Page:", page);
-
+      // You can perform any necessary actions here when the page changes
     },
 
-    deleteCourse() {
-        this.selected.forEach((course) => {
-            const courseId = course.id;
-            // https://developer.chrome.com/blog/urlsearchparams/
-            const urlWithParams = `/courses/${courseId}`;
-
-            AXIOS.delete(urlWithParams)
-                .then((response) => {
-                  this.fetchCourses();
-                  this.successMessage = `Successfully deleted course with id ${courseId}.`;
-                  console.log(this.successMessage);
-                })
-                .catch((error) => {
-                  // Handle error if needed
-                  const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
-                  this.successMessage = '';
-                  this.error = errorMsg;
-                  console.error(`Error deleting course with id ${courseId}:`, error);
-                });
-        });
-    },
-
+    // Approve selected rows
     approveCourse() {
+      const email = "admin@mail.com"; // Assuming the email is constant for approval action
       console.log("calling approve");
+      console.log(this.selected);
       this.selected.forEach((course) => {
         const name = course.course_name;
 
-        AXIOS.post(`/approve/${encodeURIComponent(name)}`)
+        AXIOS.post(`/approve/${encodeURIComponent(name)}`, null, {
+          params: { email: email },
+        })
           .then((response) => {
             this.fetchCourses();
             console.log(`Course ${name} approved successfully.`);
           })
           .catch((error) => {
-
+            // Handle error if needed
             console.error(`Error approving course ${name}:`, error);
           });
       });
     },
     disapproveCourse() {
+      const email = "admin@mail.com"; // Assuming the email is constant for approval action
       console.log("calling disapprove");
       console.log(this.selected);
       this.selected.forEach((course) => {
         const name = course.course_name;
 
-        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`)
+        AXIOS.post(`/disapprove/${encodeURIComponent(name)}`, null, {
+          params: { email: email },
+        })
           .then((response) => {
-
+            // Handle successful response if needed
             this.fetchCourses();
             console.log(`Course ${name} disapproved successfully.`);
           })
           .catch((error) => {
-
+            // Handle error if needed
             console.error(`Error disapproving course ${name}:`, error);
           });
       });
     },
+    deleteCourse() {
+        //TODO: not implement
+      },
   },
   watch: {
     currentPage(newValue) {

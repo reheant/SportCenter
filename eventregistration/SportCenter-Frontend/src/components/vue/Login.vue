@@ -12,7 +12,7 @@
             <b-form-select-option value="Instructor">
               Instructor
             </b-form-select-option>
-            <b-form-select-option value="Instructor">
+            <b-form-select-option value="Owner">
               Owner
             </b-form-select-option>
           </b-form-select>

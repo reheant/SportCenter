@@ -119,12 +119,9 @@
   }
 
   .b-table {
-    border: 2px solid #ccc;
-    /* Example: add a border */
-    border-radius: 5px;
-    /* Example: add border radius */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Example: add a box shadow */
+    border: 2px solid #ccc; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
 
   /* Style the table headers */
@@ -144,8 +141,7 @@
   }
 
   .b-table tr:hover {
-    background-color: #f9f9f9;
-    /* Example: Style the hover effect */
+    background-color: #f9f9f9; 
   }
 
   .text-rejected {
@@ -163,75 +159,71 @@
     font-weight: bold;
   }
 
+.button-custom {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+}
 
-  .button-custom {
-    background-color: #4CAF50;
-    /* Green */
-    border: none;
-    color: white;
-    padding: 8px 14px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    border-radius: 4px;
-  }
+.button-custom:hover {
+  background-color: #45a049; /* Darker Green */
+}
 
-  .button-custom:hover {
-    background-color: #45a049;
-    /* Darker Green */
-  }
-
-  .course-name {
-    font-weight: bold;
-  }
+.course-name {
+  font-weight: bold;
+}
 
 
 
-  .description-button {
-    background-color: #c3fcc5;
-    border: none;
-    color: rgb(2, 2, 2);
-    padding: 8px 14px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    border-radius: 4px;
+.description-button{
+  background-color: #c3fcc5; 
+  border: none;
+  color: rgb(2, 2, 2);
+  padding: 8px 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
 
-  }
+}
+.pagination .page-link {
+  color: #4caf50;
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin: 10px;
+  cursor: pointer;
+}
 
-  .pagination .page-link {
-    color: #4caf50;
-    font-weight: bold;
-    font-size: 1.25rem;
-    margin: 10px;
-    cursor: pointer;
-  }
+.pagination .page-item.active .page-link {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
 
-  .pagination .page-item.active .page-link {
-    background-color: #4caf50;
-    border-color: #4caf50;
-  }
+.pagination .page-link:hover {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  color: white;
+}
 
-  .pagination .page-link:hover {
-    background-color: #4caf50;
-    border-color: #4caf50;
-    color: white;
-  }
+.pagination .page-link:focus {
+  box-shadow: none;
+}
 
-  .pagination .page-link:focus {
-    box-shadow: none;
-  }
-
-  .pagination .page-link,
-  .pagination .page-item.active .page-link {
-    border-radius: 5px;
-  }
+.pagination .page-link,
+.pagination .page-item.active .page-link {
+  border-radius: 5px;
+}
 </style>
