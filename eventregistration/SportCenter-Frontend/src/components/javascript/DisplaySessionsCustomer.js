@@ -11,6 +11,17 @@ const AXIOS = axios.create({
 });
 
 export default {
+  props: ['filteredData'],
+  data() {
+    return {
+      fields: [
+        { key: "start_time", sortable: true },
+        { key: "end_time", sortable: false },
+        { key: "course_name", sortable: true },
+        { key: "location", sortable: false }
+      ],
+      items: [],
+      selectMode: "single",
   data() {
     return {
       fields: [
@@ -27,6 +38,12 @@ export default {
       currentPage: 1, // initial current page
       perPage: 10, // initial items per page
       sortDesc: false,
+      sortBy: "session_name",
+    };
+  },
+  computed: {
+    selectedSessionNames() {
+      return this.selected.map((item) => item.session_name);
       sortBy: "start_time",
       show: true,
       error: '',
@@ -41,10 +58,12 @@ export default {
       return this.items.length;
     },
   },
-  
 
   created() {
-    this.fetchSessions(); // Fetch sessions when the component is created
+    if (this.filteredData) {
+      this.fetchFilteredSessions();
+    } else {
+      this.fetchSessions();
   },
 
   methods: {
@@ -68,6 +87,22 @@ export default {
           this.error = errorMsg;
         });
     },
+    fetchFilteredSessions() {
+          // Make an HTTP GET request to fetch all sessions
+          AXIOS.get("/sessions")
+            .then((response) => {
+              // Update items array with the fetched sessions
+              this.items = this.filteredData.map((session) => ({
+                start_time: session.startTime,
+                end_time: session.endTime,
+                course_name: session.courseName,
+                location: session.locationName,
+              }));
+            })
+            .catch((error) => {
+              console.error("Error fetching sessions:", error);
+            });
+        },
 
     onRowSelected(items) {
       this.selected = items;
@@ -88,22 +123,22 @@ export default {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
     },
-    register() {        
-        const userRole = localStorage.getItem("user_role");        
+    register() {
+        const userRole = localStorage.getItem("user_role");
         if (userRole != 'Customer'){
             this.error = "You must be logged in as a customer to register for a session";
             console.log(this.error);
-            return false;    
+            return false;
         }
 
         const customerEmail = localStorage.getItem("account_email");
-                        
+
         console.log("calling register");
-        
+
         console.log(this.selected);
         this.selected.forEach((session) => {
             const sessionId = session.id;
-           
+
             AXIOS.post(`/registration/`, null, {
                 params: { email: customerEmail,
                           sessionId: sessionId
@@ -119,7 +154,7 @@ export default {
                   const errorMsg = (error.response && error.response.data) ? error.response.data : "Something went wrong";
                   this.successMessage = '';
                   console.error(`Error registering customer with email ${customerEmail} for session with id ${sessionId}:`, error);
-                  this.error = errorMsg;                  
+                  this.error = errorMsg;
                 });
 
         });
@@ -135,10 +170,10 @@ export default {
 
         this.selected.forEach((session) => {
             sessionId = session.id;
-           
+
             params = {
                 email: customerEmail,
-                sessionId: sessionId    
+                sessionId: sessionId
             }
             // https://developer.chrome.com/blog/urlsearchparams/
             urlWithParams = `/unregister/?${new URLSearchParams(params).toString()}`;
@@ -168,13 +203,8 @@ export default {
           this.show = true;
         })
       }
-  
-  },
-  filterSession() {
-    // TODO: not implement
-  },
-    // Approve selected rows
 
+  },
   watch: {
     currentPage(newValue) {
       this.onPageChange(newValue);

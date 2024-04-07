@@ -8,6 +8,9 @@ import DisplayCourseInstructor from "@/components/vue/DisplayCourseInstructor";
 import DisplayCourseCustomer from "@/components/vue/DisplayCourseCustomer";
 import DisplaySessionsAdmin from "@/components/vue/DisplaySessionsAdmin";
 import DisplaySessionsCustomer from "@/components/vue/DisplaySessionsCustomer";
+import DisplaySessionsInstructor from "@/components/vue/DisplaySessionsInstructor";
+import DisplaySessionsCustomer from "@/components/vue/DisplaySessionsCustomer";
+import ModifySession from "@/components/vue/ModifySession";
 import CreateSession from "@/components/vue/CreateSession";
 import SelectPaymentType from '@/components/vue/SelectPaymentType'
 import AddPaypal from '@/components/vue/AddPaypal'
@@ -22,6 +25,8 @@ import ViewOwners from "@/components/vue/ViewOwners";
 import CreateOwner from "@/components/vue/CreateOwner";
 import ModifyCourse from "@/components/vue/ModifyCourse";
 import FilterSessionsAdmin from '@/components/vue/FilterSessionsAdmin'
+import FilterSessionsInstructor from '@/components/vue/FilterSessionsInstructor'
+import FilterSessionsCustomer from '@/components/vue/FilterSessionsCustomer'
 Vue.use(Router)
 
 
@@ -113,6 +118,18 @@ export default new Router({
       props: true
     },
     {
+      path: "/instructor/DisplaySessions",
+      name: "DisplaySessionsInstructor",
+      component: DisplaySessionsInstructor,
+      props: true
+    },
+    {
+      path: "/customer/DisplaySessions",
+      name: "DisplaySessionsCustomer",
+      component: DisplaySessionsCustomer,
+      props: true
+    },
+    {
         path: "/customer/DisplaySessions",
         name: "DisplaySessionsCustomer",
         component: DisplaySessionsCustomer,
@@ -152,6 +169,16 @@ export default new Router({
       path: '/admin/FilterSessions',
       name: "FilterSessions",
       component: FilterSessionsAdmin,
+    },
+    {
+      path: '/instructor/FilterSessions',
+      name: "FilterSessions",
+      component: FilterSessionsInstructor,
+    },
+    {
+      path: '/customer/FilterSessions',
+      name: "FilterSessions",
+      component: FilterSessionsCustomer,
     }
   ],
 });

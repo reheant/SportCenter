@@ -39,7 +39,7 @@
         <b-button size="sm" class="button-custom" @click="unregister"
         >Unegister for Selected Session</b-button>
       </p>
-  
+
       <!-- Table component -->
       <b-table
         :items="items"
@@ -69,10 +69,10 @@
             </template>
           </span>
         </template>
-  
-  
+
+
         <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-  
+
         <template #cell(session_id)="data">
           <span class="session-id">
             {{ data.value }}
@@ -94,29 +94,29 @@
         <p v-if="error" style="color: red">{{ error }}</p>
       </div>
       <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
-  
+
 
     </div>
   </template>
-  
+
 
 
   <script src="../javascript/DisplaySessionsCustomer.js"></script>
-  
+
   <style>
   .form-group-content {
     width: 100%;
     max-width: 400px;
     margin-bottom: 1rem;
   }
-  
+
   .buttons-container {
     display: flex;
     justify-content: space-around;
     width: 100%;
     max-width: 400px;
   }
-  
+
   .title {
     font-size: 24px;
     font-weight: bold;
@@ -124,20 +124,20 @@
     margin-top: 15px;
     margin-bottom: 15px;
   }
-  
+
   .b-table {
-    border: 2px solid #ccc; 
-    border-radius: 5px; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   /* Style the table headers */
   .b-table th {
     background-color: #f0f0f0;
     color: #333;
     text-align: center;
   }
-  
+
   /* Style the table rows */
   .b-table tr {
     background-color: #ffffff;
@@ -148,33 +148,33 @@
     background-color: #f0f0ff;
     text-align: center;
   }
-  
+
   .b-table tr:hover {
     background-color: #f9f9f9;
   }
-  
+
   .b-table tr:hover {
     background-color: #f9f9f9;
   }
   .custom-striped-table tbody tr:nth-child(odd):not(:hover) {
     background-color: #fafff8;
   }
-  
+
   .text-rejected {
     color: red;
     font-weight: bold;
   }
-  
+
   .text-pending {
     color: orange;
     font-weight: bold;
   }
-  
+
   .text-approved {
     color: green;
     font-weight: bold;
   }
-  
+
   .button-custom {
     background-color: #4caf50;
     border: none;
@@ -190,11 +190,11 @@
     cursor: pointer;
     border-radius: 4px;
   }
-  
+
   .button-custom:hover {
     background-color: #45a049;
   }
-  
+
   .session-name {
     font-weight: bold;
   }
@@ -219,25 +219,24 @@
     margin: 10px;
     cursor: pointer;
   }
-  
+
   .pagination .page-item.active .page-link {
     background-color: #4caf50;
     border-color: #4caf50;
   }
-  
+
   .pagination .page-link:hover {
     background-color: #4caf50;
     border-color: #4caf50;
     color: white;
   }
-  
+
   .pagination .page-link:focus {
     box-shadow: none;
   }
-  
+
   .pagination .page-link,
   .pagination .page-item.active .page-link {
     border-radius: 5px;
   }
   </style>
-  
