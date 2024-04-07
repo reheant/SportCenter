@@ -104,7 +104,33 @@ export default {
     },
 
     assignInstructor() {
-        console.log(this.form.instructorEmail);
+        const instructorAccountEmail = this.form.instructorEmail;        
+
+        this.selected.forEach((session) => {
+            const sessionId = session.id;
+        
+            console.log(instructorAccountEmail + " " + sessionId);
+
+            const urlWithParams = `/schedule/modify/sessions/${sessionId}/instructor`;
+
+            AXIOS.post(urlWithParams, null, {
+                params: { instructorAccountEmail: instructorAccountEmail,
+                        },
+              })
+                .then((response) => {
+                  this.fetchSessions();
+                  this.successMessage = `Instructor with email ${instructorAccountEmail} successfully assigned to session with id ${sessionId}.`;
+                  console.log(this.successMessage);
+                })
+                .catch((error) => {
+                  // Handle error if needed
+                  const errorMsg = (error.response && error.response.data) ? error.response.data : "Something went wrong";
+                  this.successMessage = '';
+                  console.error(`Error assigning instructor with email ${instructorAccountEmail} to session with id ${sessionId}:`, error);
+                  this.error = errorMsg;                  
+                });
+
+        });
     },
 
   },
