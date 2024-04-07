@@ -57,7 +57,7 @@ public class DtoConverter {
         }
         CustomerDto customerDto = new CustomerDto(customer.getAccount().getEmail(),
                 customer.getWantsEmailConfirmation(), customer.getAccount().getFirstName(),
-                customer.getAccount().getLastName());
+                customer.getAccount().getLastName(), customer.getAccount().getPassword());
         return customerDto;
     }
 

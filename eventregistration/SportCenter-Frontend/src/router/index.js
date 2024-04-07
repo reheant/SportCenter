@@ -24,6 +24,8 @@ import FilterCourseCustomer from '@/components/vue/FilterCourseCustomer'
 import ViewOwners from "@/components/vue/ViewOwners";
 import CreateOwner from "@/components/vue/CreateOwner";
 import ModifyCourse from "@/components/vue/ModifyCourse";
+import ModifyCustomer from "@/components/vue/ModifyCustomer";
+
 import FilterSessionsAdmin from '@/components/vue/FilterSessionsAdmin'
 import FilterSessionsInstructor from '@/components/vue/FilterSessionsInstructor'
 import FilterSessionsCustomer from '@/components/vue/FilterSessionsCustomer'
@@ -101,6 +103,11 @@ export default new Router({
       path: "/admin/viewCustomers",
       name: "viewAccounts",
       component: ViewAccounts,
+    },
+    {
+      path: "/admin/modify/customer/:email",
+      name: "Modify Customer",
+      component: ModifyCustomer,
     },
     {
       path: "/admin/viewInstructors",
