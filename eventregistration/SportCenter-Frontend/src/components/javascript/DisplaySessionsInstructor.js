@@ -47,14 +47,19 @@ export default {
   },
 
   methods: {
+    formatDateTime(dateTimeString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const date = new Date(dateTimeString);
+      return new Intl.DateTimeFormat('en-US', options).format(date);
+    },
     fetchSessions() {
       // Make an HTTP GET request to fetch all sessions
       AXIOS.get("/sessions")
         .then((response) => {
           // Update items array with the fetched sessions
           this.items = response.data.map((session) => ({
-            start_time: session.startTime,
-            end_time: session.endTime,
+            start_time: this.formatDateTime(session.startTime),
+            end_time: this.formatDateTime(session.endTime),
             course_name: session.courseName,
             location: session.locationName,
           }));
@@ -69,8 +74,8 @@ export default {
             .then((response) => {
               // Update items array with the fetched sessions
               this.items = this.filteredData.map((session) => ({
-                start_time: session.startTime,
-                end_time: session.endTime,
+                start_time: this.formatDateTime(session.startTime),
+                end_time: this.formatDateTime(session.endTime),
                 course_name: session.courseName,
                 location: session.locationName,
               }));

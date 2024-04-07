@@ -45,7 +45,7 @@
         <b-button size="sm" class="button-custom">Filter</b-button>
       </router-link>
     </p>
-
+    <div class="tableContainer">
     <!-- Table component -->
     <b-table
       :items="items"
@@ -85,7 +85,7 @@
         </span>
       </template>
     </b-table>
-
+  </div>
     <b-pagination
       class="pagination"
       v-model="currentPage"
@@ -234,5 +234,9 @@
 .pagination .page-link,
 .pagination .page-item.active .page-link {
   border-radius: 5px;
+}
+.tableContainer {
+  max-width: 90%;
+  margin: 0 auto;
 }
 </style>
