@@ -16,7 +16,11 @@ INSERT INTO owner (id, account_id) VALUES
 INSERT INTO customer (id, account_id, wants_email_confirmation) VALUES
     (1, 1, true),
     (2, 3, false),
-    (3, 5, true);
+    (3, 5, true),
+    (4, 2, false),
+    (5, 4, true),
+    (6, 6, true);
+
 
 INSERT INTO payment_method (id, customer_id, name) VALUES
     (1, 1, 'Card 1'),
