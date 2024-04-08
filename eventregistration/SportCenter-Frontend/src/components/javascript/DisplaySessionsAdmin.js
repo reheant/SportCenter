@@ -35,7 +35,6 @@ export default {
       error: '',
       successMessage: '',
       assigningInstructor: false,
-      specificSessionRegistered: false,
     };
   },
   computed: {
@@ -63,15 +62,15 @@ export default {
     },
     fetchSessions() {
       // Make an HTTP GET request to fetch all sessions
-      const customerEmail = localStorage.getItem("account_email");
       AXIOS.get("/sessions")
       .then((response) => {
         // Update items array with the fetched sessions
         this.items = response.data.map((session) => ({
+          id: session.id,
           start_time: this.formatDateTime(session.startTime),
           end_time: this.formatDateTime(session.endTime),
           course_name: session.courseName,
-          location: session.locationName,
+          location: session.locationName
         }));
         })
         .catch((error) => {
