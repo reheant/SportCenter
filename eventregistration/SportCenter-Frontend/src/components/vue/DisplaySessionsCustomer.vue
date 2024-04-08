@@ -12,6 +12,8 @@
             <b-nav-item to="/customer/displayCourse" href="#"
               >View Courses</b-nav-item
             >
+            <b-nav-item to="/customer/displaySessions" href="#">View Sessions</b-nav-item>
+
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">

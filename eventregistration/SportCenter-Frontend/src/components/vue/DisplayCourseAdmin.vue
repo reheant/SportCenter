@@ -12,7 +12,9 @@
             <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
             <b-nav-item to="/admin/viewOwners">View Owners</b-nav-item>
             <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
+            <b-nav-item to="/admin/displaySessions" href="#">View Sessions</b-nav-item>
             <b-nav-item to="/admin/modify/location" href="#">Modify Location</b-nav-item>
+
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">

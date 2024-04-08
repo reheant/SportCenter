@@ -36,6 +36,7 @@
           <p v-if="error" style="color: red">{{ error }}</p>
         </div>
         <div class="buttons-container">
+          <b-button @click="onReturn" variant="info">Return</b-button>
           <b-button type="reset" variant="info">Reset</b-button>
           <b-button type="submit" variant="primary">Update</b-button>
         </div>

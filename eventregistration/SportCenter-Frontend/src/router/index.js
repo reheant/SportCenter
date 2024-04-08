@@ -15,7 +15,7 @@ import AddPaypal from '@/components/vue/AddPaypal'
 import AddCard from '@/components/vue/AddCard'
 import Admin from '@/components/vue/Admin'
 import ViewAccounts from '@/components/vue/ViewAccounts'
-
+import CreateCourseInstructor from "@/components/vue/CreateCourseInstructor";
 import ViewInstructors from "@/components/vue/ViewInstructors";
 import ModifyLocation from "@/components/vue/ModifyLocation";
 import FilterCourseAdmin from '@/components/vue/FilterCourseAdmin'
@@ -126,8 +126,8 @@ export default new Router({
     },
     {
       path: "/instructor/createCourse",
-      name: "CreateCourse",
-      component: CreateCourse,
+      name: "CreateCourseInstructor",
+      component: CreateCourseInstructor,
     },
     {
       path: "/admin/DisplaySessions",

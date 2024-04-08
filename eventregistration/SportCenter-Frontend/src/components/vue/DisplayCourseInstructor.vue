@@ -31,7 +31,7 @@
         >Clear selected</b-button
       >
 
-      <router-link to="/instructor/createCourse">
+      <router-link to="/Instructor/CreateCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
 

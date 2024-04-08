@@ -1,31 +1,41 @@
 <template>
   <div>
     <!-- Buttons for interaction -->
-            <div>
-              <b-navbar class="navbar" toggleable="lg" type="dark" variant="info">
-                <b-navbar-brand href="#">Sport Center</b-navbar-brand>
+    <div>
+      <b-navbar class="navbar" toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#">Sport Center</b-navbar-brand>
 
-                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-                <b-collapse id="nav-collapse" is-nav>
-                  <b-navbar-nav>
-                        <b-nav-item to="/admin/viewCustomers" >View Customers</b-nav-item>
-                        <b-nav-item to="/admin/viewInstructors" href="#">View Instructors</b-nav-item>
-                        <b-nav-item to="/admin/displayCourse" href="#">View Courses</b-nav-item>
-                        <b-nav-item to="/admin/displaySessions" href="#">View Sessions</b-nav-item>
-                    </b-navbar-nav>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item to="/admin/viewCustomers">View Customers</b-nav-item>
+            <b-nav-item to="/admin/viewInstructors" href="#"
+              >View Instructors</b-nav-item
+            >
+            <b-nav-item to="/admin/viewOwners">View Owners</b-nav-item>
+            <b-nav-item to="/admin/displayCourse" href="#"
+              >View Courses</b-nav-item
+            >
+            <b-nav-item to="/admin/displaySessions" href="#"
+              >View Sessions</b-nav-item
+            >
+            <b-nav-item to="/admin/modify/location" href="#"
+              >Modify Location</b-nav-item
+            >
+          </b-navbar-nav>
 
-                  <b-navbar-nav class="ml-auto">
-                    <b-nav-item-dropdown right>
-                      <template #button-content>
-                        <em>User</em>
-                      </template>
-                      <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-                    </b-nav-item-dropdown>
-                  </b-navbar-nav>
-                </b-collapse>
-              </b-navbar>
-            </div>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right>
+              <template #button-content>
+                <em>User</em>
+              </template>
+              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
     <!-- Buttons for interaction -->
     <p>
       <b-button size="sm" class="button-custom" @click="selectAllRows"
@@ -44,47 +54,55 @@
         <b-button size="sm" class="button-custom">Filter</b-button>
       </router-link>
       <b-button size="sm" class="button-custom" @click="displayAssignInstructor"
-        >Assign an Instructor</b-button>
-
+        >Assign an Instructor</b-button
+      >
     </p>
 
     <div v-if="assigningInstructor">
-        <div class="form-container">
+      <div class="form-container">
         <b-card>
-            <b-form
+          <b-form
             @submit.prevent="onSubmit"
             @reset.prevent="onReset"
             class="form-content"
-            >
-            
+          >
             <b-form-group
-                id="input-group-2"
-                label="Instructor Email:"
-                label-for="input-instructor-email"
-                class="form-group-content"
+              id="input-group-2"
+              label="Instructor Email:"
+              label-for="input-instructor-email"
+              class="form-group-content"
             >
-                <b-form-input
+              <b-form-input
                 id="input-instructor-email"
                 v-model="form.instructorEmail"
                 placeholder="Enter Instructor Email"
                 required
-                ></b-form-input>
+              ></b-form-input>
             </b-form-group>
 
-
             <div class="buttons-container">
-                <b-button type="reset" variant="info">Reset</b-button>
-                <b-button type="submit" class="btn btn-danger" @click="unassignInstructor">Unassign</b-button>
-                <b-button type="submit" variant="primary" @click="assignInstructor">Assign</b-button>
+              <b-button type="reset" variant="info">Reset</b-button>
+              <b-button
+                type="submit"
+                class="btn btn-danger"
+                @click="unassignInstructor"
+                >Unassign</b-button
+              >
+              <b-button
+                type="submit"
+                variant="primary"
+                @click="assignInstructor"
+                >Assign</b-button
+              >
             </div>
-            </b-form>
+          </b-form>
         </b-card>
-        </div>
+      </div>
     </div>
-    
+
     <div class="tableContainer">
-        <!-- Table component -->
-        <b-table
+      <!-- Table component -->
+      <b-table
         :items="items"
         :fields="fields"
         :select-mode="selectMode"
@@ -99,27 +117,29 @@
         class="custom-striped-table"
         selectable
         @row-selected="onRowSelected"
-        >
+      >
         <template #cell(selected)="{ rowSelected, item }">
-            <span @click="selectRow(item)" :class="{ 'selected-row': rowSelected }">
+          <span
+            @click="selectRow(item)"
+            :class="{ 'selected-row': rowSelected }"
+          >
             <template v-if="rowSelected">
-                <span aria-hidden="true">&check;</span>
-                <span class="sr-only">Selected</span>
+              <span aria-hidden="true">&check;</span>
+              <span class="sr-only">Selected</span>
             </template>
             <template v-else>
-                <span aria-hidden="true">&nbsp;</span>
-                <span class="sr-only">Not selected</span>
+              <span aria-hidden="true">&nbsp;</span>
+              <span class="sr-only">Not selected</span>
             </template>
-            </span>
+          </span>
         </template>
-
 
         <template #cell(session_id)="data">
-            <span class="session-id">
+          <span class="session-id">
             {{ data.value }}
-            </span>
+          </span>
         </template>
-        </b-table>
+      </b-table>
     </div>
     <b-pagination
       class="pagination"
@@ -131,10 +151,9 @@
     ></b-pagination>
 
     <div class="error">
-        <p v-if="error" style="color: red">{{ error }}</p>
+      <p v-if="error" style="color: red">{{ error }}</p>
     </div>
     <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
-
   </div>
 </template>
 
@@ -202,7 +221,6 @@
 .custom-striped-table tbody tr:nth-child(odd):not(:hover) {
   background-color: #00cffd19;
 }
-
 
 .text-rejected {
   color: red;
