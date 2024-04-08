@@ -50,10 +50,10 @@ Customers can also access a view of their completed classes as well as their upc
 ## Sprint 3: Effort Table 💪
 | Name | Role | Effort in hours |
 | --- | --- | --- |
-| Anastasiia Nemyrovska | .......  | 45 |
-| Julien Audet | ....... | 45 |
-|  Tim Pham | ....... | 40 | 
-|  Rehean Thillainathalingam | ........ | 41 |
-|  Marc-Antoine Nadeau | .....| 41 |
-| Tiffany Miller | ........ | 43 | 
+| Anastasiia Nemyrovska | Documentation, frontend implementation for: Session, Course filtering/view implementation, email confirmations  | 45 |
+| Julien Audet | Documentation, frontend implementation for: register/unregister for courses, instructor assignment to courses | 45 |
+|  Tim Pham | Documentation, frontend implementation for: Login/Logout, User authentification, modify Location, modify profiles | 41 | 
+|  Rehean Thillainathalingam | Documentation, frontend implementation for: Customer profile creation, view and manage instructors/customers, paypal & credit card info, base application | 42 |
+|  Marc-Antoine Nadeau | Documentation, frontend implementation for: Creating and viewing courses, base application, accepting/rejecting courses | 42 |
+| Tiffany Miller | Documentation, frontend implementation for: modify session | 40 | 
 
