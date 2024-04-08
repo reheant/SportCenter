@@ -85,6 +85,7 @@ export default {
             .then((response) => {
               // Update items array with the fetched sessions
               this.items = this.filteredData.map((session) => ({
+                id: session.id,
                 start_time: this.formatDateTime(session.startTime),
                 end_time: this.formatDateTime(session.endTime),
                 course_name: session.courseName,

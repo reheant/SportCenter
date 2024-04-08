@@ -75,8 +75,8 @@ public class DataLoader implements ApplicationRunner {
         private String loadData;
 
         private Account[] accounts = {
-                        new Account("John", "Doe", "john.doe@example.com", "J0hnD0e!"),
-                        new Account("Jane", "Smith", "jane.smith@example.com", "J @neSmith1"),
+                        new Account("Tiffany", "Miller", "tiffany.miller@example.com", "Pa$$w0rd"),
+                        new Account("Anastasiia", "Nemyrovska", "anastasiia.nemyrovska@mail.mcgill.ca", "Pa$$w0rd"),
                         new Account("Michael", "Johnson", "michael.johnson@example.com", "M1ch @elJ0hnson!"),
                         new Account("Emily", "Wilson", "emily.wilson@example.com", "Em1lyW!ls0n"),
                         new Account("David", "Brown", "david.brown@example.com", "D @v1dBrown!"),
@@ -93,16 +93,16 @@ public class DataLoader implements ApplicationRunner {
         };
 
         private String[][] sessions = {
-                        { "1", "2024-06-01 10:00:00", "1", "2024-06-01 08:00:00" },
-                        { "1", "2024-07-01 12:00:00", "1", "2024-07-01 10:00:00" },
-                        { "2", "2024-06-01 10:00:00", "1", "2024-06-01 08:00:00" },
-                        { "2", "2024-07-01 12:00:00", "1", "2024-07-01 10:00:00" },
-                        { "3", "2024-07-01 12:00:00", "1", "2024-07-01 10:00:00" },
-                        { "3", "2024-08-01 14:00:00", "1", "2024-08-01 12:00:00" },
-                        { "4", "2024-07-01 12:00:00", "1", "2024-07-01 10:00:00" },
-                        { "4", "2024-09-01 16:00:00", "1", "2024-09-01 14:00:00" },
-                        { "5", "2024-09-01 16:00:00", "1", "2024-09-01 14:00:00" },
-                        { "5", "2024-10-01 18:00:00", "1", "2024-10-01 16:00:00" },
+                        { "1", "2024-06-01 08:00:00", "1", "2024-06-01 10:00:00" },
+                        { "1", "2024-07-01 10:00:00", "2", "2024-07-01 12:00:00" },
+                        { "2", "2024-06-01 08:00:00", "3", "2024-06-01 10:00:00" },
+                        { "2", "2024-07-01 10:00:00", "4", "2024-07-01 12:00:00" },
+                        { "3", "2024-07-01 10:00:00", "5", "2024-07-01 12:00:00" },
+                        { "3", "2024-08-01 12:00:00", "4", "2024-08-01 14:00:00" },
+                        { "4", "2024-07-01 10:00:00", "3", "2024-07-01 12:00:00" },
+                        { "4", "2024-09-01 14:00:00", "2", "2024-09-01 16:00:00" },
+                        { "5", "2024-09-01 14:00:00", "1", "2024-09-01 16:00:00" },
+                        { "5", "2024-10-01 16:00:00", "2", "2024-10-01 18:00:00" },
         };
 
         public void run(ApplicationArguments args) {
@@ -132,7 +132,7 @@ public class DataLoader implements ApplicationRunner {
                                 .save(new Location("Sports Center", 200, Time.valueOf("09:20:00"),
                                                 Time.valueOf("21:20:00")));
 
-                instructor.save(new Instructor(account.findById(2).orElseThrow()));
+                instructor.save(new Instructor(account.findById(1).orElseThrow())); // tiffany
                 instructor.save(new Instructor(account.findById(3).orElseThrow()));
                 instructor.save(new Instructor(account.findById(4).orElseThrow()));
 
@@ -146,12 +146,12 @@ public class DataLoader implements ApplicationRunner {
                                 CourseStatus.Pending, false, 59, 2));
                 course.save(new Course("Yoga for Beginners",
                                 "This course focuses on improving flexibility, strength, and balance through yoga practice.",
-                                CourseStatus.Pending, true, 99, 4));
+                                CourseStatus.Approved, true, 99, 4));
                 course.save(new Course("Introduction to Martial Arts",
                                 "Explore the techniques of martial arts including kicks, punches, and blocks.",
                                 CourseStatus.Refused,
                                 true, 69, 200));
-                course.save(new Course("Tennis Fundamentals",
+                Course basketballCourse = course.save(new Course("Tennis Fundamentals",
                                 "This course introduces students to the principles of tennis including serving, volleying, and strategy.",
                                 CourseStatus.Pending, true, 89, 5));
 
@@ -160,8 +160,14 @@ public class DataLoader implements ApplicationRunner {
                         so = session.save(new Session(LocalDateTime.parse(s[1], formatter),
                                         LocalDateTime.parse(s[3], formatter),
                                         course.findById(Integer.parseInt(s[2])).orElseThrow(), l));
-                        reg.save(new Registration(customer.findById(so.getCourse().getId()).orElseThrow(), so));
-                        ia.save(new InstructorAssignment(instructor.findById(so.getId() % 2 + 1).orElseThrow(), so));
-                }
+                        if (s[2].equals("1")){ // register + assign for basket only
+                            //reg.save(new Registration(customer.findById().orElseThrow(), so));
+                            ia.save(new InstructorAssignment(instructor.findById(accounts[2].getId()).orElseThrow(), so)); // michael is assigned
+                        }
+                        if (s[2].equals("3")){ // assign TIFF for YOGA only
+                            //reg.save(new Registration(customer.findById().orElseThrow(), so));
+                            ia.save(new InstructorAssignment(instructor.findById(accounts[0].getId()).orElseThrow(), so)); // TIFF is assigned
+                        }
+                }            
         }
 }
