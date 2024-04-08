@@ -82,10 +82,11 @@ export default {
         },
         fetchFilteredSessions() {
             // Make an HTTP GET request to fetch all sessions
+            const customerEmail = localStorage.getItem("account_email");
             AXIOS.get("/sessions")
             .then(async (response) => {
                 // Update items array with the fetched sessions
-                this.items = await Promise.all(response.data.map(async (session) => ({
+                this.items = await Promise.all(this.filteredData.map(async (session) => ({
                   id: session.id,
                   start_time: this.formatDateTime(session.startTime),
                   end_time: this.formatDateTime(session.endTime),
@@ -202,7 +203,7 @@ export default {
                 sessionId: sessionId
               };
               const urlWithParams = `/registration/?${new URLSearchParams(params).toString()}`;
-          
+
               const response = await AXIOS.get(urlWithParams);
               return "X";
             } catch (error) { // a sketchy way to check if registered
