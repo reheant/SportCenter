@@ -153,7 +153,7 @@
   background-color: #f9f9f9;
 }
 .custom-striped-table tbody tr:nth-child(odd):not(:hover) {
-  background-color: #fafff8;
+  background-color: #00cffd19;
 }
 
 .text-rejected {

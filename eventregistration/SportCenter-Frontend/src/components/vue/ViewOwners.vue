@@ -55,6 +55,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         sort-icon-right
+        class="custom-striped-table"
         selectable
         @row-selected="onRowSelected"
       >
@@ -169,6 +170,9 @@
   .b-table tr:hover {
     background-color: #f9f9f9; /* Example: Style the hover effect */
   }
+  .custom-striped-table tbody tr:nth-child(odd):not(:hover) {
+  background-color: #00cffd19;
+}
 
   .text-rejected {
     color: red;

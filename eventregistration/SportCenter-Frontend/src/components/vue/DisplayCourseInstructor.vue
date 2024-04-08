@@ -53,6 +53,7 @@
         :sort-desc.sync="sortDesc"
         sort-icon-right
         selectable
+        class="custom-striped-table"
         @row-selected="onRowSelected"
       >
         <template #cell(selected)="{ rowSelected, item }">
