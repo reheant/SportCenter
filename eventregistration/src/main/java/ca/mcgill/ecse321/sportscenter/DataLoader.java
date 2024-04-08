@@ -76,10 +76,10 @@ public class DataLoader implements ApplicationRunner {
 
         private Account[] accounts = {
                         new Account("John", "Doe", "john.doe@example.com", "J0hnD0e!"),
-                        new Account("Jane", "Smith", "jane.smith @example.com", "J @neSmith1"),
-                        new Account("Michael", "Johnson", "michael.johnson @example.com", "M1ch @elJ0hnson!"),
-                        new Account("Emily", "Wilson", "emily.wilson @example.com", "Em1lyW!ls0n"),
-                        new Account("David", "Brown", "david.brown @example.com", "D @v1dBrown!"),
+                        new Account("Jane", "Smith", "jane.smith@example.com", "J @neSmith1"),
+                        new Account("Michael", "Johnson", "michael.johnson@example.com", "M1ch @elJ0hnson!"),
+                        new Account("Emily", "Wilson", "emily.wilson@example.com", "Em1lyW!ls0n"),
+                        new Account("David", "Brown", "david.brown@example.com", "D @v1dBrown!"),
                         new Account("Jesus", "Christ", "admin@example.com", "J3susChr!st")
         };
 
