@@ -22,7 +22,7 @@
               <template #button-content>
                 <em>User</em>
               </template>
-              <b-dropdown-item @click="onLogout">Sign Out</b-dropdown-item>  
+              <b-dropdown-item @click="onLogout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -33,11 +33,11 @@
       <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show" class="form-content">
         <div class="title">Modify Location</div>
 
-        <b-form-group id="input-group-2" label="Name" label-for="input-name" class="form-group-content">
+        <b-form-group id="input-group-2" label="Name:" label-for="input-name" class="form-group-content">
           <b-form-input id="input-name" v-model="form.name" placeholder="Name" required></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-3" label="Capacity" label-for="input-capacity" class="form-group-content">
+        <b-form-group id="input-group-3" label="Capacity:" label-for="input-capacity" class="form-group-content">
           <b-form-input id="input-capacity" type="number" v-model="form.capacity" placeholder="Capacity"
             required></b-form-input>
         </b-form-group>
@@ -54,6 +54,7 @@
             required></b-form-timepicker>
         </b-form-group>
         <div class="buttons-container">
+          <b-button @click="onReturn" variant="info">Return</b-button>
           <b-button type="reset" variant="info">Reset</b-button>
           <b-button type="submit" variant="primary">Save</b-button>
         </div>
