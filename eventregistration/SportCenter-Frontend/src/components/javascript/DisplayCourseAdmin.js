@@ -16,14 +16,14 @@ export default {
   data() {
     return {
       fields: [
-        { key: "selected", sortable: false },
-        { key: "course_name", sortable: true },
-        { key: "course_description", sortable: false },
-        { key: "course_cost", sortable: true },
-        { key: "course_duration", sortable: true },
-        { key: "requires_instructor", sortable: true },
-        { key: "course_status", sortable: true },
-        { key: "action", sortable: false },
+        { key: "selected", label: "Select", sortable: false },
+        { key: "course_name", label: "Name", sortable: true },
+        { key: "course_description", label: "Description", sortable: false },
+        { key: "course_cost", label: "Cost", sortable: true },
+        { key: "course_duration", label: "Duration", sortable: true },
+        { key: "requires_instructor", label: "Supervised", sortable: true },
+        { key: "course_status", label: "Status", sortable: true },
+        { key: "action", label: "Action", sortable: false },
       ],
       items: [],
       selectMode: "multi",
