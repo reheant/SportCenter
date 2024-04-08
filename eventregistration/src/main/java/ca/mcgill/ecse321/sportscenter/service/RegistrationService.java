@@ -107,4 +107,18 @@ public class RegistrationService {
         registrationRepository.deleteById(registration.getId());
         return true;
     }
+
+    @Transactional
+    public Registration getRegistration(String email, Integer session_id) throws IllegalArgumentException, NullPointerException {
+        if (email == null){
+            throw new NullPointerException("The customer email cannot be null.");
+        } else if (email.isEmpty()){
+          throw new IllegalArgumentException("The customer email cannot be empty.");  
+        } else if (session_id == null) {
+            throw new NullPointerException("The session id cannot be null.");
+        }
+
+        Registration registration = registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(email, session_id);
+        return registration;
+    }
 }

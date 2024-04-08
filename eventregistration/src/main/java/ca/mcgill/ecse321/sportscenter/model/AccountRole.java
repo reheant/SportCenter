@@ -8,7 +8,8 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.MappedSuperclass;
 
-@MappedSuperclass()
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class AccountRole {
 
   @Id
