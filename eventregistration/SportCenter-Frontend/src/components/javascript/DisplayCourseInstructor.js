@@ -110,6 +110,10 @@ export default {
       this.$refs.selectableTable.clearSelected();
       this.selected = [];
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
 
     onPageChange(page) {
       console.log("Current Page:", page);

@@ -64,6 +64,10 @@ export default {
     onSubmit() {
       this.filterSession();
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
     onReset() {
       this.form = {
         ids: "",

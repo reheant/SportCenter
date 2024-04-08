@@ -125,6 +125,10 @@ export default {
       console.log("Current Page:", page);
       // You can perform any necessary actions here when the page changes
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
 
 
   },

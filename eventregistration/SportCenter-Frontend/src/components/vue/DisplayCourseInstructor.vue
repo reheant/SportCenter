@@ -17,7 +17,7 @@
               <template #button-content>
                 <em>User</em>
               </template>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -31,7 +31,7 @@
         >Clear selected</b-button
       >
 
-      <router-link to="/Instructor/CreateCourse">
+      <router-link to="/instructor/CreateCourse">
         <b-button size="sm" class="button-custom">Create Course</b-button>
       </router-link>
 

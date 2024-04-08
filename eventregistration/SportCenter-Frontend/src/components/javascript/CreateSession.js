@@ -47,6 +47,10 @@ export default {
       const time = dateTimeParts[1];
       return `${date}T${time}:00`;
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
     createSession() {
       if (this.form.startTime === "") {
         this.error = "startTime is required";

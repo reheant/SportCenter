@@ -153,6 +153,10 @@ export default {
     onSubmit() {
         // nothing: buttons directly call the necessary actions :)
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
 
     unassignInstructor(){
         const instructorAccountEmail = this.form.instructorEmail;        

@@ -92,7 +92,10 @@ export default {
     onPageChange(page) {
       console.log("Current Page:", page);
     },
-
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
     demoteInstructor() {
 
       this.selected.forEach(instructor => { const email = instructor.accountEmail;

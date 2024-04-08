@@ -78,6 +78,10 @@ export default {
           });
       }
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
   
     resetError() {
       this.error = "";

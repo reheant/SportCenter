@@ -70,6 +70,10 @@ export default {
     onSubmit() {
       this.createOwner();
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
     onReset() {
       this.form = {
         email: "",

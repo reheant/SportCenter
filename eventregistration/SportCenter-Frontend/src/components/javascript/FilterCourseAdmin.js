@@ -66,6 +66,10 @@ export default {
     onSubmit() {
       this.filterCourse();
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
     onReset() {
       this.form = {
         ids: "",

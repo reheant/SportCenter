@@ -77,6 +77,10 @@ export default {
     onSubmit() {
       this.modifyInstructor();
     },
+    logout() {
+      logout();
+      this.$router.push("login");
+    },
 
     onReset() {
       this.form = {

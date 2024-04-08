@@ -104,7 +104,7 @@ export default {
 
     logout() {
       logout();
-      this.$router.back();
+      this.$router.push("login");
     },
 
     selectAllRows() {
