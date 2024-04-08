@@ -20,9 +20,9 @@ export default {
       fields: [
         { key: "selected", sortable: false },
         { key: "start_time", sortable: true },
-        { key: "end_time", sortable: false },
+        { key: "end_time", sortable: true },
         { key: "course_name", sortable: true },
-        { key: "location", sortable: false }
+        { key: "location", sortable: true }
       ],
       items: [],
       selectMode: "multi",
