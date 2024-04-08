@@ -22,7 +22,7 @@ export default {
         { key: "start_time", sortable: true },
         { key: "end_time", sortable: true },
         { key: "course_name", sortable: true },
-        { key: "location", sortable: true }
+        { key: "location", sortable: true },
       ],
       items: [],
       selectMode: "multi",
@@ -63,15 +63,15 @@ export default {
     fetchSessions() {
       // Make an HTTP GET request to fetch all sessions
       AXIOS.get("/sessions")
-        .then((response) => {
-          // Update items array with the fetched sessions
-          this.items = response.data.map((session) => ({
-            id: session.id,
-            start_time: this.formatDateTime(session.startTime),
-            end_time: this.formatDateTime(session.endTime),
-            course_name: session.courseName,
-            location: session.locationName,
-          }));
+      .then((response) => {
+        // Update items array with the fetched sessions
+        this.items = response.data.map((session) => ({
+          id: session.id,
+          start_time: this.formatDateTime(session.startTime),
+          end_time: this.formatDateTime(session.endTime),
+          course_name: session.courseName,
+          location: session.locationName
+        }));
         })
         .catch((error) => {
           console.error("Error fetching sessions:", error);

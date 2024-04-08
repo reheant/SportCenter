@@ -47,6 +47,13 @@ public class ScheduleRestController {
                 return new ResponseEntity<>(sessionDto, HttpStatus.CREATED);     
     }
 
+    @GetMapping(value = { "/assignment", "/assignment/" })
+    public InstructorAssignmentDto getAssignment(@RequestParam(name = "email") String email,
+                                                 @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException {
+        InstructorAssignment instructorAssignment = scheduleService.getAssignment(sessionId, email);
+        return DtoConverter.convertToDto(instructorAssignment);
+    }
+
      // assign an instructor to a session
      @PostMapping(value = { "/schedule/modify/sessions/{sessionId}/instructor", "/schedule/modify/sessions/{sessionId}/instructor/" })
      public ResponseEntity<InstructorAssignmentDto> assignInstructorToSession(@PathVariable("sessionId") Integer sessionId,

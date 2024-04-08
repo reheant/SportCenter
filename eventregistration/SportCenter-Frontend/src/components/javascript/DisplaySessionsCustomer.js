@@ -20,11 +20,13 @@ export default {
             { key: "end_time", sortable: true },
             { key: "course_name", sortable: true },
             { key: "location", sortable: true },
-            { key: "instructor", sortable: true }
+            { key: "instructor", sortable: true },
+            { key: "registered", sortable: false},
         ],
         items: [],
         selectMode: "multi",
         selected: [],
+        registered: [],
         currentPage: 1, // initial current page
         perPage: 10, // initial items per page
         sortDesc: false,
@@ -58,16 +60,18 @@ export default {
           },
         fetchSessions() {
         // Make an HTTP GET request to fetch all sessions
+        const customerEmail = localStorage.getItem("account_email");
         AXIOS.get("/sessions")
-            .then((response) => {
+          .then(async (response) => {
             // Update items array with the fetched sessions
-            this.items = response.data.map((session) => ({
-                id: session.id,
-                start_time: this.formatDateTime(session.startTime),
-                end_time: this.formatDateTime(session.endTime),
-                course_name: session.courseName,
-                location: session.locationName,
-            }));
+            this.items = await Promise.all(response.data.map(async (session) => ({
+              id: session.id,
+              start_time: this.formatDateTime(session.startTime),
+              end_time: this.formatDateTime(session.endTime),
+              course_name: session.courseName,
+              location: session.locationName,
+              registered: await this.getIsRegistered(session.id, customerEmail),
+            })));
             })
             .catch((error) => {
             const errorMsg = error.response && error.response.data ? error.response.data : "Something went wrong";
@@ -79,14 +83,16 @@ export default {
         fetchFilteredSessions() {
             // Make an HTTP GET request to fetch all sessions
             AXIOS.get("/sessions")
-                .then((response) => {
+            .then(async (response) => {
                 // Update items array with the fetched sessions
-                this.items = this.filteredData.map((session) => ({
-                    start_time: this.formatDateTime(session.startTime),
-                    end_time: this.formatDateTime(session.endTime),
-                    course_name: session.courseName,
-                    location: session.locationName,
-                }));
+                this.items = await Promise.all(response.data.map(async (session) => ({
+                  id: session.id,
+                  start_time: this.formatDateTime(session.startTime),
+                  end_time: this.formatDateTime(session.endTime),
+                  course_name: session.courseName,
+                  location: session.locationName,
+                  registered: await this.getIsRegistered(session.id, customerEmail),
+                })));
                 })
                 .catch((error) => {
                 console.error("Error fetching sessions:", error);
@@ -184,6 +190,21 @@ export default {
 
             });
         },
+
+        async getIsRegistered(sessionId, customerEmail) {
+            try {
+              const params = {
+                email: customerEmail,
+                sessionId: sessionId
+              };
+              const urlWithParams = `/registration/?${new URLSearchParams(params).toString()}`;
+          
+              const response = await AXIOS.get(urlWithParams);
+              return "X";
+            } catch (error) { // a sketchy way to check if registered
+              return "";
+            }
+          },
 
         onReset() {
             this.error = '';

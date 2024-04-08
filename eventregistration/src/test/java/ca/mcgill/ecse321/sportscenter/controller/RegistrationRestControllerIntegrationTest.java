@@ -111,6 +111,19 @@ public class RegistrationRestControllerIntegrationTest {
     }
 
     @Test
+    public void testGetRegistration() {
+        createTestRegistration();
+        assertTrue(registrationRepository.findById(registration.getId()).isPresent());
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/")
+            .queryParam("email", email)    
+            .queryParam("sessionId", session.getId())
+            .encode()
+            .toUriString();
+        ResponseEntity<RegistrationDto> getResponse = client.getForEntity(urlTemplate, null, RegistrationDto.class);
+        assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+    }
+
+    @Test
     public void testUnregister() {
         createTestRegistration();
         assertTrue(registrationRepository.findById(registration.getId()).isPresent());

@@ -99,6 +99,26 @@ public class ScheduleService {
     }
 
     @Transactional
+    public InstructorAssignment getAssignment(Integer sessionId, String instructorAccountEmail) throws NullPointerException, IllegalArgumentException {
+        if (sessionId == null || instructorAccountEmail == null){
+            throw new NullPointerException("Please ensure all fields are complete and none are empty");
+        }
+
+        Session session = sessionRepository.findById(sessionId)
+        .orElseThrow(() -> new IllegalArgumentException("No session found with id " + sessionId));
+        
+        Instructor instructor = instructorRepository.findInstructorByAccountEmail(instructorAccountEmail);
+
+        if (instructor == null) {
+            throw new IllegalArgumentException("No instructor found with email " + instructorAccountEmail);
+        }
+
+        InstructorAssignment assignment = instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(instructorAccountEmail, sessionId);
+
+        return assignment;
+    }
+
+    @Transactional
     public Boolean unassignInstructorFromSession(Integer sessionId, String instructorAccountEmail) throws NullPointerException{
         if (sessionId == null){
             throw new NullPointerException("The session id cannot be null.");
