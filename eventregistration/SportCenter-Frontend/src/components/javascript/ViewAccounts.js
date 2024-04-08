@@ -1,5 +1,7 @@
 import axios from 'axios'
 import config from '../../../config'
+import { logout } from '../../helper/login';
+
 
 const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -93,9 +95,9 @@ export default {
     onPageChange(page) {
       console.log("Current Page:", page);
     },
-    logout() {
+     onLogout() {
       logout();
-      this.$router.push("login");
+     this.$router.push("/login");
     },
 
     promoteCustomer() {

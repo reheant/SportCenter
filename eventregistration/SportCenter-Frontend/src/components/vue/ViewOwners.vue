@@ -29,7 +29,7 @@
               <template #button-content>
                 <em>User</em>
               </template>
-              <b-dropdown-item @click="logout">Sign Out</b-dropdown-item>
+              <b-dropdown-item @click="onLogout">Sign Out</b-dropdown-item>  
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>

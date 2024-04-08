@@ -1,5 +1,7 @@
 import axios from "axios";
 import config from "../../../config";
+import { logout } from '../../helper/login';
+
 
 const frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 const backendUrl =
@@ -47,9 +49,9 @@ export default {
       const time = dateTimeParts[1];
       return `${date}T${time}:00`;
     },
-    logout() {
+     onLogout() {
       logout();
-      this.$router.push("login");
+     this.$router.push("/login");
     },
     createSession() {
       if (this.form.startTime === "") {

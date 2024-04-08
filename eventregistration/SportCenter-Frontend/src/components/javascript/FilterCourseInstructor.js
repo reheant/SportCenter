@@ -1,5 +1,7 @@
 import axios from "axios";
 import config from "../../../config";
+import { logout } from '../../helper/login';
+
 
 const frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
 const backendUrl =
@@ -66,9 +68,9 @@ export default {
     onSubmit() {
       this.filterCourse();
     },
-    logout() {
+    onLogout() {
       logout();
-      this.$router.push("login");
+     this.$router.push("/login");
     },
     onReset() {
       this.form = {

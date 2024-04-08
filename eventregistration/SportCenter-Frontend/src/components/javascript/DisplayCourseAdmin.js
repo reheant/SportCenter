@@ -102,9 +102,9 @@ export default {
       console.log(this.selected);
     },
 
-    logout() {
+     onLogout() {
       logout();
-      this.$router.push("login");
+     this.$router.push("/login");
     },
 
     selectAllRows() {
