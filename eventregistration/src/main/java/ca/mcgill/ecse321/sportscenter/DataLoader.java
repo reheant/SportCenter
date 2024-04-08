@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.sportscenter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -65,6 +66,9 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private InstructorAssignmentRepository ia;
 
+    @Value("${load-data}")
+    private String loadData;
+
     private Account[] accounts = {
             new Account("John", "Doe", "john.doe@example.com", "J0hnD0e!"),
             new Account("Jane", "Smith", "jane.smith @example.com", "J @neSmith1"),
@@ -97,6 +101,10 @@ public class DataLoader implements ApplicationRunner {
     };
 
     public void run(ApplicationArguments args) {
+        if (!Boolean.parseBoolean(loadData)) {
+            return;
+        }
+
         for (Account a : accounts) {
             account.save(a);
             customer.save(new Customer(false, a));
