@@ -35,9 +35,6 @@
       <router-link to="/instructor/CreateSession">
         <b-button size="sm" class="button-custom">Create Session</b-button>
       </router-link>
-      <router-link to="/instructor/ModifySession">
-        <b-button size="sm" class="button-custom">Modify Session</b-button>
-      </router-link>
       <b-button size="sm" class="button-custom" @click="deleteSession"
         >Delete Session</b-button
       >
