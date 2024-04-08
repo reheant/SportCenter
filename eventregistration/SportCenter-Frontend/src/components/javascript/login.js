@@ -31,6 +31,7 @@ export default {
         .then((r) => {
           console.log(r.data);
           localStorage.setItem("user_id", r.data.id);
+          localStorage.setItem("account_email", this.form.email);
           localStorage.setItem("user_role", r.data.role);
             switch (r.data.role) {
               case "Customer":
