@@ -23,29 +23,7 @@ export default {
         show: true
       };
     },
-    methods: {
-      login() {
-        console.log(this.form);
-        AXIOS.post("/login", this.form)
-          .then((r) => {
-            console.log(r.data);
-            localStorage.setItem("user_id", r.data.id);
-            localStorage.setItem("account_email", this.form.email);
-            localStorage.setItem("user_role", r.data.role);
-            this.$router.back();
-          })
-          .catch((e) => {
-            const errorMsg = e.response && e.response.data.error ? e.response.data.error : "Something went wrong";
-            console.error(errorMsg);
-            this.error = errorMsg;
-          })
-      },
-      onSubmit() {
-        this.login();
-      },
-      error: "",
-      show: true,
-  },
+
   methods: {
     login() {
       console.log(this.form);
@@ -54,7 +32,17 @@ export default {
           console.log(r.data);
           localStorage.setItem("user_id", r.data.id);
           localStorage.setItem("user_role", r.data.role);
-          this.$router.back();
+            switch (r.data.role) {
+              case "Customer":
+                this.$router.push({name: "DisplayCourseCustomer"});
+                break;
+              case "Instructor":
+                this.$router.push({name: "DisplaySessionsInstructor"});
+                break;
+              case "Owner":
+                this.$router.push({name: "DisplayCourseAdmin"});
+                break;
+            }
         })
         .catch((e) => {
           const errorMsg =
