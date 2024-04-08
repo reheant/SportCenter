@@ -56,9 +56,6 @@
             required></b-form-input>
         </b-form-group>
 
-        <div class="error">
-          <p v-if="error" style="color: red">{{ error }}</p>
-        </div>
         <div class="buttons-container">
           <b-button @click="onReturn" variant="info">Return</b-button>
           <b-button type="reset" variant="info">Reset</b-button>
