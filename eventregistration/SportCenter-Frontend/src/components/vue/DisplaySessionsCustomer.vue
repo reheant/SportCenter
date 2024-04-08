@@ -42,6 +42,9 @@
       <b-button size="sm" class="button-custom" @click="unregister"
         >Unegister for Selected Session</b-button
       >
+      <router-link to="/customer/FilterSessions">
+        <b-button size="sm" class="button-custom">Filter</b-button>
+      </router-link>
     </p>
     <div class="tableContainer">
       <!-- Table component -->

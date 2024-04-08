@@ -148,11 +148,6 @@ export default new Router({
       props: true
     },
     {
-        path: "/customer/DisplaySessions",
-        name: "DisplaySessionsCustomer",
-        component: DisplaySessionsCustomer,
-      },
-    {
       path: "/admin/CreateSession",
       name: "CreateSession",
       component: CreateSession,
