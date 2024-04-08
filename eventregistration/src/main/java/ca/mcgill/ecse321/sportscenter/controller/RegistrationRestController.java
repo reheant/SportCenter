@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import javax.mail.MessagingException;
 
 import ca.mcgill.ecse321.sportscenter.dto.RegistrationDto;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
@@ -31,7 +32,7 @@ public class RegistrationRestController {
 
     @PostMapping(value = { "/registration", "/registration/" })
     public RegistrationDto register(@RequestParam(name = "email") String email,
-                                    @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException {
+                                    @RequestParam(name = "sessionId") Integer sessionId) throws IllegalArgumentException, NullPointerException, MessagingException {
         Registration registration = registrationService.register(email, sessionId);
         return DtoConverter.convertToDto(registration);
     }
