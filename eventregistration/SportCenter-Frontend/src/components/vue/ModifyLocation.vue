@@ -53,9 +53,6 @@
           <b-form-timepicker id="input-closingTime" v-model="form.closingTime" placeholder="Time"
             required></b-form-timepicker>
         </b-form-group>
-        <div class="error">
-          <p v-if="error" style="color: red">{{ error }}</p>
-        </div>
         <div class="buttons-container">
           <b-button type="reset" variant="info">Reset</b-button>
           <b-button type="submit" variant="primary">Save</b-button>
