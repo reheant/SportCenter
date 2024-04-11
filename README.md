@@ -55,5 +55,5 @@ Customers can also access a view of their completed classes as well as their upc
 |  Tim Pham | Documentation, frontend implementation for: Login/Logout, User authentification, modify Location, modify profiles | 41 | 
 |  Rehean Thillainathalingam | Documentation, frontend implementation for: Customer profile creation, view and manage instructors/customers, paypal & credit card info, base application | 42 |
 |  Marc-Antoine Nadeau | Documentation, frontend implementation for: Creating and viewing courses, base application, accepting/rejecting courses | 42 |
-| Tiffany Miller | Documentation, frontend implementation for: modify session | 40 | 
+| Tiffany Miller | Documentation, application organization, presentation slides, frontend implementation for: modify session | 40 | 
 
