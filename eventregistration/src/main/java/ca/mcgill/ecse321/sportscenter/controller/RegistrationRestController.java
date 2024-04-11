@@ -16,6 +16,8 @@ import ca.mcgill.ecse321.sportscenter.dto.RegistrationDto;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.service.RegistrationService;
 
+import javax.mail.MessagingException;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class RegistrationRestController {

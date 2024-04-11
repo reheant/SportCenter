@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
@@ -17,8 +18,10 @@ import javax.mail.MessagingException;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.mail.MessagingException;
 
 @Service
 public class RegistrationService {

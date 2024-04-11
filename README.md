@@ -42,3 +42,18 @@ Customers can also access a view of their completed classes as well as their upc
 |  Rehean Thillainathalingam | Documentation, Backend service implementation, unit testing and Integration testing for : Create customer profile, modify user profiles and add payment information | 31 |
 |  Marc-Antoine Nadeau | Documentation, Backend service implementation, unit testing and Integration testing for : Add/Delete course, Admin approving a course and create admin profile| 25 |
 | Tiffany Miller | Documentation, Backend service implementation, unit testing and Integration testing for : Modify sport center information and modify schedule | 26 | 
+
+## Sprint 3: Project Report 📝 
+[Sprint 3 Project Report](../../wiki/Project-Report-Deliverable-3)
+
+
+## Sprint 3: Effort Table 💪
+| Name | Role | Effort in hours |
+| --- | --- | --- |
+| Anastasiia Nemyrovska | Documentation, frontend implementation for: Session, Course filtering/view implementation, email confirmations  | 45 |
+| Julien Audet | Documentation, frontend implementation for: register/unregister for courses, instructor assignment to courses | 45 |
+|  Tim Pham | Documentation, frontend implementation for: Login/Logout, User authentification, modify Location, modify profiles | 41 | 
+|  Rehean Thillainathalingam | Documentation, frontend implementation for: Customer profile creation, view and manage instructors/customers, paypal & credit card info, base application | 42 |
+|  Marc-Antoine Nadeau | Documentation, frontend implementation for: Creating and viewing courses, base application, accepting/rejecting courses | 42 |
+| Tiffany Miller | Documentation, application organization, presentation slides, frontend implementation for: modify session | 40 | 
+
