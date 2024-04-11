@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.sportscenter.dao;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import ca.mcgill.ecse321.sportscenter.model.InstructorAssignment;
+
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -12,4 +13,7 @@ public interface InstructorAssignmentRepository
     List<InstructorAssignment> findInstructorAssignmentBySessionId(Integer id);
     @Query("SELECT ia FROM InstructorAssignment ia WHERE LOWER(CONCAT(ia.instructor.account.firstName, ' ', ia.instructor.account.lastName)) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<InstructorAssignment> findInstructorAssignmentByInstructorNameContainingIgnoreCase(@Param("name") String name);
+    @Query("SELECT ia FROM InstructorAssignment ia WHERE ia.instructor.account.email = :email AND ia.session.id = :sessionId")
+    InstructorAssignment findInstructorAssignmentByInstructorAccountEmailAndSessionId(String email, Integer sessionId);    
+    List<InstructorAssignment> findAllByInstructorId(Integer instructorId);
 }

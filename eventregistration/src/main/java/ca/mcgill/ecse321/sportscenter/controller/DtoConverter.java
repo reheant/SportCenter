@@ -25,50 +25,58 @@ import ca.mcgill.ecse321.sportscenter.model.Registration;
 
 public class DtoConverter {
     public static AccountDto convertToDto(Account account) {
-        if (account == null){
+        if (account == null) {
             throw new NullPointerException("Account cannot be null.");
         }
-        AccountDto accountDto = new AccountDto(account.getFirstName(), account.getEmail(), account.getLastName(), account.getPassword());
+        AccountDto accountDto = new AccountDto(account.getFirstName(), account.getEmail(), account.getLastName(),
+                account.getPassword());
         return accountDto;
     }
 
     public static OwnerDto convertToDto(Owner owner) {
-        if (owner == null){
+        if (owner == null) {
             throw new NullPointerException("Owner cannot be null.");
         }
-        OwnerDto ownerDto = new OwnerDto(owner.getAccount().getEmail());
+        OwnerDto ownerDto = new OwnerDto(owner.getAccount().getEmail(), owner.getAccount().getFirstName(),
+                owner.getAccount().getLastName());
         return ownerDto;
     }
 
     public static InstructorDto convertToDto(Instructor instructor) {
-        if (instructor == null){
+        if (instructor == null) {
             throw new NullPointerException("Instructor cannot be null.");
         }
-        InstructorDto instructorDto = new InstructorDto(instructor.getAccount().getEmail());
+        InstructorDto instructorDto = new InstructorDto(instructor.getAccount().getEmail(),
+                instructor.getAccount().getFirstName(), instructor.getAccount().getLastName(),
+                instructor.getAccount().getPassword());
         return instructorDto;
     }
 
     public static CustomerDto convertToDto(Customer customer) {
-        if (customer == null){
+        if (customer == null) {
             throw new NullPointerException("Customer cannot be null.");
         }
-        CustomerDto customerDto = new CustomerDto(customer.getAccount().getEmail(), customer.getWantsEmailConfirmation());
+        CustomerDto customerDto = new CustomerDto(customer.getAccount().getEmail(),
+                customer.getWantsEmailConfirmation(), customer.getAccount().getFirstName(),
+                customer.getAccount().getLastName(), customer.getAccount().getPassword());
         return customerDto;
     }
 
     public static PaypalDto convertToDto(PayPal paypal) {
-        if (paypal == null){
+        if (paypal == null) {
             throw new NullPointerException("Paypal cannot be null.");
         }
-        PaypalDto paypalDto = new PaypalDto(paypal.getName(), paypal.getEmail(), paypal.getPassword(), paypal.getCustomer().getAccount().getEmail());
+        PaypalDto paypalDto = new PaypalDto(paypal.getName(), paypal.getEmail(), paypal.getPassword(),
+                paypal.getCustomer().getAccount().getEmail());
         return paypalDto;
     }
 
     public static CardDto convertToDto(Card card) {
-        if (card == null){
+        if (card == null) {
             throw new NullPointerException("Card cannot be null.");
         }
-        CardDto cardDto = new CardDto(card.getName(), card.getPaymentCardType(), card.getNumber(), card.getExpirationDate(), card.getCcv(), card.getCustomer().getAccount().getEmail());
+        CardDto cardDto = new CardDto(card.getName(), card.getPaymentCardType(), card.getNumber(),
+                card.getExpirationDate(), card.getCcv(), card.getCustomer().getAccount().getEmail());
         return cardDto;
     }
 
@@ -76,7 +84,9 @@ public class DtoConverter {
         if (course == null) {
             throw new NullPointerException("Course cannot be null.");
         }
-        CourseDto courseDto = new CourseDto(course.getName(), course.getDescription(), course.getCourseStatus(), course.getRequiresInstructor(), course.getDefaultDuration(), course.getCost());
+        CourseDto courseDto = new CourseDto(course.getId(), course.getName(), course.getDescription(),
+                course.getCourseStatus(), course.getRequiresInstructor(), course.getDefaultDuration(),
+                course.getCost());
         return courseDto;
     }
 
@@ -84,7 +94,9 @@ public class DtoConverter {
         if (location == null) {
             throw new NullPointerException("Location cannot be null.");
         }
-        LocationDto locationDto = new LocationDto(location.getName(), location.getCapacity(), location.getOpeningTime(), location.getClosingTime());
+        LocationDto locationDto = new LocationDto(location.getId(), location.getName(), location.getCapacity(),
+                location.getOpeningTime(),
+                location.getClosingTime());
         return locationDto;
     }
 
@@ -92,7 +104,8 @@ public class DtoConverter {
         if (session == null) {
             throw new NullPointerException("Session cannot be null.");
         }
-        SessionDto sessionDto = new SessionDto(session.getStartTime(), session.getEndTime(), session.getCourse().getName(), session.getLocation().getName());
+        SessionDto sessionDto = new SessionDto(session.getId(), session.getStartTime(), session.getEndTime(),
+                session.getCourse().getName(), session.getLocation().getName());
         return sessionDto;
     }
 
@@ -100,7 +113,8 @@ public class DtoConverter {
         if (registration == null) {
             throw new NullPointerException("Registration cannot be null.");
         }
-        RegistrationDto registrationDto = new RegistrationDto(registration.getCustomer().getAccount().getEmail(), registration.getSession().getId());
+        RegistrationDto registrationDto = new RegistrationDto(registration.getCustomer().getAccount().getEmail(),
+                registration.getSession().getId());
         return registrationDto;
     }
 
@@ -114,9 +128,9 @@ public class DtoConverter {
         String instructorName = instructorAcc.getFirstName();
         Session s = assignment.getSession();
         int sessionId = s.getId();
-        
+
         InstructorAssignmentDto dto = new InstructorAssignmentDto(instructorName,
-        sessionId);
+                sessionId);
         return dto;
 
     }

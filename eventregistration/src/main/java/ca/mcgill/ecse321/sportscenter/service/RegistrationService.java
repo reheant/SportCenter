@@ -11,7 +11,11 @@ import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Customer;
 import ca.mcgill.ecse321.sportscenter.model.Registration;
 import ca.mcgill.ecse321.sportscenter.model.Session;
+import java.time.format.DateTimeFormatter;
 import ca.mcgill.ecse321.sportscenter.util.EmailUtil;
+import org.springframework.beans.factory.annotation.Value;
+import javax.mail.MessagingException;
+
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -60,7 +64,7 @@ public class RegistrationService {
 
         List<Registration> otherRegistrations = registrationRepository.findAll();
         for (Registration otherRegistration: otherRegistrations) {
-            if (otherRegistration.getCustomer().getAccount().getEmail() == email && otherRegistration.getSession().getId() == session_id){
+            if (otherRegistration.getCustomer().getAccount().getEmail().equals(email) && otherRegistration.getSession().getId() == session_id){
                 throw new IllegalArgumentException("Email is already registered for session with that id.");
             }
         }
@@ -87,6 +91,7 @@ public class RegistrationService {
         } else {
             registration.setSession(session);
         }
+
         Registration savedRegistration = registrationRepository.save(registration);
         if (customer.getWantsEmailConfirmation() && sendConfirmationEmail && !emailPassword.isEmpty()) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm 'on' yyyy-MM-dd");
@@ -115,14 +120,24 @@ public class RegistrationService {
         Registration registration = registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(email, session_id);
 
         if (registration == null) {
-            return false;
+            throw new IllegalArgumentException("No matching registration was found");
         }
 
-        try {
-            registration.delete();
-            return true;
-        } catch (Exception error){
-            return false;
+        registrationRepository.deleteById(registration.getId());
+        return true;
+    }
+
+    @Transactional
+    public Registration getRegistration(String email, Integer session_id) throws IllegalArgumentException, NullPointerException {
+        if (email == null){
+            throw new NullPointerException("The customer email cannot be null.");
+        } else if (email.isEmpty()){
+          throw new IllegalArgumentException("The customer email cannot be empty.");  
+        } else if (session_id == null) {
+            throw new NullPointerException("The session id cannot be null.");
         }
+
+        Registration registration = registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(email, session_id);
+        return registration;
     }
 }

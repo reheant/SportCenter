@@ -71,22 +71,71 @@ public class ScheduleService {
     }
 
     @Transactional
-    public InstructorAssignment assignInstructorToSession(Integer sessionId, Integer instructorId) throws Exception {
-        if (sessionId == null || instructorId == null){
+    public InstructorAssignment assignInstructorToSession(Integer sessionId, String instructorAccountEmail) throws Exception {
+        if (sessionId == null || instructorAccountEmail == null){
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
+
         Session session = sessionRepository.findById(sessionId)
         .orElseThrow(() -> new Exception("No session found with id " + sessionId));
         
-        Instructor instructor = instructorRepository.findById(instructorId)
-        .orElseThrow(() -> new Exception("No instructor found with id " + instructorId));
+        Instructor instructor = instructorRepository.findInstructorByAccountEmail(instructorAccountEmail);
 
+        if (instructor == null) {
+            throw new NullPointerException("No instructor found with email " + instructorAccountEmail);
+        }
+
+        InstructorAssignment duplicateAssignment = instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(instructorAccountEmail, sessionId);
+        if (duplicateAssignment != null) {
+            throw new IllegalArgumentException("Instructor with email " + instructorAccountEmail + " is already assigned to session with id " + sessionId);
+        }
+        
         InstructorAssignment instructorAssignment = new InstructorAssignment();
         instructorAssignment.setInstructor(instructor);
         instructorAssignment.setSession(session);
 
         return instructorAssignmentRepository.save(instructorAssignment);
         
+    }
+
+    @Transactional
+    public InstructorAssignment getAssignment(Integer sessionId, String instructorAccountEmail) throws NullPointerException, IllegalArgumentException {
+        if (sessionId == null || instructorAccountEmail == null){
+            throw new NullPointerException("Please ensure all fields are complete and none are empty");
+        }
+
+        Session session = sessionRepository.findById(sessionId)
+        .orElseThrow(() -> new IllegalArgumentException("No session found with id " + sessionId));
+        
+        Instructor instructor = instructorRepository.findInstructorByAccountEmail(instructorAccountEmail);
+
+        if (instructor == null) {
+            throw new IllegalArgumentException("No instructor found with email " + instructorAccountEmail);
+        }
+
+        InstructorAssignment assignment = instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(instructorAccountEmail, sessionId);
+
+        return assignment;
+    }
+
+    @Transactional
+    public Boolean unassignInstructorFromSession(Integer sessionId, String instructorAccountEmail) throws NullPointerException{
+        if (sessionId == null){
+            throw new NullPointerException("The session id cannot be null.");
+        }
+
+        if (instructorAccountEmail == null) {
+            throw new NullPointerException("The instructor account email cannot be null.");
+        }
+
+        InstructorAssignment instructorAssignment = instructorAssignmentRepository.findInstructorAssignmentByInstructorAccountEmailAndSessionId(instructorAccountEmail, sessionId);
+
+        if (instructorAssignment == null) {
+            throw new IllegalArgumentException("No matching instructor assignment.");
+        }
+
+        instructorAssignmentRepository.deleteById(instructorAssignment.getId());
+        return true;
     }
 
 }

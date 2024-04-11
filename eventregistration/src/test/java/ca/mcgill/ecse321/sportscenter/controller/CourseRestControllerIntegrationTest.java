@@ -16,15 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import ca.mcgill.ecse321.sportscenter.dao.AccountRepository;
 import ca.mcgill.ecse321.sportscenter.dao.CourseRepository;
-import ca.mcgill.ecse321.sportscenter.dao.OwnerRepository;
 import ca.mcgill.ecse321.sportscenter.dto.CourseDto;
-import ca.mcgill.ecse321.sportscenter.model.Account;
 import ca.mcgill.ecse321.sportscenter.model.Course;
 import ca.mcgill.ecse321.sportscenter.model.Course.CourseStatus;
-import ca.mcgill.ecse321.sportscenter.model.Owner;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class CourseRestControllerIntegrationTest {
@@ -35,30 +33,15 @@ public class CourseRestControllerIntegrationTest {
     @Autowired
     private CourseRepository courseRepo;
 
-    @Autowired
-    private AccountRepository accountRepo;
-
-    @Autowired
-    private OwnerRepository ownerRepo;
-
-    
     @AfterEach
     public void clearDb() {
         courseRepo.deleteAll();
-        ownerRepo.deleteAll();
-        accountRepo.deleteAll();
-        
+
     }
 
-    private Course createDefaultCourse(){
-        return courseRepo.save(new Course("Musculation", "Pushing Weights",CourseStatus.Pending, true,(float) 10.101,(float) 294.2));
-    }
-    private Account createDefaultPerson() {
-        return accountRepo.save(new Account("foo", "bar", "foo@bar.com", "password123A!"));
-    }
-    
-    private Owner createDefaultOwner() {
-        return ownerRepo.save(new Owner(createDefaultPerson()));
+    private Course createDefaultCourse() {
+        return courseRepo.save(new Course("Musculation", "Pushing Weights", CourseStatus.Pending, true, (float) 10.101,
+                (float) 294.2));
     }
 
     @Test
@@ -69,7 +52,7 @@ public class CourseRestControllerIntegrationTest {
         String description = "This is a description";
         Boolean requiresInstructor = true;
         float defaultDuration = (float) 10.012;
-        float cost = (float) 293.203; 
+        float cost = (float) 293.203;
 
         requestBody.add("description", description);
         requestBody.add("requiresInstructor", requiresInstructor);
@@ -83,24 +66,23 @@ public class CourseRestControllerIntegrationTest {
         assertNotNull(response.getBody(), "Response has body");
         assertEquals(name, response.getBody().getName(), "Response has correct name");
         assertEquals(description, response.getBody().getDescription(), "Response has correct description");
-        assertEquals(requiresInstructor, response.getBody().getRequiresInstructor(), "Response has correct requires instructor");
+        assertEquals(requiresInstructor, response.getBody().getRequiresInstructor(),
+                "Response has correct requires instructor");
         assertEquals(defaultDuration, response.getBody().getDefaultDuration(), "Response has correct duration");
         assertEquals(cost, response.getBody().getCost(), "Response has correct cost");
     }
-    
 
     @Test
-    public void testCreateDuplicateCourse(){
+    public void testCreateDuplicateCourse() {
+        createDefaultCourse();
 
-       Course course = createDefaultCourse();
-
-       MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
 
         String name = "Musculation";
         String description = "This is a description";
         Boolean requiresInstructor = true;
         float defaultDuration = (float) 10.012;
-        float cost = (float) 293.203; 
+        float cost = (float) 293.203;
 
         requestBody.add("description", description);
         requestBody.add("requiresInstructor", requiresInstructor);
@@ -112,261 +94,222 @@ public class CourseRestControllerIntegrationTest {
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
     }
+
     @Test
-    public void testCreateCourseInvalidName(){
- 
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
- 
-         String name = "";
-         String description = "This is a description";
-         Boolean requiresInstructor = true;
-         float defaultDuration = (float) 10.012;
-         float cost = (float) 293.203; 
- 
-         requestBody.add("description", description);
-         requestBody.add("requiresInstructor", requiresInstructor);
-         requestBody.add("defaultDuration", defaultDuration);
-         requestBody.add("cost", cost);
- 
-         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
- 
-         assertNotNull(response);
-         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
-     }
+    public void testCreateCourseInvalidName() {
 
+        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
 
-     @Test
-     public void testCreateCourseNullName(){
- 
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
- 
-         String name = null;
-         String description = "This is a description";
-         Boolean requiresInstructor = true;
-         float defaultDuration = (float) 10.012;
-         float cost = (float) 293.203; 
- 
-         requestBody.add("description", description);
-         requestBody.add("requiresInstructor", requiresInstructor);
-         requestBody.add("defaultDuration", defaultDuration);
-         requestBody.add("cost", cost);
- 
-         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
- 
-         assertNotNull(response);
-         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
-     }
-     @Test
-     public void testCreateCourseNullDescription(){
- 
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
- 
-         String name = "Sport";
-         String description = null;
-         Boolean requiresInstructor = true;
-         float defaultDuration = (float) 10.012;
-         float cost = (float) 293.203; 
- 
-         requestBody.add("description", description);
-         requestBody.add("requiresInstructor", requiresInstructor);
-         requestBody.add("defaultDuration", defaultDuration);
-         requestBody.add("cost", cost);
- 
-         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
- 
-         assertNotNull(response);
-         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
-     }
+        String name = "";
+        String description = "This is a description";
+        Boolean requiresInstructor = true;
+        float defaultDuration = (float) 10.012;
+        float cost = (float) 293.203;
 
+        requestBody.add("description", description);
+        requestBody.add("requiresInstructor", requiresInstructor);
+        requestBody.add("defaultDuration", defaultDuration);
+        requestBody.add("cost", cost);
 
-     @Test
-     public void testCreateCourseInvalidDescription(){
- 
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
- 
-         String name = "Sport";
-         String description = "";
-         Boolean requiresInstructor = true;
-         float defaultDuration = (float) 10.012;
-         float cost = (float) 293.203; 
- 
-         requestBody.add("description", description);
-         requestBody.add("requiresInstructor", requiresInstructor);
-         requestBody.add("defaultDuration", defaultDuration);
-         requestBody.add("cost", cost);
- 
-         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
- 
-         assertNotNull(response);
-         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
-     }
-     @Test
-     public void testCreateCourseInvalidDuration(){
- 
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
- 
-         String name = "Sport";
-         String description = "This is a sport";
-         Boolean requiresInstructor = true;
-         float defaultDuration = (float) -10.012;
-         float cost = (float) 293.203; 
- 
-         requestBody.add("description", description);
-         requestBody.add("requiresInstructor", requiresInstructor);
-         requestBody.add("defaultDuration", defaultDuration);
-         requestBody.add("cost", cost);
- 
-         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
- 
-         assertNotNull(response);
-         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
-     }
-    @Test
-     public void testCreateCourseInvalidCost(){
- 
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
- 
-         String name = "Test";
-         String description = "This is a description";
-         Boolean requiresInstructor = true;
-         float defaultDuration = (float) 10.012;
-         float cost = (float) -293.203; 
- 
-         requestBody.add("description", description);
-         requestBody.add("requiresInstructor", requiresInstructor);
-         requestBody.add("defaultDuration", defaultDuration);
-         requestBody.add("cost", cost);
- 
-         ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
- 
-         assertNotNull(response);
-         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+        ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
     }
 
     @Test
-    public void testApproveCourse(){
-        Owner owner = createDefaultOwner();
+    public void testCreateCourseNullName() {
+
+        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+
+        String name = null;
+        String description = "This is a description";
+        Boolean requiresInstructor = true;
+        float defaultDuration = (float) 10.012;
+        float cost = (float) 293.203;
+
+        requestBody.add("description", description);
+        requestBody.add("requiresInstructor", requiresInstructor);
+        requestBody.add("defaultDuration", defaultDuration);
+        requestBody.add("cost", cost);
+
+        ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Response has correct status");
+    }
+
+    @Test
+    public void testCreateCourseNullDescription() {
+
+        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+
+        String name = "Sport";
+        String description = null;
+        Boolean requiresInstructor = true;
+        float defaultDuration = (float) 10.012;
+        float cost = (float) 293.203;
+
+        requestBody.add("description", description);
+        requestBody.add("requiresInstructor", requiresInstructor);
+        requestBody.add("defaultDuration", defaultDuration);
+        requestBody.add("cost", cost);
+
+        ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+    }
+
+    @Test
+    public void testCreateCourseInvalidDescription() {
+
+        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+
+        String name = "Sport";
+        String description = "";
+        Boolean requiresInstructor = true;
+        float defaultDuration = (float) 10.012;
+        float cost = (float) 293.203;
+
+        requestBody.add("description", description);
+        requestBody.add("requiresInstructor", requiresInstructor);
+        requestBody.add("defaultDuration", defaultDuration);
+        requestBody.add("cost", cost);
+
+        ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+    }
+
+    @Test
+    public void testCreateCourseInvalidDuration() {
+
+        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+
+        String name = "Sport";
+        String description = "This is a sport";
+        Boolean requiresInstructor = true;
+        float defaultDuration = (float) -10.012;
+        float cost = (float) 293.203;
+
+        requestBody.add("description", description);
+        requestBody.add("requiresInstructor", requiresInstructor);
+        requestBody.add("defaultDuration", defaultDuration);
+        requestBody.add("cost", cost);
+
+        ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+    }
+
+    @Test
+    public void testCreateCourseInvalidCost() {
+
+        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
+
+        String name = "Test";
+        String description = "This is a description";
+        Boolean requiresInstructor = true;
+        float defaultDuration = (float) 10.012;
+        float cost = (float) -293.203;
+
+        requestBody.add("description", description);
+        requestBody.add("requiresInstructor", requiresInstructor);
+        requestBody.add("defaultDuration", defaultDuration);
+        requestBody.add("cost", cost);
+
+        ResponseEntity<String> response = client.postForEntity("/course/{name}", requestBody, String.class, name);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
+    }
+
+    @Test
+    public void testApproveCourse() {
         Course course = createDefaultCourse();
 
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
 
         String name = "Musculation";
-        String email = "foo@bar.com";
 
         requestBody.add("name", name);
-        requestBody.add("email", email);
 
-        ResponseEntity<CourseDto> response = client.postForEntity("/approve/{name}",requestBody, CourseDto.class, name);
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString("/approve/{name}").buildAndExpand(name);
+
+        ResponseEntity<CourseDto> response = client.postForEntity(uriComponents.toUriString(), requestBody,
+                CourseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Response has correct status");
         assertNotNull(response.getBody(), "Response has body");
         assertEquals(name, response.getBody().getName(), "Response has correct name");
         assertEquals(course.getDescription(), response.getBody().getDescription(), "Response has correct description");
-        assertEquals(course.getRequiresInstructor(), response.getBody().getRequiresInstructor(), "Response has correct requires instructor");
-        assertEquals(course.getDefaultDuration(), response.getBody().getDefaultDuration(), "Response has correct duration");
+        assertEquals(course.getRequiresInstructor(), response.getBody().getRequiresInstructor(),
+                "Response has correct requires instructor");
+        assertEquals(course.getDefaultDuration(), response.getBody().getDefaultDuration(),
+                "Response has correct duration");
         assertEquals(course.getCost(), response.getBody().getCost(), "Response has correct cost");
         assertEquals(CourseStatus.Approved, response.getBody().getCourseStatus(), "Response has correct course status");
-       
+
     }
 
-
     @Test
-    public void testApproveInexistantCourse(){
-        Owner owner = createDefaultOwner();
+    public void testApproveInexistantCourse() {
 
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
 
         String name = "Musculation";
-        String email = "foo@bar.com";
 
         requestBody.add("name", name);
-        requestBody.add("email", email);
 
-        ResponseEntity<String> response = client.postForEntity("/approve/{name}",requestBody, String.class, name);
+        ResponseEntity<String> response = client.postForEntity("/approve/{name}", requestBody, String.class, name);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
     }
 
     @Test
-    public void testApproveInexistantOwner(){
-        
+    public void testDisapproveCourse() {
         Course course = createDefaultCourse();
 
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
 
         String name = "Musculation";
-        String email = "foo@bar.com";
 
         requestBody.add("name", name);
-        requestBody.add("email", email);
 
-        ResponseEntity<String> response = client.postForEntity("/approve/{name}",requestBody, String.class, name);
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString("/disapprove/{name}").buildAndExpand(name);
 
-        assertNotNull(response);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
-    }
-
-    @Test
-    public void testDisapproveCourse(){
-        Owner owner = createDefaultOwner();
-        Course course = createDefaultCourse();
-
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
-
-        String name = "Musculation";
-        String email = "foo@bar.com";
-
-        requestBody.add("name", name);
-        requestBody.add("email", email);
-
-        ResponseEntity<CourseDto> response = client.postForEntity("/disapprove/{name}",requestBody, CourseDto.class, name);
+        ResponseEntity<CourseDto> response = client.postForEntity(uriComponents.toUriString(), requestBody,
+                CourseDto.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Response has correct status");
         assertNotNull(response.getBody(), "Response has body");
         assertEquals(name, response.getBody().getName(), "Response has correct name");
         assertEquals(course.getDescription(), response.getBody().getDescription(), "Response has correct description");
-        assertEquals(course.getRequiresInstructor(), response.getBody().getRequiresInstructor(), "Response has correct requires instructor");
-        assertEquals(course.getDefaultDuration(), response.getBody().getDefaultDuration(), "Response has correct duration");
+        assertEquals(course.getRequiresInstructor(), response.getBody().getRequiresInstructor(),
+                "Response has correct requires instructor");
+        assertEquals(course.getDefaultDuration(), response.getBody().getDefaultDuration(),
+                "Response has correct duration");
         assertEquals(course.getCost(), response.getBody().getCost(), "Response has correct cost");
         assertEquals(CourseStatus.Refused, response.getBody().getCourseStatus(), "Response has correct course status");
-       
+
     }
 
     @Test
-    public void testDisapproveInexistantCourse(){
-        Owner owner = createDefaultOwner();
+    public void testDisapproveInexistantCourse() {
 
         MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
 
         String name = "Musculation";
-        String email = "foo@bar.com";
 
         requestBody.add("name", name);
-        requestBody.add("email", email);
 
-        ResponseEntity<String> response = client.postForEntity("/disapprove/{name}",requestBody, String.class, name);
-
-        assertNotNull(response);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
-    }
-
-    @Test
-    public void testDisapproveInexistantOwner(){
-        
-        Course course = createDefaultCourse();
-
-        MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
-
-        String name = "Musculation";
-        String email = "foo@bar.com";
-
-        requestBody.add("name", name);
-        requestBody.add("email", email);
-
-        ResponseEntity<String> response = client.postForEntity("/disapprove/{name}",requestBody, String.class, name);
+        ResponseEntity<String> response = client.postForEntity("/disapprove/{name}", requestBody, String.class, name);
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Response has correct status");
@@ -390,7 +333,8 @@ public class CourseRestControllerIntegrationTest {
 
     @Test
     public void testViewFilteredCoursesWithInvalidKeyword() {
-        ResponseEntity<Course[]> response = client.getForEntity("/courses?keyword=UnlikelyKeyword123456", Course[].class);
+        ResponseEntity<Course[]> response = client.getForEntity("/courses?keyword=UnlikelyKeyword123456",
+                Course[].class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(0, response.getBody().length);
@@ -410,8 +354,8 @@ public class CourseRestControllerIntegrationTest {
     public void testDeleteNonExistentCourse() {
         int nonExistentCourseId = 999999;
         client.delete("/courses/{id}", nonExistentCourseId);
-        ResponseEntity<String> response = client.getForEntity("/courses/filter/{ids}", String.class, nonExistentCourseId);
+        ResponseEntity<String> response = client.getForEntity("/courses/filter/{ids}", String.class,
+                nonExistentCourseId);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }
-

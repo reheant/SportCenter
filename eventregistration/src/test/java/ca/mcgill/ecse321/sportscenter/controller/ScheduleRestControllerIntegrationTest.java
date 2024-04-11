@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.sportscenter.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Time;
@@ -31,26 +33,34 @@ public class ScheduleRestControllerIntegrationTest {
     private TestRestTemplate client;
 
     @Autowired
-    private SessionRepository sessionRepo;
+    private SessionRepository sessionRepository;
     @Autowired
-    private CourseRepository courseRepo;
+    private CourseRepository courseRepository;
     @Autowired
-    private LocationRepository locationRepo;
+    private LocationRepository locationRepository;
     @Autowired
-    private InstructorRepository instructorRepo;
+    private InstructorRepository instructorRepository;
     @Autowired
-    private InstructorAssignmentRepository instructorAssignmentRepo;
+    private InstructorAssignmentRepository instructorAssignmentRepository;
     @Autowired
-    private AccountRepository accountRepo;
+    private AccountRepository accountRepository;
+
+    private String email = "jimbob@gmail.com";
+    private Account account = new Account();
+    private Instructor instructor = new Instructor();
+    private Location location = new Location();
+    private Course course = new Course();
+    private Session session = new Session();
+    private InstructorAssignment instructorAssignment = new InstructorAssignment();
 
     @BeforeEach
     @AfterEach
     public void clearDb() {
-        instructorAssignmentRepo.deleteAll();
-        sessionRepo.deleteAll();
-        courseRepo.deleteAll();
-        locationRepo.deleteAll();
-        instructorRepo.deleteAll();
+        instructorAssignmentRepository.deleteAll();
+        sessionRepository.deleteAll();
+        courseRepository.deleteAll();
+        locationRepository.deleteAll();
+        instructorRepository.deleteAll();
     }
 
     private Session createDefaultSession(){
@@ -60,12 +70,12 @@ public class ScheduleRestControllerIntegrationTest {
         Time openingTime = Time.valueOf("7:00:00");
         Time closingTime = Time.valueOf("18:00:00");
         Course course = new Course("Zumba", "fun zumba for all", CourseStatus.Approved, true, 1.0f, 20.0f);
-        courseRepo.save(course);
+        courseRepository.save(course);
         Location location = new Location("Studio A", 30, openingTime, closingTime);
-        locationRepo.save(location);
+        locationRepository.save(location);
         
         Session session = new Session(startTime, endTime, course, location);
-        sessionRepo.save(session);
+        sessionRepository.save(session);
         return session;
     }
 
@@ -76,7 +86,7 @@ public class ScheduleRestControllerIntegrationTest {
         LocalDateTime newEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.parse("12:00:00", DateTimeFormatter.ofPattern("HH:mm:ss")));
         session.setEndTime(newEndTime);
         session.setStartTime(newStartTime);
-        sessionRepo.save(session);
+        sessionRepository.save(session);
 
         String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/time")
         .queryParam("startTime", newStartTime)
@@ -92,10 +102,10 @@ public class ScheduleRestControllerIntegrationTest {
     @Test
     public void testModifySessionLocation() {
         Location newLocation = new Location("gym", 50, Time.valueOf("5:00:00"), Time.valueOf("23:00:00"));
-        locationRepo.save(newLocation);
+        locationRepository.save(newLocation);
         Session session = createDefaultSession();
         session.setLocation(newLocation);
-        sessionRepo.save(session);
+        sessionRepository.save(session);
 
         String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/location")
         .queryParam("locationId", newLocation.getId())
@@ -109,10 +119,10 @@ public class ScheduleRestControllerIntegrationTest {
     @Test
     public void testModifySessionCourse() {
         Course newCourse = new Course("Zumba", "fun zumba for all", CourseStatus.Approved, true, 1.0f, 20.0f);     
-        courseRepo.save(newCourse);
+        courseRepository.save(newCourse);
         Session session = createDefaultSession();
         session.setCourse(newCourse);
-        sessionRepo.save(session);
+        sessionRepository.save(session);
 
         String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/course")
         .queryParam("courseId", newCourse.getId())
@@ -124,24 +134,51 @@ public class ScheduleRestControllerIntegrationTest {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
     }
 
-        @Test
-        public void testAssignInstructorToSession() {
-            Session session = createDefaultSession();
-            Account acc = new Account("Alex", "Whaba", "awhaba@gmail.com", "aBc123!");
-            accountRepo.save(acc);
-            Instructor instructor = new Instructor(acc);
-            instructorRepo.save(instructor);
-            InstructorAssignment ass = new InstructorAssignment(instructor, session);
-            instructorAssignmentRepo.save(ass);
-
-            String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId()+ "/instructor")
-            .queryParam("instructorId", instructor.getId())
+    @Test
+    public void testAssignInstructorToSessionSucceeds() {
+        createAndSaveClassesForRegistration();
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId() + "/instructor")
+            .queryParam("instructorAccountEmail", instructor.getAccount().getEmail())
             .encode()
             .toUriString();
-            ResponseEntity<InstructorAssignmentDto> response = client.postForEntity(urlTemplate, ass, InstructorAssignmentDto.class);
-
-            assertNotNull(response);
-            assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Response has correct status");
+        ResponseEntity<InstructorAssignmentDto> postResponse = client.postForEntity(urlTemplate, null, InstructorAssignmentDto.class);
+        assertEquals(HttpStatus.OK, postResponse.getStatusCode());
     }
 
+    @Test
+    public void testUnassignInstructorToSessionSucceeds() {
+        createTestInstructorAssignment();
+        assertTrue(instructorAssignmentRepository.findById(instructorAssignment.getId()).isPresent());
+        String urlTemplate = UriComponentsBuilder.fromPath("/schedule/modify/sessions/" + session.getId() + "/instructor")
+            .queryParam("instructorAccountEmail", instructor.getAccount().getEmail())
+            .encode()
+            .toUriString();
+        client.delete(urlTemplate);
+        assertFalse(instructorAssignmentRepository.findById(instructorAssignment.getId()).isPresent());
+    }
+
+    private void createTestInstructorAssignment() {
+        createAndSaveClassesForRegistration();
+        instructorAssignment.setInstructor(instructor);
+        instructorAssignment.setSession(session);
+        instructorAssignmentRepository.save(instructorAssignment);
+    }
+
+    private void createAndSaveClassesForRegistration() {
+        course.setName("Sample-Course");
+        courseRepository.save(course);
+
+        location.setName("Sample-Location");
+        locationRepository.save(location);
+
+        session.setCourse(course);
+        session.setLocation(location);
+        sessionRepository.save(session);
+
+        account.setEmail(email);
+        accountRepository.save(account);
+
+        instructor.setAccount(account);
+        instructorRepository.save(instructor);
+    }
 }

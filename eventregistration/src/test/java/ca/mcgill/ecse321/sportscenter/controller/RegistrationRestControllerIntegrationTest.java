@@ -56,7 +56,6 @@ public class RegistrationRestControllerIntegrationTest {
 
 
     private String email = "jimbob@gmail.com";
-
     private Account account = new Account();
     private Customer customer = new Customer();
     private Location location = new Location();
@@ -112,6 +111,19 @@ public class RegistrationRestControllerIntegrationTest {
     }
 
     @Test
+    public void testGetRegistration() {
+        createTestRegistration();
+        assertTrue(registrationRepository.findById(registration.getId()).isPresent());
+        String urlTemplate = UriComponentsBuilder.fromPath("/registration/")
+            .queryParam("email", email)    
+            .queryParam("sessionId", session.getId())
+            .encode()
+            .toUriString();
+        ResponseEntity<RegistrationDto> getResponse = client.getForEntity(urlTemplate, null, RegistrationDto.class);
+        assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+    }
+
+    @Test
     public void testUnregister() {
         createTestRegistration();
         assertTrue(registrationRepository.findById(registration.getId()).isPresent());
@@ -121,7 +133,7 @@ public class RegistrationRestControllerIntegrationTest {
             .encode()
             .toUriString();
         client.delete(urlTemplate);
-        assertFalse(sessionRepository.findById(registration.getId()).isPresent());
+        assertFalse(registrationRepository.findById(registration.getId()).isPresent());
     }
     
     private void createTestRegistration() {

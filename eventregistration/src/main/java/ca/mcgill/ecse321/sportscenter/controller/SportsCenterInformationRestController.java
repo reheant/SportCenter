@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.sportscenter.model.*;
 
-
 @CrossOrigin(origins = "*")
 @RestController
 public class SportsCenterInformationRestController {
@@ -17,34 +16,43 @@ public class SportsCenterInformationRestController {
     private SportsCenterInformationService modifySportsCenterInformationService;
 
     // update a course
-    @PostMapping(value = { "/sportscenter/modify/courses", "sportscenter/modify/courses/"} )
-    public ResponseEntity<CourseDto> updateCourse(@RequestParam(name = "courseId") Integer courseId, @RequestBody CourseDto courseDto) throws Exception {
-            Course course = modifySportsCenterInformationService.updateCenterCourse(courseId, 
-            courseDto.getName(), courseDto.getDescription(), courseDto.getCourseStatus(), courseDto.getCost(),
-            courseDto.getDefaultDuration());
-            CourseDto dto = convertToDto(course);
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    @PostMapping(value = { "/sportscenter/modify/courses", "sportscenter/modify/courses/" })
+    public ResponseEntity<CourseDto> updateCourse(
+            @RequestBody CourseDto courseDto) throws Exception {
+        Course course = modifySportsCenterInformationService.updateCenterCourse(courseDto.getId(),
+                courseDto.getName(), courseDto.getDescription(), courseDto.getCourseStatus(), courseDto.getCost(),
+                courseDto.getDefaultDuration());
+        CourseDto dto = convertToDto(course);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = { "/sportscenter/location" })
+    public LocationDto getLocation() throws Exception {
+        return convertToDto(modifySportsCenterInformationService.getLocation());
     }
 
     // update a location
-    @PostMapping(value = { "/sportscenter/modify/locations", "/sportscenter/modify/locations/"})
-    public ResponseEntity<LocationDto> updateLocation(@RequestParam(name = "locationId")  Integer locationId, @RequestBody LocationDto locationDto) throws Exception {
-            Location location = modifySportsCenterInformationService.updateCenterLocation(locationId, 
-            locationDto.getName(), locationDto.getCapacity(), locationDto.getOpeningTime(), locationDto.getClosingTime());
-            LocationDto dto = convertToDto(location);
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    @PostMapping(value = { "/sportscenter/modify/locations", "/sportscenter/modify/locations/" })
+    public ResponseEntity<LocationDto> updateLocation(
+            @RequestBody LocationDto locationDto) throws Exception {
+        Location location = modifySportsCenterInformationService.updateCenterLocation(locationDto.getId(),
+                locationDto.getName(), locationDto.getCapacity(), locationDto.getOpeningTime(),
+                locationDto.getClosingTime());
+        LocationDto dto = convertToDto(location);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     // update an instructor's details
-    @PostMapping(value = { "/sportscenter/modify/instructors", "/sportscenter/modify/instructors/"})
-    ResponseEntity<InstructorDto>updateInstructor(@RequestParam(name ="instructorId") Integer instructorId,
-    @RequestParam (name ="newFirstName") String newFirstName , @RequestParam (name ="newLastName" ) String newLastName,
-    @RequestBody InstructorDto instructorDto) throws Exception {
-        
-            Instructor instructor = modifySportsCenterInformationService.updateCenterInstructor(instructorId, 
-            newFirstName, newLastName, instructorDto.getAccountEmail());
-            InstructorDto dto = convertToDto(instructor);
-            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    @PostMapping(value = { "/sportscenter/modify/instructors", "/sportscenter/modify/instructors/" })
+    ResponseEntity<InstructorDto> updateInstructor(@RequestParam(name = "instructorId") Integer instructorId,
+            @RequestParam(name = "newFirstName") String newFirstName,
+            @RequestParam(name = "newLastName") String newLastName,
+            @RequestBody InstructorDto instructorDto) throws Exception {
+
+        Instructor instructor = modifySportsCenterInformationService.updateCenterInstructor(instructorId,
+                newFirstName, newLastName, instructorDto.getAccountEmail());
+        InstructorDto dto = convertToDto(instructor);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     private LocationDto convertToDto(Location location) {
@@ -52,8 +60,8 @@ public class SportsCenterInformationRestController {
             throw new IllegalArgumentException("There is no such Location!");
         }
 
-        LocationDto dto = new LocationDto(location.getName(), location.getCapacity(), 
-        location.getOpeningTime(), location.getClosingTime());
+        LocationDto dto = new LocationDto(location.getId(), location.getName(), location.getCapacity(),
+                location.getOpeningTime(), location.getClosingTime());
         return dto;
     }
 
@@ -63,7 +71,7 @@ public class SportsCenterInformationRestController {
         }
 
         Account acc = in.getAccount();
-        
+
         InstructorDto dto = new InstructorDto(acc.getEmail());
         return dto;
     }
@@ -72,15 +80,15 @@ public class SportsCenterInformationRestController {
         if (c == null) {
             throw new IllegalArgumentException("There is no such Course!");
         }
-        
-        CourseDto dto = new CourseDto(c.getName(), c.getDescription(), c.getCourseStatus(), 
-        c.getRequiresInstructor(), c.getDefaultDuration(), c.getCost());
+        CourseDto dto = new CourseDto(c.getId(), c.getName(), c.getDescription(), c.getCourseStatus(),
+                c.getRequiresInstructor(), c.getDefaultDuration(), c.getCost());
         return dto;
     }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String authorized(Exception e) {
         return e.getMessage();
     }
-    
+
 }

@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,6 +72,19 @@ public class OwnerService {
         owner.setAccount(ownerAccount); 
         ownerRepository.save(owner);
         return owner;
+    }
+
+    /**
+     * Retrieves a list of all instructors.
+     *
+     * @return List of all instructors.
+     * @throws Exception If an error occurs while retrieving the instructors.
+     */
+    @Transactional
+    public List<Owner> getAllOwners() throws Exception {
+        List<Owner> owners = new ArrayList<>();
+        ownerRepository.findAll().forEach(owners::add);
+        return owners;
     }
 
     /** Helper Method

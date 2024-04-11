@@ -23,14 +23,22 @@ public class SportsCenterInformationService {
     private InstructorRepository instructorRepository;
     @Autowired
     private AccountRepository accountRepository;
+    
+    
+    @Transactional
+    public Location getLocation() throws Exception {
+        return locationRepository.findById(1).orElseThrow();
+    }
 
     @Transactional
-    public Location updateCenterLocation(Integer locationId, String newName, Integer newCapacity, Time newOpeningTime, Time newClosingTime) throws Exception {
-        if (locationId == null || newName == null || newCapacity == null || newOpeningTime == null || newClosingTime == null){
+    public Location updateCenterLocation(Integer id, String newName, Integer newCapacity, Time newOpeningTime,
+            Time newClosingTime) throws Exception {
+        if (id == null || newName == null || newCapacity == null || newOpeningTime == null
+                || newClosingTime == null) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
-        Location location = locationRepository.findById(locationId)
-                .orElseThrow(() -> new Exception("No location found with id " + locationId));
+        Location location = locationRepository.findById(id)
+                .orElseThrow(() -> new Exception("No location found with id " + id));
 
         location.setName(newName);
         location.setCapacity(newCapacity);
@@ -39,17 +47,32 @@ public class SportsCenterInformationService {
 
         return locationRepository.save(location);
     }
-
+    /**
+     * 
+     * @param courseId - ID of course to modify
+     * @param newName - New name of course to modify
+     * @param newDescription - New description of course to modify
+     * @param status - New Status of course to modify
+     * @param newCost   - New cost of course to modify
+     * @param newDefaultDuration    - New duration of course to modify
+     * @return the modifed course
+     * @throws Exception
+     */
     @Transactional
-    public Course updateCenterCourse(Integer courseId, String newName, String newDescription, CourseStatus status, Float newCost, Float newDefaultDuration) throws Exception {
-        if (courseId == null || newName == null || newDescription == null || status == null || newCost == null || newDefaultDuration ==null){
+    public Course updateCenterCourse(Integer courseId, String newName, String newDescription, CourseStatus status,
+            Float newCost, Float newDefaultDuration) throws Exception {
+        if (courseId == null || newName == null || newDescription == null || status == null || newCost == null
+                || newDefaultDuration == null) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
-        
+
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new Exception("No course found with id " + courseId));
+        if(courseRepository.findCourseByName(capitalize(newName)) != null && !course.getName().equals(capitalize(newName)) ){
 
-        course.setName(newName);
+            throw new Exception("Course with this " + newName +" already exists");
+        }
+        course.setName(capitalize(newName));
         course.setDescription(newDescription);
         course.setCourseStatus(status);
         course.setCost(newCost);
@@ -59,8 +82,9 @@ public class SportsCenterInformationService {
     }
 
     @Transactional
-    public Instructor updateCenterInstructor(Integer instructorId, String newFirstName, String newLastName, String newEmail) throws Exception {
-        if (instructorId == null || newFirstName == null || newLastName == null || newEmail == null){
+    public Instructor updateCenterInstructor(Integer instructorId, String newFirstName, String newLastName,
+            String newEmail) throws Exception {
+        if (instructorId == null || newFirstName == null || newLastName == null || newEmail == null) {
             throw new Exception("Please ensure all fields are complete and none are empty");
         }
         if (!isValidName(newFirstName)) {
@@ -86,9 +110,11 @@ public class SportsCenterInformationService {
         return instructorRepository.save(instructor);
     }
 
-     /** Helper Method
-     * Respecting RFC 5322 email format (source : https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.)
-     * 
+    /**
+     * Helper Method
+     * Respecting RFC 5322 email format (source :
+     * https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.)
+     *
      * @param email the email to verify
      * @return true if the email is valid, false otherwise
      */
@@ -99,9 +125,11 @@ public class SportsCenterInformationService {
         return matcher.matches();
     }
 
-    /** Helper Method
-     * Regex respects basic name formats, including names like "Louis-Phillipe" or "Henry Jr." (allows Hyphens and periods)
-     * 
+    /**
+     * Helper Method
+     * Regex respects basic name formats, including names like "Louis-Phillipe" or
+     * "Henry Jr." (allows Hyphens and periods)
+     *
      * @param name the name to verify
      * @return true if the name is valid, false otherwise
      */
@@ -110,6 +138,25 @@ public class SportsCenterInformationService {
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(name);
         return matcher.matches();
+    }
+
+    /** Helper Method
+     * Capitalize the first letter of word in the name
+     *
+     * @param name The name be capitalize
+     */
+    private static String capitalize(String name) {
+        StringBuilder capitalizedName = new StringBuilder();
+        String[] words = name.toLowerCase().split("\\s+");
+        
+        for (String word: words){
+
+            String capitalizedWord = word.substring(0,1).toUpperCase() + word.substring(1);
+            capitalizedName.append(capitalizedWord).append(" ");
+
+        }
+        return capitalizedName.toString().trim();
+    
     }
 
 }

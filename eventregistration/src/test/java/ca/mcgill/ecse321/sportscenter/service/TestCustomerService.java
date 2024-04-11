@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.sportscenter.service;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -7,10 +8,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,6 +58,7 @@ public class TestCustomerService {
     private static final String password = "Test1234!";
     private static final boolean wantsEmailConfirmation = false;
     private List<Instructor> instructorList = new ArrayList<>();
+    private List<Customer> customerList = new ArrayList<>();
     private final Customer customer = new Customer();
     private final Account customerAccount = new Account();
 
@@ -336,7 +341,7 @@ public class TestCustomerService {
         }
 
         assertNotNull(instructor);
-        assertEquals(customerAccount, instructor.getAccount()); // comparing instructor acc to the acc created in mock
+        assertEquals(customerAccount, instructor.getAccount()); 
     }
     @Test
     public void testPromotingNullCustomer() {
@@ -376,6 +381,33 @@ public class TestCustomerService {
         }
         assertEquals(customerAccount.getEmail(), customerEmail );
     }
+
+    @Test
+    public void testDemotingCustomer() {
+        String customerEmail = "rehean.thillai@gmail.com";
+        boolean i = false;
+        try {
+            i = service.demoteInstructorByEmail(customerEmail);
+        } catch (Exception error) {
+            assertEquals("No instructor found for the given email", error.getMessage());
+        }
+        assertFalse(i);
+    }
+ 
+    @Test
+    public void testDemotingNullInstructor() {
+        String instructorEmail = null;
+        boolean b = false;
+        try {
+            b = service.demoteInstructorByEmail(instructorEmail);
+        } catch (Exception error) {
+            assertEquals("Email is null", error.getMessage());
+        }
+
+        assertFalse(b);
+        
+    }
+
 
     // paypall tests
     @Test
@@ -638,4 +670,30 @@ public class TestCustomerService {
         assertNull(card);
     }
 
+    @Test
+    public void testViewAllCustomers() throws Exception {
+        Customer customer1 = new Customer(); 
+        Customer customer2 = new Customer();
+        Customer customer3 = new Customer();
+        List<Customer> mockCustomers = Arrays.asList(customer1, customer2, customer3);
+        when(customerDAO.findAll()).thenReturn(mockCustomers);
+        List<Customer> customers = service.getAllCustomers();
+        assertNotNull(customers);
+        assertEquals(3, customers.size());
+        verify(customerDAO).findAll();
+    }
+
+
+    @Test
+    public void testViewAllInstructors() throws Exception {
+        Instructor instructor1 = new Instructor();
+        Instructor instructor2 = new Instructor();
+        Instructor instructor3 = new Instructor(); 
+        List<Instructor> mockInstructors = Arrays.asList(instructor1, instructor2, instructor3);
+        when(instructorDAO.findAll()).thenReturn(mockInstructors);
+        List<Instructor> instructors = service.getAllInstructors();
+        assertNotNull(instructors);
+        assertEquals(3, instructors.size());
+        verify(instructorDAO).findAll();
+     }
 }
