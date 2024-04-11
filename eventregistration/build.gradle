@@ -26,6 +26,7 @@ dependencies {
 	testImplementation 'org.mockito:mockito-core:2.+'
 	testImplementation 'org.mockito:mockito-junit-jupiter:2.18.3'
 	testImplementation "org.junit.jupiter:junit-jupiter-engine" //MODIFIED THIS I PUT TESTIMPLEMENTATION INSTEAD OF TESTRUNTIME
+	implementation 'com.sun.mail:javax.mail:1.6.2'
 }
 
 tasks.named('test') {

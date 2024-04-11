@@ -3,7 +3,7 @@
       <b-card>
         <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show" class="form-content">
           <div class="title"> Add PayPal </div>
-  
+
           <b-form-group
             id="input-group-2"
             label="Account Name:"
@@ -13,11 +13,11 @@
             <b-form-input
               id="input-first-name"
               v-model="form.accountName"
-              placeholder="Enter First Name"
+              placeholder="Enter Account Name"
               required
             ></b-form-input>
           </b-form-group>
-  
+
           <b-form-group
             id="input-group-1"
             label="Customer Account Email:"
@@ -32,7 +32,7 @@
               required
             ></b-form-input>
           </b-form-group>
-  
+
           <b-form-group
             id="input-group-1"
             label="PayPal Email:"
@@ -47,7 +47,7 @@
               required
             ></b-form-input>
           </b-form-group>
-  
+
           <b-form-group
             id="input-group-4"
             label="PayPal Password:"
@@ -63,23 +63,24 @@
             ></b-form-input>
           </b-form-group>
           <div class="error">
-            <p v-if="error" style="color: red">{{ error }}</p>  
+            <p v-if="error" style="color: red">{{ error }}</p>
           </div>
           <div class="buttons-container">
+            <b-button @click="onReturn" variant="info">Return</b-button>
             <b-button type="reset" variant="info">Reset</b-button>
             <b-button type="submit" variant="primary">Next</b-button>
-            
+
           </div>
         </b-form>
-        <!-- <b-card class="mt-3" header="Form Data Result"> 
+        <!-- <b-card class="mt-3" header="Form Data Result">
           <pre class="m-0">{{ form }}</pre>
         </b-card> -->
       </b-card>
     </div>
   </template>
-  
+
   <script src="../javascript/AddPaypal.js" > </script>
-  
+
   <style>
 
 .error {
@@ -90,34 +91,34 @@
     max-width: 600px;
     margin: auto;
   }
-  
+
   .form-content {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
+
   .form-group-content {
-    width: 100%; 
-    max-width: 400px; 
+    width: 100%;
+    max-width: 400px;
     margin-bottom: 1rem;
   }
-  
+
   .buttons-container {
     display: flex;
     justify-content: space-around;
     width: 100%;
     max-width: 400px;
   }
-  
+
   .b-card {
     box-shadow: 0 4px 8px rgba(0,0,0,.05);
   }
   .title {
-    font-size: 24px; 
+    font-size: 24px;
     font-weight: bold;
-    color: #333; 
+    color: #333;
     margin-top: 15px;
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
   }
   </style>

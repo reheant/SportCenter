@@ -32,19 +32,19 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class TestRegistrationService {
-    
+
     @Mock
     private CustomerRepository customerRepository;
     @Mock
     private AccountRepository accountRepository;
-    @Mock 
+    @Mock
     private RegistrationRepository registrationRepository;
     @Mock
     private SessionRepository sessionRepository;
-
 
     @InjectMocks
     private RegistrationService registrationService;
@@ -55,18 +55,15 @@ public class TestRegistrationService {
     private static final String email = "jim.bob@gmail.com";
     private static final String password = "Str0ngP4ssword";
 
-
-
     private final Customer customer = new Customer();
     private final Account customerAccount = new Account();
     private final Session session = new Session();
     private final Registration registration = new Registration();
-    
 
     @BeforeEach
     public void setMockOutput() {
         lenient().when(accountRepository.findAccountByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(email)) {
+            if (invocation.getArgument(0).equals(email)) {
                 customerAccount.setEmail(email);
                 customerAccount.setFirstName(firstName);
                 customerAccount.setLastName(lastName);
@@ -79,36 +76,38 @@ public class TestRegistrationService {
             }
         });
 
-        lenient().when(customerRepository.findCustomerByAccountEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(email)) {
-                customerAccount.setEmail(email);
-                customerAccount.setFirstName(firstName);
-                customerAccount.setLastName(lastName);
-                customerAccount.setPassword(password);
-                customer.setAccount(customerAccount);
+        lenient().when(customerRepository.findCustomerByAccountEmail(anyString()))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    if (invocation.getArgument(0).equals(email)) {
+                        customerAccount.setEmail(email);
+                        customerAccount.setFirstName(firstName);
+                        customerAccount.setLastName(lastName);
+                        customerAccount.setPassword(password);
+                        customer.setAccount(customerAccount);
 
-                return customer;
-            } else {
-                return null;
-            }
-        });
+                        return customer;
+                    } else {
+                        return null;
+                    }
+                });
 
-        lenient().when(registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(anyString(), anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(email) && invocation.getArgument(1).equals(session.getId())) {
-                customerAccount.setEmail(email);
-                customerAccount.setFirstName(firstName);
-                customerAccount.setLastName(lastName);
-                customerAccount.setPassword(password);
-                customer.setAccount(customerAccount);
+        lenient().when(registrationRepository.findRegistrationByCustomerAccountEmailAndSessionId(anyString(), anyInt()))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    if (invocation.getArgument(0).equals(email) && invocation.getArgument(1).equals(session.getId())) {
+                        customerAccount.setEmail(email);
+                        customerAccount.setFirstName(firstName);
+                        customerAccount.setLastName(lastName);
+                        customerAccount.setPassword(password);
+                        customer.setAccount(customerAccount);
 
-                registration.setCustomer(customer);
-                registration.setSession(session);
+                        registration.setCustomer(customer);
+                        registration.setSession(session);
 
-                return registration;
-            } else {
-                return null;
-            }
-        });
+                        return registration;
+                    } else {
+                        return null;
+                    }
+                });
 
         lenient().when(customerRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             customerAccount.setEmail(email);
@@ -118,7 +117,7 @@ public class TestRegistrationService {
             customer.setAccount(customerAccount);
             List<Customer> customerList = new ArrayList<>();
             customerList.add(customer);
-            
+
             return customerList;
         });
 
@@ -131,21 +130,22 @@ public class TestRegistrationService {
 
     @Test
     public void testCreateRegistration() {
-        
 
         Session session = new Session();
         Registration registration = null;
 
         lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
+        ReflectionTestUtils.setField(registrationService, "emailPassword", "dummyPassword");
+        ReflectionTestUtils.setField(registrationService, "sendConfirmationEmail", true);
         try {
             registration = registrationService.register(email, session.getId());
-        } catch (Exception error){
+        } catch (Exception error) {
             fail(error.getMessage());
         }
 
         assertNotNull(registration);
         assertEquals(email, registration.getCustomer().getAccount().getEmail());
-        assertEquals(session.getId(), registration.getSession().getId());        
+        assertEquals(session.getId(), registration.getSession().getId());
     }
 
     @Test
@@ -162,7 +162,7 @@ public class TestRegistrationService {
             assertEquals("The customer email cannot be null.", error.getMessage());
             assertEquals(NullPointerException.class, error.getClass());
         }
-        assertNull(registration);        
+        assertNull(registration);
     }
 
     @Test
@@ -179,7 +179,7 @@ public class TestRegistrationService {
             assertEquals("The customer email cannot be empty.", error.getMessage());
             assertEquals(IllegalArgumentException.class, error.getClass());
         }
-        assertNull(registration);        
+        assertNull(registration);
     }
 
     @Test
@@ -196,9 +196,8 @@ public class TestRegistrationService {
             assertEquals("Email is not associated to an account.", error.getMessage());
             assertEquals(IllegalArgumentException.class, error.getClass());
         }
-        assertNull(registration);    
+        assertNull(registration);
     }
-
 
     @Test
     public void testCreateRegistrationCustomerNotFound() {
@@ -206,7 +205,7 @@ public class TestRegistrationService {
         Registration registration = null;
 
         lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
-        lenient().when(customerRepository.findCustomerByAccountEmail(anyString())).thenReturn(null); 
+        lenient().when(customerRepository.findCustomerByAccountEmail(anyString())).thenReturn(null);
 
         try {
             registration = registrationService.register(email, session.getId());
@@ -214,9 +213,8 @@ public class TestRegistrationService {
             assertEquals("Account is not associated to a customer.", error.getMessage());
             assertEquals(IllegalArgumentException.class, error.getClass());
         }
-        assertNull(registration);    
+        assertNull(registration);
     }
-
 
     @Test
     public void testCreateRegistrationNullSessionId() {
@@ -232,7 +230,7 @@ public class TestRegistrationService {
             assertEquals("The session id cannot be null.", error.getMessage());
             assertEquals(NullPointerException.class, error.getClass());
         }
-        assertNull(registration);        
+        assertNull(registration);
     }
 
     @Test
@@ -248,15 +246,15 @@ public class TestRegistrationService {
             assertEquals("Session id is not associated to a session.", error.getMessage());
             assertEquals(IllegalArgumentException.class, error.getClass());
         }
-        assertNull(registration);        
+        assertNull(registration);
     }
 
     @Test
     public void testCreateRegistrationCustomerAlreadyRegisteredForSession() {
         Session session = new Session();
-        Registration registration = null;        
+        Registration registration = null;
 
-        Registration preExistingRegistration = new Registration();  // register a first time
+        Registration preExistingRegistration = new Registration(); // register a first time
         customerAccount.setEmail(email);
         customer.setAccount(customerAccount);
         preExistingRegistration.setCustomer(customer);
@@ -271,16 +269,16 @@ public class TestRegistrationService {
             registration = registrationService.register(email, session.getId());
         } catch (Exception error) { // fails to register a second time
             assertEquals("Email is already registered for session with that id.", error.getMessage());
-            assertEquals(IllegalArgumentException.class, error.getClass());           
+            assertEquals(IllegalArgumentException.class, error.getClass());
         }
         assertNull(registration);
     }
 
     @Test
     public void testUnregisterSuccessful() {
-        Session session = new Session();      
+        Session session = new Session();
 
-        Registration preExistingRegistration = new Registration();  // register
+        Registration preExistingRegistration = new Registration(); // register
         customerAccount.setEmail(email);
         customer.setAccount(customerAccount);
         preExistingRegistration.setCustomer(customer);
@@ -292,18 +290,18 @@ public class TestRegistrationService {
         lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
 
         try {
-             Boolean result = registrationService.unregister(email, session.getId());
-             assertTrue(result);
-        } catch (Exception error) { 
+            Boolean result = registrationService.unregister(email, session.getId());
+            assertTrue(result);
+        } catch (Exception error) {
             fail(error.getMessage());
-        }        
+        }
     }
 
-    @Test 
+    @Test
     public void testUnregisterNullEmail() {
-        Session session = new Session();      
+        Session session = new Session();
 
-        Registration preExistingRegistration = new Registration();  // register
+        Registration preExistingRegistration = new Registration(); // register
         customerAccount.setEmail(email);
         customer.setAccount(customerAccount);
         preExistingRegistration.setCustomer(customer);
@@ -314,14 +312,16 @@ public class TestRegistrationService {
         lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
         lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
 
-        assertThrows(NullPointerException.class, () -> {registrationService.unregister(null, session.getId());});      
+        assertThrows(NullPointerException.class, () -> {
+            registrationService.unregister(null, session.getId());
+        });
     }
 
-    @Test 
+    @Test
     public void testUnregisterNullSessionId() {
-        Session session = new Session();      
+        Session session = new Session();
 
-        Registration preExistingRegistration = new Registration();  // register
+        Registration preExistingRegistration = new Registration(); // register
         customerAccount.setEmail(email);
         customer.setAccount(customerAccount);
         preExistingRegistration.setCustomer(customer);
@@ -332,14 +332,16 @@ public class TestRegistrationService {
         lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
         lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
 
-        assertThrows(NullPointerException.class, () -> {registrationService.unregister(email, null);});      
+        assertThrows(NullPointerException.class, () -> {
+            registrationService.unregister(email, null);
+        });
     }
 
     @Test
     public void testUnregisterRegistrationNotFound() {
-        Session session = new Session();      
+        Session session = new Session();
 
-        Registration preExistingRegistration = new Registration();  // register
+        Registration preExistingRegistration = new Registration(); // register
         customerAccount.setEmail(email);
         customer.setAccount(customerAccount);
         preExistingRegistration.setCustomer(customer);
@@ -350,6 +352,11 @@ public class TestRegistrationService {
         lenient().when(sessionRepository.findSessionById(anyInt())).thenReturn(session);
         lenient().when(registrationRepository.findAll()).thenReturn(previousRegistrations);
 
-        assertThrows(IllegalArgumentException.class, () -> {registrationService.unregister("youCantSeeMe@gmail.com", 9721);});      
+        try {
+            Boolean result = registrationService.unregister("youCantSeeMe@gmail.com", 9721);
+            assertFalse(result);
+        } catch (Exception error) {
+            fail(error.getMessage());
+        }
     }
 }

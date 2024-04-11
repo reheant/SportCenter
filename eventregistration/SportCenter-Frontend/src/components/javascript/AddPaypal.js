@@ -7,7 +7,7 @@ const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backend
 const AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
-  
+
 })
 
 function CustomerDto(firstName, lastName, email, password, wantsEmailConfirmation ) {
@@ -29,7 +29,7 @@ export default {
           password: '',
         },
         show: true,
-        error: '' 
+        error: ''
       };
     },
     methods: {
@@ -58,7 +58,7 @@ export default {
           .catch((e) => {
             const errorMsg = e.response && e.response.data ? e.response.data : "something went wrong";
             console.error(errorMsg);
-            this.error = errorMsg; 
+            this.error = errorMsg;
           });
         }
       },
@@ -76,6 +76,9 @@ export default {
         this.$nextTick(() => {
           this.show = true;
         });
-      }
+      },
+      onReturn() {
+        this.$router.push("SelectPaymentType");
+      },
     },
   }
